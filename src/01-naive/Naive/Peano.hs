@@ -10,6 +10,7 @@
 module Naive.Peano
   ( Peano(..)
   , fromInt
+  , fromNatural
   , toInt
   , addP
   , mulP
@@ -26,6 +27,16 @@ fromInt :: Int -> Peano
 fromInt n
   | n <= 0    = Z
   | otherwise = S (fromInt (n - 1))
+
+-- | Convert a non-negative 'Integer' to a 'Peano' value. Unlike
+-- 'fromInt', this accepts arbitrary-precision inputs, so denotation
+-- functions that work over unbounded place values (Decimal,
+-- Babylonian) can avoid 'Int' overflow before reduction to the
+-- structural normal form. Negative inputs are clamped to zero.
+fromNatural :: Integer -> Peano
+fromNatural n
+  | n <= 0    = Z
+  | otherwise = S (fromNatural (n - 1))
 
 -- | Convert a 'Peano' value to an 'Int'. Total but not stack-safe
 -- for very large inputs; this is fine for the demonstrations here.

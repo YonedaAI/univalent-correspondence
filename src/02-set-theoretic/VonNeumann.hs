@@ -47,19 +47,27 @@ vnEncode n
 vnDecode :: VNNat -> Int
 vnDecode (VNNat s) = cardinality s
 
--- | Predecessor: removes the front element. This is the inverse of
---   the canonical 'vnSucc' construction (which prepends), so for any value
---   produced by 'vnEncode' we recover the previous ordinal in O(1) without
---   any structural equality tests.
+-- | Predecessor: removes the largest element from the canonical
+--   representative. We first project onto the extensional canonical form
+--   (deduplicated and sorted in ascending order) so that 'vnPred' is
+--   invariant under extensional equality; this is essential for the Peano
+--   laws, since '==' on 'VNNat' is itself extensional. For values produced
+--   by 'vnEncode' / 'vnSucc', the canonical form is exactly the von Neumann
+--   ordinal {0, 1, ..., n-1}, and removing the maximum element n-1 yields
+--   {0, 1, ..., n-2}, which is the correct predecessor.
 vnPred :: HFSet -> Maybe HFSet
-vnPred (HFSet [])     = Nothing
-vnPred (HFSet (_:xs)) = Just (HFSet xs)
+vnPred s = case elementsOf (canonicalize s) of
+  [] -> Nothing
+  xs -> Just (HFSet (init xs))
 
 -- | Peano instance for VNNat: works directly via vnSucc / vnPred.
+--   'isZeroP' canonicalizes first so that any HFSet extensionally equal
+--   to the empty set is recognized as zero, even if presented with
+--   redundant duplicate elements at the raw-list level.
 instance Peano VNNat where
   zeroP                    = VNNat emptySet
   sucP (VNNat s)           = VNNat (vnSucc s)
-  isZeroP (VNNat (HFSet xs)) = null xs
+  isZeroP (VNNat s)        = null (elementsOf (canonicalize s))
   predP (VNNat s)          = fmap VNNat (vnPred s)
 
 -- | Membership at the VN level.

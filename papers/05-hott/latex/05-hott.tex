@@ -305,20 +305,26 @@ $h(\suc\,n) = f(h\,n)$ for all $n : \N$.
 \end{proposition}
 
 \begin{proof}
-Existence: $h := \mathsf{rec}_\N\,C\,c_0\,(\lambda n.\,f)$. Uniqueness:
-suppose $h' : \N \to C$ also satisfies the equations. Define the
-predicate $P(n) := (h\,n =_C h'\,n)$.
+Existence: $h := \mathsf{rec}_\N\,C\,c_0\,(\lambda n.\,f)$. By the
+recursor's computation rules we have the \emph{judgmental} equalities
+$h(\zero) \equiv c_0$ and $h(\suc\,n) \equiv f(h\,n)$.
 
-\emph{Base case.} The recursor's computation rule gives the
-\emph{definitional} (judgmental) equalities $h(\zero) \equiv c_0$ and
-$h'(\zero) \equiv c_0$, so $P(\zero)$ is inhabited by $\refl_{c_0}$ --
-no propositional equality reasoning is needed.
+Uniqueness: suppose $h' : \N \to C$ is given together with paths
+$p_0 : h'(\zero) = c_0$ and
+$p_s : \prod_{n : \N} h'(\suc\,n) = f(h'\,n)$
+witnessing that $h'$ also satisfies the equations (note these are
+\emph{propositional} equalities -- judgmental equality cannot be assumed
+for a generic $h'$). Define the predicate
+$P(n) := (h\,n =_C h'\,n)$.
 
-\emph{Inductive step.} Assume $P(n)$, i.e.\ $q : h\,n = h'\,n$. The
-computation rules give $h(\suc\,n) \equiv f(h\,n)$ and
-$h'(\suc\,n) \equiv f(h'\,n)$ judgmentally; applying the action on paths
-$\mathsf{ap}_f : (a = b) \to (f\,a = f\,b)$ yields
-$\mathsf{ap}_f(q) : f(h\,n) = f(h'\,n)$, i.e.\ $h(\suc\,n) = h'(\suc\,n)$.
+\emph{Base case.} Since $h(\zero) \equiv c_0$ judgmentally, the
+inverse path $p_0^{-1} : c_0 = h'(\zero)$ inhabits $P(\zero)$.
+
+\emph{Inductive step.} Assume $q : h\,n = h'\,n$. The recursor's
+computation rule gives $h(\suc\,n) \equiv f(h\,n)$ judgmentally, and
+applying $\mathsf{ap}_f : (a = b) \to (f\,a = f\,b)$ to $q$ yields
+$\mathsf{ap}_f(q) : f(h\,n) = f(h'\,n)$. Composing with $p_s(n)^{-1}$
+gives $f(h\,n) = h'(\suc\,n)$, hence $h(\suc\,n) = h'(\suc\,n)$.
 Apply $\mathsf{ind}_\N$ to conclude $\prod_{n : \N} P(n)$. Function
 extensionality (\Cref{thm:funext}) then gives $h = h'$.
 \end{proof}
@@ -427,7 +433,9 @@ $\transport^P(\refl_a)(u) := u$.
 
 \begin{proposition}[Transport along concatenation]
 \label{prop:trans-concat}
-$\transport^P(p \cdot q) = \transport^P(q) \circ \transport^P(p)$.
+\[
+\transport^P(p \cdot q) = \transport^P(q) \circ \transport^P(p).
+\]
 \end{proposition}
 
 \begin{proof}
@@ -664,8 +672,10 @@ identifying $f(c)$ and $g(c)$ for each $c : C$.
 
 \begin{theorem}[Hopf fibration, internal]
 \label{thm:hopf}
-There is a fibration $h : S^3 \to S^2$ with fibers $\Sone{}$, definable as a
-HIT and characterized by the long exact sequence of homotopy groups; in
+There is a fibration $h : S^3 \to S^2$ with fibers $\Sone{}$, defined
+internally as a type family $H : S^2 \to \U$ via the eliminator of the
+HIT $S^2$ (with total space $\sum_{x : S^2} H(x) \eqv S^3$), and
+characterized by the long exact sequence of homotopy groups; in
 particular $\pi_3(S^2) \eqv \Z$ via the Hopf invariant
 \cite[\S8.5]{HoTTBook}.
 \end{theorem}
@@ -847,7 +857,7 @@ and prove a synthetic Yoneda lemma; directed univalence
 
 We work inside $\R_c$ from \Cref{sec:reals}.
 
-\subsection{$\pi$ as the period of $\exp$ on $i\R$}
+\subsection{\texorpdfstring{$\pi$}{pi} as the period of \texorpdfstring{$\exp$}{exp} on \texorpdfstring{$i\R$}{iR}}
 
 \begin{definition}[Real exponential]
 The map $\exp : \R_c \to \R_c$ is defined as the unique solution to
@@ -926,7 +936,7 @@ equivalent, hence equal as types by univalence. Consequently, $\pi$ and $e$
 are well-defined independently of the chosen construction.
 \end{theorem}
 
-\section{Bridge: HoTT as the Internal Language of $(\infty,1)$-Toposes}
+\section{Bridge: HoTT as the Internal Language of \texorpdfstring{$(\infty,1)$}{(infinity,1)}-Toposes}
 \label{sec:bridge}
 
 \subsection{Categorical semantics}

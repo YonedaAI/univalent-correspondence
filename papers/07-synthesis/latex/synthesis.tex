@@ -158,9 +158,8 @@ profile'' mathematically precise as a representable functor; HoTT makes
 Yoneda's ``iff'' into a literal identity in the universe via univalence;
 and the categorical/structural perspective is the philosophical commitment
 that \emph{all of this} is what mathematical objects are. We close with a
-research outlook on ContextFS / typed memory as a structural-identity
-primitive, transcendentals $\pi$ and $e$ in HoTT via Cauchy reals as a
-higher inductive--inductive type, directed HoTT and synthetic
+research outlook on transcendentals $\pi$ and $e$ in HoTT via Cauchy reals
+as a higher inductive--inductive type, directed HoTT and synthetic
 $\infty$-category theory, and the principal open problem: a synthetic
 foundation for analytic number theory.
 \end{abstract}
@@ -333,10 +332,9 @@ perspectives correspond to four functors out of one $\infty$-topos.
 theorem. \Cref{sec:diagrams} makes the inter-level commutativity precise via
 commutative diagrams of equivalences. \Cref{sec:naming} surveys the history
 of the naming and explains our preference for ``the univalent
-correspondence.'' \Cref{sec:applications} sketches three downstream
-applications: ContextFS as a structural-identity computational primitive,
-transcendentals $\pi$ and $e$ in HoTT, and directed HoTT for representation
-theory. \Cref{sec:open} collects open problems. \Cref{sec:conclusion}
+correspondence.'' \Cref{sec:applications} sketches two downstream
+applications: transcendentals $\pi$ and $e$ in HoTT and directed HoTT for
+representation theory. \Cref{sec:open} collects open problems. \Cref{sec:conclusion}
 concludes.
 
 \section{Row by Row: The Six Perspectives in Brief}
@@ -1231,35 +1229,6 @@ point of differentiation with} $f(0) = 1$), with its structural invariant
 under field automorphisms of $\R$, and with its canonical HoTT term up to
 path equivalence.
 
-\subsection{ContextFS as a structural-identity primitive}
-\label{sec:contextfs}
-
-The ContextFS / typed memory project~\cite{KnowledgeBase2026} aims to
-provide AI agents with persistent typed memory that respects structural
-identity. The univalent correspondence supplies the theoretical foundation:
-two memory entries should be considered ``the same'' iff they witness the
-same structural invariant, iff they correspond to equal types in the
-ambient universe, iff they have the same Yoneda profile in the category
-of memory operations, iff they satisfy the same universal property.
-
-We sketch the architecture. A typed memory is a presheaf
-$M\colon \mathsf{Op}\op \to \U$ on the category of memory operations, where
-$\U$ is a univalent universe of types. The universal-property layer
-specifies which operations any memory entry must support; the Yoneda
-layer makes ``same memory entry'' precise as natural isomorphism of
-presheaves; the HoTT layer makes ``natural isomorphism'' a path in $\U$;
-the categorical/structural layer ensures that all of this is preserved
-under change of universe (e.g.\ when the agent is migrated).
-
-\begin{principle}[ContextFS univalent slogan]
-A memory entry is identified by its structural role, not by its storage
-location.
-\end{principle}
-
-This is precisely the univalent correspondence applied to a different
-domain: instead of $58$, the entry is identified by what it does, not by
-where it lives.
-
 \subsection{Directed HoTT and synthetic \texorpdfstring{$\infty$}{Infinity}-category theory}
 \label{sec:directed}
 
@@ -1316,10 +1285,6 @@ development.
 result (\cref{thm:nno-contr}) shows the type of NNOs is a contractible
 type (a $(-2)$-type). The corresponding statement for $(\infty,1)$-NNOs in
 $\infty$-toposes (Lurie's $(\infty,1)$-NNO~\cite{lurie}) is more delicate.
-\item \textbf{ContextFS / type-memory as a structural-identity primitive.}
-A formal account of typed persistent memory in HoTT, with structural
-identity as the primitive notion, is the principal applied research
-direction.
 \item \textbf{Directed univalence.} Riehl and Shulman's simplicial type
 theory has a partial directed univalence; a complete principle remains a
 research target~\cite{RiehlShulman,CisinskiNguyen}.
@@ -1339,8 +1304,8 @@ univalence axiom. We named this identification the \emph{univalent
 correspondence} (\cref{prin:strong}, \cref{prin:formal}), proved it as a
 theorem in HoTT (\cref{thm:identity-of-perspectives}), exhibited the
 hierarchical composition by which each level builds on the previous
-(\cref{sec:diagrams}), and sketched applications to transcendentals,
-typed memory, and directed type theory.
+(\cref{sec:diagrams}), and sketched applications to transcendentals
+and directed type theory.
 
 The integer $58$ is, in the unified picture: a position in the initial
 successor structure (Paper~III), a representing functor (Paper~IV), a
@@ -1491,11 +1456,6 @@ Univalent Correspondence Series, Paper~V, 2026.
 YonedaAI Research,
 \emph{The Categorical / Structural Perspective: Numbers as Invariants of Structure-Preserving Morphisms},
 Univalent Correspondence Series, Paper~VI, 2026.
-
-\bibitem{KnowledgeBase2026}
-YonedaAI Research,
-\emph{Knowledge Base: The Univalent Correspondence},
-Magneton Internal Document, 2026.
 
 % --- Foundations of HoTT and univalence ---
 

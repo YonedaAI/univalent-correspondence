@@ -482,7 +482,8 @@ the natural number it encodes.
 \begin{proposition}[Encoding-relative facts]\label{prop:junk}
 The following statements all have determinate truth values inside ZFC, but
 the answers depend on the encoding. We display together the cases where the
-encodings agree and where they differ:
+encodings agree and where they differ. (Below, $\mathrm{pred}(n)$ denotes
+the ordinal predecessor: the unique $m$ with $m^+ = n$.)
 \begin{center}
 \begin{tabular}{lll}
 \textbf{Question} & \textbf{Von Neumann} & \textbf{Zermelo} \\\hline
@@ -493,7 +494,7 @@ $1 \in 3$? & true ($3 = \{0,1,2\}$) & \textbf{false} ($3_{\mathrm{Z}} = \{2_{\ma
 $1 \in 17$? & true & \textbf{false} \\
 $\{\emptyset\} \in 17$? & true (since $\{\emptyset\} = 1 \in 17$) & \textbf{false} \\
 $|n| = n$ for $n \in \omega$? & true (each $n$ has $n$ elements) & \textbf{false} ($|n|=1$ for $n \geq 1$) \\
-$\bigcup n = \mathrm{pred}(n)$ for $n>0$?\footnote{Here $\mathrm{pred}(n)$ denotes the ordinal predecessor: the unique $m$ with $m^+ = n$.} & true & true \\
+$\bigcup n = \mathrm{pred}(n)$ for $n>0$? & true & true \\
 $m \subsetneq n \iff m \in n$ (on $\omega$)? & true & \textbf{false}
 \end{tabular}
 \end{center}

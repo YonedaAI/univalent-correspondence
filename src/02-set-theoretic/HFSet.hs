@@ -19,6 +19,7 @@ module HFSet
   , adjoin
   , cardinality
   , showFlat
+  , canonicalize
   ) where
 
 import Data.List (sort)
@@ -116,3 +117,16 @@ cardinality (HFSet xs) = length (uniqList (map toCanon xs))
     uniqAcc acc (a:as)
       | a `elem` acc   = uniqAcc acc as
       | otherwise      = uniqAcc (a:acc) as
+
+-- | Project a raw HFSet onto the unique extensional representative whose
+--   children are recursively canonical, sorted, and deduplicated. Two
+--   HFSets are extensionally equal iff their canonicalizations are
+--   structurally identical, so any function that respects extensional
+--   equality may safely canonicalize its input first. This lets clients
+--   (e.g. the von Neumann and Zermelo encodings) recover the abstract
+--   set, free of accidental duplication, before doing pattern-level work.
+canonicalize :: HFSet -> HFSet
+canonicalize = fromCanon . toCanon
+  where
+    fromCanon :: Canon -> HFSet
+    fromCanon (Canon cs) = HFSet (map fromCanon cs)

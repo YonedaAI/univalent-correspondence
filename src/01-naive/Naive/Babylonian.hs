@@ -21,17 +21,23 @@ module Naive.Babylonian
   , parseBabylonian
   ) where
 
-import Naive.Peano (Peano, fromInt)
+import Naive.Peano (Peano, fromNatural)
 
 -- | Convert a list of (digit, place) pairs to a 'Peano' value.
 -- Returns 'Nothing' if any digit is outside 0..59 or any place is
 -- negative.
+--
+-- Place-value contributions are computed in 'Integer' so that
+-- numerals with large places (e.g. @60^p@ for @p >= 11@) do not
+-- overflow before reduction to the structural normal form.
 fromBabylonian :: [(Int, Int)] -> Maybe Peano
 fromBabylonian places
-  | all valid places = Just (fromInt (sum [d * 60 ^ p | (d, p) <- places]))
+  | all valid places = Just (fromNatural (sum [contribution d p | (d, p) <- places]))
   | otherwise        = Nothing
   where
     valid (d, p) = 0 <= d && d < 60 && p >= 0
+    contribution :: Int -> Int -> Integer
+    contribution d p = toInteger d * (60 :: Integer) ^ p
 
 -- | Legacy alias for 'fromBabylonian'. See module documentation.
 parseBabylonian :: [(Int, Int)] -> Maybe Peano

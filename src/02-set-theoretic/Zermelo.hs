@@ -41,28 +41,36 @@ zEncode n
   | otherwise = ZNat (zSucc (unZ (zEncode (n - 1))))
 
 -- | Decoding: count nesting depth. Returns 'Nothing' for malformed values
---   (i.e. for any 'HFSet' that is not a chain of nested singletons). All
---   values produced by 'zEncode' / 'zSucc' satisfy the chain invariant, so
---   for those this is always 'Just'.
+--   (i.e. for any 'HFSet' that is not extensionally equal to a chain of
+--   nested singletons). We canonicalize at each level so that, for example,
+--   'HFSet [emptySet, emptySet]' (extensionally a singleton) is correctly
+--   recognized as the Zermelo numeral 1.
 zDecode :: ZNat -> Maybe Int
 zDecode (ZNat s) = depth s
   where
     depth :: HFSet -> Maybe Int
-    depth (HFSet [])  = Just 0
-    depth (HFSet [x]) = fmap (1 +) (depth x)
-    depth (HFSet _)   = Nothing
+    depth t = case elementsOf (canonicalize t) of
+      []  -> Just 0
+      [x] -> fmap (1 +) (depth x)
+      _   -> Nothing
 
--- | Predecessor: extract the unique element of a Zermelo singleton.
+-- | Predecessor: extract the unique element of a Zermelo singleton, after
+--   canonicalizing the input. Canonicalization is required so that 'zPred'
+--   respects extensional equality: any HFSet extensionally equal to a
+--   singleton is recognized as such, even if presented with duplicate
+--   elements.
 zPred :: HFSet -> Maybe HFSet
-zPred (HFSet [])  = Nothing
-zPred (HFSet [x]) = Just x
-zPred (HFSet _)   = Nothing  -- not a valid Zermelo numeral
+zPred s = case elementsOf (canonicalize s) of
+  []  -> Nothing
+  [x] -> Just x
+  _   -> Nothing  -- not extensionally a Zermelo numeral
 
--- | Peano instance for ZNat.
+-- | Peano instance for ZNat. As with 'VNNat', 'isZeroP' uses the canonical
+--   form so it tracks extensional equality rather than raw list shape.
 instance Peano ZNat where
   zeroP                    = ZNat emptySet
   sucP (ZNat s)            = ZNat (zSucc s)
-  isZeroP (ZNat (HFSet xs)) = null xs
+  isZeroP (ZNat s)         = null (elementsOf (canonicalize s))
   predP (ZNat s)           = fmap ZNat (zPred s)
 
 -- | Membership at the Z level.
