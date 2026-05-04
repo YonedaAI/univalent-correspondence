@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="YonedaAI Research Formalized Foundations of Mathematics Project Univalent Correspondence Series research@yonedaai.com" />
+  <meta name="dcterms.date" content="2026-05-03" />
+  <title>The Set-Theoretic Perspective: Numbers as von Neumann Ordinals Paper 02 of the Univalent Correspondence Series</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    div.abstract {
+      margin: 2em 2em 2em 2em;
+      text-align: left;
+      font-size: 85%;
+    }
+    div.abstract-title {
+      font-weight: bold;
+      text-align: center;
+      padding: 0;
+      margin-bottom: 0.5em;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">The Set-Theoretic Perspective:<br />
+Numbers as von Neumann Ordinals<br />
+Paper 02 of the Univalent Correspondence Series</h1>
+<p class="author">YonedaAI Research<br />
+<em>Formalized Foundations of Mathematics Project</em><br />
+<em>Univalent Correspondence Series</em><br />
+<code>research@yonedaai.com</code></p>
+<p class="date">03 May 2026</p>
+<div class="abstract">
+<div class="abstract-title">Abstract</div>
+<p>We examine the second of six perspectives in the Univalent
+Correspondence series: the set-theoretic level, in which natural numbers
+are reduced to particular elements of the cumulative hierarchy of pure
+sets. We work primarily in Zermelo–Fraenkel set theory with Choice
+(ZFC), focusing on John von Neumann’s ordinal encoding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">0 = \emptyset</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>=</mo><mi>n</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n+1 = n \cup \{n\}</annotation></semantics></math>,
+where the natural number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is realized as the set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,\ldots,57\}</annotation></semantics></math>
+of all smaller von Neumann ordinals. We contrast this with Ernst
+Zermelo’s earlier encoding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">0 = \emptyset</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n+1 = \{n\}</annotation></semantics></math>,
+in which
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is realized as a chain of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+nested singletons. Both encodings produce structures isomorphic to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="double-struck">ℕ</mi><mo>,</mo><mn>0</mn><mo>,</mo><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mathbb{N},0,\mathrm{succ})</annotation></semantics></math>
+as Peano models, yet they differ on <em>internal</em> set-theoretic
+questions such as whether
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>∈</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">2 \in 3</annotation></semantics></math>
+or whether
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">\{\emptyset\} \in 17</annotation></semantics></math>.
+Following Paul Benacerraf’s 1965 paper <em>What Numbers Could Not
+Be</em>, we argue that this discrepancy is not a defect to be eliminated
+but a structural fact: numbers are not sets, and any attempt to identify
+them with sets generates encoding-relative <em>junk theorems</em> that
+are meaningful about the encoding but meaningless about the number. We
+give a careful presentation of the ZFC axiomatization, the cumulative
+hierarchy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>α</mi></msub><annotation encoding="application/x-tex">V_\alpha</annotation></semantics></math>,
+ranks, and well-foundedness; we define addition, multiplication, and
+order recursively on the von Neumann ordinals and verify that these
+definitions satisfy the Peano axioms; and we prove a general
+representation theorem stating that any successor structure obtained
+from a class function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
+that is injective, has a base point not in its image, and admits
+transfinite iteration generates a model of Peano arithmetic isomorphic
+to the von Neumann naturals. We close with a structuralist re-reading:
+the set-theoretic perspective <em>does</em> present numbers, but only as
+encodings; the structural content these encodings share is a universal
+property, which Paper 03 will make explicit. Our development is
+accompanied by a Haskell implementation that realizes both encodings as
+distinct types and proves, by construction, that they satisfy the same
+Peano interface.</p>
+</div>
+</header>
+<h1 id="sec:intro">Introduction</h1>
+<h2 id="where-we-are-in-the-series">Where we are in the series</h2>
+<p>This is the second paper in a six-paper series, plus a synthesis
+volume, exploring the question <em>“what is a natural number?”</em> at
+progressively higher levels of mathematical abstraction. Paper 01
+considered the <em>naive</em> level, in which a number is treated as a
+primitive symbol or quantity, without further analysis. The naive level
+is the practical starting point of arithmetic and the inevitable surface
+of any numeral system, but it conflates syntax with semantics: the
+symbols
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>”,
+“LVIII”, and
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><munder><munder><mrow><mo stretchy="false" form="postfix">|</mo><mo stretchy="false" form="postfix">|</mo><mi>⋯</mi><mo stretchy="false" form="postfix">|</mo></mrow><mo accent="true">⏟</mo></munder><mn>58</mn></munder><annotation encoding="application/x-tex">\underbrace{\vert\vert\cdots\vert}_{58}</annotation></semantics></math>”
+all refer to the same number, but the naive level provides no machinery
+for distinguishing the numeral from the number it names.</p>
+<p>The natural next step, taken in the foundational programs of the
+early twentieth century, is to <em>reduce</em> numbers to objects of a
+more basic theory. Frege <span class="citation"
+data-cites="frege1884"></span> attempted such a reduction to logic;
+Russell and Whitehead refined and elaborated it in <em>Principia
+Mathematica</em> <span class="citation" data-cites="principia"></span>;
+Zermelo and later Fraenkel and Skolem developed the axiomatic set theory
+we now call ZFC. Within ZFC, John von Neumann <span class="citation"
+data-cites="vonNeumann1923"></span> gave a canonical recursive
+definition of the ordinals that, when restricted to the finite case,
+produces a particular set-theoretic implementation of the natural
+numbers. Standard expositions of the resulting machinery include Halmos
+<span class="citation" data-cites="halmos1960"></span>, Suppes <span
+class="citation" data-cites="suppes1960"></span>, Shoenfield <span
+class="citation" data-cites="shoenfield1967"></span>, and Kunen <span
+class="citation" data-cites="kunen1980"></span>.</p>
+<h2 id="the-thesis-of-this-paper">The thesis of this paper</h2>
+<p>We make four claims:</p>
+<ol>
+<li><p><strong>Set theory does provide a foundation for
+arithmetic.</strong> The von Neumann encoding inside ZFC produces a
+structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>ω</mi><mo>,</mo><mn>0</mn><mo>,</mo><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\omega, 0, \mathrm{succ})</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+is the smallest inductive set, on which addition, multiplication, and
+order can be defined recursively, and which satisfies the (second-order)
+Peano axioms.</p></li>
+<li><p><strong>The encoding is not unique.</strong> Zermelo’s earlier
+encoding,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">0 = \emptyset</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n+1 = \{n\}</annotation></semantics></math>,
+gives a different set-theoretic structure that nevertheless also
+satisfies the Peano axioms. Many other encodings exist. The encodings
+are mutually <em>Peano-isomorphic</em> but not mutually
+<em>ZFC-isomorphic</em>: as sets, they differ.</p></li>
+<li><p><strong>The discrepancy generates junk theorems.</strong> In von
+Neumann’s encoding,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>∈</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">2 \in 3</annotation></semantics></math>
+is true; in Zermelo’s, it is false. The question “is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+an element of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>?”
+is meaningful inside ZFC for each encoding separately, but it is
+meaningless about <em>the number</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+— it is an artifact of the encoding. Following Benacerraf <span
+class="citation" data-cites="benacerraf1965"></span>, we conclude that
+numbers cannot be identified with sets.</p></li>
+<li><p><strong>The structural content survives.</strong> What both
+encodings share is precisely the universal property of a Natural Number
+Object: they are both initial in a category of pointed sets with
+endomorphism. This is the structural content that Paper 03 will make
+explicit. The set-theoretic perspective is therefore not refuted but
+<em>relocated</em>: it is one implementation of a structural
+specification, not a definition.</p></li>
+</ol>
+<h2 id="outline">Outline</h2>
+<p><a href="#sec:zfc" data-reference-type="ref+Label"
+data-reference="sec:zfc">2</a> reviews ZFC, with particular attention to
+the axiom of infinity, the axiom schema of replacement, and the
+foundation axiom (which underwrites well-foundedness). <a href="#sec:vN"
+data-reference-type="ref+Label" data-reference="sec:vN">3</a> presents
+the von Neumann encoding, defines
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>,
+and verifies the Peano axioms. <a href="#sec:zermelo"
+data-reference-type="ref+Label" data-reference="sec:zermelo">4</a>
+presents Zermelo’s encoding and contrasts the two. <a
+href="#sec:benacerraf" data-reference-type="ref+Label"
+data-reference="sec:benacerraf">5</a> develops Benacerraf’s
+identification problem and the notion of a junk theorem. <a
+href="#sec:operations" data-reference-type="ref+Label"
+data-reference="sec:operations">6</a> defines addition, multiplication,
+and order recursively and proves the basic algebraic identities. <a
+href="#sec:cumulative" data-reference-type="ref+Label"
+data-reference="sec:cumulative">7</a> introduces the cumulative
+hierarchy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>α</mi></msub><annotation encoding="application/x-tex">V_\alpha</annotation></semantics></math>,
+ranks, and well-foundedness, and locates the natural numbers within it.
+<a href="#sec:representation" data-reference-type="ref+Label"
+data-reference="sec:representation">8</a> proves a representation
+theorem characterizing successor structures up to isomorphism. <a
+href="#sec:bridge" data-reference-type="ref+Label"
+data-reference="sec:bridge">9</a> develops the structuralist re-reading
+and sketches the bridge to Paper 03. The Haskell implementation
+accompanying the paper realizes both encodings; <a href="#sec:haskell"
+data-reference-type="ref+Label" data-reference="sec:haskell">10</a>
+describes its design and the Peano-axiom verification by
+construction.</p>
+<h1 id="sec:zfc">Mathematical Framework: ZFC Reviewed</h1>
+<p>We work in classical first-order logic with equality and a single
+binary relation symbol
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>.</p>
+<h2 id="axioms">Axioms</h2>
+<div id="def:zfc" class="definition">
+<p><strong>Definition 1</strong> (ZFC). The axioms of Zermelo–Fraenkel
+set theory with Choice are:</p>
+<ol>
+<li><p><em>Extensionality.</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mspace width="0.167em"></mspace><mo>∀</mo><mi>y</mi><mspace width="0.167em"></mspace><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mo>∀</mo><mi>z</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo>∈</mo><mi>x</mi><mo>↔</mo><mi>z</mi><mo>∈</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>x</mi><mo>=</mo><mi>y</mi><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\forall x\, \forall y\, \bigl(\forall z\,(z \in x \leftrightarrow z \in y) \to x = y\bigr)</annotation></semantics></math>.</p></li>
+<li><p><em>Pairing.</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mspace width="0.167em"></mspace><mo>∀</mo><mi>y</mi><mspace width="0.167em"></mspace><mo>∃</mo><mi>z</mi><mspace width="0.167em"></mspace><mo>∀</mo><mi>w</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>w</mi><mo>∈</mo><mi>z</mi><mo>↔</mo><mi>w</mi><mo>=</mo><mi>x</mi><mo>∨</mo><mi>w</mi><mo>=</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\forall x\, \forall y\, \exists z\, \forall w\,(w \in z \leftrightarrow w = x \vee w = y)</annotation></semantics></math>.</p></li>
+<li><p><em>Union.</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mspace width="0.167em"></mspace><mo>∃</mo><mi>y</mi><mspace width="0.167em"></mspace><mo>∀</mo><mi>z</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo>∈</mo><mi>y</mi><mo>↔</mo><mo>∃</mo><mi>w</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>w</mi><mo>∈</mo><mi>x</mi><mo>∧</mo><mi>z</mi><mo>∈</mo><mi>w</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\forall x\, \exists y\, \forall z\,(z \in y \leftrightarrow \exists w\,(w \in x \wedge z \in w))</annotation></semantics></math>.</p></li>
+<li><p><em>Power set.</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mspace width="0.167em"></mspace><mo>∃</mo><mi>y</mi><mspace width="0.167em"></mspace><mo>∀</mo><mi>z</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo>∈</mo><mi>y</mi><mo>↔</mo><mi>z</mi><mo>⊆</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\forall x\, \exists y\, \forall z\,(z \in y \leftrightarrow z \subseteq x)</annotation></semantics></math>.</p></li>
+<li><p><em>Separation schema.</em> For each formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>φ</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\varphi(z)</annotation></semantics></math>
+not involving
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mspace width="0.167em"></mspace><mo>∃</mo><mi>y</mi><mspace width="0.167em"></mspace><mo>∀</mo><mi>z</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo>∈</mo><mi>y</mi><mo>↔</mo><mi>z</mi><mo>∈</mo><mi>x</mi><mo>∧</mo><mi>φ</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\forall x\, \exists y\, \forall z\,(z \in y \leftrightarrow z \in x \wedge \varphi(z))</annotation></semantics></math>.</p></li>
+<li><p><em>Replacement schema.</em> For each formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>φ</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\varphi(x,y)</annotation></semantics></math>
+defining a class function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>A</mi><mspace width="0.167em"></mspace><mo>∃</mo><mi>B</mi><mspace width="0.167em"></mspace><mo>∀</mo><mi>y</mi><mspace width="0.167em"></mspace><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∈</mo><mi>B</mi><mo>↔</mo><mo>∃</mo><mi>x</mi><mo>∈</mo><mi>A</mi><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><mi>φ</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\forall A\, \exists B\, \forall y\,
+   \bigl(y \in B \leftrightarrow \exists x \in A\,\, \varphi(x,y)\bigr).</annotation></semantics></math></p></li>
+<li><p><em>Infinity.</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>I</mi><mspace width="0.167em"></mspace><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mi>∅</mi><mo>∈</mo><mi>I</mi><mo>∧</mo><mo>∀</mo><mi>x</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>∈</mo><mi>I</mi><mo>→</mo><mi>x</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mi>I</mi><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\exists I\,\bigl(\emptyset \in I \wedge \forall x\,(x \in I \to x \cup \{x\} \in I)\bigr)</annotation></semantics></math>.</p></li>
+<li><p><em>Foundation.</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>≠</mo><mi>∅</mi><mo>→</mo><mo>∃</mo><mi>y</mi><mo>∈</mo><mi>x</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>y</mi><mo>∩</mo><mi>x</mi><mo>=</mo><mi>∅</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\forall x\,(x \neq \emptyset \to \exists y \in x\,(y \cap x = \emptyset))</annotation></semantics></math>.</p></li>
+<li><p><em>Choice.</em> Every set of nonempty sets has a choice
+function.</p></li>
+</ol>
+</div>
+<div class="remark">
+<p><em>Remark 2</em>. The empty set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∅</mi><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math>
+is definable: by Separation applied to any set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+and the formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi><mo>≠</mo><mi>z</mi></mrow><annotation encoding="application/x-tex">z \neq z</annotation></semantics></math>,
+the resulting set has no elements. By Extensionality, this set is
+unique. <strong>(Inf)</strong> guarantees there is a set containing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∅</mi><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math>
+and closed under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>↦</mo><mi>x</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x \mapsto x \cup \{x\}</annotation></semantics></math>.</p>
+</div>
+<h2 id="axiom-of-infinity-in-detail">Axiom of Infinity, in detail</h2>
+<div class="definition">
+<p><strong>Definition 3</strong> (Inductive set). A set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+is <em>inductive</em> when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>∅</mi><mo>∈</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">\emptyset \in I</annotation></semantics></math>
+and, for every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">x \in I</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">x \cup \{x\} \in I</annotation></semantics></math>.
+The axiom of infinity asserts that an inductive set exists.</p>
+</div>
+<div id="prop:omega" class="proposition">
+<p><strong>Proposition 4</strong> (Existence of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>).
+<em>There exists a unique smallest inductive set, denoted
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>.
+Equivalently,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>=</mo><mo>⋂</mo><mo stretchy="false" form="prefix">{</mo><mi>I</mi><mo>:</mo><mi>I</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> is inductive</mtext></mrow><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\omega = \bigcap \{I : I \text{ is inductive}\}</annotation></semantics></math>
+inside any inductive set, defined by Separation:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo>∈</mo><msub><mi>I</mi><mn>0</mn></msub><mo>:</mo><mo>∀</mo><mi>I</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>I</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> inductive</mtext></mrow><mo>→</mo><mi>x</mi><mo>∈</mo><mi>I</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\omega = \{x \in I_0 : \forall I\,(I \text{ inductive} \to x \in I)\},
+\end{equation}</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>
+is any fixed inductive set guaranteed by
+<strong>(Inf)</strong>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> The class of inductive sets is nonempty by
+<strong>(Inf)</strong>; the class-intersection is inductive (it contains
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∅</mi><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math>
+since each inductive set does, and is closed under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>↦</mo><mi>x</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x \mapsto x \cup \{x\}</annotation></semantics></math>
+since each inductive set is). Separation applied to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>
+and the formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>φ</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>≡</mo><mo>∀</mo><mi>I</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">Ind</mtext><mo stretchy="false" form="prefix">(</mo><mi>I</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>x</mi><mo>∈</mo><mi>I</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\varphi(x) \equiv \forall I\,(\text{Ind}(I) \to x \in I)</annotation></semantics></math>
+produces a set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+with the required property. Uniqueness follows from
+Extensionality. ◻</p>
+</div>
+<h2 id="replacement-and-what-it-buys-us">Replacement, and what it buys
+us</h2>
+<p>The Separation schema only carves out subsets of an existing set; it
+cannot generate sets “larger” than what is already given. Replacement is
+strictly stronger: it asserts that the image of a set under a definable
+class function is a set. This is essential for transfinite recursion
+(and hence for the cumulative hierarchy of <a href="#sec:cumulative"
+data-reference-type="ref+Label" data-reference="sec:cumulative">7</a>)
+and for the formal definition of operations such as addition by
+recursion on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>.</p>
+<div class="remark">
+<p><em>Remark 5</em>. ZFC without Replacement is Zermelo’s original 1908
+system
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Z</mi><annotation encoding="application/x-tex">\mathrm{Z}</annotation></semantics></math>,
+which is too weak for many constructions used in ordinary mathematics
+(Borel hierarchies, transfinite recursion past
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>+</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">\omega + \omega</annotation></semantics></math>,
+etc.). For our purposes here — defining the natural numbers and their
+arithmetic — Replacement is the crucial axiom that lets us define
+functions by recursion.</p>
+</div>
+<h2 id="foundation-and-well-foundedness">Foundation and
+well-foundedness</h2>
+<div class="definition">
+<p><strong>Definition 6</strong> (Well-founded relation). A relation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+on a class
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>
+is <em>well-founded</em> when every nonempty subset
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>⊆</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">S \subseteq C</annotation></semantics></math>
+has an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>-minimal
+element: an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">x \in S</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>y</mi><mo>∈</mo><mi>S</mi><mo>:</mo><mi>y</mi><mi>R</mi><mi>x</mi><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">\{y \in S : yRx\} = \emptyset</annotation></semantics></math>.</p>
+</div>
+<div id="thm:found" class="theorem">
+<p><strong>Theorem 7</strong>. <em>The Foundation axiom is equivalent
+(in ZF without Foundation) to the assertion that the membership relation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>
+is well-founded on the universe of sets. In particular, there is no
+infinite descending
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>-chain
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>⋯</mi><mo>∈</mo><msub><mi>x</mi><mn>2</mn></msub><mo>∈</mo><msub><mi>x</mi><mn>1</mn></msub><mo>∈</mo><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">\cdots \in x_2 \in x_1 \in x_0</annotation></semantics></math>,
+no set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">x \in x</annotation></semantics></math>,
+and no cycle
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>∈</mo><msub><mi>x</mi><mn>1</mn></msub><mo>∈</mo><mi>⋯</mi><mo>∈</mo><msub><mi>x</mi><mi>n</mi></msub><mo>∈</mo><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0 \in x_1 \in \cdots \in x_n \in x_0</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof sketch.</em> If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">x \in x</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{x\}</annotation></semantics></math>
+has no
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>-minimal
+element, contradicting Foundation. The general statement is proved by
+considering the transitive closure of any candidate descending chain and
+applying Foundation to the resulting set. ◻</p>
+</div>
+<p>Foundation is what allows transfinite induction on the entire
+set-theoretic universe. It is also what makes the von Neumann encoding
+(in which
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is literally the set of its predecessors) compatible with the standard
+machinery: since each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is a transitive set linearly ordered by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>,
+Foundation guarantees we never run into pathologies like
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n \in n</annotation></semantics></math>.</p>
+<h1 id="sec:vN">The von Neumann Encoding</h1>
+<h2 id="definition">Definition</h2>
+<div id="def:succ" class="definition">
+<p><strong>Definition 8</strong> (Successor). For any set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>,
+the <em>successor</em> of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mo>+</mo></msup><mo>:=</mo><mi>x</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x^+ := x \cup \{x\}</annotation></semantics></math>.</p>
+</div>
+<div id="def:vN" class="definition">
+<p><strong>Definition 9</strong> (Von Neumann naturals). We define the
+von Neumann naturals as elements of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+recursively:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mn>0</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mi>∅</mi><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>n</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo>=</mo><msub><mi>n</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>n</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="postfix">}</mo><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align}
+0_{\mathrm{vN}} &amp;:= \emptyset, \\
+(n+1)_{\mathrm{vN}} &amp;:= (n_{\mathrm{vN}})^+ = n_{\mathrm{vN}} \cup \{n_{\mathrm{vN}}\}.
+\end{align}</annotation></semantics></math></p>
+</div>
+<p>Unrolling this definition:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mn>0</mn></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>∅</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mn>1</mn></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mn>2</mn></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mn>3</mn></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>⋮</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>n</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+0 &amp;= \emptyset \\
+1 &amp;= \{0\} = \{\emptyset\} \\
+2 &amp;= \{0, 1\} = \{\emptyset, \{\emptyset\}\} \\
+3 &amp;= \{0, 1, 2\} = \{\emptyset, \{\emptyset\}, \{\emptyset, \{\emptyset\}\}\} \\
+&amp;\vdots \\
+n &amp;= \{0, 1, \ldots, n-1\}
+\end{align*}</annotation></semantics></math></p>
+<div id="ex:58" class="example">
+<p><strong>Example 10</strong>. The number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>,
+in von Neumann form, is the set of all smaller naturals:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>58</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
+58_{\mathrm{vN}} = \{0, 1, 2, \ldots, 57\}.
+\end{equation}</annotation></semantics></math> The set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+has exactly
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+elements, and each of those elements is a set with strictly fewer
+elements. The total cumulative count of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>-occurrences
+inside
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is large but finite (combinatorially,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mn>57</mn></msubsup><mi>k</mi><mo>=</mo><mn>1653</mn></mrow><annotation encoding="application/x-tex">\sum_{k=0}^{57} k = 1653</annotation></semantics></math>).</p>
+</div>
+<h2 id="membership-and-subset-coincide">Membership and subset
+coincide</h2>
+<p>A signal feature of the von Neumann encoding is the conflation, at
+the finite level, of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊆</mo><annotation encoding="application/x-tex">\subseteq</annotation></semantics></math>.</p>
+<div id="prop:in-equals-subset" class="proposition">
+<p><strong>Proposition 11</strong>. <em>For all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">m, n \in \omega</annotation></semantics></math>,
+we have
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \in n</annotation></semantics></math>
+if and only if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>⊊</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \subsetneq n</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> We prove both directions by induction on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.</p>
+<p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mo>⇒</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\Rightarrow)</annotation></semantics></math>.</em>
+If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \in n</annotation></semantics></math>,
+then since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is the set of its predecessors and is transitive (<a
+href="#prop:transitive" data-reference-type="ref+Label"
+data-reference="prop:transitive">12</a> below), every element of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>
+is also an element of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>,
+hence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>⊆</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \subseteq n</annotation></semantics></math>.
+Strict inclusion follows from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \in n</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∉</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">m \notin m</annotation></semantics></math>
+(Foundation, <a href="#thm:found" data-reference-type="ref+Label"
+data-reference="thm:found">7</a>).</p>
+<p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mo>⇐</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\Leftarrow)</annotation></semantics></math>.</em>
+If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>⊊</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \subsetneq n</annotation></semantics></math>,
+pick any
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>∈</mo><mi>n</mi><mo>\</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">k \in n \setminus m</annotation></semantics></math>
+of minimal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>-rank.
+Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>⊆</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">k \subseteq m</annotation></semantics></math>
+(by minimality), and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">k = m</annotation></semantics></math>
+follows from extensionality together with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>⊆</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \subseteq n</annotation></semantics></math>
+and the definition of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+as the set of its predecessors. Hence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mi>k</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m = k \in n</annotation></semantics></math>. ◻</p>
+</div>
+<div id="prop:transitive" class="proposition">
+<p><strong>Proposition 12</strong> (Transitivity of naturals). <em>Each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">n \in \omega</annotation></semantics></math>
+is a <em>transitive set</em>: if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">x \in n</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>⊆</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">x \subseteq n</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> By induction.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">0 = \emptyset</annotation></semantics></math>
+is vacuously transitive. Assume
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is transitive and let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><msup><mi>n</mi><mo>+</mo></msup><mo>=</mo><mi>n</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x \in n^+ = n \cup \{n\}</annotation></semantics></math>.
+If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">x = n</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>n</mi><mo>⊆</mo><msup><mi>n</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">x = n \subseteq n^+</annotation></semantics></math>
+since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo><mo>⊇</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n \cup \{n\} \supseteq n</annotation></semantics></math>.
+If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">x \in n</annotation></semantics></math>,
+then by the inductive hypothesis
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>⊆</mo><mi>n</mi><mo>⊆</mo><msup><mi>n</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">x \subseteq n \subseteq n^+</annotation></semantics></math>. ◻</p>
+</div>
+<div class="example">
+<p><strong>Example 13</strong>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>∈</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">2 \in 3</annotation></semantics></math>
+holds in von Neumann:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">3 = \{0,1,2\}</annotation></semantics></math>,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+is literally one of the three elements of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>.
+Equivalently,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo><mo>⊊</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">2 = \{0,1\} \subsetneq \{0,1,2\} = 3</annotation></semantics></math>.
+This is the kind of statement that, by <a href="#prop:in-equals-subset"
+data-reference-type="ref+Label"
+data-reference="prop:in-equals-subset">11</a>, is equivalent in von
+Neumann to the order
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>&lt;</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">2 &lt; 3</annotation></semantics></math>.</p>
+</div>
+<h2 id="peano-axioms-for-the-von-neumann-naturals">Peano axioms for the
+von Neumann naturals</h2>
+<div id="thm:peano-vN" class="theorem">
+<p><strong>Theorem 14</strong>. <em>The structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>ω</mi><mo>,</mo><msub><mn>0</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\omega, 0_{\mathrm{vN}}, (\cdot)^+)</annotation></semantics></math>
+satisfies the Peano axioms:</em></p>
+<ol>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>0</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">0_{\mathrm{vN}} \in \omega</annotation></semantics></math>.</em></p></li>
+<li><p><em>For all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">n \in \omega</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mo>+</mo></msup><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">n^+ \in \omega</annotation></semantics></math>.</em></p></li>
+<li><p><em>For all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">n \in \omega</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mo>+</mo></msup><mo>≠</mo><msub><mn>0</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub></mrow><annotation encoding="application/x-tex">n^+ \neq 0_{\mathrm{vN}}</annotation></semantics></math>.</em></p></li>
+<li><p><em>For all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">m,n \in \omega</annotation></semantics></math>,
+if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>m</mi><mo>+</mo></msup><mo>=</mo><msup><mi>n</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">m^+ = n^+</annotation></semantics></math>
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m = n</annotation></semantics></math>.</em></p></li>
+<li><p><em>(Induction) For every set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>⊆</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">S \subseteq \omega</annotation></semantics></math>,
+if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>0</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>∈</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">0_{\mathrm{vN}} \in S</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
+is closed under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(\cdot)^+</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">S = \omega</annotation></semantics></math>.</em></p></li>
+</ol>
+</div>
+<div class="proof">
+<p><em>Proof.</em> <strong>(1) and (2)</strong> are immediate from the
+definition of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+as the smallest inductive set.</p>
+<p><strong>(3)</strong> If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mo>+</mo></msup><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">n^+ = \emptyset</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">n \cup \{n\} = \emptyset</annotation></semantics></math>.
+But
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>n</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n \in n \cup \{n\}</annotation></semantics></math>,
+contradiction.</p>
+<p><strong>(4)</strong> Suppose
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>m</mi><mo>+</mo></msup><mo>=</mo><msup><mi>n</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">m^+ = n^+</annotation></semantics></math>,
+i.e. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>m</mi><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mi>n</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">m \cup \{m\} = n \cup \{n\}</annotation></semantics></math>.
+Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><msup><mi>n</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">m \in n^+</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><msup><mi>m</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">n \in m^+</annotation></semantics></math>.
+By <a href="#prop:in-equals-subset" data-reference-type="ref+Label"
+data-reference="prop:in-equals-subset">11</a> (applied via
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>-trichotomy),
+if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>≠</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \neq n</annotation></semantics></math>
+then either
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \in n</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">n \in m</annotation></semantics></math>,
+which contradicts Foundation, or one is a proper subset of the other;
+combined with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><msup><mi>n</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">m \in n^+</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><msup><mi>m</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">n \in m^+</annotation></semantics></math>
+this forces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m = n</annotation></semantics></math>.</p>
+<p><strong>(5)</strong> Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>⊆</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">S \subseteq \omega</annotation></semantics></math>
+be inductive (containing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+and closed under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(\cdot)^+</annotation></semantics></math>).
+Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
+itself is an inductive set, so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>⊆</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">\omega \subseteq S</annotation></semantics></math>
+by minimality of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>.
+The reverse inclusion is by hypothesis. ◻</p>
+</div>
+<h1 id="sec:zermelo">Zermelo’s Encoding</h1>
+<p>Ernst Zermelo, in his 1908 axiomatization <span class="citation"
+data-cites="zermelo1908"></span>, used a different recursive definition
+of the natural numbers.</p>
+<div id="def:Z" class="definition">
+<p><strong>Definition 15</strong> (Zermelo naturals). We define the
+Zermelo naturals recursively:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mn>0</mn><mi mathvariant="normal">Z</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mi>∅</mi><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><msub><mo stretchy="false" form="postfix">)</mo><mi mathvariant="normal">Z</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>n</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="postfix">}</mo><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align}
+0_{\mathrm{Z}} &amp;:= \emptyset, \\
+(n+1)_{\mathrm{Z}} &amp;:= \{n_{\mathrm{Z}}\}.
+\end{align}</annotation></semantics></math></p>
+</div>
+<p>Unrolling:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mn>0</mn><mi mathvariant="normal">Z</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>∅</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mn>1</mn><mi mathvariant="normal">Z</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mn>2</mn><mi mathvariant="normal">Z</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mn>3</mn><mi mathvariant="normal">Z</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>⋮</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>n</mi><mi mathvariant="normal">Z</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><munder><munder><mrow><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>⋯</mi><mo stretchy="false" form="prefix">{</mo></mrow><mo accent="true">⏟</mo></munder><mi>n</mi></munder><mi>∅</mi><munder><munder><mrow><mo stretchy="false" form="postfix">}</mo><mi>⋯</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mrow><mo accent="true">⏟</mo></munder><mi>n</mi></munder></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+0_{\mathrm{Z}} &amp;= \emptyset \\
+1_{\mathrm{Z}} &amp;= \{\emptyset\} \\
+2_{\mathrm{Z}} &amp;= \{\{\emptyset\}\} \\
+3_{\mathrm{Z}} &amp;= \{\{\{\emptyset\}\}\} \\
+&amp;\vdots \\
+n_{\mathrm{Z}} &amp;= \underbrace{\{\{\cdots\{}_{n}\emptyset\underbrace{\}\cdots\}\}}_{n}
+\end{align*}</annotation></semantics></math></p>
+<div class="example">
+<p><strong>Example 16</strong>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mn>58</mn><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">58_{\mathrm{Z}}</annotation></semantics></math>
+is a chain of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+nested singletons:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>58</mn><mi mathvariant="normal">Z</mi></msub><mo>=</mo><munder><munder><mrow><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>⋯</mi><mo stretchy="false" form="prefix">{</mo></mrow><mo accent="true">⏟</mo></munder><mn>58</mn></munder><mi>∅</mi><munder><munder><mrow><mo stretchy="false" form="postfix">}</mo><mi>⋯</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mrow><mo accent="true">⏟</mo></munder><mn>58</mn></munder><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
+58_{\mathrm{Z}} = \underbrace{\{\{\cdots\{}_{58}\emptyset\underbrace{\}\cdots\}\}}_{58}.
+\end{equation}</annotation></semantics></math> Crucially,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mn>58</mn><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">58_{\mathrm{Z}}</annotation></semantics></math>
+has exactly <em>one</em> element (namely
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mn>57</mn><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">57_{\mathrm{Z}}</annotation></semantics></math>),
+not
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>.
+The cardinality of the encoding does not match the natural number it
+encodes.</p>
+</div>
+<h2 id="comparison-junk-theorems">Comparison: junk theorems</h2>
+<div id="prop:junk" class="proposition">
+<p><strong>Proposition 17</strong> (Encoding-relative facts). <em>The
+following statements all have determinate truth values inside ZFC, but
+the answers depend on the encoding. We display together the cases where
+the encodings agree and where they differ:</em></p>
+<div class="center">
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><em><strong>Question</strong></em></th>
+<th style="text-align: left;"><em><strong>Von Neumann</strong></em></th>
+<th style="text-align: left;"><em><strong>Zermelo</strong></em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td
+style="text-align: left;"><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>∈</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \in 1</annotation></semantics></math>?</em></td>
+<td style="text-align: left;"><em>true</em></td>
+<td style="text-align: left;"><em>true (both:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">1 = \{0\}</annotation></semantics></math>)</em></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><msup><mi>n</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">n \in n^+</annotation></semantics></math>?</em></td>
+<td style="text-align: left;"><em>true</em></td>
+<td style="text-align: left;"><em>true (by construction)</em></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>⊆</mo><msup><mi>n</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">n \subseteq n^+</annotation></semantics></math>?</em></td>
+<td style="text-align: left;"><em>true</em></td>
+<td style="text-align: left;"><em>true</em></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>∈</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">1 \in 3</annotation></semantics></math>?</em></td>
+<td style="text-align: left;"><em>true
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">3 = \{0,1,2\}</annotation></semantics></math>)</em></td>
+<td style="text-align: left;"><em><strong>false</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>3</mn><mi mathvariant="normal">Z</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mn>2</mn><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">3_{\mathrm{Z}} = \{2_{\mathrm{Z}}\}</annotation></semantics></math>)</em></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>∈</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">1 \in 17</annotation></semantics></math>?</em></td>
+<td style="text-align: left;"><em>true</em></td>
+<td style="text-align: left;"><em><strong>false</strong></em></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">\{\emptyset\} \in 17</annotation></semantics></math>?</em></td>
+<td style="text-align: left;"><em>true (since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mn>1</mn><mo>∈</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">\{\emptyset\} = 1 \in 17</annotation></semantics></math>)</em></td>
+<td style="text-align: left;"><em><strong>false</strong></em></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>n</mi><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">|n| = n</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">n \in \omega</annotation></semantics></math>?</em></td>
+<td style="text-align: left;"><em>true (each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+elements)</em></td>
+<td style="text-align: left;"><em><strong>false</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>n</mi><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|n|=1</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n \geq 1</annotation></semantics></math>)</em></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⋃</mo><mi>n</mi><mo>=</mo><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\bigcup n = \mathrm{pred}(n)</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">n&gt;0</annotation></semantics></math>?<a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a></em></td>
+<td style="text-align: left;"><em>true</em></td>
+<td style="text-align: left;"><em>true</em></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>⊊</mo><mi>n</mi><mo>⇔</mo><mi>m</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \subsetneq n \iff m \in n</annotation></semantics></math>
+(on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>)?</em></td>
+<td style="text-align: left;"><em>true</em></td>
+<td style="text-align: left;"><em><strong>false</strong></em></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em>Two rows merit closer comment. The cardinality row exhibits the
+most striking divergence:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mn>2</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">|2_{\mathrm{vN}}| = |\{0,1\}| = 2</annotation></semantics></math>
+but
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mn>2</mn><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|2_{\mathrm{Z}}| = |\{\{\emptyset\}\}| = 1</annotation></semantics></math>,
+so already at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n=2</annotation></semantics></math>
+the extensional “size” of the encoding tracks the natural number in von
+Neumann but not in Zermelo. For the membership/subset equivalence in the
+last row, the von Neumann case holds by <a href="#prop:in-equals-subset"
+data-reference-type="ref+Label"
+data-reference="prop:in-equals-subset">11</a>; in Zermelo it fails. For
+instance,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>1</mn><mi mathvariant="normal">Z</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">1_{\mathrm{Z}} = \{\emptyset\}</annotation></semantics></math>
+is not a subset of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>2</mn><mi mathvariant="normal">Z</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">2_{\mathrm{Z}} = \{\{\emptyset\}\}</annotation></semantics></math>,
+because the unique element
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∅</mi><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math>
+of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mn>1</mn><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">1_{\mathrm{Z}}</annotation></semantics></math>
+is not an element of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\{\emptyset\}\}</annotation></semantics></math>.
+The reliable encoding-independent statement of the natural order is
+therefore the structural Peano order
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>&lt;</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m &lt; n</annotation></semantics></math>
+(defined, e.g., as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>k</mi><mo>&gt;</mo><mn>0</mn><mi>.</mi><mspace width="0.167em"></mspace><mi>m</mi><mo>+</mo><mi>k</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\exists k &gt; 0.\, m + k = n</annotation></semantics></math>),
+not the literal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>
+relation.</em></p>
+</div>
+<div class="remark">
+<p><em>Remark 18</em> (On adjacent cases). For pairs
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>,</mo><mi>m</mi><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(m, m+1)</annotation></semantics></math>
+both encodings agree on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>m</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">m \in m+1</annotation></semantics></math>:
+in von Neumann because
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>m</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>m</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">m \in m \cup \{m\}</annotation></semantics></math>,
+and in Zermelo because
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mi>m</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">m \in \{m\}</annotation></semantics></math>.
+The discrepancy is for non-adjacent pairs
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>,</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(m, n)</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>+</mo><mn>1</mn><mo>&lt;</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m + 1 &lt; n</annotation></semantics></math>,
+where the von Neumann encoding has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \in n</annotation></semantics></math>
+via transitivity but the Zermelo encoding has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi mathvariant="normal">Z</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><msub><mo stretchy="false" form="postfix">)</mo><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n_{\mathrm{Z}} = \{(n-1)_{\mathrm{Z}}\}</annotation></semantics></math>
+as a singleton, so only
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n - 1</annotation></semantics></math>
+is a member of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.</p>
+</div>
+<div class="proof">
+<p><em>Justification of the table.</em> Every entry follows directly
+from the recursive definitions and Foundation. The pivotal entry for our
+purposes is the last: in von Neumann, membership and proper inclusion
+coincide on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+(<a href="#prop:in-equals-subset" data-reference-type="ref+Label"
+data-reference="prop:in-equals-subset">11</a>); in Zermelo, this fails
+because (for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n \geq 2</annotation></semantics></math>)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">n_{\mathrm{Z}}</annotation></semantics></math>
+has only one element, while many sets are subsets of it under
+set-theoretic inclusion. ◻</p>
+</div>
+<div class="remark">
+<p><em>Remark 19</em> (Junk). We call statements like
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>∈</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">2 \in 3</annotation></semantics></math>”
+<em>junk theorems</em> (or <em>junk falsehoods</em>). They have a
+determinate truth value in ZFC under any fixed encoding, but they
+reflect choices made by the encoder, not facts about the natural numbers
+as such. The number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+does not stand in any intrinsic membership relation to the number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>.
+The membership question is well-formed only because we have committed to
+representing numbers as sets; under a different commitment, the answer
+changes.</p>
+</div>
+<h2 id="peano-axioms-for-zermelo">Peano axioms for Zermelo</h2>
+<div id="prop:omega-Z" class="proposition">
+<p><strong>Proposition 20</strong> (Existence of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">\omega_{\mathrm{Z}}</annotation></semantics></math>).
+<em>There exists a unique smallest set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">\omega_{\mathrm{Z}}</annotation></semantics></math>
+containing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∅</mi><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math>
+and closed under the operation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>↦</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x \mapsto \{x\}</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> The argument parallels that of <a href="#prop:omega"
+data-reference-type="ref+Label" data-reference="prop:omega">4</a> but
+uses the alternate successor. Call a set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>J</mi><annotation encoding="application/x-tex">J</annotation></semantics></math>
+<em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>-inductive</em>
+when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>∅</mi><mo>∈</mo><mi>J</mi></mrow><annotation encoding="application/x-tex">\emptyset \in J</annotation></semantics></math>
+and, for all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><mi>J</mi></mrow><annotation encoding="application/x-tex">x \in J</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mi>J</mi></mrow><annotation encoding="application/x-tex">\{x\} \in J</annotation></semantics></math>.
+By the axiom of infinity <strong>(Inf)</strong>, the standard inductive
+set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>
+exists; by Pairing, the singleton operation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>↦</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x \mapsto \{x\}</annotation></semantics></math>
+is total. Applying the recursion theorem (<a href="#thm:recursion"
+data-reference-type="ref+Label" data-reference="thm:recursion">28</a>
+below, whose proof depends only on Replacement applied to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+and not on either encoding), the recursion
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">f(0) = \emptyset</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mo>+</mo></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">f(n^+) = \{f(n)\}</annotation></semantics></math>
+defines a function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>ω</mi><mo>→</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">f: \omega \to V</annotation></semantics></math>
+whose range is a set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>J</mi><mn>0</mn></msub><annotation encoding="application/x-tex">J_0</annotation></semantics></math>
+by Replacement. The set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>J</mi><mn>0</mn></msub><annotation encoding="application/x-tex">J_0</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>-inductive
+by construction. Then by Separation,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub><mo>:=</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo>∈</mo><msub><mi>J</mi><mn>0</mn></msub><mo>:</mo><mo>∀</mo><mi>J</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mrow><mi>Z</mi><mtext mathvariant="normal">-Ind</mtext></mrow><mo stretchy="false" form="prefix">(</mo><mi>J</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>x</mi><mo>∈</mo><mi>J</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">\omega_{\mathrm{Z}} := \{x \in J_0 : \forall J\,(\text{$Z$-Ind}(J) \to x \in J)\},</annotation></semantics></math>
+is the smallest
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>-inductive
+set; it is unique by Extensionality. ◻</p>
+</div>
+<div id="thm:peano-Z" class="theorem">
+<p><strong>Theorem 21</strong>. <em>The structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub><mo>,</mo><msub><mn>0</mn><mi mathvariant="normal">Z</mi></msub><mo>,</mo><mi>n</mi><mo>↦</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\omega_{\mathrm{Z}}, 0_{\mathrm{Z}}, n \mapsto \{n\})</annotation></semantics></math>
+satisfies the Peano axioms.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> <strong>(1)</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>0</mn><mi mathvariant="normal">Z</mi></msub><mo>=</mo><mi>∅</mi><mo>∈</mo><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">0_{\mathrm{Z}} = \emptyset \in \omega_{\mathrm{Z}}</annotation></semantics></math>
+by <a href="#prop:omega-Z" data-reference-type="ref+Label"
+data-reference="prop:omega-Z">20</a>.</p>
+<p><strong>(2)</strong> If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">n \in \omega_{\mathrm{Z}}</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">\{n\} \in \omega_{\mathrm{Z}}</annotation></semantics></math>
+by closure of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">\omega_{\mathrm{Z}}</annotation></semantics></math>
+under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>↦</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x \mapsto \{x\}</annotation></semantics></math>.</p>
+<p><strong>(3)</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo><mo>≠</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">\{n\} \neq \emptyset</annotation></semantics></math>
+since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n \in \{n\}</annotation></semantics></math>.</p>
+<p><strong>(4)</strong> If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>m</mi><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{m\} = \{n\}</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">m \in \{n\}</annotation></semantics></math>,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m = n</annotation></semantics></math>.</p>
+<p><strong>(5)</strong> Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>⊆</mo><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">S \subseteq \omega_{\mathrm{Z}}</annotation></semantics></math>
+be
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>-inductive
+(containing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mn>0</mn><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">0_{\mathrm{Z}}</annotation></semantics></math>
+and closed under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>↦</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x \mapsto \{x\}</annotation></semantics></math>).
+Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
+is itself
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>-inductive,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub><mo>⊆</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">\omega_{\mathrm{Z}} \subseteq S</annotation></semantics></math>
+by minimality of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">\omega_{\mathrm{Z}}</annotation></semantics></math>.
+The reverse inclusion is by hypothesis. ◻</p>
+</div>
+<h2 id="iso-as-peano-models-not-as-sets">Iso as Peano models, not as
+sets</h2>
+<div id="thm:peano-iso" class="theorem">
+<p><strong>Theorem 22</strong>. <em>There is a unique bijection
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo>:</mo><mi>ω</mi><mo>→</mo><msub><mi>ω</mi><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">\Phi: \omega \to \omega_{\mathrm{Z}}</annotation></semantics></math>
+satisfying
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo stretchy="false" form="prefix">(</mo><msub><mn>0</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mn>0</mn><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">\Phi(0_{\mathrm{vN}}) = 0_{\mathrm{Z}}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mo>+</mo></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi mathvariant="normal">Φ</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\Phi(n^+) = \{\Phi(n)\}</annotation></semantics></math>
+for all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.
+The bijection
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Φ</mi><annotation encoding="application/x-tex">\Phi</annotation></semantics></math>
+is an isomorphism of Peano structures.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Existence and uniqueness of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Φ</mi><annotation encoding="application/x-tex">\Phi</annotation></semantics></math>
+follow from the recursion theorem on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>,
+which we may take as a consequence of Replacement and the universal
+property of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+as the initial Peano structure (see <a href="#sec:representation"
+data-reference-type="ref+Label"
+data-reference="sec:representation">8</a>). The bijection is automatic
+since both encodings are initial. ◻</p>
+</div>
+<div class="remark">
+<p><em>Remark 23</em>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Φ</mi><annotation encoding="application/x-tex">\Phi</annotation></semantics></math>
+is an isomorphism of Peano structures (i.e. of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, S)</annotation></semantics></math>-algebras),
+but it is <em>not</em> an isomorphism of sets in any deeper sense:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>2</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">2_{\mathrm{vN}} = \{0,1\}</annotation></semantics></math>
+has two elements while
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>2</mn><mi mathvariant="normal">Z</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">2_{\mathrm{Z}} = \{\{0\}\}</annotation></semantics></math>
+has one. The encodings are equally good Peano models and equally bad
+candidates for “the truth about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>.”</p>
+</div>
+<h1 id="sec:benacerraf">Benacerraf and the Identification Problem</h1>
+<h2 id="the-argument">The argument</h2>
+<p>In “What Numbers Could Not Be” (1965), Paul Benacerraf <span
+class="citation" data-cites="benacerraf1965"></span> considers two
+children, Ernie and Johnny, each taught arithmetic via a different
+set-theoretic encoding (one Zermelo, one von Neumann). Each child’s
+arithmetic is correct: addition, multiplication, and order all behave
+normally. Yet they disagree on whether
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>∈</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">3 \in 17</annotation></semantics></math>
+(true in von Neumann, false in Zermelo). Benacerraf argues:</p>
+<ol>
+<li><p>Both encodings satisfy the structural conditions we use to
+identify “the natural numbers.”</p></li>
+<li><p>Neither has any feature, available within set theory, that
+privileges it as “the truth.”</p></li>
+<li><p>If numbers are sets, then there must be a fact of the matter as
+to which sets they are. Since there is no such fact, numbers are not
+sets.</p></li>
+</ol>
+<p>The conclusion — numbers are not sets — is the central result of the
+paper, and it is the negative half of the structuralist thesis.
+Benacerraf revisits related epistemological worries about the
+relationship between mathematical truth and platonist ontology in <span
+class="citation" data-cites="benacerraf1973"></span>; the mature
+philosophical articulation of structuralism on the positive side is due
+to Shapiro <span class="citation" data-cites="shapiro1997"></span>. This
+positive half (numbers are positions in structures) is what motivates
+the move to universal properties (Paper 03), Yoneda (Paper 04), HoTT
+(Paper 05) — whose canonical reference is the HoTT Book <span
+class="citation" data-cites="HoTTBook"></span> — and structural
+categorical foundations (Paper 06) in the rest of the series.</p>
+<h2 id="formalization-of-benacerrafs-argument">Formalization of
+Benacerraf’s argument</h2>
+<p>We can formalize the argument as follows. Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒫</mi><annotation encoding="application/x-tex">\mathcal{P}</annotation></semantics></math>
+denote the class of all Peano structures (sets
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+equipped with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>0</mn><mi>X</mi></msub><mo>∈</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">0_X \in X</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>X</mi></msub><mo>:</mo><mi>X</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">S_X: X \to X</annotation></semantics></math>
+satisfying the Peano axioms).</p>
+<div id="thm:no-canonical" class="theorem">
+<p><strong>Theorem 24</strong> (No canonical Peano structure). <em>There
+is no formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>φ</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\varphi(X, 0, S)</annotation></semantics></math>
+in the language of ZFC such that, in every model of ZFC,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math>
+uniquely identifies a Peano structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, 0, S)</annotation></semantics></math>
+with the property that any other Peano structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>,</mo><msup><mn>0</mn><mo>′</mo></msup><mo>,</mo><msup><mi>S</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(Y, 0&#39;, S&#39;)</annotation></semantics></math>
+is isomorphic to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, 0, S)</annotation></semantics></math>
+via a unique isomorphism, <em>and</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math>
+uses no choices of encoding.</em></p>
+</div>
+<div class="proof">
+<p><em>Sketch.</em> Any formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math>
+identifying a particular Peano structure must specify the carrier set,
+which means committing to a particular extension inside the cumulative
+hierarchy. Since there are many extensionally distinct sets that satisfy
+any given Peano axiomatization (by the methods of <a href="#sec:vN"
+data-reference-type="ref+Label" data-reference="sec:vN">3</a> and <a
+href="#sec:zermelo" data-reference-type="ref+Label"
+data-reference="sec:zermelo">4</a>), no such formula is
+encoding-neutral. The most one can ask of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math>
+is that it identifies a Peano structure <em>up to isomorphism</em>, but
+this is already given by the structural description of <a
+href="#sec:representation" data-reference-type="ref+Label"
+data-reference="sec:representation">8</a>, and is precisely what
+motivates abandoning set-level identification. ◻</p>
+</div>
+<h2 id="junk-theorems-formalized">Junk theorems formalized</h2>
+<div class="definition">
+<p><strong>Definition 25</strong> (Junk theorem). Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+be a theory and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+an encoding of a structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, S)</annotation></semantics></math>
+inside
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+(i.e. a translation of the language of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, S)</annotation></semantics></math>
+into the language of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>).
+A formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>
+in the language of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+involving the encoded constants is a <em>junk theorem</em> relative to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>
+is provable in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+but not invariant under reasonable changes of encoding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><msup><mi>E</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">E \to E&#39;</annotation></semantics></math>.</p>
+</div>
+<div class="example">
+<p><strong>Example 26</strong>. The formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ψ</mi><mo>:=</mo><mn>1</mn><mo>∈</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">\psi := 1 \in 3</annotation></semantics></math>
+is a junk theorem of ZFC under the von Neumann encoding: it is provable
+(since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>3</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">3_{\mathrm{vN}} = \{0,1,2\}</annotation></semantics></math>),
+but its truth value is reversed under the Zermelo encoding (since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>3</mn><mi mathvariant="normal">Z</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mn>2</mn><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">3_{\mathrm{Z}} = \{2_{\mathrm{Z}}\}</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>1</mn><mi mathvariant="normal">Z</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>≠</mo><msub><mn>2</mn><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">1_{\mathrm{Z}} = \{\emptyset\}
+\neq 2_{\mathrm{Z}}</annotation></semantics></math>). By contrast,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ψ</mi><mo>:=</mo><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">\psi := S(2) = 3</annotation></semantics></math>
+is not a junk theorem: it holds in every Peano-isomorphic encoding. The
+membership relation across non-adjacent ordinals is exactly the kind of
+fact that is forced by the encoding rather than by the structure.</p>
+</div>
+<div class="remark">
+<p><em>Remark 27</em> (Junk vs. structural). A statement is
+<em>structural</em> when its truth value is preserved by every
+isomorphism of Peano structures; junk theorems are precisely the
+non-structural statements that nevertheless have determinate truth
+values once an encoding is fixed. The set-theoretic perspective
+generates many junk theorems; the categorical and HoTT perspectives
+generate none, by construction.</p>
+</div>
+<h1 id="sec:operations">Arithmetic Operations as Recursive
+Definitions</h1>
+<p>We now show that the von Neumann encoding supports a full development
+of arithmetic. The development is entirely standard; we include it for
+the record and to demonstrate concretely that the structural Peano
+axioms are <em>sufficient</em> (the additional set-theoretic content is
+not needed). The same definitions, mutatis mutandis, apply to the
+Zermelo encoding.</p>
+<h2 id="the-recursion-theorem">The recursion theorem</h2>
+<div id="thm:recursion" class="theorem">
+<p><strong>Theorem 28</strong> (Recursion on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>).
+<em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+be any set,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>∈</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">a \in X</annotation></semantics></math>
+a base point, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo>:</mo><mi>X</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">g: X \to X</annotation></semantics></math>
+a function. Then there is a unique function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>ω</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">f: \omega \to X</annotation></semantics></math>
+satisfying
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>a</mi><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mo>+</mo></msup><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>g</mi><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mspace width="1.0em"></mspace><mrow><mtext mathvariant="normal">for all </mtext><mspace width="0.333em"></mspace></mrow><mi>n</mi><mo>∈</mo><mi>ω</mi><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align}
+f(0) &amp;= a, \\
+f(n^+) &amp;= g(f(n)) \quad \text{for all } n \in \omega.
+\end{align}</annotation></semantics></math></em></p>
+</div>
+<div class="proof">
+<p><em>Proof sketch.</em> Define
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>
+as the union of all finite <em>attempts</em> — functions
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>:</mo><mi>m</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">h: m \to X</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">m \in \omega</annotation></semantics></math>
+satisfying the recursion equations on their domain. Replacement and
+Separation guarantee that the union of all attempts is a set; induction
+guarantees that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>
+is well-defined and total on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>. ◻</p>
+</div>
+<h2 id="addition">Addition</h2>
+<div id="def:add" class="definition">
+<p><strong>Definition 29</strong> (Addition). For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">m \in \omega</annotation></semantics></math>,
+define
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><mo stretchy="false" form="postfix">)</mo><mo>:</mo><mi>ω</mi><mo>→</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">m + (\cdot) : \omega \to \omega</annotation></semantics></math>
+by recursion:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>m</mi><mo>+</mo><mn>0</mn></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mi>m</mi><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>m</mi><mo>+</mo><msup><mi>n</mi><mo>+</mo></msup></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align}
+m + 0 &amp;:= m, \\
+m + n^+ &amp;:= (m + n)^+.
+\end{align}</annotation></semantics></math></p>
+</div>
+<div id="prop:add-props" class="proposition">
+<p><strong>Proposition 30</strong> (Properties of addition). <em>For all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi><mo>,</mo><mi>k</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">m, n, k \in \omega</annotation></semantics></math>:</em></p>
+<ol>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>+</mo><mi>n</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">0 + n = n</annotation></semantics></math>
+(left identity).</em></p></li>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>k</mi><mo>=</mo><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(m + n) + k = m + (n + k)</annotation></semantics></math>
+(associativity).</em></p></li>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>+</mo><mi>n</mi><mo>=</mo><mi>n</mi><mo>+</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">m + n = n + m</annotation></semantics></math>
+(commutativity).</em></p></li>
+</ol>
+</div>
+<div class="proof">
+<p><em>Proof.</em> <strong>(1)</strong> Induct on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.
+Base:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>+</mo><mn>0</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">0 + 0 = 0</annotation></semantics></math>.
+Step: assume
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>+</mo><mi>n</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">0 + n = n</annotation></semantics></math>;
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>+</mo><msup><mi>n</mi><mo>+</mo></msup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>+</mo><mi>n</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo>=</mo><msup><mi>n</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">0 + n^+ = (0 + n)^+ = n^+</annotation></semantics></math>.</p>
+<p><strong>(2)</strong> Induct on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.
+Base:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>0</mn><mo>=</mo><mi>m</mi><mo>+</mo><mi>n</mi><mo>=</mo><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(m+n) + 0 = m + n = m + (n + 0)</annotation></semantics></math>.
+Step:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msup><mi>k</mi><mo>+</mo></msup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>k</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo>=</mo><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mi>k</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo>=</mo><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><msup><mi>k</mi><mo>+</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(m+n) + k^+ = ((m+n) + k)^+ = (m + (n+k))^+ = m + (n+k)^+ = m + (n + k^+)</annotation></semantics></math>.</p>
+<p><strong>(3)</strong> Commutativity is the deepest of the three
+properties; it requires a nested double induction. We prove it by
+establishing two auxiliary lemmas first.</p>
+<p><em>Lemma A:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>+</mo><mi>n</mi><mo>=</mo><mi>n</mi><mo>+</mo><mn>0</mn><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">0 + n = n + 0 = n</annotation></semantics></math>.</em>
+The right equation is <a href="#def:add" data-reference-type="ref+Label"
+data-reference="def:add">29</a>; the left is part (1).</p>
+<p><em>Lemma B:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>m</mi><mo>+</mo></msup><mo>+</mo><mi>n</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">m^+ + n = (m + n)^+</annotation></semantics></math>.</em>
+Induct on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.
+Base:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>m</mi><mo>+</mo></msup><mo>+</mo><mn>0</mn><mo>=</mo><msup><mi>m</mi><mo>+</mo></msup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mn>0</mn><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">m^+ + 0 = m^+ = (m + 0)^+</annotation></semantics></math>.
+Step: assuming
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>m</mi><mo>+</mo></msup><mo>+</mo><mi>n</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">m^+ + n = (m + n)^+</annotation></semantics></math>,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>m</mi><mo>+</mo></msup><mo>+</mo><msup><mi>n</mi><mo>+</mo></msup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>m</mi><mo>+</mo></msup><mo>+</mo><mi>n</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>+</mo><msup><mi>n</mi><mo>+</mo></msup><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">m^+ + n^+ = (m^+ + n)^+ = ((m+n)^+)^+ = (m + n^+)^+,</annotation></semantics></math>
+where the last step uses <a href="#def:add"
+data-reference-type="ref+Label" data-reference="def:add">29</a>.</p>
+<p><em>Main induction (on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>).</em>
+Base
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">n = 0</annotation></semantics></math>):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>+</mo><mn>0</mn><mo>=</mo><mi>m</mi><mo>=</mo><mn>0</mn><mo>+</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">m + 0 = m = 0 + m</annotation></semantics></math>
+by Lemma A.</p>
+<p>Step: assume
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>+</mo><mi>n</mi><mo>=</mo><mi>n</mi><mo>+</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">m + n = n + m</annotation></semantics></math>
+for all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>.
+Then for any fixed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>,
+<span class="math display">$$\begin{align*}
+m + n^+ &amp;= (m + n)^+ &amp;&amp;\text{(\Cref{def:add})} \\
+        &amp;= (n + m)^+ &amp;&amp;\text{(inductive hypothesis)} \\
+        &amp;= n^+ + m &amp;&amp;\text{(Lemma B with $m, n$ swapped)},
+\end{align*}$$</span> which establishes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>+</mo><msup><mi>n</mi><mo>+</mo></msup><mo>=</mo><msup><mi>n</mi><mo>+</mo></msup><mo>+</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">m + n^+ = n^+ + m</annotation></semantics></math>
+and completes the induction on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>. ◻</p>
+</div>
+<h2 id="multiplication">Multiplication</h2>
+<div id="def:mult" class="definition">
+<p><strong>Definition 31</strong> (Multiplication). For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">m \in \omega</annotation></semantics></math>,
+define
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><mo stretchy="false" form="postfix">)</mo><mo>:</mo><mi>ω</mi><mo>→</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">m \cdot (\cdot): \omega \to \omega</annotation></semantics></math>
+by:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>m</mi><mo>⋅</mo><mn>0</mn></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mn>0</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>m</mi><mo>⋅</mo><msup><mi>n</mi><mo>+</mo></msup></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mi>m</mi><mo>⋅</mo><mi>n</mi><mo>+</mo><mi>m</mi><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align}
+m \cdot 0 &amp;:= 0, \\
+m \cdot n^+ &amp;:= m \cdot n + m.
+\end{align}</annotation></semantics></math></p>
+</div>
+<div id="prop:mult-props" class="proposition">
+<p><strong>Proposition 32</strong>. <em>Multiplication is associative,
+commutative, has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>:=</mo><msup><mn>0</mn><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">1 := 0^+</annotation></semantics></math>
+as a two-sided identity, and distributes over addition.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Standard inductions on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>,
+parallel to those for addition. The distributivity proof goes by
+induction on the right argument:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>m</mi><mo>⋅</mo><mi>n</mi><mo>=</mo><mi>m</mi><mo>⋅</mo><mi>n</mi><mo>+</mo><mn>0</mn><mo>=</mo><mi>m</mi><mo>⋅</mo><mi>n</mi><mo>+</mo><mi>m</mi><mo>⋅</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">m \cdot (n + 0) = m \cdot n = m \cdot n + 0 = m \cdot n + m \cdot 0</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><msup><mi>k</mi><mo>+</mo></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>m</mi><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mi>k</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo>=</mo><mi>m</mi><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>m</mi><mo>=</mo><mi>m</mi><mo>⋅</mo><mi>n</mi><mo>+</mo><mi>m</mi><mo>⋅</mo><mi>k</mi><mo>+</mo><mi>m</mi><mo>=</mo><mi>m</mi><mo>⋅</mo><mi>n</mi><mo>+</mo><mi>m</mi><mo>⋅</mo><msup><mi>k</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">m \cdot (n + k^+) = m \cdot (n + k)^+ = m \cdot (n+k) + m =
+m \cdot n + m \cdot k + m = m \cdot n + m \cdot k^+</annotation></semantics></math>. ◻</p>
+</div>
+<h2 id="order">Order</h2>
+<div id="def:order" class="definition">
+<p><strong>Definition 33</strong> (Order). For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">m, n \in \omega</annotation></semantics></math>,
+write
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>&lt;</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m &lt; n</annotation></semantics></math>
+iff
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \in n</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>≤</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \leq n</annotation></semantics></math>
+iff
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>n</mi><mo>∨</mo><mi>m</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \in n \vee m = n</annotation></semantics></math>.</p>
+</div>
+<div class="remark">
+<p><em>Remark 34</em>. This definition is encoding-specific: it works
+directly for von Neumann. For Zermelo, one defines
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><msub><mo>&lt;</mo><mi mathvariant="normal">Z</mi></msub><mi>n</mi></mrow><annotation encoding="application/x-tex">m &lt;_{\mathrm{Z}} n</annotation></semantics></math>
+iff
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><msub><mo>∈</mo><mi>T</mi></msub><mi>n</mi></mrow><annotation encoding="application/x-tex">m \in_T n</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>∈</mo><mi>T</mi></msub><annotation encoding="application/x-tex">\in_T</annotation></semantics></math>
+is the transitive closure of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∈</mo><annotation encoding="application/x-tex">\in</annotation></semantics></math>.
+Equivalently and more cleanly, define
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>&lt;</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m &lt; n</annotation></semantics></math>
+iff there exists
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">k &gt; 0</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>+</mo><mi>k</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m + k = n</annotation></semantics></math>,
+which is structural.</p>
+</div>
+<div class="proposition">
+<p><strong>Proposition 35</strong> (Linearity).
+<em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&lt;</mo><annotation encoding="application/x-tex">&lt;</annotation></semantics></math>
+is a strict total order on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Trichotomy is by induction. Transitivity follows from
+<a href="#prop:transitive" data-reference-type="ref+Label"
+data-reference="prop:transitive">12</a>: if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \in n</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">n \in k</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>⊆</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">n \subseteq k</annotation></semantics></math>
+by transitivity of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">m \in k</annotation></semantics></math>.
+Irreflexivity is Foundation. ◻</p>
+</div>
+<h1 id="sec:cumulative">The Cumulative Hierarchy</h1>
+<h2 id="definition-by-transfinite-recursion">Definition by transfinite
+recursion</h2>
+<div id="def:Valpha" class="definition">
+<p><strong>Definition 36</strong> (Cumulative hierarchy). By transfinite
+recursion on the class of ordinals
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">d</mi></mrow><annotation encoding="application/x-tex">\mathrm{Ord}</annotation></semantics></math>,
+define
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>V</mi><mn>0</mn></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mi>∅</mi><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>V</mi><mrow><mi>α</mi><mo>+</mo><mn>1</mn></mrow></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><mi mathvariant="script">𝒫</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>V</mi><mi>α</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>V</mi><mi>λ</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>:=</mo><munder><mo>⋃</mo><mrow><mi>β</mi><mo>&lt;</mo><mi>λ</mi></mrow></munder><msub><mi>V</mi><mi>β</mi></msub><mspace width="1.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>λ</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> limit</mtext></mrow><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align}
+V_0 &amp;:= \emptyset, \\
+V_{\alpha+1} &amp;:= \mathcal{P}(V_\alpha), \\
+V_\lambda &amp;:= \bigcup_{\beta &lt; \lambda} V_\beta \quad (\lambda \text{ limit}).
+\end{align}</annotation></semantics></math> The class
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>:=</mo><msub><mo>⋃</mo><mrow><mi>α</mi><mo>∈</mo><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">d</mi></mrow></mrow></msub><msub><mi>V</mi><mi>α</mi></msub></mrow><annotation encoding="application/x-tex">V := \bigcup_{\alpha \in \mathrm{Ord}} V_\alpha</annotation></semantics></math>
+is the <em>universe of sets</em>.</p>
+</div>
+<div id="thm:V-is-everything" class="theorem">
+<p><strong>Theorem 37</strong> (ZFC sees only
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>).
+<em>In ZFC, every set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+belongs to some
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>α</mi></msub><annotation encoding="application/x-tex">V_\alpha</annotation></semantics></math>.
+Hence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mrow><mi mathvariant="normal">U</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">e</mi></mrow></mrow><annotation encoding="application/x-tex">V = \mathrm{Universe}</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Sketch.</em> Define the rank function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo>:</mo><mi>V</mi><mo>→</mo><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">d</mi></mrow></mrow><annotation encoding="application/x-tex">\mathrm{rk}: V \to \mathrm{Ord}</annotation></semantics></math>
+by transfinite recursion:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>:=</mo><mrow><mi mathvariant="normal">sup</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">{</mo><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn><mo>:</mo><mi>y</mi><mo>∈</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\mathrm{rk}(x) := \sup\{\mathrm{rk}(y) + 1 : y \in x\}</annotation></semantics></math>.
+Foundation guarantees this recursion terminates. Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><msub><mi>V</mi><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">x \in V_{\mathrm{rk}(x) + 1}</annotation></semantics></math>. ◻</p>
+</div>
+<h2 id="ranks-of-natural-numbers">Ranks of natural numbers</h2>
+<div id="prop:ranks" class="proposition">
+<p><strong>Proposition 38</strong>. <em>For each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">n \in \omega</annotation></semantics></math>:</em></p>
+<ol>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>n</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\mathrm{rk}(n_{\mathrm{vN}}) = n</annotation></semantics></math>.</em></p></li>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>n</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\mathrm{rk}(n_{\mathrm{Z}}) = n</annotation></semantics></math>.</em></p></li>
+</ol>
+</div>
+<div class="proof">
+<p><em>Proof.</em> For von Neumann:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mathrm{rk}(0) = 0</annotation></semantics></math>,
+and inductively
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mo>+</mo></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">sup</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">{</mo><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn><mo>:</mo><mi>k</mi><mo>∈</mo><msup><mi>n</mi><mo>+</mo></msup><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mrow><mi mathvariant="normal">sup</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">{</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo>:</mo><mi>k</mi><mo>≤</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mi>n</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\mathrm{rk}(n^+) = \sup\{\mathrm{rk}(k) + 1 : k \in n^+\} = \sup\{k+1 : k \leq n\} = n+1</annotation></semantics></math>.</p>
+<p>For Zermelo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>n</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>n</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\mathrm{rk}(\{n_{\mathrm{Z}}\}) = \mathrm{rk}(n_{\mathrm{Z}}) + 1</annotation></semantics></math>,
+and the result follows by induction. ◻</p>
+</div>
+<div class="remark">
+<p><em>Remark 39</em>. Both encodings produce naturals at the same rank
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>,
+but they live at <em>different positions</em> within
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">V_{n+1}</annotation></semantics></math>.
+Von Neumann’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is the “flat” set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,\ldots,n-1\}</annotation></semantics></math>;
+Zermelo’s is the “tall thin” nested singleton.</p>
+</div>
+<h2
+id="omega-as-the-first-limit-ordinal"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+as the first limit ordinal</h2>
+<div id="thm:omega-first-limit" class="theorem">
+<p><strong>Theorem 40</strong>.
+<em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>∈</mo><msub><mi>V</mi><mrow><mi>ω</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\omega \in V_{\omega+1}</annotation></semantics></math>
+but
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>∉</mo><msub><mi>V</mi><mi>ω</mi></msub></mrow><annotation encoding="application/x-tex">\omega \notin V_\omega</annotation></semantics></math>.
+The set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+is the smallest infinite ordinal: the first ordinal that is not a
+successor.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>=</mo><msub><mo>⋃</mo><mrow><mi>n</mi><mo>∈</mo><mi>ω</mi></mrow></msub><mi>n</mi></mrow><annotation encoding="application/x-tex">\omega = \bigcup_{n \in \omega} n</annotation></semantics></math>,
+so each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><msub><mi>V</mi><mi>n</mi></msub><mo>⊆</mo><msub><mi>V</mi><mi>ω</mi></msub></mrow><annotation encoding="application/x-tex">n \in V_n \subseteq V_\omega</annotation></semantics></math>,
+hence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>⊆</mo><msub><mi>V</mi><mi>ω</mi></msub></mrow><annotation encoding="application/x-tex">\omega \subseteq V_\omega</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>∈</mo><msub><mi>V</mi><mrow><mi>ω</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\omega \in V_{\omega+1}</annotation></semantics></math>.
+To see
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>∉</mo><msub><mi>V</mi><mi>ω</mi></msub></mrow><annotation encoding="application/x-tex">\omega \notin V_\omega</annotation></semantics></math>:
+every element of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>ω</mi></msub><annotation encoding="application/x-tex">V_\omega</annotation></semantics></math>
+has finite rank, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">k</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>ω</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">\mathrm{rk}(\omega) = \omega</annotation></semantics></math>. ◻</p>
+</div>
+<h2 id="visualizing-the-hierarchy">Visualizing the hierarchy</h2>
+<figure id="fig:hierarchy" data-latex-placement="ht">
+
+<figcaption>The cumulative hierarchy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>α</mi></msub><annotation encoding="application/x-tex">V_\alpha</annotation></semantics></math>.
+Each natural number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+first appears at level
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">V_{n+1}</annotation></semantics></math>.
+The set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+first appears at level
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mrow><mi>ω</mi><mo>+</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">V_{\omega+1}</annotation></semantics></math>.</figcaption>
+</figure>
+<h1 id="sec:representation">A Representation Theorem</h1>
+<p>We extract from the foregoing the following algebraic statement,
+which expresses the structural fact that all encodings of the natural
+numbers are mutually isomorphic.</p>
+<div id="def:succ-struct" class="definition">
+<p><strong>Definition 41</strong> (Successor structure). A <em>successor
+structure</em> is a triple
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, x_0, s)</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+is a set,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>∈</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">x_0 \in X</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>:</mo><mi>X</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">s: X \to X</annotation></semantics></math>.
+A morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>,</mo><msub><mi>y</mi><mn>0</mn></msub><mo>,</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, x_0, s) \to (Y, y_0, t)</annotation></semantics></math>
+is a function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>X</mi><mo>→</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">f: X \to Y</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">f(x_0) = y_0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>∘</mo><mi>s</mi><mo>=</mo><mi>t</mi><mo>∘</mo><mi>f</mi></mrow><annotation encoding="application/x-tex">f \circ s = t \circ f</annotation></semantics></math>.</p>
+</div>
+<div id="def:init-peano" class="definition">
+<p><strong>Definition 42</strong> (Initial Peano structure). A successor
+structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, S)</annotation></semantics></math>
+is <em>initial</em> (or a <em>Peano structure</em>) when, for every
+successor structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, x_0, s)</annotation></semantics></math>,
+there exists a unique morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>:</mo><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">h: (N, 0, S) \to (X, x_0, s)</annotation></semantics></math>.</p>
+</div>
+<div id="thm:initiality" class="theorem">
+<p><strong>Theorem 43</strong> (Initiality of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>).
+<em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>ω</mi><mo>,</mo><msub><mn>0</mn><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\omega, 0_{\mathrm{vN}}, (\cdot)^+)</annotation></semantics></math>
+is an initial Peano structure. Equivalently: for every set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>,
+every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>∈</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">a \in X</annotation></semantics></math>,
+and every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo>:</mo><mi>X</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">g: X \to X</annotation></semantics></math>,
+there is a unique
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>ω</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">f: \omega \to X</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">f(0) = a</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mo>+</mo></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>g</mi><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(n^+) = g(f(n))</annotation></semantics></math>.
+This
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>
+is the recursion theorem (<a href="#thm:recursion"
+data-reference-type="ref+Label"
+data-reference="thm:recursion">28</a>).</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> This is precisely the recursion theorem, recast as
+initiality. Existence is by recursion on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>;
+uniqueness is by induction. ◻</p>
+</div>
+<div id="thm:uniqueness" class="theorem">
+<p><strong>Theorem 44</strong> (Uniqueness of Peano structures). <em>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, S)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msup><mi>N</mi><mo>′</mo></msup><mo>,</mo><msup><mn>0</mn><mo>′</mo></msup><mo>,</mo><msup><mi>S</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N&#39;, 0&#39;, S&#39;)</annotation></semantics></math>
+are both initial Peano structures, then there is a unique isomorphism
+between them.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Universal property: by initiality of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, S)</annotation></semantics></math>,
+there is a unique
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>:</mo><mi>N</mi><mo>→</mo><msup><mi>N</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">h: N \to N&#39;</annotation></semantics></math>.
+By initiality of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msup><mi>N</mi><mo>′</mo></msup><mo>,</mo><msup><mn>0</mn><mo>′</mo></msup><mo>,</mo><msup><mi>S</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N&#39;, 0&#39;, S&#39;)</annotation></semantics></math>,
+there is a unique
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>h</mi><mo>′</mo></msup><mo>:</mo><msup><mi>N</mi><mo>′</mo></msup><mo>→</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">h&#39;: N&#39; \to N</annotation></semantics></math>.
+The composites
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>h</mi><mo>′</mo></msup><mo>∘</mo><mi>h</mi></mrow><annotation encoding="application/x-tex">h&#39; \circ h</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>∘</mo><msup><mi>h</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">h \circ h&#39;</annotation></semantics></math>
+are endomorphisms of an initial structure, hence equal to the identity
+by uniqueness. ◻</p>
+</div>
+<div id="cor:vN-Z-iso" class="corollary">
+<p><strong>Corollary 45</strong>. <em>The von Neumann and Zermelo
+successor structures are isomorphic via a unique isomorphism, namely
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Φ</mi><annotation encoding="application/x-tex">\Phi</annotation></semantics></math>
+of <a href="#thm:peano-iso" data-reference-type="ref+Label"
+data-reference="thm:peano-iso">22</a>.</em></p>
+</div>
+<p>This is the structural content that survives Benacerraf’s critique.
+Both encodings are initial Peano structures; they are therefore
+canonically identified at the structural level. What differs is the
+encoding-specific data: cardinalities of the carrier sets at each level,
+membership relations, etc. The structural mathematics survives; the junk
+does not.</p>
+<h1 id="sec:bridge">Bridge to Structuralism</h1>
+<h2 id="reading-the-structuralist-response">Reading the structuralist
+response</h2>
+<p>The standard structuralist response to Benacerraf is to assert that
+“numbers are positions in structures, not particular objects.” Within
+the set-theoretic perspective alone, this assertion is hard to
+formalize: the structuralist seems to be invoking abstract structures
+that are not themselves sets.</p>
+<p>What Paper 03 will show is that the universal property of an initial
+Peano structure is precisely the structuralist content the response was
+gesturing at. <a href="#thm:initiality,thm:uniqueness"
+data-reference-type="ref+Label"
+data-reference="thm:initiality,thm:uniqueness">[thm:initiality,thm:uniqueness]</a>
+together say:</p>
+<blockquote>
+<p>There is a structure (the initial successor structure), unique up to
+unique isomorphism, defined entirely by its relationships with all other
+successor structures. This structure can be <em>implemented</em> in many
+ways inside ZFC; no implementation is canonical, but every
+implementation is equivalent to every other in the only way that matters
+— via the universal mapping property.</p>
+</blockquote>
+<h2 id="the-set-theoretic-perspective-relocated">The set-theoretic
+perspective relocated</h2>
+<p>We can therefore retract the temptation to read the von Neumann
+encoding as ontology. The set-theoretic perspective is best understood
+as <em>realizing</em> or <em>instantiating</em> a structural
+specification, not as defining what the natural numbers <em>are</em>.
+The number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is not the set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,\ldots,57\}</annotation></semantics></math>;
+rather, the set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,\ldots,57\}</annotation></semantics></math>
+is one particular ZFC-implementation of the position
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+inside the abstract initial successor structure.</p>
+<h2 id="what-set-theory-still-gets-right">What set theory still gets
+right</h2>
+<p>Despite Benacerraf’s critique, the set-theoretic perspective is not
+worthless. It contributes:</p>
+<ul>
+<li><p><strong>Existence.</strong> Without an existence proof, the
+universal property of <a href="#def:init-peano"
+data-reference-type="ref+Label" data-reference="def:init-peano">42</a>
+is mere stipulation. Set theory shows that an initial Peano structure
+exists (the axiom of infinity gives one), so the specification is not
+vacuous.</p></li>
+<li><p><strong>A working metatheory.</strong> ZFC is rich enough to
+prove the recursion theorem, define addition and multiplication, prove
+the soundness of induction, and develop most of ordinary mathematics.
+The structural specification needs a host theory; ZFC is one (other
+choices: ETCS, IZF, HoTT itself).</p></li>
+<li><p><strong>Cumulative hierarchy as a model of
+well-foundedness.</strong> The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>α</mi></msub><annotation encoding="application/x-tex">V_\alpha</annotation></semantics></math>
+stratification, while encoding-relative in detail, captures the genuine
+structural fact that any well-founded iteration of <em>some</em>
+generative operation eventually exhausts what can be reached.</p></li>
+<li><p><strong>Decidable arithmetic.</strong> The recursive definitions
+of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>+</mi><annotation encoding="application/x-tex">+</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>⋅</mi><annotation encoding="application/x-tex">\cdot</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&lt;</mo><annotation encoding="application/x-tex">&lt;</annotation></semantics></math>
+are decidable; the resulting theory of arithmetic is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="normal">Σ</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\Sigma_1</annotation></semantics></math>-complete
+and useful in practice.</p></li>
+</ul>
+<h2 id="what-set-theory-misses">What set theory misses</h2>
+<ul>
+<li><p><strong>Structural identity.</strong> Set-theoretic equality is
+extensional: two sets are equal iff they have the same elements. There
+is no native notion of “equal as Peano structures” inside ZFC;
+isomorphism must be defined externally and tracked manually.</p></li>
+<li><p><strong>Encoding-independence.</strong> As shown, the
+set-theoretic statement
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>∈</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">2 \in 3</annotation></semantics></math>”
+is encoding-relative. The structural statement
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><msup><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></mrow><mn>3</mn></msup><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{succ}(\mathrm{succ}(0)) &lt; \mathrm{succ}^3(0)</annotation></semantics></math>”
+is not.</p></li>
+<li><p><strong>Universal properties as theorems, not
+metatheorems.</strong> In ZFC,
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+is initial” is a theorem, but the very statement of initiality requires
+quantifying over class-many successor structures (properly handled, but
+unwieldy). In a categorical or type-theoretic foundation, the universal
+property is the <em>definition</em> and the existence/uniqueness are
+immediate consequences.</p></li>
+<li><p><strong>Univalence.</strong> ZFC has no analog of the univalence
+axiom of HoTT; it cannot internalize “isomorphic structures are the
+same” as a theorem of the system. The closest one comes is to work
+systematically “up to isomorphism,” which is a metatheoretic discipline
+rather than a feature of the formalism.</p></li>
+</ul>
+<h2 id="forward-to-paper-03">Forward to Paper 03</h2>
+<p>The next paper in the series develops the universal-property level
+explicitly: a Natural Number Object in any category with a terminal
+object, the categorical NNO, the relationship between NNO and induction,
+and the extraction of arithmetic operations from initiality alone. The
+bridge from this paper to the next is precisely the move from <a
+href="#thm:initiality" data-reference-type="ref+Label"
+data-reference="thm:initiality">43</a>’s
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+is initial in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><mrow><mi>•</mi><mo>,</mo><mo>→</mo></mrow></msup><annotation encoding="application/x-tex">\mathbf{Set}^{\bullet,\to}</annotation></semantics></math>”
+to the encoding-free formulation
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+is initial in any category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi mathvariant="script">𝒞</mi><mrow><mi>•</mi><mo>,</mo><mo>→</mo></mrow></msup><annotation encoding="application/x-tex">\mathcal{C}^{\bullet,\to}</annotation></semantics></math>
+with a terminal object.”</p>
+<h1 id="sec:haskell">Haskell Implementation</h1>
+<p>The accompanying Haskell code (<code>src/02-set-theoretic/</code>)
+implements both encodings, defines a common Peano interface they both
+satisfy, and provides a converter realizing the canonical isomorphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Φ</mi><annotation encoding="application/x-tex">\Phi</annotation></semantics></math>
+of <a href="#thm:peano-iso" data-reference-type="ref+Label"
+data-reference="thm:peano-iso">22</a>.</p>
+<h2 id="the-hereditarily-finite-set-type">The hereditarily finite set
+type</h2>
+<p>We model pure sets as a recursive datatype:</p>
+<pre><code>-- A finite set built recursively from the empty set.
+-- Extensional equality is enforced in the Eq instance by sorting
+-- and deduplicating the underlying list before comparison; a
+-- canonical-form helper (omitted here) makes this efficient.
+newtype HFSet = HFSet { elements :: [HFSet] }
+  deriving (Show)
+
+instance Ord HFSet where
+  compare (HFSet xs) (HFSet ys) =
+    compare (sort xs) (sort ys)
+
+instance Eq HFSet where
+  HFSet xs == HFSet ys = sort xs == sort ys
+
+emptySet :: HFSet
+emptySet = HFSet []</code></pre>
+<h2 id="von-neumann-encoding">Von Neumann encoding</h2>
+<pre><code>-- Successor: x |-&gt; x \cup {x}
+vnSucc :: HFSet -&gt; HFSet
+vnSucc x = HFSet (elements x ++ [x])
+
+vnEncode :: Int -&gt; HFSet
+vnEncode 0 = emptySet
+vnEncode n = vnSucc (vnEncode (n - 1))</code></pre>
+<h2 id="zermelo-encoding">Zermelo encoding</h2>
+<pre><code>-- Successor: x |-&gt; {x}
+zSucc :: HFSet -&gt; HFSet
+zSucc x = HFSet [x]
+
+zEncode :: Int -&gt; HFSet
+zEncode 0 = emptySet
+zEncode n = zSucc (zEncode (n - 1))</code></pre>
+<h2 id="the-peano-interface">The Peano interface</h2>
+<p>A typeclass captures the structural specification independent of
+either encoding:</p>
+<pre><code>class Peano a where
+  zero :: a
+  suc  :: a -&gt; a
+  isZero :: a -&gt; Bool
+  pred_ :: a -&gt; Maybe a   -- partial; (-) on naturals is partial
+
+instance Peano HFSet where
+  -- These instances need to be coupled with a tagged type to
+  -- disambiguate vN vs Zermelo; see VNNat and ZNat in the source.</code></pre>
+<p>The full source disambiguates by tagging:
+<code>newtype VNNat = VNNat HFSet</code> and
+<code>newtype ZNat = ZNat HFSet</code>, each with its own
+<code>Peano</code> instance. The main demonstration in
+<code>Main.hs</code> computes both encodings of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">0,1,\ldots,5</annotation></semantics></math>,
+prints them, verifies the Peano axioms by construction
+(e.g. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo>⟹</mo><mi>m</mi><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\mathrm{succ}(m) = \mathrm{succ}(n) \implies m = n</annotation></semantics></math>
+via injectivity of the constructor), and applies the canonical
+isomorphism to convert between them.</p>
+<h2 id="junk-theorems-made-explicit">Junk theorems made explicit</h2>
+<p>The Haskell code also includes a function that demonstrates a junk
+theorem empirically:</p>
+<pre><code>-- Demonstrate that &quot;1 in 3&quot; depends on encoding.
+junkTheorem :: IO ()
+junkTheorem = do
+  let one_vN  = vnEncode 1; three_vN = vnEncode 3
+  let one_Z   = zEncode  1; three_Z  = zEncode  3
+  putStrLn $ &quot;vN: 1 in 3 = &quot; ++ show (one_vN `inVN` three_vN)
+  putStrLn $ &quot;Z:  1 in 3 = &quot; ++ show (one_Z  `inZ`  three_Z)
+  -- Output:
+  --   vN: 1 in 3 = True   (since 3_vN = {0,1,2})
+  --   Z:  1 in 3 = False  (since 3_Z  = {2}; only 2 is in it)</code></pre>
+<p>This program is a working witness that the encoding is genuinely
+choosing between distinct sets, not merely between distinct
+notations.</p>
+<h1 id="sec:discussion">Discussion</h1>
+<h2 id="comparison-with-logicism-and-constructivism">Comparison with
+logicism and constructivism</h2>
+<p>The set-theoretic foundationalism we have presented is closer to
+Russell–Whitehead’s logicist program than to a strict constructivism.
+The naturals are obtained by an unbounded inductive process whose
+existence is asserted by an axiom (Infinity). This is not predicatively
+justified in a strict sense (the inductive set is defined as the
+intersection of <em>all</em> inductive sets, a quantification over a
+complete totality), but it is mainstream classical mathematics.</p>
+<p>Constructive alternatives — IZF, CZF, Martin-Löf type theory — avoid
+this by treating
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>
+as primitive (an inductive type) rather than as a derived set. Paper 05
+treats this perspective via HoTT.</p>
+<h2 id="comparison-with-categorical-foundations">Comparison with
+categorical foundations</h2>
+<p>Lawvere’s Elementary Theory of the Category of Sets (ETCS, <span
+class="citation" data-cites="lawvere1964"></span>) gives a categorical
+axiomatization of the category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>
+that is bi-interpretable with bounded Zermelo set theory plus
+replacement (McLarty <span class="citation"
+data-cites="mclarty2004"></span>). In ETCS, the natural number object is
+specified by its universal property (Paper 03’s level), not by a
+particular encoding. ETCS is therefore structurally cleaner than ZFC for
+foundational purposes, while equally adequate for ordinary mathematics.
+The underlying functorial-semantics machinery is developed in Lawvere
+<span class="citation" data-cites="lawvere1963"></span>, and the broader
+topos-theoretic context is treated by Mac Lane and Moerdijk <span
+class="citation" data-cites="maclane-moerdijk"></span>.</p>
+<h2 id="limitations-of-this-paper">Limitations of this paper</h2>
+<p>We have not discussed:</p>
+<ul>
+<li><p><em>Large cardinal hypotheses.</em> Inaccessible, measurable,
+etc. cardinals refine the cumulative hierarchy beyond the ordinals
+reachable in vanilla ZFC. They are foundational for set theory but
+tangential to the natural-numbers question.</p></li>
+<li><p><em>The constructible universe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>.</em>
+Gödel’s inner model exhibits a minimal model of ZFC; the natural numbers
+are the same in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
+as in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>,
+so this is not pertinent.</p></li>
+<li><p><em>Forcing.</em> Independence results do not affect our
+development.</p></li>
+<li><p><em>Alternative set theories.</em> NF (Quine), KP
+(Kripke–Platek), and other systems give variant encodings; we have
+considered only ZFC.</p></li>
+</ul>
+<h2 id="what-this-paper-has-accomplished">What this paper has
+accomplished</h2>
+<p>We have presented two distinct set-theoretic encodings of the natural
+numbers (von Neumann ordinals and Zermelo nested singletons), shown that
+both satisfy the Peano axioms, and identified the encoding-relative
+facts (“junk theorems”) that distinguish them. We have located the
+natural numbers in the cumulative hierarchy and proven a representation
+theorem identifying all initial Peano structures up to unique
+isomorphism. We have described the structuralist response (numbers are
+positions, not sets) and pointed forward to the universal-property and
+HoTT formulations of that response.</p>
+<h1 id="sec:conclusion">Conclusion</h1>
+<p>The set-theoretic perspective gives us
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+via the axiom of infinity and the recursive successor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>↦</mo><mi>x</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>x</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x \mapsto x \cup \{x\}</annotation></semantics></math>.
+It supports a full arithmetic, fits cleanly into the cumulative
+hierarchy, and makes the natural numbers concrete: the number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+<em>is</em> the set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,\ldots,57\}</annotation></semantics></math>
+— in the von Neumann encoding.</p>
+<p>But the qualifier “in the von Neumann encoding” is fatal to the
+foundationalist ambition. Zermelo’s encoding is equally valid; so is the
+Peano-axiomatic specification with no encoding at all; and so are the
+many other encodings one could devise. Each gives a working arithmetic
+that satisfies the Peano axioms, but each disagrees with the others on
+internal questions about element-of, cardinality, and rank. These
+disagreements are not pathologies; they are evidence that no encoding
+gives <em>the</em> natural numbers — only one realization of them.</p>
+<p>What we have learned is that the natural numbers are characterized
+structurally, not extensionally. This characterization is the universal
+property of an initial Peano structure (<a href="#def:init-peano"
+data-reference-type="ref+Label" data-reference="def:init-peano">42</a>),
+and its sharpening into the categorical Natural Number Object will
+occupy Paper 03. The set-theoretic perspective remains useful as a
+metatheory and an existence proof, but the identity of the natural
+numbers themselves lives at one level of abstraction higher.</p>
+<h2 class="unnumbered" id="acknowledgments">Acknowledgments</h2>
+<p>This paper is part of the YonedaAI Univalent Correspondence series.
+The series approaches a single mathematical object — the natural numbers
+— through six distinct lenses, and shows in the synthesis volume that
+under the univalence axiom, all six perspectives become literally the
+same mathematical content rather than analogous content. We thank the
+anonymous referees of the series for sharpening many arguments.</p>
+<div class="thebibliography">
+<p><span>99</span></p>
+<p>P. Benacerraf, “What Numbers Could Not Be,” <em>The Philosophical
+Review</em>, vol. 74, no. 1, pp. 47–73, 1965.</p>
+<p>P. Benacerraf, “Mathematical Truth,” <em>The Journal of
+Philosophy</em>, vol. 70, no. 19, pp. 661–679, 1973.</p>
+<p>G. Frege, <em>Die Grundlagen der Arithmetik</em>, W. Koebner,
+Breslau, 1884.</p>
+<p>P. Halmos, <em>Naive Set Theory</em>, Van Nostrand, 1960.</p>
+<p>K. Kunen, <em>Set Theory: An Introduction to Independence
+Proofs</em>, North-Holland, 1980.</p>
+<p>F. W. Lawvere, “An Elementary Theory of the Category of Sets,”
+<em>Proc. Nat. Acad. Sci. USA</em>, vol. 52, pp. 1506–1511, 1964.</p>
+<p>F. W. Lawvere, “Functorial Semantics of Algebraic Theories,” PhD
+thesis, Columbia University, 1963.</p>
+<p>S. Mac Lane and I. Moerdijk, <em>Sheaves in Geometry and Logic</em>,
+Springer, 1992.</p>
+<p>C. McLarty, “Exploring Categorical Structuralism,” <em>Philosophia
+Mathematica</em>, vol. 12, no. 1, pp. 37–53, 2004.</p>
+<p>A. N. Whitehead and B. Russell, <em>Principia Mathematica</em>,
+Cambridge University Press, 1910–1913.</p>
+<p>J. R. Shoenfield, <em>Mathematical Logic</em>, Addison-Wesley,
+1967.</p>
+<p>S. Shapiro, <em>Philosophy of Mathematics: Structure and
+Ontology</em>, Oxford University Press, 1997.</p>
+<p>P. Suppes, <em>Axiomatic Set Theory</em>, Van Nostrand, 1960.</p>
+<p>J. von Neumann, “Zur Einführung der transfiniten Zahlen,” <em>Acta
+litt. ac scient. Reg. Univ. Hung. Francisco-Josephinae</em>, sectio sci.
+math., vol. 1, pp. 199–208, 1923.</p>
+<p>The Univalent Foundations Program, <em>Homotopy Type Theory:
+Univalent Foundations of Mathematics</em>, Institute for Advanced Study,
+2013. <a
+href="https://homotopytypetheory.org/book">homotopytypetheory.org/book</a>.
+arXiv:1308.0729.</p>
+<p>E. Zermelo, “Untersuchungen über die Grundlagen der Mengenlehre I,”
+<em>Math. Ann.</em>, vol. 65, pp. 261–281, 1908.</p>
+</div>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p><em>Here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{pred}(n)</annotation></semantics></math>
+denotes the ordinal predecessor: the unique
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>m</mi><mo>+</mo></msup><mo>=</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m^+ = n</annotation></semantics></math>.</em><a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>

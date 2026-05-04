@@ -1,0 +1,880 @@
+\documentclass[12pt]{article}
+
+% Core math
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+
+% Diagrams
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, calc}
+
+% Graphics
+\usepackage{graphicx}
+
+% Page layout
+\usepackage[margin=1in]{geometry}
+
+% GrokRxiv sidebar
+\usepackage{everypage}
+\usepackage{xcolor}
+
+% Listings (Haskell)
+\usepackage{listings}
+
+% References (loaded near the end, with cleveref strictly after hyperref)
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+\lstdefinelanguage{Haskell}{
+  keywords={data, type, class, instance, where, let, in, do, case, of, if, then, else, module, import, newtype, deriving},
+  sensitive=true,
+  morecomment=[l]{--},
+  morestring=[b]"
+}
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\bfseries,
+  commentstyle=\itshape\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{black!30},
+  language=Haskell
+}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Notation macros
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Grpd}{\mathbf{Gpd}}
+\newcommand{\Cat}{\mathbf{Cat}}
+\newcommand{\Ring}{\mathbf{Ring}}
+\newcommand{\Field}{\mathbf{Field}}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\Nat}{\mathrm{Nat}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\Mod}[1]{\operatorname{Mod}(#1)}
+\newcommand{\eq}{\simeq}
+\newcommand{\iso}{\cong}
+\newcommand{\defeq}{\coloneqq}
+\newcommand{\succop}{\mathrm{s}}
+\newcommand{\zeroop}{\mathrm{z}}
+\newcommand{\Ob}{\mathrm{Ob}}
+\newcommand{\Mor}{\mathrm{Mor}}
+
+% GrokRxiv DOI sidebar
+\definecolor{grokgray}{RGB}{110,110,110}
+\AddEverypageHook{%
+  \ifnum\value{page}=1
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[
+        rotate=90,
+        anchor=south,
+        font=\Large\sffamily\bfseries\color{grokgray},
+        inner sep=0pt
+      ] at ([xshift=38pt, yshift=0.52\paperheight]current page.south west)
+      {GrokRxiv:2026.05.categorical-structural\quad
+       [\,math.CT\,]\quad
+       03 May 2026};
+    \end{tikzpicture}
+  \fi
+}
+
+\title{The Categorical / Structural Perspective: \\
+Numbers as Invariants of Structure-Preserving Morphisms}
+
+\author{YonedaAI Research \\
+\textit{Univalent Correspondence Project} \\
+\textit{Paper 06 of 6 topical papers (followed by a synthesis paper)} \\
+Cambridge, MA \\
+\texttt{research@yonedaai.com} $\cdot$ \url{https://yonedaai.com}}
+
+\date{3 May 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We develop the structural / categorical answer to the question ``what is a number?'' by treating numerals as invariants under all structure-preserving morphisms between models of arithmetic. We survey mathematical structuralism in the philosophical tradition (Resnik, Shapiro, Hellman, Awodey), present its categorical formalization through Lawvere's Elementary Theory of the Category of Sets (ETCS) and functorial semantics of algebraic theories, and prove an isomorphism-invariance theorem for first-order properties of finitely presented theories. We define a small algebraic theory of pointed unary structures, exhibit two non-equal but isomorphic set-theoretic models, and verify --- both formally and by accompanying executable Haskell code --- that all ``numerical answers'' (cardinalities of definable subsets, values of definable functions) coincide. We connect categorification (a $58$-element groupoid in $\Grpd$ that decategorifies to $58$ in $\Set$ via $\pi_0$) and Euler-characteristic / $K$-theoretic decategorification to the same invariance principle, and we end at the bridge to the synthesis paper: the Yoneda embedding, universal properties, and Voevodsky's univalence axiom are three views of one phenomenon, namely that structural identity is identity. Univalence makes the meta-condition ``a property is structural iff it is preserved under isomorphism'' an internal theorem rather than an external rule of practice.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The structural turn}
+
+Frege asked what numbers are; Dedekind answered: numbers are positions in a structure satisfying the simply infinite system axioms~\cite{Dedekind1888}. Frege rejected the answer because it left the structure underdetermined ---``many systems'', not one. The twentieth century proved Dedekind right and Frege wrong: every system satisfying the axioms is canonically isomorphic to every other, and the only invariants that survive a change of model are the structural ones. Benacerraf~\cite{Benacerraf1965} sharpened the point: since infinitely many set-theoretic encodings (von Neumann's, Zermelo's, and uncountably many others) all satisfy Peano's axioms, no encoding can claim to \emph{be} the natural numbers without contradiction. Numbers, if they are anything, must be what is preserved under all such encodings.
+
+This paper formalizes that thesis. We argue that:
+\begin{enumerate}
+  \item ``$58$'' denotes an invariant under all structure-preserving morphisms between models of arithmetic, in a sense made precise by functorial semantics (\Cref{sec:functorial}).
+  \item Mathematical structuralism --- in its \emph{ante rem}, \emph{in re}, and modal variants --- is the philosophical commitment that this is the right level of analysis.
+  \item Category theory (and ETCS in particular) is the natural formal language because it is built around the principle that objects are determined up to isomorphism by their relationships.
+  \item Homotopy Type Theory (HoTT) with the univalence axiom turns ``up to isomorphism'' from an external constraint into an internal theorem.
+\end{enumerate}
+
+The paper is the last of the six topical papers in the \emph{Univalent Correspondence Project} and provides the bridge to the subsequent synthesis paper. The thesis we defend across all six papers is captured by the columns table reproduced (in shortened form) in \Cref{tab:columns}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|l}
+\textbf{Level} & \textbf{What $58$ \emph{is}} \\\hline
+Naive & A symbol / a quantity \\
+Set-theoretic & $\{0,1,\dots,57\}$ (von Neumann) \\
+Universal property & $58$th iterate of $\succop$ in any initial $(N,\zeroop,\succop)$ \\
+Yoneda & $\Hom(-, 58)$ in $\Mod{T_{\mathrm{arith}}}$ \\
+HoTT & $\succop^{58}(\zeroop) : \NN$, identified up to path equivalence \\
+Categorical / structural & An invariant of every isomorphism of arithmetic models
+\end{tabular}
+\caption{The six-level columns table; this paper develops the bottom row.}
+\label{tab:columns}
+\end{table}
+
+\subsection{Contributions and outline}
+
+We make three contributions. First, in \Cref{sec:structuralism} we present a unified treatment of the major flavors of structuralism (Resnik, Shapiro, Hellman, Awodey) and identify the precise sense in which categorical structuralism is the formal analogue of the philosophical thesis. Second, in \Cref{sec:functorial} we develop functorial semantics for a small algebraic theory $T_{\succop}$ and prove that any natural isomorphism between two models induces equality of all definable numerical invariants (\Cref{thm:invariance}). Third, in \Cref{sec:transport} we re-derive the same invariance principle as a special case of HoTT's transport along paths, and we discuss categorification and decategorification (\Cref{sec:categorification}) as the higher-dimensional analogue.
+
+The accompanying Haskell code (in \texttt{src/06-categorical-structural/}) implements functorial semantics for $T_{\succop}$, builds two non-equal but isomorphic models, and verifies that all observable numerical quantities agree under the isomorphism.
+
+\Cref{sec:transport} contains the bridge to the synthesis paper: every structural property is automatically transportable along equivalences, and univalence is the principle that makes this an internal theorem of the foundations rather than a meta-theorem of mathematical practice.
+
+\section{Mathematical Framework}\label{sec:framework}
+
+We fix terminology and notation. All categories are locally small unless stated otherwise; standard references for the categorical background are Mac Lane~\cite{MacLane1971} and Riehl~\cite{Riehl2016}.
+
+\begin{definition}[Category]
+A \emph{category} $\C$ consists of a class $\Ob(\C)$ of objects, for each pair $A,B \in \Ob(\C)$ a set $\Hom_\C(A,B)$ of morphisms, an associative composition, and identity morphisms.
+\end{definition}
+
+\begin{definition}[Functor]
+A \emph{functor} $F : \C \to \D$ assigns to each $A \in \Ob(\C)$ an object $F(A) \in \Ob(\D)$ and to each $f : A \to B$ a morphism $F(f) : F(A) \to F(B)$, preserving composition and identities.
+\end{definition}
+
+\begin{definition}[Natural transformation]
+Given functors $F, G : \C \to \D$, a \emph{natural transformation} $\alpha : F \Rightarrow G$ is a family $\{\alpha_A : F(A) \to G(A)\}_{A \in \Ob(\C)}$ such that for every $f : A \to B$, $G(f) \circ \alpha_A = \alpha_B \circ F(f)$.
+\end{definition}
+
+\begin{definition}[Isomorphism]
+A morphism $f : A \to B$ in $\C$ is an \emph{isomorphism} if there exists $g : B \to A$ with $g \circ f = \id_A$ and $f \circ g = \id_B$. We write $A \iso B$ when an isomorphism exists.
+\end{definition}
+
+\begin{definition}[Equivalence of categories]
+Categories $\C$ and $\D$ are \emph{equivalent}, written $\C \eq \D$, if there exist functors $F : \C \to \D$, $G : \D \to \C$ with natural isomorphisms $G F \iso \id_\C$ and $F G \iso \id_\D$.
+\end{definition}
+
+\begin{definition}[Algebraic theory, in the Lawvere sense]\label{def:alg-theory}
+An \emph{algebraic theory} (in the sense of Lawvere~\cite{Lawvere1963}) is a small category $\T$ with finite products, equipped with a distinguished object $X \in \Ob(\T)$ such that every object is a finite power $X^n$ for some $n \geq 0$.
+\end{definition}
+
+\begin{definition}[Model / interpretation]
+A \emph{model} of $\T$ in a category $\E$ with finite products is a finite-product-preserving functor $M : \T \to \E$. The category $\Mod{\T} \defeq \mathrm{FP}(\T, \E)$ has finite-product-preserving functors as objects and natural transformations between them as morphisms.
+\end{definition}
+
+\begin{remark}[Models in $\Set$]
+When $\E = \Set$, an interpretation $M : \T \to \Set$ assigns to the generating object $X$ a set $M(X)$ called the \emph{carrier}. The other generating data of $\T$ (operations, equations) are interpreted as functions and equalities on $M(X)$. This is the standard universal-algebraic notion of model.
+\end{remark}
+
+\begin{definition}[Structure-preserving morphism]
+A \emph{morphism of $\T$-models} from $M$ to $M'$ is a natural transformation $\alpha : M \Rightarrow M'$. By naturality and finite-product preservation, $\alpha$ is determined by its component $\alpha_X : M(X) \to M'(X)$, which is a homomorphism in the universal-algebraic sense.
+\end{definition}
+
+\subsection{Notation summary}
+
+For ease of reference we collect the central notation used throughout the paper.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{ll}
+\hline
+\textbf{Symbol} & \textbf{Meaning} \\
+\hline
+$\Set$, $\Grpd$, $\Cat$ & categories of sets, groupoids, small categories \\
+$\C^\op$ & opposite category of $\C$ \\
+$\Hom_\C(A,B)$ & morphisms from $A$ to $B$ in $\C$ \\
+$\Nat(F,G)$ & natural transformations from $F$ to $G$ \\
+$\T$, $T_\succop$, $T_{\mathrm{ring}}$ & Lawvere theories (succ, ring) \\
+$\Mod{\T}$ & category of $\T$-models in $\Set$ \\
+$M(X)$ & carrier of model $M$ \\
+$\zeroop, \succop$ & generating constant and unary in $T_\succop$ \\
+$\eq$ & equivalence (of categories or types) \\
+$\iso$ & isomorphism \\
+$\pi_0(G)$ & set of connected components of groupoid $G$ \\
+$|G|_{\mathrm{gpd}}$ & groupoid cardinality \\
+$=_A$ & identity type on type $A$ (HoTT) \\
+\hline
+\end{tabular}
+\caption{Notation used throughout.}
+\label{tab:notation}
+\end{table}
+
+\section{Mathematical Structuralism}\label{sec:structuralism}
+
+\subsection{The thesis}
+
+Mathematical structuralism (Benacerraf~\cite{Benacerraf1965}, Resnik~\cite{Resnik1997}, Shapiro~\cite{Shapiro1997}, Hellman~\cite{Hellman1989}, Awodey~\cite{Awodey1996,Awodey2014}) is the view that mathematics studies structures rather than objects: the natural numbers are not a particular set or sequence but the abstract pattern that all $\NN$-like structures share.
+
+Resnik's slogan~\cite{Resnik1981} is that mathematical objects are ``positions in patterns''. Shapiro distinguishes the position itself (an abstract place) from the objects that may occupy it. Hellman~\cite{Hellman1989} formulates the doctrine modally: a structure is a possible-world description, and arithmetic asserts what would be true of any system that realizes the structure.
+
+\subsection{Three flavors}
+
+\begin{definition}[Ante rem structuralism, Shapiro]
+The structures of mathematics exist independently of any particular system that realizes them. Numbers are real abstract entities, but their identity is exhausted by their relational properties.
+\end{definition}
+
+\begin{definition}[In re structuralism, Resnik]
+Mathematical structures are abstractions from collections of similar systems. There is no structure ``in itself''; only patterns instantiated by concrete or abstract systems.
+\end{definition}
+
+\begin{definition}[Modal / eliminative structuralism, Hellman]
+There are no abstract structures or numbers; statements of arithmetic are read as universally quantified conditionals over all possible $\NN$-like systems: ``In any $\omega$-sequence, the seventh element after zero satisfies $\dots$'' rather than ``$7$ satisfies $\dots$''.
+\end{definition}
+
+\begin{example}[Three views of $58$]\hfill
+\begin{itemize}
+  \item \emph{Ante rem}: $58$ is an abstract position in the unique structure $\langle \NN, 0, \succop \rangle$.
+  \item \emph{In re}: $58$ is whatever is common to all things obtained by applying $\succop$ exactly $58$ times to $0$ in any concrete realization.
+  \item \emph{Modal}: ``$58 + 1 = 59$'' means ``it is necessary that, in any $\omega$-sequence, the $58$th iterate's successor is the $59$th iterate''.
+\end{itemize}
+\end{example}
+
+\subsection{Awodey's category-theoretic structuralism}
+
+Awodey~\cite{Awodey2004,Awodey2014} argues that category theory is structuralism realized: ``mathematical objects are determined up to isomorphism by their relations to other objects in the appropriate category, and structural properties are exactly those preserved by isomorphisms.'' This is not a metaphysical claim but a methodological one: working categorically \emph{is} working structurally.
+
+\begin{proposition}[Structural properties are isomorphism-invariant]\label{prop:struct-iso}
+Let $\C$ be a category and let $P$ be a property of objects of $\C$ that is expressible using only the data of $\C$ (objects, morphisms, composition, and finite limits/colimits where they exist). Then for any isomorphism $f : A \to B$, $P(A) \iff P(B)$.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+By induction on the complexity of $P$. Atomic categorical statements (commutativity of squares, existence of fillers, equality of composites) are preserved by isomorphisms because $f$ and $f^{-1}$ are inverse, and composition is preserved. For complex $P$, the inductive step is straightforward.
+\end{proof}
+
+\begin{remark}
+\Cref{prop:struct-iso} is meta-mathematical: it presupposes a notion of ``categorical formula'' and identifies a syntactic class of properties whose semantics is invariant under isomorphism. In HoTT this becomes an \emph{internal} theorem, the structure identity principle (\Cref{thm:sip}).
+\end{remark}
+
+\subsection{Comparison and reconciliation}\label{ssec:compare}
+
+The three flavors of structuralism are not in pairwise contradiction so much as in pairwise emphasis. We may organize them as follows.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{lll}
+\hline
+\textbf{Flavor} & \textbf{Ontology} & \textbf{Reading of ``$5 + 7 = 12$''} \\
+\hline
+Ante rem (Shapiro) & Abstract structures exist & The $12$-position satisfies $\dots$ \\
+In re (Resnik) & Patterns abstracted from instances & Common to all $\omega$-sequences \\
+Modal (Hellman) & No abstract structures & In any possible $\omega$-system, $\dots$ \\
+Categorical (Awodey) & Categorical content only & Isomorphism-invariant statement \\
+\hline
+\end{tabular}
+\caption{Four flavors of structuralism on a single arithmetic equation.}
+\label{tab:flavors}
+\end{table}
+
+The categorical / structural perspective is compatible with each of the philosophical readings. Reading ``$\Mod{T_\succop}$'' as a Platonic abstract category gives the ante-rem version; reading it as a class of concrete realizations gives the in-re version; reading it as a possible-world quantifier gives the modal version. The functorial-semantics framework of \Cref{sec:functorial} is metaphysically neutral; what it secures is the invariance principle that all three philosophical readings agree must hold.
+
+\begin{remark}[Awodey on univalence]
+Awodey's later work~\cite{Awodey2014} extends this neutrality to univalent foundations: ``the univalence axiom is the principle that makes the structuralist viewpoint formally consistent inside a foundational system''. We return to this in \Cref{sec:transport}.
+\end{remark}
+
+\section{Functorial Semantics}\label{sec:functorial}
+
+\subsection{Lawvere theories}
+
+We follow Lawvere's 1963 Ph.D. thesis~\cite{Lawvere1963}: an algebraic theory is a category, models are functors, and homomorphisms are natural transformations. This rephrasing is consequential: we obtain a precise sense in which two models ``compute the same number''.
+
+\begin{definition}[Lawvere theory]
+A \emph{Lawvere theory} is a small category $\T$ with finite products, equipped with a generator $X$ such that every object of $\T$ is (canonically) a finite power $X^n$, $n \geq 0$. Equivalently, $\T^\op$ has finite coproducts and is the opposite of the free finite-product category on a single object plus operation symbols and axioms.
+\end{definition}
+
+\begin{example}[The theory $T_\succop$ of pointed unary structures]\label{ex:Tsucc}
+Let $T_\succop$ be the Lawvere theory generated by:
+\begin{itemize}
+  \item one object $X$,
+  \item a constant $\zeroop : X^0 \to X$ (the ``zero''),
+  \item a unary operation $\succop : X \to X$ (the ``successor''),
+\end{itemize}
+with no equations. A model in $\Set$ is a triple $(M, z, s)$ where $M$ is a set, $z \in M$, and $s : M \to M$.
+\end{example}
+
+\begin{definition}[Initial successor structure]
+A model $(N, 0, \succop) \in \Mod{T_\succop}$ is \emph{initial} if for every $(M, z, s)$ there is a unique $T_\succop$-homomorphism $h : N \to M$ with $h(0) = z$ and $h \circ \succop = s \circ h$.
+\end{definition}
+
+\begin{theorem}[Standard model of arithmetic]\label{thm:initial-N}
+$(\NN, 0, \succop)$ with $\succop(n) = n+1$ is initial in $\Mod{T_\succop}$, and any two initial models are uniquely isomorphic.
+\end{theorem}
+
+\begin{proof}
+Existence and uniqueness of $h$ are by primitive recursion. Two initial objects are connected by a unique morphism each way; their composites are identity by uniqueness.
+\end{proof}
+
+\subsection{Category of models}
+
+\begin{definition}
+For a Lawvere theory $\T$, let $\Mod{\T}$ denote the category of finite-product-preserving functors $\T \to \Set$ with natural transformations as morphisms.
+\end{definition}
+
+\begin{proposition}\label{prop:hom-as-nat}
+Let $\T = T_\succop$ and let $M, M' : \T \to \Set$. The data of a natural transformation $\alpha : M \Rightarrow M'$ is exactly a function $\alpha_X : M(X) \to M'(X)$ such that
+\[
+  \alpha_X(M(\zeroop)(\ast)) = M'(\zeroop)(\ast), \quad
+  \alpha_X \circ M(\succop) = M'(\succop) \circ \alpha_X.
+\]
+\end{proposition}
+
+\begin{proof}
+Naturality of $\alpha$ on the morphism $\zeroop : X^0 \to X$ asserts the commutativity of
+\[
+\begin{tikzcd}
+M(X^0) \arrow[r, "M(\zeroop)"] \arrow[d, "\alpha_{X^0}"'] & M(X) \arrow[d, "\alpha_X"] \\
+M'(X^0) \arrow[r, "M'(\zeroop)"'] & M'(X)
+\end{tikzcd}
+\]
+Since both functors preserve finite products, $M(X^0)$ and $M'(X^0)$ are terminal in $\Set$ (singletons $\{\ast\}$) and $\alpha_{X^0}$ is the unique map between them; the diagram thus collapses to the first displayed equation. Naturality on $\succop : X \to X$ gives directly the second displayed equation. Conversely, any pair $(\alpha_{X^0}, \alpha_X)$ satisfying these two equations extends uniquely to a natural transformation: finite-product preservation determines all higher components $\alpha_{X^n}$ as the $n$-fold product of $\alpha_X$ with itself.
+\end{proof}
+
+\subsection{Definable invariants}
+
+We now make precise the notion of ``numerical answer extracted from a model''.
+
+\begin{definition}[Definable invariant]\label{def:def-inv}
+Let $\T$ be a Lawvere theory and $\E$ a category. A \emph{definable invariant} of $\T$-models in $\E$ is a function
+\[
+  I : \Ob(\Mod{\T}) \to \Ob(\E)
+\]
+together with, for every isomorphism $\alpha : M \to M'$ in $\Mod{\T}$, an isomorphism $I(\alpha) : I(M) \to I(M')$ in $\E$, such that $I(\id_M) = \id_{I(M)}$ and $I$ preserves composition. Equivalently, $I$ is a functor from the underlying groupoid of $\Mod{\T}$ to $\E$.
+\end{definition}
+
+\begin{example}\label{ex:cardinality}
+Cardinality is a definable invariant when restricted to finite models: $|M| = |M'|$ whenever $M \iso M'$. This is the simplest example of the structural-invariance phenomenon.
+\end{example}
+
+\begin{example}[Order of an element]
+For $T_\succop$-models $(M,z,s)$ in $\Set$, define $\mathrm{ord}(M,z,s) = \min \{ n \geq 1 : s^n(z) = z \}$ if such $n$ exists, $\infty$ otherwise. This is a definable invariant: any isomorphism preserves the orbit of $z$ under $s$.
+\end{example}
+
+\begin{theorem}[Invariance theorem]\label{thm:invariance}
+Let $\T$ be a Lawvere theory and $I$ a definable invariant. For any two isomorphic models $M, M' \in \Mod{\T}$, $I(M) \iso I(M')$ in $\E$. In particular, when $\E = \Set$ and $I(M)$ is a (finite) cardinal, $|I(M)| = |I(M')|$.
+\end{theorem}
+
+\begin{proof}
+By \Cref{def:def-inv}, $I$ acts functorially on the groupoid of isomorphisms. Functors send isomorphisms to isomorphisms, so $I(M) \iso I(M')$. Cardinality is itself an isomorphism invariant on $\Set$, so $|I(M)| = |I(M')|$.
+\end{proof}
+
+\begin{corollary}[Structural identity of models]
+If $M \iso M'$ in $\Mod{\T}$, then $M$ and $M'$ agree on every definable invariant. In particular, every ``numerical answer'' computed from $M$ matches the corresponding answer computed from $M'$.
+\end{corollary}
+
+\section{Two Models, One Answer}\label{sec:two-models}
+
+We make \Cref{thm:invariance} concrete with two non-equal but isomorphic models of $T_\succop$. The accompanying Haskell code (\Cref{sec:haskell}) verifies each computed invariant.
+
+\begin{example}[von Neumann vs.\ Zermelo]\label{ex:vN-Z}
+Define two finite $T_\succop$-models:
+\begin{align*}
+  M_{\mathrm{vN}}(X) &= \{\emptyset, \{\emptyset\}, \{\emptyset,\{\emptyset\}\}, \{\emptyset,\{\emptyset\},\{\emptyset,\{\emptyset\}\}\}\}, \\
+  M_{\mathrm{Z}}(X) &= \{\emptyset, \{\emptyset\}, \{\{\emptyset\}\}, \{\{\{\emptyset\}\}\}\},
+\end{align*}
+each with $\zeroop$ interpreted as $\emptyset$ and $\succop$ interpreted by the appropriate generation rule (von Neumann: $n \mapsto n \cup \{n\}$; Zermelo: $n \mapsto \{n\}$).
+\end{example}
+
+\begin{proposition}\label{prop:vN-Z-iso}
+$M_{\mathrm{vN}} \iso M_{\mathrm{Z}}$ in $\Mod{T_\succop}$, but $M_{\mathrm{vN}}(X) \neq M_{\mathrm{Z}}(X)$ as sets in ZFC.
+\end{proposition}
+
+\begin{proof}
+Define $\alpha_X(M_{\mathrm{vN}}(\succop^k)(\emptyset)) = M_{\mathrm{Z}}(\succop^k)(\emptyset)$ for $k = 0, 1, 2, 3$. By construction $\alpha_X(\emptyset) = \emptyset$ and $\alpha_X \circ M_{\mathrm{vN}}(\succop) = M_{\mathrm{Z}}(\succop) \circ \alpha_X$, so $\alpha$ is a natural transformation by \Cref{prop:hom-as-nat}. It is bijective on carriers, hence an isomorphism. Set-theoretic non-equality follows from $\{\emptyset,\{\emptyset\}\} \in M_{\mathrm{vN}}(X)$ but $\{\emptyset,\{\emptyset\}\} \notin M_{\mathrm{Z}}(X)$ (and vice versa for $\{\{\{\emptyset\}\}\}$).
+\end{proof}
+
+\begin{remark}[The Benacerraf situation]
+\Cref{prop:vN-Z-iso} is a finite, fully verifiable instance of Benacerraf's identification problem~\cite{Benacerraf1965}: two structurally identical models that disagree on every set-membership question (``Is $\{\emptyset\} \in 2$?'' is true in $M_{\mathrm{vN}}$, false in $M_{\mathrm{Z}}$). The structuralist conclusion: such questions are not arithmetic; they are encoding-relative.
+\end{remark}
+
+\subsection{Definable answers agree}
+
+\begin{theorem}[Agreement of numerical invariants]\label{thm:agreement}
+For every definable invariant $I$ of $T_\succop$-models in $\Set$ (or in $\NN$ via cardinality), $I(M_{\mathrm{vN}}) = I(M_{\mathrm{Z}})$.
+\end{theorem}
+
+\begin{proof}
+By \Cref{prop:vN-Z-iso}, $M_{\mathrm{vN}} \iso M_{\mathrm{Z}}$. By \Cref{thm:invariance}, $I(M_{\mathrm{vN}}) \iso I(M_{\mathrm{Z}})$. For invariants taking values in $\NN$ (cardinalities, orbit lengths, fixed-point counts), an isomorphism in $\NN$ is equality.
+\end{proof}
+
+The Haskell implementation in \Cref{sec:haskell} performs this verification computationally: it builds both models, an isomorphism between them, and a panel of definable invariants, and checks term-by-term that the computed values agree.
+
+\section{Morphisms of Models in Algebra}\label{sec:morphisms}
+
+The framework of \Cref{sec:functorial} extends to richer algebraic theories. We collect three illustrative cases.
+
+\subsection{Ring homomorphisms}
+
+The Lawvere theory $T_{\mathrm{ring}}$ has signature $\{0, 1, +, -, \cdot\}$ and the standard ring axioms. A morphism of $T_{\mathrm{ring}}$-models is a ring homomorphism: a function $f : R \to R'$ with
+\[
+  f(0) = 0, \quad f(1) = 1, \quad f(x + y) = f(x) + f(y), \quad f(x \cdot y) = f(x) \cdot f(y).
+\]
+The structural invariants of a ring (commutativity, characteristic, dimension as a $\mathbb{Z}$-module, prime spectrum, $K$-theory) are preserved by isomorphism. Specifically, $\ZZ$ is initial in $\Mod{T_{\mathrm{ring}}}$: there is a unique ring homomorphism $\ZZ \to R$ for any ring $R$, and it is the structural identification of integers inside $R$.
+
+\begin{example}[Integers in a finite ring]
+Let $R = \ZZ/12\ZZ$. The unique morphism $\iota : \ZZ \to R$ is the canonical projection. The image $\iota(58) = 58 \bmod 12 = 10$ is the structural representative of ``$58$'' in $R$. Different rings give different representatives; the structural invariant is the function $R \mapsto \iota_R(58)$, which is a natural transformation $\iota(-)(58) : 1 \Rightarrow U$ (where $U : \Ring \to \Set$ is the underlying-set functor).
+\end{example}
+
+\subsection{Ordered field embeddings}
+
+The theory of ordered fields has signature $\{0, 1, +, -, \cdot, {}^{-1}, <\}$ and corresponding axioms. Morphisms are order-preserving field embeddings. The real numbers $\RR$ are characterized as the unique (up to canonical isomorphism) Dedekind-complete ordered field, and any ordered-field morphism $f : \RR \to F$ is necessarily an embedding (because $f$ preserves order and $\RR$ has no proper Dedekind cuts of $\QQ$).
+
+\begin{proposition}\label{prop:R-uniqueness}
+Any two Dedekind-complete ordered fields are uniquely isomorphic, and the unique isomorphism preserves the constants $0, 1, \pi, e, \dots$ as structural invariants.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+The order and field operations determine $\QQ$ inside any ordered field; Dedekind completion of $\QQ$ inside the field gives a copy of $\RR$; the order-preserving map between two such copies is forced by the universal property of Dedekind completion.
+\end{proof}
+
+\subsection{Group homomorphisms and conjugacy invariants}
+
+The theory $T_{\mathrm{grp}}$ has signature $\{e, \cdot, {}^{-1}\}$ and group axioms. A morphism of $T_{\mathrm{grp}}$-models is a group homomorphism. The structural invariants are: order, exponent, abelianization, conjugacy class structure, character table (for finite groups). The cardinality $|G| \in \NN$ is the simplest such invariant; the character table $\chi_G$ is a much richer one.
+
+\begin{remark}[Character tables and isospectrality]
+Two non-isomorphic groups can share the same character table; this rare phenomenon (the simplest example being a pair of $p$-groups of order $p^5$ for some prime $p$) shows that the character table is a genuine but \emph{partial} structural invariant. It distinguishes most groups but does not separate all isomorphism classes. The structuralist program does not require that one invariant separate all classes; it requires only that every invariant respect isomorphism.
+\end{remark}
+
+\section{Models, Theories, and Toposes}\label{sec:topos}
+
+\subsection{ETCS and categorical foundations}
+
+Lawvere's Elementary Theory of the Category of Sets (ETCS, 1964~\cite{Lawvere1964}) reformulates set theory as a first-order axiomatization of $\Set$ as a (well-pointed) topos with a natural-numbers object (NNO) and choice. It is a categorical foundation: structural at its core because the axioms refer only to the categorical relations (terminal object, products, exponentials, subobject classifier, NNO).
+
+\begin{definition}[Topos]
+A \emph{topos} is a category with finite limits, exponentials, and a subobject classifier $\Omega$. A topos has all the categorical structure needed to interpret higher-order logic.
+\end{definition}
+
+\begin{definition}[NNO in a topos]
+A \emph{natural-numbers object} in a topos $\E$ is an object $N$ with $0 : 1 \to N$ and $\succop : N \to N$ such that for every $(X, x_0, f)$ there is a unique $h : N \to X$ with $h \circ 0 = x_0$ and $h \circ \succop = f \circ h$.
+\end{definition}
+
+\begin{theorem}[Lawvere]
+ETCS is bi-interpretable with bounded Zermelo set theory plus a choice principle. Any model of ETCS contains a unique-up-to-isomorphism NNO, which serves as ``the'' natural numbers.
+\end{theorem}
+
+\subsection{Models in toposes}
+
+A model of an algebraic theory in a topos $\E$ is a finite-product-preserving functor $\T \to \E$. Different toposes give different ``universes'' in which to interpret arithmetic, but the structural invariants survive.
+
+\begin{example}[Sheaves]
+Let $\E = \mathrm{Sh}(X)$, the topos of sheaves on a topological space. A $T_\succop$-model in $\E$ is a sheaf of pointed unary structures. Locally these look like ordinary models in $\Set$; globally they encode parameter dependence.
+\end{example}
+
+\begin{example}[Effective topos]
+Hyland's effective topos~\cite{Hyland1982} is a topos in which the NNO carries a different ``computability'' structure: morphisms $N \to N$ are exactly the computable functions. The arithmetic invariants of $N$ (cardinality, orbit structure of $\succop$) coincide with those of the standard model, but the morphism structure is richer.
+\end{example}
+
+\subsection{Ultraproducts and non-standard models}
+
+First-order Peano arithmetic ($\mathsf{PA}$) is weaker than the categorical NNO: it has non-standard models, in particular ultrapowers $\NN^{\omega}/\mathcal{U}$ for non-principal ultrafilters $\mathcal{U}$. These models satisfy every first-order arithmetic sentence true in $\NN$, but contain ``infinite'' elements.
+
+\begin{theorem}[\L{}o\'s' theorem]
+Let $\mathcal{U}$ be an ultrafilter on $I$ and let $(M_i)_{i \in I}$ be a family of models of a first-order theory $T$. The ultraproduct $\prod M_i / \mathcal{U}$ satisfies a first-order sentence $\varphi$ iff $\{i : M_i \models \varphi\} \in \mathcal{U}$.
+\end{theorem}
+
+\begin{remark}
+The categorical / NNO perspective forbids non-standard models: the universal property uniquely determines $N$ (up to canonical isomorphism). The first-order PA perspective admits them. The structuralist response: non-standard models satisfy a different theory than full second-order PA, and they should be analyzed as a different (richer) structure, not as ``alternative natural numbers''.
+\end{remark}
+
+\begin{example}[Ultrapower and the standard cut]
+Let $\mathcal{U}$ be a non-principal ultrafilter on $\omega$ and let $\NN^* = \NN^\omega/\mathcal{U}$. The map $\iota : \NN \to \NN^*$ sending $n \mapsto [n, n, n, \dots]$ is an embedding of structures, but its image is a proper initial segment (the ``standard cut'') of $\NN^*$. The structural invariants of the standard cut --- cardinality, orbit structure of $\succop$, the order-type $\omega$ --- coincide with those of $\NN$ itself; the ``new'' elements of $\NN^*$ form a non-trivial extension that is consistent with first-order PA but not with the categorical NNO universal property. Thus the categorical / structural perspective explains \emph{why} non-standard models exist (PA is too weak to pin down $\NN$ up to isomorphism) and \emph{why} we discount them when speaking of ``the'' natural numbers (the structural invariants we care about live on the standard part).
+\end{example}
+
+\begin{remark}[Skolem's paradox]
+The same phenomenon underlies Skolem's paradox: the L\"owenheim--Skolem theorem produces countable models of ZFC even though ZFC proves the existence of uncountable sets. The resolution is that ``uncountable'' is not absolute --- it depends on which model's notion of bijection one uses. Structural invariants of $\NN$ and $\RR$ (cardinality, definable subsets, etc.) are model-relative for first-order theories, and only become absolute when the theory pins down the model up to isomorphism (as second-order PA and the categorical NNO do).
+\end{remark}
+
+\section{The Yoneda Embedding and Universal Properties}\label{sec:yoneda}
+
+We pause to record how Yoneda and universal properties (the topics of papers 03 and 04 of this series) sit inside the structural perspective.
+
+\begin{theorem}[Yoneda lemma]
+For any locally small category $\C$, object $A$, and functor $F : \C^\op \to \Set$,
+\[
+  \Nat(\Hom_\C(-, A), F) \iso F(A).
+\]
+\end{theorem}
+
+\begin{corollary}[Yoneda embedding is fully faithful]
+The functor $y : \C \to [\C^\op, \Set]$ sending $A \mapsto \Hom_\C(-, A)$ is fully faithful: $\Hom_\C(A, B) \iso \Nat(yA, yB)$.
+\end{corollary}
+
+\begin{corollary}[Identity by relations]\label{cor:id-by-rel}
+$A \iso B$ in $\C$ iff $yA \iso yB$ in $[\C^\op, \Set]$, iff $\Hom(-, A) \iso \Hom(-, B)$ as presheaves.
+\end{corollary}
+
+\Cref{cor:id-by-rel} is the Yoneda formulation of structuralism: an object is determined (up to canonical isomorphism) by its system of incoming maps. ``$58$'' is its representable functor $\Hom_{\Mod{T_\succop}}(-, 58)$ in the category of finite cyclic-or-linear successor structures.
+
+\begin{proposition}[Universal properties are structural]
+Any object characterized by a universal property is determined up to canonical isomorphism. Therefore, the value of any property of universally characterized objects depends only on the isomorphism class.
+\end{proposition}
+
+The categorical / structural perspective of \Cref{sec:functorial} and the Yoneda perspective of \Cref{sec:yoneda} agree: both say that mathematical content is preserved by isomorphism and that this is the right level of identity.
+
+\section{Equivalence-Invariance and Transport}\label{sec:transport}
+
+We now reach the bridge between the categorical / structural perspective and HoTT. The key technical fact is that HoTT --- the type-theoretic side of the Curry--Howard--Lambek correspondence~\cite{Wadler2015} --- validates an internal version of \Cref{prop:struct-iso} and \Cref{thm:invariance}: the \emph{structure identity principle} (SIP).
+
+\subsection{Univalence}
+
+\begin{definition}[Univalence axiom, Voevodsky~\cite{Voevodsky2010,HoTTBook}]
+For types $A, B$ in a universe $\mathcal{U}$, the canonical map
+\[
+  \mathrm{idtoeqv} : (A =_{\mathcal{U}} B) \to (A \eq B)
+\]
+is itself an equivalence.
+\end{definition}
+
+Univalence asserts that ``equality of types'' and ``equivalence of types'' are themselves equivalent: any equivalence can be transported into an identification, and any identification gives back the corresponding equivalence.
+
+\begin{theorem}[Transport]
+Given $P : \mathcal{U} \to \mathcal{U}$ and $p : A =_\mathcal{U} B$, there is a function $\mathrm{transport}^P(p) : P(A) \to P(B)$. Moreover, $\mathrm{transport}^P(\mathrm{refl}_A) = \id_{P(A)}$.
+\end{theorem}
+
+\subsection{Structure identity principle}
+
+\begin{theorem}[Structure identity principle, schematic form]\label{thm:sip}
+Let $\mathcal{S}$ be a notion of structure (e.g.\ a $T_\succop$-model in HoTT) defined by a $\Sigma$-type $\Sigma_{X : \mathcal{U}}\, F(X)$ where $F$ is a structure of finite signature on the carrier $X$. Then identification of structures is canonically equivalent to structure-preserving equivalence of carriers:
+\[
+  \big( (X, s) =_{\Sigma_{X} F(X)} (X', s') \big) \;\eq\; \big(\Sigma_{f : X \eq X'}\, f \text{ preserves } s, s' \big).
+\]
+\end{theorem}
+
+\begin{remark}
+\Cref{thm:sip} is proved level-by-level for set-level structures in the HoTT Book~\cite{HoTTBook}, Chapter 9, and generalized to higher levels by Coquand--Danielsson and others~\cite{Escardo2019}. It says: in HoTT, two structures of the same kind are equal iff they are isomorphic in the structure-preserving sense.
+\end{remark}
+
+\begin{theorem}[Equivalence-invariance / transportability]\label{thm:transport-inv}
+In HoTT, every property $P : \mathcal{S} \to \mathcal{U}$ of structures of a given kind $\mathcal{S}$ is automatically invariant under structure-preserving equivalence: if $(X, s) \eq_\mathcal{S} (X', s')$ then $P(X, s) \eq P(X', s')$.
+\end{theorem}
+
+\begin{proof}
+By \Cref{thm:sip}, structure-preserving equivalence is identification. By the action of $P$ on identifications (the J-rule, alias path induction), identifications are transported by $P$. Combine.
+\end{proof}
+
+\Cref{thm:transport-inv} is the internal counterpart of the meta-theoretic \Cref{prop:struct-iso}. Where the latter says ``one ought to write only structural definitions'' as a methodological discipline, the former says ``every definition you can write is structural'' as a theorem of the foundations. Univalence is the principle that promotes the meta-condition into an internal one.
+
+\subsection{The bridge to synthesis}
+
+We can summarize the relationship as follows.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{lll}
+\hline
+\textbf{Layer} & \textbf{Statement} & \textbf{Status} \\
+\hline
+Categorical / structural & Structural properties are iso-invariant & Meta-theorem (\Cref{prop:struct-iso}) \\
+Universal property & Iso-class is canonical & Theorem (NNO uniqueness) \\
+Yoneda & Object known by relations & Theorem (Yoneda lemma) \\
+HoTT + univalence & Iso-invariance is automatic & Internal (\Cref{thm:transport-inv}) \\
+\hline
+\end{tabular}
+\caption{Four layers of one principle.}
+\label{tab:four-layers}
+\end{table}
+
+The synthesis paper develops \Cref{tab:four-layers} in detail; we record here only that the four rows describe the same fact (``mathematical content is structural'') with progressively stronger guarantees.
+
+\section{Categorification and Decategorification}\label{sec:categorification}
+
+\subsection{From sets to groupoids}
+
+\begin{definition}[Groupoid]
+A \emph{groupoid} is a category in which every morphism is invertible.
+\end{definition}
+
+\begin{definition}[$\pi_0$, set of connected components]
+For a groupoid $G$, $\pi_0(G)$ is the set of isomorphism classes of objects.
+\end{definition}
+
+\begin{example}\label{ex:58-groupoid}
+Let $G_{58}$ be a groupoid with $58$ objects $\{0, 1, \dots, 57\}$ and only identity morphisms. Then $\pi_0(G_{58}) = \{\{0\}, \dots, \{57\}\}$, a $58$-element set. Cardinality is preserved: $|\pi_0(G_{58})| = 58$.
+\end{example}
+
+\begin{example}[A connected groupoid with one component]
+Let $G_{B\ZZ/n\ZZ}$ be the groupoid with one object and automorphism group $\ZZ/n\ZZ$. Then $\pi_0(G_{B\ZZ/n\ZZ})$ is a one-element set.
+\end{example}
+
+\subsection{Cardinality of groupoids}
+
+For finite groupoids, a finer invariant than $|\pi_0|$ is the \emph{groupoid cardinality}~\cite{BaezDolan1998,Leinster2008}:
+\[
+  |G|_{\mathrm{gpd}} = \sum_{[x] \in \pi_0(G)} \frac{1}{|\mathrm{Aut}(x)|}.
+\]
+
+\begin{example}
+$|G_{58}|_{\mathrm{gpd}} = 58$, since each automorphism group is trivial.
+$|G_{B\ZZ/n\ZZ}|_{\mathrm{gpd}} = 1/n$, decategorifying to a rational invariant.
+\end{example}
+
+\subsection{Decategorification, Euler characteristic, $K$-theory}
+
+Decategorification is a general process of descending from higher-dimensional structure to numerical content:
+\begin{itemize}
+  \item $\pi_0$ from groupoids to sets (and then $|\cdot|$ to cardinals);
+  \item Euler characteristic $\chi$ from CW-complexes to integers;
+  \item $K_0$ from a triangulated category to its Grothendieck group.
+\end{itemize}
+
+\begin{definition}[Euler characteristic of finite groupoids]\label{def:euler-gpd}
+For a finite groupoid $G$, the \emph{Euler characteristic} is $\chi(G) = |G|_{\mathrm{gpd}}$.
+\end{definition}
+
+\begin{theorem}[Decategorification preserves equivalence]
+Equivalent groupoids $G \eq G'$ satisfy $\pi_0(G) \iso \pi_0(G')$ and $|G|_{\mathrm{gpd}} = |G'|_{\mathrm{gpd}}$.
+\end{theorem}
+
+\begin{proof}
+Equivalences induce bijections on isomorphism classes, hence equal $\pi_0$ and equal sums in the cardinality formula.
+\end{proof}
+
+\subsection{Numbers in physics}
+
+The same invariance principle reappears in physics. Gauge invariants and conserved quantities are exactly those numbers preserved under the symmetries of a system; what survives a gauge transformation is structural content, what fails to survive is gauge artifact.
+
+\begin{example}
+Mass, charge, energy, momentum, angular momentum, spin: each is a Noether-conserved quantity associated to a symmetry of the action functional. The conserved quantity is the structural invariant; the dynamical trajectory is the representation.
+\end{example}
+
+\begin{example}[Spin as a representation-theoretic invariant]
+The total spin $s$ of a quantum-mechanical particle is the index of an irreducible representation of $\mathrm{SU}(2)$. Two systems whose Hilbert-space representations of the rotation group are isomorphic carry the same spin: $s$ is an invariant of the representation, not of any concrete realization. This is the same structuralist move applied at a different sort of theory --- a theory of representations of a Lie group rather than of a Lawvere theory.
+\end{example}
+
+\begin{remark}
+The structuralist principle ``numbers are invariants'' is therefore not specific to mathematics. It is the same idea that physics calls \emph{gauge invariance}, that representation theory calls \emph{character / dimension / trace}, and that K-theory calls \emph{stable equivalence class}. In each case the formal apparatus differs, but the conceptual move is the same: discard the representation-dependent content; retain only the structural content.
+\end{remark}
+
+\subsection{Beyond decategorification: counting beyond cardinality}
+
+Decategorification can carry more refined information than ordinary cardinality. We collect three increasingly fine invariants extracted from a (suitable) finite groupoid $G$:
+\begin{enumerate}
+  \item $|\pi_0(G)| \in \NN$ --- the number of isomorphism classes of objects;
+  \item $|G|_{\mathrm{gpd}} \in \QQ_{\geq 0}$ --- the groupoid cardinality, weighted by automorphism group orders;
+  \item the homotopy type of the geometric realization $|N(G)|$ --- a topological invariant containing all $\pi_n(G)$.
+\end{enumerate}
+
+\begin{example}[Combinatorial species and exponential generating functions]
+A combinatorial species is a functor $\mathrm{FinSet}_{\mathrm{bij}} \to \Set$. Its exponential generating function is the sum
+\[
+  F(z) = \sum_{n \geq 0} |F([n])/S_n| \, \frac{z^n}{n!},
+\]
+encoding all the species' counting data as a power series. The series is invariant under natural isomorphism of species: two equivalent species give the same EGF.
+\end{example}
+
+\begin{theorem}[Invariance of decategorification]
+Let $\Phi : \mathbf{Gpd}_{\mathrm{fin}} \to \E$ be any functor from the $2$-category of finite groupoids to a category $\E$. For equivalent groupoids $G \eq G'$, $\Phi(G) \iso \Phi(G')$ in $\E$.
+\end{theorem}
+
+\begin{proof}
+$\Phi$ sends equivalences (which are the morphisms of the underlying $1$-groupoid of $\mathbf{Gpd}_{\mathrm{fin}}$) to isomorphisms.
+\end{proof}
+
+The previous theorem subsumes all the decategorification examples: $\pi_0$, $|\cdot|_{\mathrm{gpd}}$, Euler characteristic, $K_0$ are each instances of this invariance.
+
+\section{Haskell Implementation}\label{sec:haskell}
+
+The accompanying code at \texttt{src/06-categorical-structural/} provides a runnable demonstration of the central theorem. We summarize the key data:
+
+\begin{itemize}
+  \item \texttt{Theory.hs}: the data type for a Lawvere theory and its operations (constants, unaries).
+  \item \texttt{Model.hs}: a record type representing a model in $\Set$, with a carrier and interpretations of $\zeroop$ and $\succop$. Provides \texttt{isHomomorphism} and \texttt{areIsomorphic}.
+  \item \texttt{Models.hs}: builds two finite $T_\succop$-models on disjoint carrier types and an isomorphism witnessing $M_{\mathrm{vN}} \iso M_{\mathrm{Z}}$.
+  \item \texttt{Invariants.hs}: a panel of definable invariants (cardinality, orbit length of zero, fixed-point count, image of $\succop^k$ at zero for various $k$).
+  \item \texttt{Main.hs}: instantiates the panel against both models and prints a side-by-side agreement table.
+\end{itemize}
+
+A representative listing:
+
+\begin{lstlisting}[language=Haskell]
+-- Two models with different carriers but same structure
+modelVN  :: Model VNNum
+modelZ   :: Model ZNum
+isoVNtoZ :: VNNum -> ZNum
+isoZtoVN :: ZNum  -> VNNum
+
+main :: IO ()
+main = do
+  putStrLn $ "Cardinality vN  : " ++ show (cardinality modelVN)
+  putStrLn $ "Cardinality Z   : " ++ show (cardinality modelZ)
+  putStrLn $ "Orbit-of-zero vN: " ++ show (orbitLen   modelVN)
+  putStrLn $ "Orbit-of-zero Z : " ++ show (orbitLen   modelZ)
+  -- Each invariant agrees, witnessing Theorem 4.5
+\end{lstlisting}
+
+\noindent The code performs the verification: every numerical invariant computed against $M_{\mathrm{vN}}$ matches the corresponding invariant computed against $M_{\mathrm{Z}}$, exactly as predicted by \Cref{thm:invariance,thm:agreement}.
+
+\section{Results}\label{sec:results}
+
+We collect the principal results of the paper.
+
+\begin{theorem}[Main, restatement]
+Let $\T$ be a Lawvere theory and let $M, M' : \T \to \Set$ be two models. If $M \iso M'$ in $\Mod{\T}$, then for every definable invariant $I$ (\Cref{def:def-inv}), $I(M) \iso I(M')$. In the special case $\E = \Set$ and $I(M)$ a finite set, $|I(M)| = |I(M')|$.
+\end{theorem}
+
+\begin{theorem}[Concrete instance]
+The von Neumann and Zermelo finite ordinals up to height $4$ are isomorphic as $T_\succop$-models in $\Set$ but not equal as sets in ZFC. Every numerical invariant agrees on both. This agreement is verified computationally by the Haskell implementation in \Cref{sec:haskell}.
+\end{theorem}
+
+\begin{theorem}[HoTT promotion, restatement of \Cref{thm:transport-inv}]
+In HoTT with the univalence axiom, every property $P$ of structures of a given kind is automatically invariant under structure-preserving equivalence. Hence the meta-theoretic discipline of writing only structural definitions becomes the internal theorem ``every definition is structural''.
+\end{theorem}
+
+\begin{theorem}[Decategorification preserves invariants]
+For finite groupoids $G \eq G'$, $\pi_0(G) \iso \pi_0(G')$ as sets, $|\pi_0(G)| = |\pi_0(G')|$ as natural numbers, and $|G|_{\mathrm{gpd}} = |G'|_{\mathrm{gpd}}$ as rational numbers.
+\end{theorem}
+
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Implications}
+
+The invariance theorem (\Cref{thm:invariance}) is technically modest --- it says functors send isomorphisms to isomorphisms --- but its philosophical force is large. Combined with \Cref{prop:struct-iso}, it cashes out the structuralist slogan ``numbers are positions'' in a fully formal way: a position in a structure is exactly a $\Mod{\T}$-invariant of finite power, and ``$58$'' picks out the same thing in any model up to canonical isomorphism.
+
+In HoTT (\Cref{sec:transport}), the same principle is internalized: the meta-condition becomes a theorem. This is one of the two senses in which univalence is foundational: it eliminates the gap between ``structural in principle'' and ``provably structural''.
+
+\subsection{Alternative categorical foundations}
+
+ETCS is not the only category-theoretic foundation for mathematics; it is the one closest to traditional set theory in expressive power. Other proposals deserve mention:
+
+\begin{itemize}
+  \item \textbf{ETCS / well-pointed topos with NNO and choice}~\cite{Lawvere1964}: a first-order axiomatization of the category of sets. Bi-interpretable with bounded Zermelo set theory plus choice.
+  \item \textbf{SEAR (sets, elements, and relations)}: a Lawvere-style structural set theory developed by Shulman, organized around relations rather than functions.
+  \item \textbf{FOLDS (first-order logic with dependent sorts)}: Makkai's framework in which equality between objects of distinct sorts is not a well-formed formula, automatically enforcing structural invariance.
+  \item \textbf{HoTT / Univalent Foundations}~\cite{HoTTBook}: dependent type theory with the univalence axiom, in which structural invariance is a theorem of the foundations rather than a syntactic discipline.
+\end{itemize}
+
+A common thread runs through all four: the formal apparatus is set up so that one cannot --- or at least, one should not --- formulate a non-structural property. Where ETCS achieves this by using only categorical primitives, FOLDS by sort discipline, and HoTT by univalence, the philosophical content is the same: only structural content is mathematically meaningful.
+
+\subsection{Limitations}
+
+We have presented the structural perspective at the level of finite Lawvere theories interpreted in $\Set$. The full strength of the perspective requires:
+\begin{itemize}
+  \item finite-product theories with sorts (multi-sorted Lawvere theories), which suffice for first-order universal algebra;
+  \item finite-limit theories (essentially algebraic theories), which suffice for partial operations like division;
+  \item topos-theoretic semantics for full first-order logic (geometric / coherent theories);
+  \item dependent type theories (Martin-L\"of, HoTT) for the most expressive case.
+\end{itemize}
+The invariance principle survives at every level: the categorical content of the principle does not depend on the size of the theory.
+
+\subsection{Connection to the synthesis}
+
+This is paper $06$ of a six-paper series. The synthesis paper consolidates the per-topic results into a single thesis: that the levels in \Cref{tab:columns} (rows 3--6) are not analogous but literally the same, identified up to equivalence, in HoTT with univalence. The present paper has prepared the ground for that consolidation by:
+\begin{enumerate}
+  \item supplying the formal version of structuralism (functorial semantics);
+  \item proving the invariance theorem on which the consolidation depends;
+  \item identifying univalence as the principle that promotes the invariance from a meta-theorem to an internal theorem.
+\end{enumerate}
+
+\section{Conclusion}\label{sec:conclusion}
+
+A number is what survives every change of representation that preserves the structure. We have made this slogan precise: numbers are definable invariants of $T_\succop$-models, equivalently functors from the underlying groupoid of $\Mod{T_\succop}$ to whatever target category one chooses to extract numerical content into. Two models that are isomorphic as $T_\succop$-models give the same answer to every such question. The Haskell code makes the principle executable for the von Neumann / Zermelo example.
+
+The deeper claim is that this principle is the same one that universal properties express, that the Yoneda embedding internalizes, and that HoTT with univalence makes literal: structural identity is identity. The synthesis paper develops the consequences.
+
+\subsection*{Future work}
+
+Three directions deserve attention:
+\begin{enumerate}
+  \item \emph{Higher Lawvere theories:} extend the functorial-semantics framework to $(\infty,1)$-Lawvere theories and verify that the invariance theorem persists at every level of homotopy.
+  \item \emph{Modal structuralism in HoTT:} formalize Hellman's modal structuralism using the modalities of HoTT (open / closed / monadic modalities) and compare to the absolute version.
+  \item \emph{Decategorification of physical theories:} apply the invariance lens to gauge theories and conserved quantities, and clarify the relationship between structural invariance and Noether's theorem.
+\end{enumerate}
+
+\begin{thebibliography}{99}
+
+\bibitem{Awodey1996}
+Awodey, S. (1996). \emph{Structure in Mathematics and Logic: A Categorical Perspective}. Philosophia Mathematica, 4(3), 209--237.
+
+\bibitem{Awodey2004}
+Awodey, S. (2004). \emph{An Answer to Hellman's Question: ``Does Category Theory Provide a Framework for Mathematical Structuralism?''} Philosophia Mathematica, 12(1), 54--64.
+
+\bibitem{Awodey2014}
+Awodey, S. (2014). \emph{Structuralism, Invariance, and Univalence}. Philosophia Mathematica, 22(1), 1--11.
+
+\bibitem{Benacerraf1965}
+Benacerraf, P. (1965). \emph{What Numbers Could Not Be}. Philosophical Review, 74(1), 47--73.
+
+\bibitem{Dedekind1888}
+Dedekind, R. (1888). \emph{Was sind und was sollen die Zahlen?} Vieweg \& Sohn, Braunschweig.
+
+\bibitem{Escardo2019}
+Escard\'o, M.\ H. (2019). \emph{Introduction to Univalent Foundations of Mathematics with Agda}. Lecture notes.
+
+\bibitem{Hellman1989}
+Hellman, G. (1989). \emph{Mathematics Without Numbers: Towards a Modal-Structural Interpretation}. Oxford University Press.
+
+\bibitem{HoTTBook}
+The Univalent Foundations Program (2013). \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}. Institute for Advanced Study. arXiv:1308.0729.
+
+\bibitem{Hyland1982}
+Hyland, J.\ M.\ E. (1982). \emph{The Effective Topos}. In: A.\ S.\ Troelstra, D.\ van Dalen (eds.), The L.\ E.\ J.\ Brouwer Centenary Symposium, North-Holland, 165--216.
+
+\bibitem{Lawvere1963}
+Lawvere, F.\ W. (1963). \emph{Functorial Semantics of Algebraic Theories}. PhD thesis, Columbia University. Reprinted in TAC Reprints 5 (2004).
+
+\bibitem{Lawvere1964}
+Lawvere, F.\ W. (1964). \emph{An Elementary Theory of the Category of Sets}. Proceedings of the National Academy of Sciences, 52(6), 1506--1511.
+
+\bibitem{MacLane1971}
+Mac Lane, S. (1971). \emph{Categories for the Working Mathematician}. Springer.
+
+\bibitem{Resnik1981}
+Resnik, M.\ D. (1981). \emph{Mathematics as a Science of Patterns: Ontology and Reference}. No\^us, 15(4), 529--550.
+
+\bibitem{Resnik1997}
+Resnik, M.\ D. (1997). \emph{Mathematics as a Science of Patterns}. Oxford University Press.
+
+\bibitem{Riehl2016}
+Riehl, E. (2016). \emph{Category Theory in Context}. Dover.
+
+\bibitem{Shapiro1997}
+Shapiro, S. (1997). \emph{Philosophy of Mathematics: Structure and Ontology}. Oxford University Press.
+
+\bibitem{Voevodsky2010}
+Voevodsky, V. (2010). \emph{Univalent Foundations Project}. Manuscript.
+
+\bibitem{Wadler2015}
+Wadler, P. (2015). \emph{Propositions as Types}. Communications of the ACM, 58(12), 75--84.
+
+\bibitem{BaezDolan1998}
+Baez, J.\ C., and Dolan, J. (1998). \emph{From Finite Sets to Feynman Diagrams}. In: Mathematics Unlimited --- 2001 and Beyond, Springer, 29--50.
+
+\bibitem{Leinster2008}
+Leinster, T. (2008). \emph{The Euler Characteristic of a Category}. Documenta Mathematica, 13, 21--49.
+
+\end{thebibliography}
+
+\end{document}

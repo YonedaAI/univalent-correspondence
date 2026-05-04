@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="YonedaAI Research Univalent Correspondence Project Synthesis paper for the six topical papers (I–VI) research@yonedaai.com" />
+  <meta name="dcterms.date" content="2026-05-03" />
+  <title>The Univalent Correspondence: How Six Perspectives on Number Become One Synthesis of the Univalent Correspondence Series</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    div.abstract {
+      margin: 2em 2em 2em 2em;
+      text-align: left;
+      font-size: 85%;
+    }
+    div.abstract-title {
+      font-weight: bold;
+      text-align: center;
+      padding: 0;
+      margin-bottom: 0.5em;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <script defer=""
+  src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">The Univalent Correspondence:<br />
+How Six Perspectives on Number Become One<br />
+Synthesis of the Univalent Correspondence Series</h1>
+<p class="author">YonedaAI Research<br />
+<em>Univalent Correspondence Project</em><br />
+<em>Synthesis paper for the six topical papers (I–VI)</em><br />
+<code>research@yonedaai.com</code></p>
+<p class="date">3 May 2026</p>
+<div class="abstract">
+<div class="abstract-title">Abstract</div>
+<p>This is the synthesis paper for the six-part series <em>The Univalent
+Correspondence</em>. Each topical paper takes one perspective on the
+question “what is the natural number <span
+class="math inline">58</span>?” and develops it to maturity: Paper I
+treats <span class="math inline">58</span> naively as a symbol or
+quantity; Paper II encodes it set-theoretically as a von Neumann
+ordinal; Paper III characterizes it by a universal property as the <span
+class="math inline">58</span>th iterate of <span
+class="math inline">\mathsf{succ}</span> in any initial successor
+structure; Paper IV identifies it with its representable functor <span
+class="math inline">\mathrm{Hom}(-, 58)</span>; Paper V realises it as a
+canonical term of an inductive type <span
+class="math inline">\mathbb{N}</span> in Homotopy Type Theory,
+identified up to path equivalence; Paper VI reads it structurally, as an
+invariant under all structure-preserving morphisms between models of
+arithmetic. We argue that under Voevodsky’s univalence axiom, the four
+perspectives of Papers III through VI are not analogous but
+<em>literally identical</em>: an initial successor structure, a
+representing presheaf, a contractible <span
+class="math inline">\Sigma</span>-type of NNO structures, and a
+structural invariant of arithmetic models are four faces of one <span
+class="math inline">\infty</span>-groupoid. We name this identification
+the <em>univalent correspondence</em>, building on the four-way
+computational tetrad of Curry, Howard, Lambek, and Voevodsky (extending
+Wadler’s propositions-as-types-as-spaces and Harper’s computational
+trinity). After reviewing each level, motivating the canonical six-row
+table, and making the unifying <span
+class="math inline">\infty</span>-groupoid framework precise, we prove
+transit theorems showing that each level transcends its predecessor: the
+set-theoretic level resolves the naive symbol/object confusion but
+introduces encoding-relativity (Benacerraf’s identification problem);
+the universal property resolves encoding by going relational; Yoneda
+makes “relational profile” mathematically precise as a representable
+functor; HoTT makes Yoneda’s “iff” into a literal identity in the
+universe via univalence; and the categorical/structural perspective is
+the philosophical commitment that <em>all of this</em> is what
+mathematical objects are. We close with a research outlook on ContextFS
+/ typed memory as a structural-identity primitive, transcendentals <span
+class="math inline">\pi</span> and <span class="math inline">e</span> in
+HoTT via Cauchy reals as a higher inductive–inductive type, directed
+HoTT and synthetic <span class="math inline">\infty</span>-category
+theory, and the principal open problem: a synthetic foundation for
+analytic number theory.</p>
+</div>
+</header>
+<h1 id="sec:intro">Introduction</h1>
+<h2 id="the-question-and-the-six-perspectives">The question and the six
+perspectives</h2>
+<p>The Univalent Correspondence series asks one question — <em>what is
+the natural number <span class="math inline">58</span>?</em> — and
+answers it six different ways. The six papers of the series each occupy
+one row of <a href="#tab:six-rows" data-reference-type="ref+label"
+data-reference="tab:six-rows">1</a>, the central organizing artifact of
+the project. The synthesis paper before you argues that the rightmost
+four rows describe the <em>same</em> mathematical object, identified up
+to equivalence by Voevodsky’s univalence axiom.</p>
+<div id="tab:six-rows">
+<table>
+<caption>The six perspectives on the natural number <span
+class="math inline">58</span>. Rows III–VI become literally identical
+under the univalence axiom (<a href="#sec:transit"
+data-reference-type="ref+label"
+data-reference="sec:transit">3</a>).</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Level (Paper)</strong></th>
+<th style="text-align: left;"><strong>What <span
+class="math inline">58</span> is at this level</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Naive (I)</td>
+<td style="text-align: left;">A symbol on the page; a quantity counted
+by a finger or scratch.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Set-theoretic (II)</td>
+<td style="text-align: left;">The von Neumann ordinal <span
+class="math inline">\{0, 1, \ldots, 57\}</span>; equivalently, any
+iso-class of ZFC encodings of the same Peano structure.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Universal property (III)</td>
+<td style="text-align: left;">The <span class="math inline">58</span>-th
+iterate <span
+class="math inline">\mathsf{succ}^{58}(\mathsf{zero})</span> in
+<em>any</em> initial successor structure <span class="math inline">(N,
+0, \mathsf{succ})</span> in any category with terminal object.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Yoneda (IV)</td>
+<td style="text-align: left;">The representable functor <span
+class="math inline">\mathrm{Hom}(-, 58)</span> on the appropriate
+category; equivalently, the entire system of probes that land on <span
+class="math inline">58</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">HoTT (V)</td>
+<td style="text-align: left;">A canonical term in the inductive type
+<span class="math inline">\mathbb{N}</span>, identified up to path
+equivalence (and hence, by univalence, identified across NNO
+presentations).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Categorical / structural (VI)</td>
+<td style="text-align: left;">A semantic invariant, in the sense of
+Awodey, Resnik, and Shapiro, under all structure-preserving morphisms
+between models of arithmetic.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The series is not a survey. Each topical paper is a self-contained
+mathematical development with its own theorems, proofs, and Haskell
+artifacts. Paper I <span class="citation" data-cites="paper-i"></span>
+is historical and philosophical, anchoring the discussion in numerals
+and counting; Paper II <span class="citation"
+data-cites="paper-ii"></span> axiomatizes ZFC, develops the von Neumann
+hierarchy, and proves Benacerraf’s identification problem in formal
+terms; Paper III <span class="citation" data-cites="paper-iii"></span>
+introduces the natural numbers object, derives primitive recursion from
+its universal property, and shows the equivalence with second-order
+Peano arithmetic; Paper IV <span class="citation"
+data-cites="paper-iv"></span> proves the Yoneda lemma in covariant and
+contravariant forms, with applications to numbers, groups, schemes, and
+the <span class="math inline">\infty</span>-categorical generalization;
+Paper V <span class="citation" data-cites="paper-v"></span> is a
+self-contained development of HoTT including identity types, path
+induction, the univalence axiom, higher inductive types, and the cubical
+realisation; Paper VI <span class="citation"
+data-cites="paper-vi"></span> surveys mathematical structuralism, proves
+an isomorphism-invariance theorem for first-order properties, and
+relates categorification to decategorification.</p>
+<p>The synthesis paper before you assumes the existence and content of
+these six topical papers and combines them. We do not re-prove their
+main theorems; we cite them. What we do prove are the <em>transit
+theorems</em> between levels, and we collect them into a single
+mathematical statement of the univalent correspondence (<a
+href="#sec:transit,sec:correspondence" data-reference-type="ref+label"
+data-reference="sec:transit,sec:correspondence">[sec:transit,sec:correspondence]</a>).</p>
+<h2 id="the-thesis">The thesis</h2>
+<p>The thesis of this paper, and of the series as a whole, has two
+layers.</p>
+<div id="prin:weak" class="principle">
+<p><strong>Principle 1</strong> (Univalent Correspondence, weak form).
+For the natural numbers, and more generally for any mathematical
+structure presentable by an essentially algebraic theory, the four
+perspectives <em>universal property</em> (Paper III), <em>Yoneda</em>
+(Paper IV), <em>HoTT term up to path equivalence</em> (Paper V), and
+<em>structural invariant</em> (Paper VI) yield equivalent
+characterisations.</p>
+</div>
+<div id="prin:strong" class="principle">
+<p><strong>Principle 2</strong> (Univalent Correspondence, strong form).
+Under the univalence axiom, the equivalences of <a href="#prin:weak"
+data-reference-type="ref+label" data-reference="prin:weak">1</a> are
+internalised as identities in a universe <span
+class="math inline">\mathcal{U}</span>. The four characterisations do
+not merely yield isomorphic answers; they are paths in the same <span
+class="math inline">\infty</span>-groupoid, and the natural number <span
+class="math inline">58</span> is a single point in that <span
+class="math inline">\infty</span>-groupoid, viewed through four
+windows.</p>
+</div>
+<p>The strong form is the content of <a
+href="#thm:identity-of-perspectives" data-reference-type="ref+label"
+data-reference="thm:identity-of-perspectives">18</a> below. The weak
+form is established meta-theoretically by the work of Lawvere <span
+class="citation" data-cites="Lawvere1964"></span>, Lambek <span
+class="citation" data-cites="Lambek1972"></span>, Wadler <span
+class="citation" data-cites="Wadler2015"></span>, Awodey <span
+class="citation" data-cites="Awodey2014"></span>, and the HoTT
+Book <span class="citation" data-cites="HoTTBook"></span>. The strong
+form requires univalence and the structure identity principle (SIP); see
+<a href="#sec:transit-vi" data-reference-type="ref+label"
+data-reference="sec:transit-vi">3.5</a>.</p>
+<h2 id="why-a-sixth-row">Why a sixth row?</h2>
+<p>A natural question: if the universal property already characterises
+<span class="math inline">58</span> up to canonical isomorphism, why do
+we need Yoneda, HoTT, and the structural view as separate rows? The
+short answer: each row resolves a residual question raised by the
+previous one.</p>
+<ul>
+<li><p><strong>Naive (I) <span class="math inline">\to</span>
+Set-theoretic (II).</strong> The naive level confuses the symbol <span
+class="math inline">58</span> with the number <span
+class="math inline">58</span>. The set-theoretic level resolves the
+confusion by exhibiting a definite mathematical object <span
+class="math inline">\{0, 1, \ldots, 57\}</span>.</p></li>
+<li><p><strong>Set-theoretic (II) <span class="math inline">\to</span>
+Universal property (III).</strong> The set-theoretic encoding is
+non-canonical (Benacerraf): von Neumann’s and Zermelo’s encodings
+disagree about whether <span class="math inline">\{\emptyset\} \in
+17</span>. The universal property abstracts away from the encoding by
+characterising the structure up to canonical isomorphism.</p></li>
+<li><p><strong>Universal property (III) <span
+class="math inline">\to</span> Yoneda (IV).</strong> Universal
+properties give a relational identification one structure at a time. The
+Yoneda lemma generalises this to a universal principle: <em>every</em>
+object is determined by its system of incoming morphisms. “<span
+class="math inline">58</span> is initial-among-X” becomes “<span
+class="math inline">58</span> <em>is</em> the functor <span
+class="math inline">\mathrm{Hom}(-, 58)</span>.”</p></li>
+<li><p><strong>Yoneda (IV) <span class="math inline">\to</span> HoTT
+(V).</strong> The Yoneda lemma yields <span class="math inline">X \cong
+Y \iff h_X \cong h_Y</span> as a meta-theorem about a category. Under
+univalence, this “iff” becomes a literal equality in the universe: the
+implication <span class="math inline">h_X = h_Y \to X = Y</span> is
+constructed by transport, and the implication <span
+class="math inline">X \cong Y \to X = Y</span> is the univalence
+axiom.</p></li>
+<li><p><strong>HoTT (V) <span class="math inline">\to</span>
+Categorical/Structural (VI).</strong> HoTT is a formal system. The
+categorical/structural view is the philosophical commitment that
+<em>this is what mathematical objects are</em>: positions in structures,
+identified up to equivalence-respecting morphisms. SIP makes this
+philosophical commitment provable inside HoTT.</p></li>
+</ul>
+<h2 id="naming-the-correspondence">Naming the correspondence</h2>
+<p>The four rightmost rows of <a href="#tab:six-rows"
+data-reference-type="ref+label" data-reference="tab:six-rows">1</a>
+correspond to the four columns of the <em>computational tetrad</em>, the
+four-way extension of the Curry–Howard–Lambek correspondence shown in <a
+href="#tab:tetrad" data-reference-type="ref+label"
+data-reference="tab:tetrad">2</a>. We follow Wadler <span
+class="citation" data-cites="Wadler2015"></span> in calling its central
+insight <em>propositions-as-types-as-spaces</em>, but we call its strong
+form (internalised by the univalence axiom) <em>the univalent
+correspondence</em>. The terminology and its history are surveyed in <a
+href="#sec:naming" data-reference-type="ref+label"
+data-reference="sec:naming">7</a>.</p>
+<div id="tab:tetrad">
+<table>
+<caption>The computational tetrad. Each row is a single concept seen
+through four windows. Adapted from <span class="citation"
+data-cites="Wadler2015 HoTTBook"></span>; the explicit fourth column is
+due to Voevodsky’s univalent foundations project.</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Logic</strong></th>
+<th style="text-align: left;"><strong>Type theory</strong></th>
+<th style="text-align: left;"><strong>Category theory</strong></th>
+<th style="text-align: left;"><strong>Homotopy / topology</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Propositions</td>
+<td style="text-align: left;">Types</td>
+<td style="text-align: left;">Objects</td>
+<td style="text-align: left;">Spaces</td>
+</tr>
+<tr>
+<td style="text-align: left;">Proofs</td>
+<td style="text-align: left;">Terms</td>
+<td style="text-align: left;">Morphisms</td>
+<td style="text-align: left;">Points / paths</td>
+</tr>
+<tr>
+<td style="text-align: left;">Implication <span class="math inline">A
+\to B</span></td>
+<td style="text-align: left;">Function type <span class="math inline">A
+\to B</span></td>
+<td style="text-align: left;">Hom-set</td>
+<td style="text-align: left;">Path space</td>
+</tr>
+<tr>
+<td style="text-align: left;">Conjunction <span class="math inline">A
+\wedge B</span></td>
+<td style="text-align: left;">Product <span class="math inline">A \times
+B</span></td>
+<td style="text-align: left;">Product / limit</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Disjunction <span class="math inline">A
+\vee B</span></td>
+<td style="text-align: left;">Sum <span class="math inline">A +
+B</span></td>
+<td style="text-align: left;">Coproduct / colimit</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Truth <span
+class="math inline">\top</span></td>
+<td style="text-align: left;">Unit <span
+class="math inline">\mathbf{1}</span></td>
+<td style="text-align: left;">Terminal object</td>
+<td style="text-align: left;">Point</td>
+</tr>
+<tr>
+<td style="text-align: left;">Falsehood <span
+class="math inline">\bot</span></td>
+<td style="text-align: left;">Empty <span
+class="math inline">\mathbf{0}</span></td>
+<td style="text-align: left;">Initial object</td>
+<td style="text-align: left;">Empty space</td>
+</tr>
+<tr>
+<td style="text-align: left;">Equality <span class="math inline">a =
+b</span></td>
+<td style="text-align: left;">Identity <span
+class="math inline">\mathsf{Id}_A(a, b)</span></td>
+<td style="text-align: left;">Isomorphism</td>
+<td style="text-align: left;">Homotopy equivalence</td>
+</tr>
+<tr>
+<td style="text-align: left;">Universal <span
+class="math inline">\forall</span></td>
+<td style="text-align: left;"><span
+class="math inline">\Pi</span>-type</td>
+<td style="text-align: left;">Right adjoint / limit</td>
+<td style="text-align: left;">Fibration</td>
+</tr>
+<tr>
+<td style="text-align: left;">Existential <span
+class="math inline">\exists</span></td>
+<td style="text-align: left;"><span
+class="math inline">\Sigma</span>-type</td>
+<td style="text-align: left;">Left adjoint / colimit</td>
+<td style="text-align: left;">Total space</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="outline">Outline</h2>
+<p><a href="#sec:row-by-row" data-reference-type="ref+Label"
+data-reference="sec:row-by-row">2</a> reviews the six perspectives row
+by row, summarising the principal results of Papers I through VI. <a
+href="#sec:transit" data-reference-type="ref+Label"
+data-reference="sec:transit">3</a> proves the five transit theorems that
+move from one level to the next. <a href="#sec:framework"
+data-reference-type="ref+Label" data-reference="sec:framework">4</a>
+sets up the unified mathematical framework: an <span
+class="math inline">\infty</span>-groupoid model under univalence, in
+which the four rightmost perspectives correspond to four functors out of
+one <span class="math inline">\infty</span>-topos. <a
+href="#sec:correspondence" data-reference-type="ref+Label"
+data-reference="sec:correspondence">5</a> states and proves the main
+identity-of-perspectives theorem. <a href="#sec:diagrams"
+data-reference-type="ref+Label" data-reference="sec:diagrams">6</a>
+makes the inter-level commutativity precise via commutative diagrams of
+equivalences. <a href="#sec:naming" data-reference-type="ref+Label"
+data-reference="sec:naming">7</a> surveys the history of the naming and
+explains our preference for “the univalent correspondence.” <a
+href="#sec:applications" data-reference-type="ref+Label"
+data-reference="sec:applications">8</a> sketches three downstream
+applications: ContextFS as a structural-identity computational
+primitive, transcendentals <span class="math inline">\pi</span> and
+<span class="math inline">e</span> in HoTT, and directed HoTT for
+representation theory. <a href="#sec:open"
+data-reference-type="ref+Label" data-reference="sec:open">9</a> collects
+open problems. <a href="#sec:conclusion" data-reference-type="ref+Label"
+data-reference="sec:conclusion">10</a> concludes.</p>
+<h1 id="sec:row-by-row">Row by Row: The Six Perspectives in Brief</h1>
+<p>This section is a synopsis of the six topical papers. We assume the
+reader has access to the topical papers and reproduce only enough
+material to make the synthesis self-contained.</p>
+<h2 id="sec:row-i">Paper I: Naive — numbers as symbols and
+quantities</h2>
+<p>Paper I <span class="citation" data-cites="paper-i"></span> occupies
+the pre-formal level. A natural number <span
+class="math inline">58</span> is, at this level, a symbol on a page
+(“<span class="math inline">58</span>”), a Roman numeral (<span
+class="sans-serif">LVIII</span>), a tally (fifty-eight scratches), or a
+Babylonian sexagesimal cluster, and simultaneously a quantity (the
+cardinality of a counted collection). The paper traces this dual aspect
+through Mill’s empiricism, Husserl’s phenomenology of arithmetic,
+Frege’s critique of psychologism in <em>Grundlagen der
+Arithmetik</em> <span class="citation" data-cites="frege1884"></span>
+and <em>Sinn und Bedeutung</em> <span class="citation"
+data-cites="frege1892"></span>, and Benacerraf’s identification
+problem <span class="citation" data-cites="benacerraf1965"></span>.</p>
+<p>The principal lesson of Paper I is the syntax/semantics distinction:
+numerals are syntactic objects (symbols, words over an alphabet), while
+numbers are the semantic invariants that all adequate numeral systems
+share. The paper provides a Haskell artifact parsing four numeral
+systems (Hindu–Arabic, Roman, tally, Babylonian sexagesimal) into a
+single structural normal form.</p>
+<p>The naive level is shown to be simultaneously <em>insufficient</em>
+(because of symbol/object confusion, multiplicity of equally adequate
+representations, and a foundational underdetermination that already
+foreshadows the structuralist response) and <em>indispensable</em>
+(because embodied counting and culturally-transmitted numerals anchor
+mathematical content in human cognition). The paper closes by motivating
+each of the five formal levels developed in subsequent papers.</p>
+<h2 id="sec:row-ii">Paper II: Set-theoretic — numbers as von Neumann
+ordinals</h2>
+<p>Paper II <span class="citation" data-cites="paper-ii"></span> works
+in Zermelo–Fraenkel set theory with Choice (ZFC). It develops the von
+Neumann encoding <span class="math inline">0 = \emptyset</span>, <span
+class="math inline">n + 1 = n \cup \{n\}</span>, in which <span
+class="math inline">58 = \{0, 1, \ldots, 57\}</span>, and contrasts it
+with Zermelo’s encoding <span class="math inline">0 = \emptyset</span>,
+<span class="math inline">n + 1 = \{n\}</span>. Both yield structures
+isomorphic to <span class="math inline">(\mathbb{N}, 0,
+\mathsf{succ})</span> as Peano models, yet they differ on internal
+set-theoretic questions such as whether <span class="math inline">2 \in
+3</span>.</p>
+<p>The paper proves Benacerraf’s argument formally:</p>
+<div id="thm:benacerraf" class="theorem">
+<p><strong>Theorem 3</strong> (Benacerraf, formalised in Paper II).
+<em>There exist two ZFC-definable structures <span
+class="math inline">(N_v, 0_v, \mathsf{succ}_v)</span> and <span
+class="math inline">(N_z, 0_z, \mathsf{succ}_z)</span> which both
+satisfy the second-order Peano axioms and are isomorphic as Peano
+structures, but which differ on a sentence of ZFC’s first-order language
+(e.g. “<span class="math inline">\exists x \in 2.\, x = 1</span>”).
+Therefore, no choice of ZFC encoding can claim to be the unique correct
+<span class="math inline">\mathbb{N}</span>.</em></p>
+</div>
+<p>The paper develops addition, multiplication, and order recursively on
+the von Neumann ordinals, verifies the Peano axioms, and proves a
+representation theorem stating that any successor structure obtained
+from a class function <span class="math inline">S</span> that is
+injective, has a base point not in its image, and admits transfinite
+iteration generates a model of Peano arithmetic isomorphic to the von
+Neumann naturals. It closes with a structuralist re-reading: the
+set-theoretic perspective <em>does</em> present numbers, but only as
+encodings; the structural content these encodings share is what we call
+<em>the number itself</em>.</p>
+<h2 id="sec:row-iii">Paper III: Universal property — numbers as initial
+successor structures</h2>
+<p>Paper III <span class="citation" data-cites="paper-iii"></span>
+introduces the natural numbers object (NNO).</p>
+<div id="def:nno" class="definition">
+<p><strong>Definition 4</strong> (NNO, Paper III). A <em>natural numbers
+object</em> in a category <span class="math inline">\mathcal{C}</span>
+with terminal object <span class="math inline">\mathbf{1}</span> is a
+triple <span class="math inline">(N, 0\colon \mathbf{1} \to N,
+\mathsf{succ}\colon N \to N)</span> that is the initial <span
+class="math inline">(0, \mathsf{succ})</span>-algebra. Equivalently,
+<span class="math inline">(N, [0, \mathsf{succ}])</span> is initial
+among algebras for the endofunctor <span class="math inline">F X =
+\mathbf{1} + X</span> (Lambek).</p>
+</div>
+<div id="thm:nno-up" class="theorem">
+<p><strong>Theorem 5</strong> (Universal property, Paper III,
+Theorem 3.2). <em>Let <span class="math inline">(N, 0,
+\mathsf{succ})</span> be an NNO in <span
+class="math inline">\mathcal{C}</span>. For every pointed dynamical
+system <span class="math inline">(X, x_0, f)</span> in <span
+class="math inline">\mathcal{C}</span>, there exists a unique morphism
+<span class="math inline">h\colon N \to X</span> such that <span
+class="math display">h \circ 0 = x_0 \quad \text{and} \quad h \circ
+\mathsf{succ}= f \circ h.</span></em></p>
+</div>
+<p>The unique map <span class="math inline">h</span> <em>is</em> the
+primitive recursion combinator <span
+class="math inline">\mathrm{rec}(x_0, f)</span>. The integer <span
+class="math inline">58</span> is, in any NNO, <span
+class="math inline">\mathsf{succ}^{58}(0)</span>, and any two NNOs are
+canonically isomorphic via the unique maps in both directions, so <span
+class="math inline">58</span> is well-defined up to that canonical
+isomorphism.</p>
+<p>Paper III also proves equivalence with second-order Peano axioms
+(P1–P5), discusses non-standard models of first-order PA (which the
+universal-property characterisation excludes), develops
+universal-property descriptions of <span
+class="math inline">\mathbb{Z}</span>, <span
+class="math inline">\mathbb{Q}</span>, <span
+class="math inline">\mathbb{R}</span>, <span
+class="math inline">\pi</span>, <span class="math inline">e</span>, and
+presents the coalgebraic dual (final coalgebras, streams as <span
+class="math inline">\nu X.\, D \times X</span>, codata, bisimulation as
+the corresponding induction principle).</p>
+<p>The paper closes by recasting the NNO Yonedically: a universal
+property is a representation of a functor, and the NNO represents the
+constant singleton functor on <span
+class="math inline">\mathbf{PtEndo}</span>. This bridges to
+Paper IV.</p>
+<h2 id="sec:row-iv">Paper IV: Yoneda — numbers as representable
+functors</h2>
+<p>Paper IV <span class="citation" data-cites="paper-iv"></span>
+promotes the relational viewpoint to its categorical limit.</p>
+<div id="thm:yoneda" class="theorem">
+<p><strong>Theorem 6</strong> (Yoneda lemma, Paper IV, Theorem 3.1).
+<em>For any locally small category <span
+class="math inline">\mathcal{C}</span>, object <span
+class="math inline">X \in \mathcal{C}</span>, and presheaf <span
+class="math inline">F\colon \mathcal{C}^{\mathrm{op}}\to
+\mathbf{Set}</span>, the map <span class="math display">\Phi_{X,F}\colon
+\mathrm{Nat}(\mathrm{Hom}_{\mathcal{C}}(-, X), F) \to F(X), \qquad
+\alpha \mapsto \alpha_X(\mathrm{id}_X)</span> is a bijection, natural in
+both <span class="math inline">X</span> and <span
+class="math inline">F</span>.</em></p>
+</div>
+<div class="corollary">
+<p><strong>Corollary 7</strong> (Fully faithful Yoneda embedding).
+<em>The functor <span class="math inline">y\colon \mathcal{C} \to
+[\mathcal{C}^{\mathrm{op}}, \mathbf{Set}]</span>, <span
+class="math inline">X \mapsto \mathrm{Hom}(-, X)</span>, is fully
+faithful. Hence <span class="math inline">X \cong Y \iff h_X \cong
+h_Y</span>.</em></p>
+</div>
+<p>In the category <span class="math inline">\mathbf{PtEndo}</span> of
+pointed dynamical systems, the natural number <span
+class="math inline">58</span> is identified with the functor that
+assigns to every <span class="math inline">(X, x_0, f)</span> the value
+<span class="math inline">f^{58}(x_0)</span>. The structuralist’s slogan
+“numbers are positions in a structure” is now a theorem.</p>
+<p>Paper IV also proves the density theorem (every presheaf is a colimit
+of representables), surveys applications to groups (regular
+representations), spaces (functor of points), and schemes
+(Grothendieck’s program), and develops enriched, <span
+class="math inline">2</span>-categorical, and <span
+class="math inline">\infty</span>-categorical Yoneda (culminating in
+Lurie’s <span class="math inline">\infty</span>-Yoneda lemma <span
+class="citation" data-cites="lurie"></span>). It closes by arguing that
+under univalence, the implication <span class="math inline">h_X \cong
+h_Y \Rightarrow X = Y</span> is internalised as a path in the universe,
+preparing Paper V.</p>
+<h2 id="sec:row-v">Paper V: HoTT — numbers as inductive types up to path
+equivalence</h2>
+<p>Paper V <span class="citation" data-cites="paper-v"></span> is a
+self-contained development of Homotopy Type Theory. The natural numbers
+are the inductive type <span class="math display">\mathbb{N}\,:\!\!=\,
+\mathsf{data}\, \mathbb{N}: \mathcal{U}\;|\; \mathsf{zero}:
+\mathbb{N}\;|\; \mathsf{succ}: \mathbb{N}\to \mathbb{N},</span> and
+<span class="math inline">58</span> is the canonical term <span
+class="math inline">\mathsf{succ}^{58}\,\mathsf{zero}</span>.</p>
+<p>The novelty of HoTT is the identity type <span class="math inline">a
+=_A b</span>, which is not a mere proposition but a structured object
+carrying the homotopical content of a <em>path space</em>. The paper
+develops path induction, transport, coherence, and the homotopy levels,
+and states Voevodsky’s univalence axiom:</p>
+<div id="thm:univalence" class="theorem">
+<p><strong>Theorem 8</strong> (Univalence axiom, Paper V, Theorem 4.2).
+<em>For all types <span class="math inline">A, B : \mathcal{U}</span>,
+the canonical map <span class="math inline">\mathsf{idtoeqv}\colon (A
+=_\mathcal{U}B) \to (A \simeq B)</span> is itself an equivalence. The
+inverse map is denoted <span class="math display">\mathsf{ua}\colon (A
+\simeq B) \to (A =_\mathcal{U}B).</span></em></p>
+</div>
+<p>The paper proves a contractibility theorem for the type of NNOs in
+HoTT:</p>
+<div id="thm:nno-contr" class="theorem">
+<p><strong>Theorem 9</strong> (Contractibility of NNO, Paper V,
+Theorem 4.4). <em>The type <span class="math display">\mathrm{NNO}:=
+\sum_{X : \mathcal{U}}\;\sum_{x_0 : X}\;\sum_{s : X \to X}\;
+\mathsf{isInitial}(X, x_0, s)</span> is contractible. The centre of
+contraction is <span class="math inline">(\mathbb{N}, \mathsf{zero},
+\mathsf{succ}, \star)</span>, and every other quadruple is connected to
+it by a unique path.</em></p>
+</div>
+<p>This is the formal expression of the slogan “<span
+class="math inline">58</span> is canonical across all NNOs.” Paper V
+also develops higher inductive types (interval, circle, spheres,
+suspensions, pushouts, propositional truncation, Cauchy real numbers as
+a higher inductive–inductive type), the cubical realisation of
+HoTT <span class="citation" data-cites="CCHM CubicalAgda"></span> in
+which univalence is provable rather than axiomatic, two-level type
+theory <span class="citation" data-cites="2LTT"></span>, modal HoTT, and
+directed HoTT <span class="citation"
+data-cites="RiehlShulman"></span>.</p>
+<h2 id="sec:row-vi">Paper VI: Categorical / structural — numbers as
+invariants</h2>
+<p>Paper VI <span class="citation" data-cites="paper-vi"></span>
+presents the structural answer to “what is a number?”. Numerals are
+invariants under all structure-preserving morphisms between models of
+arithmetic. The paper surveys mathematical structuralism in the
+philosophical tradition <span class="citation"
+data-cites="Resnik1997 Shapiro1997 Hellman1989 Awodey1996"></span>,
+presents its categorical formalisation through Lawvere’s ETCS <span
+class="citation" data-cites="Lawvere1964"></span> and the functorial
+semantics of algebraic theories <span class="citation"
+data-cites="Lawvere1963"></span>, and proves an isomorphism-invariance
+theorem for first-order properties of finitely-presented theories.</p>
+<div id="thm:sip" class="theorem">
+<p><strong>Theorem 10</strong> (Structure identity principle, Paper VI,
+Theorem 10.3). <em>Let <span class="math inline">\mathcal{S}</span> be a
+notion of structure given by a <span
+class="math inline">\Sigma</span>-type <span class="math inline">\sum_{X
+: \mathcal{U}} F(X)</span> for <span class="math inline">F</span> a
+structure of finite signature. In HoTT, identification of structures is
+canonically equivalent to structure-preserving equivalence of carriers:
+<span class="math display">\bigl((X, s) =_{\sum_X F(X)} (X&#39;,
+s&#39;)\bigr) \;\simeq\;
+\bigl(\sum_{f : X \simeq X&#39;}\, f \text{ preserves } s,
+s&#39;\bigr).</span></em></p>
+</div>
+<div id="thm:eq-inv" class="theorem">
+<p><strong>Theorem 11</strong> (Equivalence-invariance, Paper VI,
+Theorem 10.4). <em>In HoTT, every property <span class="math inline">P :
+\mathcal{S} \to \mathcal{U}</span> of structures of a given kind is
+automatically invariant under structure-preserving equivalence: <span
+class="math inline">(X, s) \simeq(X&#39;, s&#39;)</span> implies <span
+class="math inline">P(X, s) \simeq P(X&#39;, s&#39;)</span>.</em></p>
+</div>
+<p>The paper exhibits two non-equal but isomorphic set-theoretic models
+of a small algebraic theory of pointed unary structures and verifies,
+formally and by Haskell code, that all numerical answers (cardinalities
+of definable subsets, values of definable functions) coincide. It
+connects categorification (<span class="math inline">58</span>-element
+groupoid in <span class="math inline">\mathbf{Gpd}</span> that
+decategorifies to <span class="math inline">58</span> in <span
+class="math inline">\mathbf{Set}</span> via <span
+class="math inline">\pi_0</span>) and Euler-characteristic / <span
+class="math inline">K</span>-theoretic decategorification to the same
+invariance principle.</p>
+<h1 id="sec:transit">The Five Transit Theorems</h1>
+<p>Each of the five steps from one row to the next has formal content.
+We collect those steps as theorems and prove them, where the proofs are
+not already inside the topical papers.</p>
+<h2 id="sec:transit-i">Naive to set-theoretic</h2>
+<div id="thm:transit-i" class="theorem">
+<p><strong>Theorem 12</strong> (Existence of a definite encoding).
+<em>There exists a class function <span class="math inline">V :
+\mathbb{N}\to V_\omega</span> in ZFC, defined by <span
+class="math inline">V(0) = \emptyset</span>, <span
+class="math inline">V(n+1) = V(n) \cup \{V(n)\}</span>, such that every
+numeral in any of the four numeral systems of Paper I (Hindu–Arabic,
+Roman, tally, Babylonian sexagesimal) determines, via parsing, a unique
+element of the image of <span class="math inline">V</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> The recursion is justified by Replacement and
+Foundation in ZFC; see Paper II, Theorem 3.4. The parsers are
+constructed in Paper I, §8. ◻</p>
+</div>
+<p><a href="#thm:transit-i" data-reference-type="ref+Label"
+data-reference="thm:transit-i">12</a> resolves the naive symbol/object
+confusion: there is a definite mathematical object the numeral refers
+to. But it does not resolve which one: that is Benacerraf’s problem (<a
+href="#thm:benacerraf" data-reference-type="ref+label"
+data-reference="thm:benacerraf">3</a>).</p>
+<h2 id="sec:transit-ii">Set-theoretic to universal property</h2>
+<div id="thm:transit-ii" class="theorem">
+<p><strong>Theorem 13</strong> (Encoding <span
+class="math inline">\Rightarrow</span> NNO). <em>The von Neumann
+encoding <span class="math inline">V</span> exhibits <span
+class="math inline">(\mathbb{N}_v, \emptyset, n \mapsto n \cup
+\{n\})</span> as a natural numbers object in <span
+class="math inline">\mathbf{Set}</span>. The Zermelo encoding <span
+class="math inline">Z</span> exhibits <span
+class="math inline">(\mathbb{N}_z, \emptyset, n \mapsto \{n\})</span> as
+a natural numbers object in <span
+class="math inline">\mathbf{Set}</span>. The unique map <span
+class="math inline">h\colon \mathbb{N}_v \to \mathbb{N}_z</span>
+guaranteed by the universal property of <span
+class="math inline">\mathbb{N}_v</span> is the bijection sending <span
+class="math inline">V(n)</span> to <span
+class="math inline">Z(n)</span>, and is canonical.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> That both structures satisfy the second-order Peano
+axioms is Paper II, Theorems 3.5 and 4.2. By Paper III, Theorem 7.1,
+second-order Peano is equivalent to NNO. Initiality (and hence the
+canonical bijection) follows. ◻</p>
+</div>
+<p><a href="#thm:transit-ii" data-reference-type="ref+Label"
+data-reference="thm:transit-ii">13</a> resolves Benacerraf: the von
+Neumann and Zermelo encodings do not name the same set, but they name
+the same NNO up to a unique iso. The universal property is the
+encoding-independent shadow.</p>
+<h2 id="sec:transit-iii">Universal property to Yoneda</h2>
+<div id="thm:transit-iii" class="theorem">
+<p><strong>Theorem 14</strong> (NNO as a representation). <em>Let <span
+class="math inline">\mathcal{C}</span> be a category with terminal
+object. The forgetful functor <span class="math inline">U\colon
+\mathbf{PtEndo}(\mathcal{C}) \to \mathcal{C}</span> has a left adjoint
+<span class="math inline">F</span> if and only if <span
+class="math inline">\mathcal{C}</span> admits an NNO. In that case <span
+class="math inline">N = F(\mathbf{0})</span> where <span
+class="math inline">\mathbf{0}</span> is the initial object of <span
+class="math inline">\mathcal{C}</span> (or, equivalently, <span
+class="math inline">N</span> is the value of the free pointed
+endo-system on the empty set), and the universal property of the NNO is
+exactly the unit of the adjunction.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> We connect the adjunction to Yoneda in two steps.</p>
+<p><em>Step 1: adjunction <span class="math inline">\Rightarrow</span>
+universal property.</em> Suppose <span class="math inline">F</span> is
+left adjoint to <span class="math inline">U</span>. The unit <span
+class="math inline">\eta\colon \mathrm{id}_\mathcal{C} \to U F</span> at
+the initial object <span class="math inline">\mathbf{0} \in
+\mathcal{C}</span> is the universal map <span
+class="math inline">\eta_\mathbf{0}\colon \mathbf{0} \to U F
+(\mathbf{0})</span>. By the adjunction’s hom-set bijection <span
+class="math inline">\mathrm{Hom}_{\mathbf{PtEndo}}(F(\mathbf{0}), (X,
+x_0, f)) \cong\mathrm{Hom}_\mathcal{C}(\mathbf{0}, U(X, x_0, f))</span>,
+the right-hand side is a singleton (initiality of <span
+class="math inline">\mathbf{0}</span>), so the left-hand side is too:
+there is a <em>unique</em> morphism <span
+class="math inline">F(\mathbf{0}) \to (X, x_0, f)</span> for every
+pointed endo-system. This is precisely the universal property of the NNO
+(<a href="#thm:nno-up" data-reference-type="ref+label"
+data-reference="thm:nno-up">5</a>) with <span class="math inline">N :=
+F(\mathbf{0})</span>. Conversely, an NNO supplies the action of <span
+class="math inline">F</span> on objects and the unit, and naturality of
+the bijection is forced by the universal property.</p>
+<p><em>Step 2: universal property <span
+class="math inline">\Rightarrow</span> Yoneda representation.</em>
+Reading the previous bijection as an isomorphism of presheaves on <span
+class="math inline">\mathbf{PtEndo}</span>, <span
+class="math display">\mathrm{Hom}_{\mathbf{PtEndo}}(N, -) \;\cong\;
+\Delta_{\mathbf{1}},</span> where <span
+class="math inline">\Delta_{\mathbf{1}}</span> is the constant singleton
+presheaf, exhibits <span class="math inline">N</span> as a representing
+object for <span class="math inline">\Delta_{\mathbf{1}}</span>. The
+Yoneda embedding sends <span class="math inline">N</span> to the
+representable <span class="math inline">h_N \in
+[\mathbf{PtEndo}^{\mathrm{op}}, \mathbf{Set}]</span>, which equals (up
+to natural iso) the constant singleton presheaf. Thus the universal
+property is exactly the assertion that <span class="math inline">h_N
+\cong\Delta_{\mathbf{1}}</span>, which is the Yoneda formulation. See
+Paper III, Proposition 9.2 for the full computation. ◻</p>
+</div>
+<h2 id="sec:transit-iv">Yoneda to HoTT</h2>
+<div id="thm:transit-iv" class="theorem">
+<p><strong>Theorem 15</strong> (Yoneda + univalence <span
+class="math inline">\Rightarrow</span> identity). <em>Let <span
+class="math inline">\mathcal{C}</span> be a univalent category in HoTT
+(in the sense of <span class="citation" data-cites="HoTTBook"></span>: a
+category in which the canonical map <span class="math inline">(A = B)
+\to (A \cong B)</span> is an equivalence). Then for <span
+class="math inline">X, Y \in \mathcal{C}</span> the chain <span
+class="math display">(X = Y) \;\simeq\; (X \cong Y) \;\simeq\; (h_X
+\cong h_Y) \;\simeq\; (h_X = h_Y)</span> of equivalences holds, with the
+first being the univalence-of-<span
+class="math inline">\mathcal{C}</span> condition, the second being the
+Yoneda corollary, and the third being univalence of the functor category
+<span class="math inline">[\mathcal{C}^{\mathrm{op}},
+\mathcal{U}]</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> The first equivalence is by definition of a univalent
+category. The second is the Yoneda corollary (Paper IV, Corollary 3.4).
+The third is by function-extensionality and univalence applied
+componentwise; see <span class="citation" data-cites="HoTTBook"></span>.
+Composing the three gives an equivalence <span class="math inline">(X =
+Y) \simeq(h_X = h_Y)</span>, which is the desired internal
+identification. ◻</p>
+</div>
+<p><a href="#thm:transit-iv" data-reference-type="ref+Label"
+data-reference="thm:transit-iv">15</a> is the technical heart of the
+strong univalent correspondence: Yoneda’s “iff” becomes a four-way chain
+of equivalences, each two adjacent terms identified internally, so that
+the entire chain collapses to one type up to equivalence.</p>
+<h2 id="sec:transit-vi">HoTT to categorical / structural</h2>
+<div id="thm:transit-vi" class="theorem">
+<p><strong>Theorem 16</strong> (Univalence <span
+class="math inline">\Rightarrow</span> structural). <em>In HoTT, every
+type-theoretic property <span class="math inline">P</span> of an
+algebraic structure is automatically structural in the sense of
+Paper VI: if <span class="math inline">(X, s) \simeq(X&#39;,
+s&#39;)</span> as structures, then <span class="math inline">P(X, s)
+\simeq P(X&#39;, s&#39;)</span>. In particular, the natural number <span
+class="math inline">58</span>, defined as <span
+class="math inline">\mathsf{succ}^{58}\,\mathsf{zero}</span> in any NNO,
+agrees with <span class="math inline">58</span> in any equivalent NNO
+presentation.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> This is the structure identity principle (<a
+href="#thm:sip" data-reference-type="ref+label"
+data-reference="thm:sip">10</a>, Paper VI, Theorem 10.3) combined with
+path-action of <span class="math inline">P</span>. The application to
+<span class="math inline">58</span> is <span class="citation"
+data-cites="paper-v"></span> (<a href="#thm:nno-contr"
+data-reference-type="ref+label"
+data-reference="thm:nno-contr">9</a>). ◻</p>
+</div>
+<p><a href="#thm:transit-vi" data-reference-type="ref+Label"
+data-reference="thm:transit-vi">16</a> is the converse direction of the
+previous transit: the structural perspective of Paper VI is no longer a
+methodological discipline (“write only iso-invariant definitions”) but a
+theorem of the foundations (“every definition you can write <em>is</em>
+iso-invariant”). Univalence is the principle that promotes the
+meta-condition to an internal one. We summarise the four-layer
+convergence in <a href="#tab:four-layers"
+data-reference-type="ref+label" data-reference="tab:four-layers">3</a>,
+reproduced from Paper VI.</p>
+<div id="tab:four-layers">
+<table>
+<caption>Four layers of one principle. Adapted from Paper VI,
+Table 10.1.</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Layer (Paper)</strong></th>
+<th style="text-align: left;"><strong>Statement</strong></th>
+<th style="text-align: left;"><strong>Status</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Categorical / structural (VI)</td>
+<td style="text-align: left;">Structural properties are
+iso-invariant</td>
+<td style="text-align: left;">Meta-theorem</td>
+</tr>
+<tr>
+<td style="text-align: left;">Universal property (III)</td>
+<td style="text-align: left;">Iso-class is canonical</td>
+<td style="text-align: left;">Theorem</td>
+</tr>
+<tr>
+<td style="text-align: left;">Yoneda (IV)</td>
+<td style="text-align: left;">Object known by relations</td>
+<td style="text-align: left;">Theorem</td>
+</tr>
+<tr>
+<td style="text-align: left;">HoTT + univalence (V)</td>
+<td style="text-align: left;">Iso-invariance is automatic</td>
+<td style="text-align: left;">Internal (SIP)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="sec:framework">Unified Framework: One <span
+class="math inline">\infty</span>-Groupoid, Four Windows</h1>
+<p>We now build the mathematical framework in which the four rightmost
+rows of <a href="#tab:six-rows" data-reference-type="ref+label"
+data-reference="tab:six-rows">1</a> become four windows on a single
+object.</p>
+<h2 id="sec:setup-univ">Setup: a univalent universe</h2>
+<p>Let <span class="math inline">\mathcal{U}</span> be a univalent
+universe of types in HoTT. We work informally in HoTT throughout; the
+reader who prefers a categorical semantics may interpret all our types
+as objects of an <span class="math inline">(\infty,1)</span>-topos,
+e.g. the <span class="math inline">\infty</span>-topos of <span
+class="math inline">\infty</span>-groupoids, or any
+Grothendieck–Rezk–Lurie–Joyal <span
+class="math inline">\infty</span>-topos <span class="citation"
+data-cites="lurie ShulmanInftyTopos"></span>.</p>
+<div id="def:four-functors" class="definition">
+<p><strong>Definition 17</strong> (The four-perspective functors). Fix a
+notion of structure given by a <span
+class="math inline">\Sigma</span>-type <span
+class="math display">\mathcal{S} \;:=\; \sum_{X : \mathcal{U}}
+F(X)</span> for some structure-of-finite-signature predicate <span
+class="math inline">F : \mathcal{U}\to \mathcal{U}</span> (e.g. pointed
+unary structures, the signature of an NNO). Write a typical structure as
+a pair <span class="math inline">\mathbf{X} = (X, s)</span> where <span
+class="math inline">X : \mathcal{U}</span> is the carrier and <span
+class="math inline">s : F(X)</span> is the structure data. Let <span
+class="math inline">\mathcal{C}_\mathcal{S}</span> denote the category
+whose objects are inhabitants of <span
+class="math inline">\mathcal{S}</span> and whose morphisms are
+structure-preserving maps. Define four functors:</p>
+<ul>
+<li><p><span class="math inline">\mathsf{UP}\colon \mathcal{S} \to
+\mathsf{Prop}_\mathcal{U}</span> sending <span
+class="math inline">\mathbf{X}</span> to the mere proposition <span
+class="math inline">\mathsf{isInitial}(\mathbf{X})</span> of being
+initial in <span
+class="math inline">\mathcal{C}_\mathcal{S}</span>;</p></li>
+<li><p><span class="math inline">\mathsf{Y}\colon \mathcal{S} \to
+[\mathcal{C}_\mathcal{S}^{\mathrm{op}}, \mathcal{U}]</span> sending
+<span class="math inline">\mathbf{X}</span> to the presheaf <span
+class="math inline">h_{\mathbf{X}} =
+\mathrm{Hom}_{\mathcal{C}_\mathcal{S}}(-, \mathbf{X})</span> (the Yoneda
+embedding restricted to <span
+class="math inline">\mathcal{C}_\mathcal{S}</span>);</p></li>
+<li><p><span class="math inline">\mathsf{H}\colon \mathcal{S} \to
+\mathcal{U}</span> sending <span class="math inline">\mathbf{X} = (X,
+s)</span> to its carrier <span class="math inline">X</span> with
+identity types unfolded to path spaces;</p></li>
+<li><p><span class="math inline">\mathsf{S}\colon \mathcal{S} \to
+\mathcal{S}/\simeq</span> sending <span
+class="math inline">\mathbf{X}</span> to its isomorphism class of <span
+class="math inline">\mathcal{S}</span>-structures.</p></li>
+</ul>
+<p>The functors <span class="math inline">\mathsf{UP}, \mathsf{Y},
+\mathsf{H}, \mathsf{S}</span> are the four windows on a fixed <span
+class="math inline">\mathcal{S}</span>-structure.</p>
+</div>
+<div id="thm:identity-of-perspectives" class="theorem">
+<p><strong>Theorem 18</strong> (Identity of perspectives). <em>For <span
+class="math inline">\mathbf{X}, \mathbf{Y} : \mathcal{S}</span>, the
+four statements</em></p>
+<ol>
+<li><p><em><span class="math inline">\mathsf{UP}(\mathbf{X}) \times
+\mathsf{UP}(\mathbf{Y})</span> together with the resulting unique iso
+<span class="math inline">\mathbf{X} \cong\mathbf{Y}</span> in <span
+class="math inline">\mathcal{C}_\mathcal{S}</span>;</em></p></li>
+<li><p><em><span class="math inline">\mathsf{Y}(\mathbf{X})
+\cong\mathsf{Y}(\mathbf{Y})</span> in <span
+class="math inline">[\mathcal{C}_\mathcal{S}^{\mathrm{op}},
+\mathcal{U}]</span>;</em></p></li>
+<li><p><em>a path <span class="math inline">p\colon
+\mathsf{H}(\mathbf{X}) =_\mathcal{U}\mathsf{H}(\mathbf{Y})</span>
+together with a transport-coherence witness for the structure
+data;</em></p></li>
+<li><p><em><span class="math inline">\mathsf{S}(\mathbf{X}) =
+\mathsf{S}(\mathbf{Y})</span> as elements of the quotient <span
+class="math inline">\mathcal{S}/\simeq</span>;</em></p></li>
+</ol>
+<p><em>are pairwise equivalent. Therefore, under the univalence axiom
+and SIP, they all reduce to the type <span
+class="math inline">\mathbf{X} =_\mathcal{S} \mathbf{Y}</span>, which is
+itself an <span class="math inline">\infty</span>-groupoid (the path
+space).</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> <strong>(UP) <span
+class="math inline">\Rightarrow</span> (Y).</strong> If <span
+class="math inline">\mathbf{X}</span> and <span
+class="math inline">\mathbf{Y}</span> are both initial in <span
+class="math inline">\mathcal{C}_\mathcal{S}</span>, the unique morphisms
+in both directions exhibit <span class="math inline">\mathbf{X}
+\cong\mathbf{Y}</span>. By full faithfulness of Yoneda, <span
+class="math inline">h_{\mathbf{X}} \cong h_{\mathbf{Y}}</span>.</p>
+<p><strong>(Y) <span
+class="math inline">\Rightarrow</span> (H).</strong> By <a
+href="#thm:transit-iv" data-reference-type="ref+label"
+data-reference="thm:transit-iv">15</a>, applied to the univalent
+category <span class="math inline">\mathcal{C}_\mathcal{S}</span>, the
+isomorphism <span class="math inline">h_{\mathbf{X}} \cong
+h_{\mathbf{Y}}</span> is equivalent to a path <span
+class="math inline">h_{\mathbf{X}} = h_{\mathbf{Y}}</span>, which by
+univalence of the presheaf category gives an iso of carriers and hence
+(after structure transport) the path <span class="math inline">p</span>
+together with its coherence witness.</p>
+<p><strong>(H) <span
+class="math inline">\Rightarrow</span> (S).</strong> We unpack this
+step. The hypothesis is a path <span class="math inline">p\colon
+\mathsf{H}(\mathbf{X}) =_\mathcal{U}\mathsf{H}(\mathbf{Y})</span>
+between carriers, together with a transport-coherence witness <span
+class="math inline">q\colon \mathsf{transport}^F(p)(s_X)
+=_{F(\mathsf{H}(\mathbf{Y}))} s_Y</span> identifying the structure data
+after transport. By the construction of paths in <span
+class="math inline">\Sigma</span>-types <span class="citation"
+data-cites="HoTTBook"></span>, the pair <span class="math inline">(p,
+q)</span> is exactly an inhabitant of the type <span
+class="math inline">\mathbf{X} =_\mathcal{S} \mathbf{Y}</span> where the
+right-hand side is a path in the <span
+class="math inline">\Sigma</span>-type <span class="math inline">\sum_{X
+: \mathcal{U}} F(X)</span> that defines <span
+class="math inline">\mathcal{S}</span>. SIP (<a href="#thm:sip"
+data-reference-type="ref+label" data-reference="thm:sip">10</a>) then
+asserts that this <span class="math inline">\Sigma</span>-path is itself
+canonically equivalent to a structure-preserving equivalence <span
+class="math inline">\sum_{f : X \simeq X&#39;}\, f \text{ preserves } s,
+s&#39;</span>. Quotienting by <span class="math inline">\simeq</span>
+yields the equality <span class="math inline">\mathsf{S}(\mathbf{X}) =
+\mathsf{S}(\mathbf{Y})</span> in <span
+class="math inline">\mathcal{S}/\simeq</span>.</p>
+<p><strong>(S) <span
+class="math inline">\Rightarrow</span> (UP).</strong> If <span
+class="math inline">\mathsf{S}(\mathbf{X}) =
+\mathsf{S}(\mathbf{Y})</span>, the representatives are isomorphic, so
+both are initial or neither is. The remaining content of (UP) (the
+unique morphisms) follows from initiality of either via SIP.</p>
+<p>The cycle closes; pairwise equivalence follows. The fact that the
+common type is an <span class="math inline">\infty</span>-groupoid is
+built into HoTT: identity types are types, their identity types are
+types, and so on. ◻</p>
+</div>
+<p><a href="#thm:identity-of-perspectives"
+data-reference-type="ref+Label"
+data-reference="thm:identity-of-perspectives">18</a> is the technical
+formulation of <a href="#prin:strong" data-reference-type="ref+label"
+data-reference="prin:strong">2</a>. The four statements (UP), (Y), (H),
+(S) are not just analogous; they all live as inhabitants of the same
+path-type <span class="math inline">\mathbf{X} =_\mathcal{S}
+\mathbf{Y}</span> in the type of structures.</p>
+<h2 id="the-unifying-picture">The unifying picture</h2>
+<p><a href="#fig:four-views" data-reference-type="ref+Label"
+data-reference="fig:four-views">1</a> shows the unified picture: a
+single <span class="math inline">\infty</span>-groupoid viewed through
+four functors, each producing one of the four columns of the
+computational tetrad.</p>
+<figure id="fig:four-views" data-latex-placement="ht">
+
+<figcaption>One <span class="math inline">\infty</span>-groupoid, four
+windows. The four functors of <a href="#def:four-functors"
+data-reference-type="ref+label"
+data-reference="def:four-functors">17</a> produce the four
+characterisations of <span class="math inline">X</span>. Under
+univalence and SIP, all four characterisations are pairwise equivalent
+(<a href="#thm:identity-of-perspectives" data-reference-type="ref+label"
+data-reference="thm:identity-of-perspectives">18</a>).</figcaption>
+</figure>
+<h2 id="stratification-by-homotopy-level">Stratification by homotopy
+level</h2>
+<p>The <span class="math inline">\infty</span>-groupoid view stratifies.
+For the natural number type <span class="math inline">\mathbb{N}</span>,
+which is a <span class="math inline">0</span>-type (a set, in the HoTT
+Book’s <span class="math inline">n</span>-type indexing where
+contractible types are <span class="math inline">(-2)</span>-types)
+by <span class="citation" data-cites="HoTTBook"></span>, the <span
+class="math inline">\infty</span>-groupoid of NNOs is in fact a
+contractible <span class="math inline">\infty</span>-groupoid, by <a
+href="#thm:nno-contr" data-reference-type="ref+label"
+data-reference="thm:nno-contr">9</a>. So the path space between any two
+NNO presentations is itself contractible: the canonical iso between
+<span class="math inline">\mathbb{N}_v</span> and <span
+class="math inline">\mathbb{N}_z</span> is not just unique up to ambient
+choices but <em>essentially uniquely unique</em>, with all higher
+coherences automatic. This is what <a href="#thm:nno-contr"
+data-reference-type="ref+label" data-reference="thm:nno-contr">9</a>
+achieves that mere Peano-equivalence does not.</p>
+<p>For <span class="math inline">\mathbb{R}</span>, defined as a higher
+inductive–inductive type via Cauchy completion <span class="citation"
+data-cites="Booij HoTTBook"></span>, the situation is more delicate:
+<span class="math inline">\mathbb{R}</span> is a set (<span
+class="math inline">0</span>-type) under the propositional truncation
+conditions of the HIIT, but the construction of <span
+class="math inline">\mathbb{R}</span> from <span
+class="math inline">\mathbb{Q}</span> involves higher path constructors.
+The transcendentals <span class="math inline">\pi</span> and <span
+class="math inline">e</span> then appear as definite
+(canonical-up-to-path) inhabitants of <span
+class="math inline">\mathbb{R}</span> via universal-property
+characterisations (<span class="math inline">\sin(\pi) = 0</span>, <span
+class="math inline">f&#39; = f</span> and <span class="math inline">f(0)
+= 1</span>, etc.); see <a href="#sec:applications"
+data-reference-type="ref+label"
+data-reference="sec:applications">8</a>.</p>
+<h1 id="sec:correspondence">The Univalent Correspondence: Statement and
+Consequences</h1>
+<p>We now state the principle systematically.</p>
+<div id="prin:formal" class="principle">
+<p><strong>Principle 19</strong> (The univalent correspondence, formal
+version). Let <span class="math inline">\mathcal{S}</span> be a notion
+of structure given by an essentially algebraic theory in HoTT. Let <span
+class="math inline">X, Y</span> be <span
+class="math inline">\mathcal{S}</span>-structures in a univalent
+universe <span class="math inline">\mathcal{U}</span>. Then the
+following are pairwise equivalent in <span
+class="math inline">\mathcal{U}</span>:</p>
+<ul>
+<li><p><span class="math inline">X</span> and <span
+class="math inline">Y</span> both have the same universal property (both
+initial, both terminal, both representing the same functor,
+etc.).</p></li>
+<li><p>The Yoneda embeddings <span class="math inline">h_X</span> and
+<span class="math inline">h_Y</span> are isomorphic as
+presheaves.</p></li>
+<li><p><span class="math inline">\mathsf{H}(X)
+=_\mathcal{U}\mathsf{H}(Y)</span> as types (identity in the
+universe).</p></li>
+<li><p><span class="math inline">X</span> and <span
+class="math inline">Y</span> are equal as elements of the type of <span
+class="math inline">\mathcal{S}</span>-structures.</p></li>
+</ul>
+<p>The equivalences <span class="smallcaps">(I)</span> <span
+class="math inline">\Leftrightarrow</span> <span
+class="smallcaps">(II)</span> and <span
+class="smallcaps">(II)</span> <span
+class="math inline">\Leftrightarrow</span> <span
+class="smallcaps">(III)</span> are theorems; the equivalence <span
+class="smallcaps">(III)</span> <span
+class="math inline">\Leftrightarrow</span> <span
+class="smallcaps">(IV)</span> requires the structure identity principle
+(a theorem in HoTT, established for finite-signature structures in <span
+class="citation" data-cites="HoTTBook Escardo2019"></span>). The
+equivalence <span class="smallcaps">(I)</span> <span
+class="math inline">\Leftrightarrow</span> <span
+class="smallcaps">(IV)</span> requires univalence.</p>
+</div>
+<h2 id="the-fixed-point-reading">The fixed-point reading</h2>
+<p><a href="#prin:formal" data-reference-type="ref+Label"
+data-reference="prin:formal">19</a> can be read as a fixed-point
+statement. The four columns of the computational tetrad (<a
+href="#tab:tetrad" data-reference-type="ref+label"
+data-reference="tab:tetrad">2</a>) describe four languages for talking
+about objects: logic, type theory, category theory, homotopy theory.
+Univalence is the assertion that, for the universe of types, the four
+languages have a common semantic fixed point: a single <span
+class="math inline">\infty</span>-groupoid that satisfies all four
+descriptions simultaneously, with the four descriptions identified along
+the chain of equivalences just listed.</p>
+<div class="remark">
+<p><em>Remark 20</em> (Curry–Howard–Lambek–Voevodsky). The Curry–Howard
+correspondence <span class="citation" data-cites="Wadler2015"></span>
+identifies columns 1 and 2 (logic with type theory). The
+Curry–Howard–Lambek correspondence <span class="citation"
+data-cites="Lambek1972 maclane"></span> adds column 3 (category theory).
+Voevodsky’s univalent foundations <span class="citation"
+data-cites="Voevodsky HoTTBook"></span> adds column 4 (homotopy theory)
+by interpreting types as <span
+class="math inline">\infty</span>-groupoids and asserting univalence.
+The univalent correspondence is the strong form of the four-way
+Curry–Howard–Lambek–Voevodsky correspondence.</p>
+</div>
+<h2 id="application-to-the-natural-numbers">Application to the natural
+numbers</h2>
+<div id="cor:N-univalent" class="corollary">
+<p><strong>Corollary 21</strong> (The natural numbers are univalent).
+<em>Let <span class="math inline">\mathrm{NNO}</span> be the type of NNO
+structures in <span class="math inline">\mathcal{U}</span>. The
+following are all the same data, up to canonical equivalence:</em></p>
+<ul>
+<li><p><em>the universal-property data <span class="math inline">(N, 0,
+\mathsf{succ}, \mathsf{isInitial})</span>;</em></p></li>
+<li><p><em>the representable presheaf <span class="math inline">h_N \in
+[\mathrm{NNO}^{\mathrm{op}}, \mathcal{U}]</span>;</em></p></li>
+<li><p><em>the canonical inhabitant of the contractible type <span
+class="math inline">\mathrm{NNO}</span>;</em></p></li>
+<li><p><em>the iso-class <span class="math inline">[(N, 0,
+\mathsf{succ})]</span> in <span
+class="math inline">\mathrm{NNO}/\simeq</span>.</em></p></li>
+</ul>
+<p><em>The integer <span class="math inline">58</span>, defined as <span
+class="math inline">\mathsf{succ}^{58}\,\mathsf{zero}</span>, is
+invariant under all four identifications.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Combine <a
+href="#thm:nno-contr,thm:identity-of-perspectives,thm:transit-vi"
+data-reference-type="ref+label"
+data-reference="thm:nno-contr,thm:identity-of-perspectives,thm:transit-vi">[thm:nno-contr,thm:identity-of-perspectives,thm:transit-vi]</a>. ◻</p>
+</div>
+<h2 id="why-this-resolves-the-original-question">Why this resolves the
+original question</h2>
+<p>The original question of the series, “what is <span
+class="math inline">58</span>?”, has now four equivalent answers, each
+made precise by one of Papers III through VI:</p>
+<ul>
+<li><p><em>(III)</em> <span class="math inline">58</span> is the unique
+element such that, for every pointed endo-system <span
+class="math inline">(X, x_0, f)</span> in any category with terminal
+object, the unique NNO morphism <span class="math inline">h\colon
+\mathbb{N}\to X</span> sends <span class="math inline">58</span> to
+<span class="math inline">f^{58}(x_0)</span>.</p></li>
+<li><p><em>(IV)</em> <span class="math inline">58</span> is the natural
+number whose representable functor <span
+class="math inline">\mathrm{Hom}(-, 58)</span>, under the Yoneda
+embedding into the presheaf topos, exhibits all probes onto <span
+class="math inline">58</span> from below.</p></li>
+<li><p><em>(V)</em> <span class="math inline">58</span> is the canonical
+term <span class="math inline">\mathsf{succ}^{58}\,\mathsf{zero}:
+\mathbb{N}</span>, identified with <span
+class="math inline">\mathsf{succ}^{58}\,\mathsf{zero}</span> in any
+equivalent NNO presentation by transport along the unique path in the
+contractible type <span
+class="math inline">\mathrm{NNO}</span>.</p></li>
+<li><p><em>(VI)</em> <span class="math inline">58</span> is the value of
+any (every) definable arithmetic quantity that, on the standard model of
+arithmetic, evaluates to <span class="math inline">58</span>; this value
+is invariant under all model isomorphisms by SIP.</p></li>
+</ul>
+<p>The univalent correspondence asserts that these four answers are not
+just <em>about</em> the same object: they are <em>the same data</em>,
+internally, in HoTT.</p>
+<h1 id="sec:diagrams">Hierarchical Composition: How Each Level Builds on
+the Previous</h1>
+<p>The univalent correspondence is not just a parallel array of four
+descriptions: it is a hierarchical composition in which each level uses
+the data of the previous one. We make the dependencies explicit.</p>
+<h2 id="composition-diagram">Composition diagram</h2>
+<p><a href="#fig:composition" data-reference-type="ref+Label"
+data-reference="fig:composition">2</a> shows the dependencies between
+the six rows.</p>
+<figure id="fig:composition" data-latex-placement="ht">
+
+<figcaption>Hierarchical composition: each transit theorem T<span
+class="math inline">k</span> of <a href="#sec:transit"
+data-reference-type="ref+label" data-reference="sec:transit">3</a>
+carries level <span class="math inline">k</span> to level <span
+class="math inline">k+1</span> by resolving the residual question of the
+previous level. T1 supplies a definite encoding (resolving the
+symbol/object confusion). T2 abstracts away from the
+Benacerraf-non-canonical encoding. T3 globalises the universal property
+by exhibiting the NNO as a representable functor. T4 internalises
+Yoneda’s “iff” as a path in the universe via univalence. T5 (<a
+href="#thm:transit-vi" data-reference-type="ref+label"
+data-reference="thm:transit-vi">16</a>) promotes the iso-invariance
+discipline to an internal theorem via SIP.</figcaption>
+</figure>
+<h2 id="composition-is-not-optional">Composition is not optional</h2>
+<p>A natural objection: if all four formal levels (III–VI) are
+equivalent under univalence, why bother with all four? Why not just use
+HoTT?</p>
+<p>The answer is that each level supplies indispensable conceptual
+content that the others alone would obscure:</p>
+<ul>
+<li><p>The universal property (III) is what <em>lets us recognise</em>
+an NNO when we see one. We do not begin in HoTT and then notice that the
+inductive type <span class="math inline">\mathbb{N}</span> is initial;
+we begin with the universal property as a design constraint and use it
+to determine what the type-theoretic data must look like.</p></li>
+<li><p>Yoneda (IV) is the bridge that lets us speak of the universal
+property <em>relationally</em>, in any background category, not just
+inside HoTT. The Yoneda embedding is what we use when working with
+categories of geometric or algebraic objects (schemes, groups,
+manifolds) where the HoTT presentation is not yet fully
+developed.</p></li>
+<li><p>HoTT (V) is what <em>internalises</em> the equivalence: it is the
+formal system in which “up to iso” becomes “equal.”</p></li>
+<li><p>The categorical / structural perspective (VI) is the
+philosophical commitment that drives the whole programme. Without it, we
+have no reason to prefer one perspective over another; with it, we know
+what we are doing.</p></li>
+</ul>
+<h2 id="emergent-properties-from-composition">Emergent properties from
+composition</h2>
+<p>The hierarchical composition produces emergent properties not visible
+at any single level. We collect three.</p>
+<div id="prop:emergent-contract" class="proposition">
+<p><strong>Proposition 22</strong> (Emergent property: contractibility
+of NNO). <em>The NNO is contractible (Paper V, <a href="#thm:nno-contr"
+data-reference-type="ref+label" data-reference="thm:nno-contr">9</a>)
+only because the universal property (III) gives a unique map between any
+two NNOs, the Yoneda embedding (IV) gives that this unique map is an
+isomorphism, and the univalence axiom (V) promotes the isomorphism to a
+path. Set theory (II) alone gives only that the von Neumann and Zermelo
+encodings are isomorphic as Peano structures: the structure-of-paths
+between them is not visible at the set-theoretic level.</em></p>
+</div>
+<div id="prop:funext" class="proposition">
+<p><strong>Proposition 23</strong> (Emergent property: function
+extensionality). <em>Function extensionality is provable from univalence
+(<span class="citation" data-cites="HoTTBook"></span>, see Paper V §4).
+It is not provable from intensional Martin-Löf type theory alone, nor
+from the universal property of any individual structure. It emerges from
+the composition of universal property, Yoneda, and univalence.</em></p>
+</div>
+<div id="prop:synth-homotopy" class="proposition">
+<p><strong>Proposition 24</strong> (Emergent property: synthetic
+homotopy theory). <em>Synthetic homotopy theory (the development of
+algebraic topology entirely inside type theory: <span
+class="math inline">\pi_1(S^1) \cong\mathbb{Z}</span>, the Hopf
+fibration, the Blakers–Massey theorem, etc. <span class="citation"
+data-cites="LicataShulman LicataFinster ShulmanStrength"></span>) is
+impossible at any of the levels (I), (II), (III), or (IV) alone. It
+emerges from the composition: the categorical perspective (VI) supplies
+the <span class="math inline">\infty</span>-groupoid view, HoTT (V)
+gives identity types as path spaces, the Yoneda principle (IV) recovers
+presentability, and the universal property (III) gives recursion
+principles for the higher inductive types.</em></p>
+</div>
+<h2 id="commutativity-of-the-four-functor-diagram">Commutativity of the
+four-functor diagram</h2>
+<div id="thm:commutativity" class="theorem">
+<p><strong>Theorem 25</strong> (Commutativity). <em>The four functors of
+<a href="#def:four-functors" data-reference-type="ref+label"
+data-reference="def:four-functors">17</a> commute up to canonical
+natural equivalence: for every <span class="math inline">X \in
+\mathcal{U}</span>, <span class="math display">\mathsf{S} \circ
+\mathsf{H}^{-1} \circ \mathsf{Y}\,(X) \,\simeq\, \mathsf{UP}(X)</span>
+in the appropriate sense, where the inverses are well-defined modulo
+contractibility of fibers (which holds for finite-signature structures
+by SIP).</em></p>
+</div>
+<div class="proof">
+<p><em>Sketch.</em> Each pair is treated by the corresponding transit
+theorem of <a href="#sec:transit" data-reference-type="ref+label"
+data-reference="sec:transit">3</a>. The composition <span
+class="math inline">\mathsf{S} \circ \mathsf{H}^{-1} \circ
+\mathsf{Y}</span> takes a structure to its representable presheaf,
+transports back to a type-theoretic representative, and projects to its
+iso-class; this is the same data as the universal-property witness for
+<span class="math inline">X</span>, after suppressing the choice of
+representative. Naturality follows from the naturality of each
+constituent. ◻</p>
+</div>
+<h1 id="sec:naming">Naming the Correspondence: A Brief History</h1>
+<p>We pause to justify our terminology. The four-way correspondence has
+many names; we explain why we settle on <em>the univalent
+correspondence</em>.</p>
+<h2 id="names-in-use">Names in use</h2>
+<ul>
+<li><p><strong>Curry–Howard correspondence</strong> (binary): logic with
+type theory. Curry (1934) <span class="citation"
+data-cites="wadler-pat"></span> observed it for combinatory logic;
+Howard (1969) <span class="citation" data-cites="wadler-pat"></span>
+extended it to natural deduction.</p></li>
+<li><p><strong>Curry–Howard–Lambek</strong> (three-way): adds category
+theory. Lambek (1972) <span class="citation"
+data-cites="Lambek1972"></span> showed that proofs of intuitionistic
+propositional logic and typed combinators share the equational theory of
+cartesian closed categories; this is the textbook three-way
+name.</p></li>
+<li><p><strong>Computational trinity</strong> (Harper, c. 2011): logic,
+languages (type theory), categories. Harper at CMU popularised the
+catchier name. A four-way version is sometimes called the computational
+tetrad.</p></li>
+<li><p><strong>Propositions-as-types</strong> (Wadler 2015 <span
+class="citation" data-cites="Wadler2015"></span>): emphasises the
+central insight rather than the historical figures. Extends naturally to
+“propositions-as-types-as-spaces” in HoTT.</p></li>
+<li><p><strong>Univalent foundations</strong> (Voevodsky, 2010 <span
+class="citation" data-cites="Voevodsky2010"></span>): the foundational
+programme built on the four-way correspondence. Homotopy Type Theory
+(HoTT) is the formal system; the HoTT Book <span class="citation"
+data-cites="HoTTBook"></span> is the canonical reference.</p></li>
+</ul>
+<h2 id="why-the-univalent-correspondence">Why “the univalent
+correspondence”</h2>
+<p>The phrase “Curry–Howard–Lambek–Voevodsky correspondence” is correct
+but unwieldy. “Propositions as types as spaces” is pedagogically apt but
+emphasises types and propositions over the unifying mechanism. We prefer
+<em>the univalent correspondence</em> for three reasons:</p>
+<ol>
+<li><p>It <em>names the unifying mechanism</em>: the univalence axiom is
+what promotes the four columns from analogous to literally the
+same.</p></li>
+<li><p>It is <em>neutral across the columns</em>: it does not privilege
+logic, types, categories, or spaces.</p></li>
+<li><p>It <em>credits the discovery</em>: Voevodsky’s univalent
+foundations project is the conceptual origin of the strong form (<a
+href="#prin:strong" data-reference-type="ref+label"
+data-reference="prin:strong">2</a>).</p></li>
+</ol>
+<p>We also use <em>the <span class="math inline">\infty</span>-groupoid
+correspondence</em> when emphasising the underlying object, and
+<em>structural univalence</em> when emphasising the philosophical
+commitment of Paper VI.</p>
+<h2 id="the-deepest-formulation">The deepest formulation</h2>
+<p>For the record, the most precise summary of the unified language is
+the one from <span class="citation"
+data-cites="Voevodsky2010 HoTTBook"></span>, which we take as the
+deepest formulation of the univalent correspondence:</p>
+<blockquote>
+<p>The unified language is <em>synthetic homotopy theory</em> expressed
+as <em>dependent type theory</em>, with categorical semantics in
+<em><span class="math inline">(\infty,1)</span>-toposes</em>,
+interpreted logically via <em>propositions-as-types</em>. The whole
+package is <em>Univalent Foundations</em>.</p>
+</blockquote>
+<h1 id="sec:applications">Applications and Outlook</h1>
+<p>We close with three applications that the univalent correspondence
+illuminates.</p>
+<h2 id="sec:transcendentals">Transcendentals <span
+class="math inline">\pi</span> and <span class="math inline">e</span> in
+HoTT</h2>
+<p>The transcendental numbers <span class="math inline">\pi</span> and
+<span class="math inline">e</span> enter the framework via Paper V’s
+HIIT real numbers and Paper III’s universal-property
+characterisations.</p>
+<div id="def:R-HIIT" class="definition">
+<p><strong>Definition 26</strong> (Cauchy real numbers, HIIT, Paper V
+§5.5). The type <span class="math inline">\mathbb{R}_C</span> of Cauchy
+real numbers is the higher inductive–inductive type freely generated
+by:</p>
+<ul>
+<li><p><span class="math inline">\mathsf{rat}\colon \mathbb{Q}\to
+\mathbb{R}_C</span>;</p></li>
+<li><p><span class="math inline">\mathsf{lim}\colon \prod_{f :
+\mathbb{N}\to \mathbb{R}_C}\, \mathsf{isCauchy}(f) \to
+\mathbb{R}_C</span>;</p></li>
+<li><p>path constructors identifying <span
+class="math inline">\mathsf{lim}\,f</span> for any two representations
+of the same Cauchy class;</p></li>
+<li><p>the truncation that makes <span
+class="math inline">\mathbb{R}_C</span> a set.</p></li>
+</ul>
+</div>
+<div id="thm:pi-e-hott" class="theorem">
+<p><strong>Theorem 27</strong> (<span class="math inline">\pi</span> and
+<span class="math inline">e</span> in HoTT, after Paper V §10).
+<em>There exist canonical inhabitants <span class="math inline">\pi, e :
+\mathbb{R}_C</span> characterised by the unique-existence
+propositions:</em></p>
+<ul>
+<li><p><em><span class="math inline">\pi</span> is the unique inhabitant
+of the truncated <span class="math inline">\Sigma</span>-type <span
+class="math inline">\sum_{x : \mathbb{R}_C} (x &gt; 0) \times (\sin x =
+0) \times (\forall y \in (0, x).\, \sin y &gt; 0)</span>;</em></p></li>
+<li><p><em><span class="math inline">e</span> is the unique inhabitant
+of the truncated <span class="math inline">\Sigma</span>-type <span
+class="math inline">\sum_{x : \mathbb{R}_C} (\exp x = e) \times (\exp 0
+= 1) \times (\exp&#39; = \exp)</span>, where <span
+class="math inline">\exp</span> is defined by power
+series.</em></p></li>
+</ul>
+<p><em>The truncation makes the <span
+class="math inline">\Sigma</span>-types mere propositions (<span
+class="math inline">(-1)</span>-types), hence inhabitants are unique up
+to a unique path.</em></p>
+</div>
+<p>The univalent correspondence applies to <span
+class="math inline">\pi</span> and <span class="math inline">e</span> as
+it does to <span class="math inline">58</span>: each is identified with
+its representable functor, with its universal property (<em>half-period
+of</em> <span class="math inline">\exp\colon \mathbb{R}\to S^1</span>,
+<em>unique fixed point of differentiation with</em> <span
+class="math inline">f(0) = 1</span>), with its structural invariant
+under field automorphisms of <span
+class="math inline">\mathbb{R}</span>, and with its canonical HoTT term
+up to path equivalence.</p>
+<h2 id="sec:contextfs">ContextFS as a structural-identity primitive</h2>
+<p>The ContextFS / typed memory project <span class="citation"
+data-cites="KnowledgeBase2026"></span> aims to provide AI agents with
+persistent typed memory that respects structural identity. The univalent
+correspondence supplies the theoretical foundation: two memory entries
+should be considered “the same” iff they witness the same structural
+invariant, iff they correspond to equal types in the ambient universe,
+iff they have the same Yoneda profile in the category of memory
+operations, iff they satisfy the same universal property.</p>
+<p>We sketch the architecture. A typed memory is a presheaf <span
+class="math inline">M\colon \mathsf{Op}^{\mathrm{op}}\to
+\mathcal{U}</span> on the category of memory operations, where <span
+class="math inline">\mathcal{U}</span> is a univalent universe of types.
+The universal-property layer specifies which operations any memory entry
+must support; the Yoneda layer makes “same memory entry” precise as
+natural isomorphism of presheaves; the HoTT layer makes “natural
+isomorphism” a path in <span class="math inline">\mathcal{U}</span>; the
+categorical/structural layer ensures that all of this is preserved under
+change of universe (e.g. when the agent is migrated).</p>
+<div class="principle">
+<p><strong>Principle 28</strong> (ContextFS univalent slogan). A memory
+entry is identified by its structural role, not by its storage
+location.</p>
+</div>
+<p>This is precisely the univalent correspondence applied to a different
+domain: instead of <span class="math inline">58</span>, the entry is
+identified by what it does, not by where it lives.</p>
+<h2 id="sec:directed">Directed HoTT and synthetic <span
+class="math inline">\infty</span>-category theory</h2>
+<p>Riehl and Shulman’s simplicial type theory <span class="citation"
+data-cites="RiehlShulman"></span> extends HoTT with directed structure,
+allowing types whose paths are not necessarily invertible. This is the
+language of synthetic <span class="math inline">\infty</span>-category
+theory: an <span class="math inline">\infty</span>-category is a type
+with a chosen directed structure satisfying the Segal and Rezk
+conditions internally.</p>
+<p>The univalent correspondence applies in the directed setting too, but
+modulo a shift: “equality of objects” becomes “isomorphism of objects”
+(an invertible path), distinct from “<span class="math inline">X</span>
+maps to <span class="math inline">Y</span>” (a possibly non-invertible
+morphism). This is the right setting for representation theory, where
+representations are functors that need not be equivalences. We sketch
+the upshot in the language of Paper VI: a representation <span
+class="math inline">\rho\colon G \to \mathsf{Vect}</span> is a directed
+map; a sub-representation is an iso-mono in the directed sense; the
+representation theory of finite groups becomes a synthetic theory of
+directed types over the classifying type <span
+class="math inline">BG</span>.</p>
+<h2 id="sec:open-langlands">Open problem: analytic number theory in
+HoTT</h2>
+<p>The principal open problem the series acknowledges is that analytic
+number theory — Riemann zeta zeros, the Langlands programme, automorphic
+forms <span class="citation" data-cites="lurie"></span> — has not been
+substantially reformulated in HoTT. Algebraic number theory and parts of
+arithmetic geometry (schemes, sheaves, étale cohomology) admit <span
+class="math inline">(\infty,1)</span>-topos and condensed mathematics
+treatments <span class="citation" data-cites="ShulmanInftyTopos"></span>
+that connect cleanly to univalent foundations. But <span
+class="math inline">\zeta(s) = 0</span> as a HoTT-native statement, with
+<span class="math inline">\zeta</span> a HoTT-native object, remains
+unrealised.</p>
+<p>We frame this as the principal open question for the synthesis.</p>
+<h1 id="sec:open">Open Problems</h1>
+<p>We collect the open problems flagged by the topical papers and by the
+synthesis.</p>
+<ol>
+<li><p><strong>Coalgebraic / final-object dual for
+transcendentals.</strong> Paper III sketches the coalgebraic side:
+streams of digits, codata, bisimulation as the corresponding induction
+principle. A complete final-coalgebra characterisation of <span
+class="math inline">\pi</span> and <span class="math inline">e</span>
+that avoids the inductive HIIT route is open.</p></li>
+<li><p><strong>Connections to Langlands and analytic number
+theory.</strong> <a href="#sec:open-langlands"
+data-reference-type="ref+Label"
+data-reference="sec:open-langlands">8.4</a>.</p></li>
+<li><p><strong>ETCS, IZF, and FOLDS as alternative structural
+foundations.</strong> Paper VI surveys ETCS; the relationship to
+Makkai’s FOLDS <span class="citation" data-cites="Makkai1995"></span>
+and to intuitionistic ZF (IZF) merits development.</p></li>
+<li><p><strong>Higher-categorical structure of NNO.</strong> The
+contractibility result (<a href="#thm:nno-contr"
+data-reference-type="ref+label" data-reference="thm:nno-contr">9</a>)
+shows the type of NNOs is a contractible type (a <span
+class="math inline">(-2)</span>-type). The corresponding statement for
+<span class="math inline">(\infty,1)</span>-NNOs in <span
+class="math inline">\infty</span>-toposes (Lurie’s <span
+class="math inline">(\infty,1)</span>-NNO <span class="citation"
+data-cites="lurie"></span>) is more delicate.</p></li>
+<li><p><strong>ContextFS / type-memory as a structural-identity
+primitive.</strong> A formal account of typed persistent memory in HoTT,
+with structural identity as the primitive notion, is the principal
+applied research direction.</p></li>
+<li><p><strong>Directed univalence.</strong> Riehl and Shulman’s
+simplicial type theory has a partial directed univalence; a complete
+principle remains a research target <span class="citation"
+data-cites="RiehlShulman CisinskiNguyen"></span>.</p></li>
+<li><p><strong>Cubical higher inductive–inductive types.</strong> The
+Cauchy reals construction of Paper V is given in Book HoTT; a clean
+cubical version (in Cubical Agda <span class="citation"
+data-cites="CubicalAgda"></span>) is in progress but
+incomplete.</p></li>
+</ol>
+<h1 id="sec:conclusion">Conclusion</h1>
+<p>We have argued that the question <em>what is the natural number <span
+class="math inline">58</span>?</em> admits six progressively refined
+answers, and that the four most refined answers are not analogous but
+<em>literally the same</em> under Voevodsky’s univalence axiom. We named
+this identification the <em>univalent correspondence</em> (<a
+href="#prin:strong" data-reference-type="ref+label"
+data-reference="prin:strong">2</a>, <a href="#prin:formal"
+data-reference-type="ref+label" data-reference="prin:formal">19</a>),
+proved it as a theorem in HoTT (<a href="#thm:identity-of-perspectives"
+data-reference-type="ref+label"
+data-reference="thm:identity-of-perspectives">18</a>), exhibited the
+hierarchical composition by which each level builds on the previous (<a
+href="#sec:diagrams" data-reference-type="ref+label"
+data-reference="sec:diagrams">6</a>), and sketched applications to
+transcendentals, typed memory, and directed type theory.</p>
+<p>The integer <span class="math inline">58</span> is, in the unified
+picture: a position in the initial successor structure (Paper III), a
+representing functor (Paper IV), a canonical term in a contractible type
+of NNOs (Paper V), and an invariant under all model isomorphisms
+(Paper VI). These four characterisations are four windows on a single
+<span class="math inline">\infty</span>-groupoid, and under univalence
+they are pairwise identified. The univalent correspondence is the formal
+expression of the structuralist intuition that mathematical objects are
+positions in structures, not substances; under Voevodsky’s univalent
+foundations, this intuition becomes a theorem of the foundations
+themselves.</p>
+<p>The naive level (Paper I), in which <span
+class="math inline">58</span> is a symbol on a page, remains
+indispensable as the cognitive anchor that connects mathematics to human
+practice. The set-theoretic level (Paper II) remains the historical and
+technical foundation for working mathematicians, and the von Neumann
+encoding remains the textbook construction. But the univalent
+correspondence asserts that these levels are not the locus of meaning:
+the meaning lives at levels III through VI, where it is invariant,
+relational, type-theoretic, and structural — and, under univalence, all
+four at once.</p>
+<p>We close with the canonical quotation that has guided the series,
+from Paper I:</p>
+<blockquote>
+<p>A number is not a thing. It is a constraint that every consistent
+representation must satisfy, identified by a universal property and made
+formal by its representable functor. Numerals (58, <span
+class="sans-serif">LVIII</span>, <span
+class="math inline">\,||||\,||||</span>) are syntax. Numbers are
+semantic invariants of the categories that admit them.</p>
+</blockquote>
+<p>The univalent correspondence makes this slogan a theorem.</p>
+<h1 id="sec:haskell">The Haskell Artifact</h1>
+<p>The companion repository ships a small Haskell program that
+demonstrates the synthesis claim computationally: six executable
+witnesses that all return the same number when asked “what is <span
+class="math inline">58</span>?” The program lives in
+<code>src/07-synthesis/</code> and consists of three modules.</p>
+<h4 id="synthesis.hs."><code>Synthesis.hs</code>.</h4>
+<p>Defines a six-element enumeration <code>Perspective = Naive </code>
+SetTheoretic | UniversalProperty | Yoneda | HoTT | StructuralInvariant|
+together with the trivially uniform map
+<code>answer :: Perspective -&gt; Int -&gt; Int</code>. The point is
+precisely that <code>answer p n = n</code> for every perspective
+<code>p</code>: the perspective is discharged by transport.</p>
+<h4 id="unifiednumber.hs."><code>UnifiedNumber.hs</code>.</h4>
+<p>Implements one numerical witness per row of the columns table:</p>
+<ul>
+<li><p><em>Naive:</em> the literal <code>58</code>.</p></li>
+<li><p><em>Set-theoretic:</em> <code>vonNeumannCard 58</code>, returning
+the cardinality of the von Neumann encoding.</p></li>
+<li><p><em>Universal property:</em>
+<code>toIntL (succIterate 58 :: Peano)</code>, applying the unique map
+out of the NNO into the Peano model.</p></li>
+<li><p><em>Yoneda:</em> <code>predecessorsOf 58</code>, the cardinality
+of <span class="math inline">\{m : \mathrm{Hom}(m, 58) \neq
+\emptyset\}</span> in the order category, by the Yoneda lemma equal to
+<span class="math inline">58</span>.</p></li>
+<li><p><em>HoTT:</em> the length of the canonical successor chain <span
+class="math inline">\mathsf{zero}\mapsto
+\mathsf{succ}\,\mathsf{zero}\mapsto \cdots \mapsto 58</span> in <span
+class="math inline">\bbN</span>, identified up to path
+equivalence.</p></li>
+<li><p><em>Structural:</em> <code>finiteOrbitLength 59 1</code>, the
+orbit length of any generator in a <span
+class="math inline">59</span>-element cyclic carrier. By Theorem <a
+href="#thm:transit-v" data-reference-type="ref"
+data-reference="thm:transit-v">[thm:transit-v]</a> this number is
+invariant across all isomorphic finite carriers.</p></li>
+</ul>
+<h4 id="main.hs."><code>Main.hs</code>.</h4>
+<p>Runs all six computations and verifies that they all agree on <span
+class="math inline">58</span>. The recorded transcript is:</p>
+<div class="sourceCode" id="cb1" data-language="Haskell"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">The</span> <span class="dt">Univalent</span> <span class="dt">Correspondence</span> <span class="co">-- six perspectives, one answer</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">=============================================================</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">Perspective</span><span class="op">-</span>tagged answer for n <span class="ot">=</span> <span class="dv">58</span><span class="op">:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Naive</span>                  <span class="ot">-&gt;</span> <span class="dv">58</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">SetTheoretic</span>           <span class="ot">-&gt;</span> <span class="dv">58</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">UniversalProperty</span>      <span class="ot">-&gt;</span> <span class="dv">58</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Yoneda</span>                 <span class="ot">-&gt;</span> <span class="dv">58</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">HoTT</span>                   <span class="ot">-&gt;</span> <span class="dv">58</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">StructuralInvariant</span>    <span class="ot">-&gt;</span> <span class="dv">58</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="dt">Unified</span> computation across the six rows <span class="kw">of</span> the columns table<span class="op">:</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  naive                              <span class="ot">=</span> <span class="dv">58</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  set<span class="op">-</span>theoretic (von <span class="dt">Neumann</span>)        <span class="ot">=</span> <span class="dv">58</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  universal property (<span class="fu">succ</span><span class="op">^</span><span class="dv">58</span>)       <span class="ot">=</span> <span class="dv">58</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Yoneda</span> (<span class="op">|</span>{m <span class="op">:</span> <span class="dt">Hom</span>(m,<span class="dv">58</span>) <span class="op">/=</span> <span class="dv">0</span>}<span class="op">|</span>)    <span class="ot">=</span> <span class="dv">58</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">HoTT</span> (<span class="op">|</span><span class="dv">0</span> <span class="ot">=</span>_N <span class="dv">58</span> chain<span class="op">|</span>)            <span class="ot">=</span> <span class="dv">58</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  structural (orbit <span class="fu">length</span>)          <span class="ot">=</span> <span class="dv">58</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="dt">All</span> six perspectives agree on <span class="dv">58</span><span class="op">?</span> <span class="dt">True</span></span></code></pre></div>
+<p>The program compiles clean under <code>-Wall -Wextra -Werror</code>
+and runs to completion. It is not a proof of the synthesis claim, only a
+finite executable witness consistent with it; the proofs are inside
+Papers I–VI and §<a href="#sec:transit" data-reference-type="ref"
+data-reference="sec:transit">3</a>.</p>
+<h1 class="unnumbered" id="acknowledgments">Acknowledgments</h1>
+<p>This synthesis owes its existence to the topical papers I through VI,
+to the body of work surveyed in those papers (Lawvere, Mac Lane, Lambek,
+Martin-Löf, Voevodsky, Awodey, Shulman, Riehl, Lurie, Wadler, Harper,
+the Univalent Foundations Programme), and to the philosophical lineage
+of Frege, Benacerraf, Resnik, Shapiro, and Hellman. The naming
+“univalent correspondence” is internal to this project and is not
+claimed to be original; the underlying mathematical content is due to
+the named authors.</p>
+<div class="thebibliography">
+<p><span>99</span></p>
+<p>YonedaAI Research, <em>The Naive Perspective: Numbers as Symbols and
+Quantities</em>, Univalent Correspondence Series, Paper I, 2026.</p>
+<p>YonedaAI Research, <em>The Set-Theoretic Perspective: Numbers as von
+Neumann Ordinals</em>, Univalent Correspondence Series, Paper II,
+2026.</p>
+<p>YonedaAI Research, <em>The Universal Property Perspective: Numbers as
+Initial Successor Structures</em>, Univalent Correspondence Series,
+Paper III, 2026.</p>
+<p>YonedaAI Research, <em>The Yoneda Perspective: Numbers as
+Representable Functors</em>, Univalent Correspondence Series, Paper IV,
+2026.</p>
+<p>YonedaAI Research, <em>The HoTT Perspective: Numbers as Inductive
+Types up to Path Equivalence</em>, Univalent Correspondence Series,
+Paper V, 2026.</p>
+<p>YonedaAI Research, <em>The Categorical / Structural Perspective:
+Numbers as Invariants of Structure-Preserving Morphisms</em>, Univalent
+Correspondence Series, Paper VI, 2026.</p>
+<p>YonedaAI Research, <em>Knowledge Base: The Univalent
+Correspondence</em>, Magneton Internal Document, 2026.</p>
+<p>The Univalent Foundations Program, <em>Homotopy Type Theory:
+Univalent Foundations of Mathematics</em>, Institute for Advanced Study,
+2013. <code>arXiv:1308.0729</code>.</p>
+<p>V. Voevodsky, <em>The equivalence axiom and univalent models of type
+theory</em>, <code>arXiv:1402.5556</code>, 2014.</p>
+<p>V. Voevodsky, <em>Univalent foundations project</em>, Manuscript,
+IAS, 2010.</p>
+<p>S. Awodey and M. A. Warren, <em>Homotopy theoretic models of identity
+types</em>, Math. Proc. Cambridge Philos. Soc. <strong>146</strong>(1):
+45–55, 2009.</p>
+<p>C. Kapulkin and P. L. Lumsdaine, <em>The simplicial model of
+univalent foundations (after Voevodsky)</em>,
+J. Eur. Math. Soc. <strong>23</strong>(6): 2071–2126, 2021.</p>
+<p>P. L. Lumsdaine, <em>Weak omega-categories from intensional type
+theory</em>, Logical Methods in Computer Science
+<strong>6</strong>(3:24): 1–19, 2010.</p>
+<p>B. van den Berg and R. Garner, <em>Types are weak
+omega-groupoids</em>, Proc. London Math. Soc. <strong>102</strong>(2):
+370–394, 2011.</p>
+<p>D. R. Licata and M. Shulman, <em>Calculating the fundamental group of
+the circle in homotopy type theory</em>, in LICS 2013, pp. 223–232.</p>
+<p>D. R. Licata and E. Finster, <em>Eilenberg–MacLane spaces in homotopy
+type theory</em>, in CSL-LICS 2014, ACM, 2014.</p>
+<p>M. Shulman, <em>Higher inductive types and the formal Blakers–Massey
+theorem</em>, Proc. ACM Program. Lang. <strong>4</strong>(POPL):
+41:1–41:30, 2020.</p>
+<p>M. Shulman, <em>All <span
+class="math inline">(\infty,1)</span>-toposes have strict univalent
+universes</em>, <code>arXiv:1904.07004</code>, 2019.</p>
+<p>A. B. Booij, <em>Analysis in univalent type theory</em>, PhD thesis,
+University of Birmingham, 2020.</p>
+<p>C. Cohen, T. Coquand, S. Huber, A. Mörtberg, <em>Cubical type theory:
+a constructive interpretation of the univalence axiom</em>, in TYPES
+2015, LIPIcs 69, pp. 5:1–5:34.</p>
+<p>A. Vezzosi, A. Mörtberg, A. Abel, <em>Cubical Agda: a dependently
+typed programming language with univalence and higher inductive
+types</em>, Proc. ACM Program. Lang. <strong>3</strong>(ICFP):
+87:1–87:29, 2019.</p>
+<p>D. Annenkov, P. Capriotti, N. Kraus, C. Sattler, <em>Two-level type
+theory and applications</em>, Math. Structures
+Comput. Sci. <strong>33</strong>(8): 688–743, 2023.</p>
+<p>E. Riehl and M. Shulman, <em>A type theory for synthetic <span
+class="math inline">\infty</span>-categories</em>, Higher Structures
+<strong>1</strong>(1): 147–224, 2017. <code>arXiv:1705.07442</code>.</p>
+<p>D.-C. Cisinski and H. K. Nguyen, <em>The universal coCartesian
+fibration</em>, <code>arXiv:2210.08945</code>, 2022.</p>
+<p>M. H. Escardó, <em>Introduction to Univalent Foundations of
+Mathematics with Agda</em>, Lecture notes, 2019.</p>
+<p>P. Martin-Löf, <em>Intuitionistic Type Theory</em>, Bibliopolis,
+1984.</p>
+<p>P. Wadler, <em>Propositions as types</em>, Communications of the ACM
+<strong>58</strong>(12): 75–84, 2015.</p>
+<p>J. Lambek, <em>Deductive systems and categories III: Cartesian closed
+categories, intuitionist propositional calculus, and combinatory
+logic</em>, in Toposes, Algebraic Geometry and Logic, LNM 274, Springer,
+1972, 57–82.</p>
+<p>S. Mac Lane, <em>Categories for the Working Mathematician</em>, 2nd
+ed., Graduate Texts in Mathematics <strong>5</strong>, Springer,
+1998.</p>
+<p>S. Mac Lane and I. Moerdijk, <em>Sheaves in Geometry and Logic: A
+First Introduction to Topos Theory</em>, Springer, 1992.</p>
+<p>E. Riehl, <em>Category Theory in Context</em>, Aurora: Dover Modern
+Math Originals, Dover, 2016.</p>
+<p>J. Lurie, <em>Higher Topos Theory</em>, Annals of Mathematics Studies
+<strong>170</strong>, Princeton, 2009.
+<code>arXiv:math/0608040</code>.</p>
+<p>G. M. Kelly, <em>Basic Concepts of Enriched Category Theory</em>, LMS
+Lecture Note Series <strong>64</strong>, Cambridge University Press,
+1982.</p>
+<p>T. Leinster, <em>Basic Category Theory</em>, Cambridge Studies in
+Advanced Mathematics <strong>143</strong>, Cambridge University Press,
+2014.</p>
+<p>F. W. Lawvere, <em>An elementary theory of the category of sets</em>,
+Proc. Nat. Acad. Sci. USA <strong>52</strong>(6): 1506–1511, 1964.</p>
+<p>F. W. Lawvere, <em>Functorial semantics of algebraic theories</em>,
+PhD thesis, Columbia University, 1963.</p>
+<p>F. W. Lawvere and R. Rosebrugh, <em>Sets for Mathematics</em>,
+Cambridge University Press, 2003.</p>
+<p>M. Makkai, <em>First-order logic with dependent sorts, with
+applications to category theory</em>, Preprint, McGill University, 1995.
+<a href="https://www.math.mcgill.ca/makkai/folds/foldsinpdf/FOLDS.pdf"
+class="uri">https://www.math.mcgill.ca/makkai/folds/foldsinpdf/FOLDS.pdf</a></p>
+<p>E. Meijer, M. Fokkinga, and R. Paterson, <em>Functional programming
+with bananas, lenses, envelopes, and barbed wire</em>, in FPCA ’91, LNCS
+523, Springer, 1991, 124–144.</p>
+<p>J. C. Baez and J. Dolan, <em>From finite sets to Feynman
+diagrams</em>, in Mathematics Unlimited — 2001 and Beyond, Springer,
+29–50, 2001.</p>
+<p>T. Leinster, <em>The Euler characteristic of a category</em>,
+Documenta Mathematica <strong>13</strong>: 21–49, 2008.</p>
+<p>J. von Neumann, <em>Zur Einführung der transfiniten Zahlen</em>, Acta
+Litt. Sci. Reg. Univ. Hung. Francisco-Josephinae <strong>1</strong>:
+199–208, 1923.</p>
+<p>E. Zermelo, <em>Untersuchungen über die Grundlagen der Mengenlehre
+I</em>, Math. Annalen <strong>65</strong>: 261–281, 1908.</p>
+<p>P. Halmos, <em>Naive Set Theory</em>, Van Nostrand, 1960.</p>
+<p>K. Kunen, <em>Set Theory: An Introduction to Independence
+Proofs</em>, North-Holland, 1980.</p>
+<p>J. R. Shoenfield, <em>Mathematical Logic</em>, Addison-Wesley,
+1967.</p>
+<p>P. Suppes, <em>Axiomatic Set Theory</em>, Van Nostrand, 1960.</p>
+<p>P. Benacerraf, <em>What numbers could not be</em>, Philosophical
+Review <strong>74</strong>(1): 47–73, 1965.</p>
+<p>P. Benacerraf, <em>Mathematical truth</em>, Journal of Philosophy
+<strong>70</strong>(19): 661–679, 1973.</p>
+<p>G. Frege, <em>Die Grundlagen der Arithmetik</em>, Breslau, 1884.</p>
+<p>G. Frege, <em>Über Sinn und Bedeutung</em>, Zeitschrift für
+Philosophie und philosophische Kritik <strong>100</strong>: 25–50,
+1892.</p>
+<p>E. Husserl, <em>Philosophie der Arithmetik</em>, Halle, 1891.</p>
+<p>J. S. Mill, <em>A System of Logic</em>, London, 1843.</p>
+<p>M. D. Resnik, <em>Mathematics as a science of patterns: Ontology and
+reference</em>, Noûs <strong>15</strong>(4): 529–550, 1981.</p>
+<p>M. D. Resnik, <em>Mathematics as a Science of Patterns</em>, Oxford
+University Press, 1997.</p>
+<p>S. Shapiro, <em>Philosophy of Mathematics: Structure and
+Ontology</em>, Oxford University Press, 1997.</p>
+<p>G. Hellman, <em>Mathematics Without Numbers: Towards a
+Modal-Structural Interpretation</em>, Oxford University Press, 1989.</p>
+<p>S. Awodey, <em>Structure in mathematics and logic: A categorical
+perspective</em>, Philosophia Mathematica <strong>4</strong>(3):
+209–237, 1996.</p>
+<p>S. Awodey, <em>An answer to Hellman’s question</em>, Philosophia
+Mathematica <strong>12</strong>(1): 54–64, 2004.</p>
+<p>S. Awodey, <em>Structuralism, invariance, and univalence</em>,
+Philosophia Mathematica <strong>22</strong>(1): 1–11, 2014.</p>
+<p>R. Dedekind, <em>Was sind und was sollen die Zahlen?</em>, Vieweg
+&amp; Sohn, Braunschweig, 1888.</p>
+<p>P. Wadler, <em>Propositions as types</em> (extended discussion of
+historical names), CACM <strong>58</strong>(12): 75–84, 2015.</p>
+<p>S. Carey, <em>The Origin of Concepts</em>, Oxford University Press,
+2009.</p>
+<p>S. Dehaene, <em>The Number Sense</em>, Oxford University Press,
+1997.</p>
+<p>G. Lakoff and R. Núñez, <em>Where Mathematics Comes From</em>, Basic
+Books, 2000.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,1871 @@
+
+<h1 id="sec:intro">Introduction</h1>
+<h2 id="the-question-and-the-six-perspectives">The question and the six
+perspectives</h2>
+<p>The Univalent Correspondence series asks one question — <em>what is
+the natural number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>?</em>
+— and answers it six different ways. The six papers of the series each
+occupy one row of <a href="#tab:six-rows"
+data-reference-type="ref+label" data-reference="tab:six-rows">1</a>, the
+central organizing artifact of the project. The synthesis paper before
+you argues that the rightmost four rows describe the <em>same</em>
+mathematical object, identified up to equivalence by Voevodsky’s
+univalence axiom.</p>
+<div id="tab:six-rows">
+<table>
+<caption>The six perspectives on the natural number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>.
+Rows III–VI become literally identical under the univalence axiom (<a
+href="#sec:transit" data-reference-type="ref+label"
+data-reference="sec:transit">3</a>).</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Level (Paper)</strong></th>
+<th style="text-align: left;"><strong>What
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is at this level</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Naive (I)</td>
+<td style="text-align: left;">A symbol on the page; a quantity counted
+by a finger or scratch.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Set-theoretic (II)</td>
+<td style="text-align: left;">The von Neumann ordinal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0, 1, \ldots, 57\}</annotation></semantics></math>;
+equivalently, any iso-class of ZFC encodings of the same Peano
+structure.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Universal property (III)</td>
+<td style="text-align: left;">The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>-th
+iterate
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mn>58</mn></msup><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="sans-serif">𝗓</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗈</mi></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{succ}^{58}(\mathsf{zero})</annotation></semantics></math>
+in <em>any</em> initial successor structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, \mathsf{succ})</annotation></semantics></math>
+in any category with terminal object.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Yoneda (IV)</td>
+<td style="text-align: left;">The representable functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mn>58</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}(-, 58)</annotation></semantics></math>
+on the appropriate category; equivalently, the entire system of probes
+that land on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">HoTT (V)</td>
+<td style="text-align: left;">A canonical term in the inductive type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>,
+identified up to path equivalence (and hence, by univalence, identified
+across NNO presentations).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Categorical / structural (VI)</td>
+<td style="text-align: left;">A semantic invariant, in the sense of
+Awodey, Resnik, and Shapiro, under all structure-preserving morphisms
+between models of arithmetic.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The series is not a survey. Each topical paper is a self-contained
+mathematical development with its own theorems, proofs, and Haskell
+artifacts. Paper I <span class="citation" data-cites="paper-i"></span>
+is historical and philosophical, anchoring the discussion in numerals
+and counting; Paper II <span class="citation"
+data-cites="paper-ii"></span> axiomatizes ZFC, develops the von Neumann
+hierarchy, and proves Benacerraf’s identification problem in formal
+terms; Paper III <span class="citation" data-cites="paper-iii"></span>
+introduces the natural numbers object, derives primitive recursion from
+its universal property, and shows the equivalence with second-order
+Peano arithmetic; Paper IV <span class="citation"
+data-cites="paper-iv"></span> proves the Yoneda lemma in covariant and
+contravariant forms, with applications to numbers, groups, schemes, and
+the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-categorical
+generalization; Paper V <span class="citation"
+data-cites="paper-v"></span> is a self-contained development of HoTT
+including identity types, path induction, the univalence axiom, higher
+inductive types, and the cubical realisation; Paper VI <span
+class="citation" data-cites="paper-vi"></span> surveys mathematical
+structuralism, proves an isomorphism-invariance theorem for first-order
+properties, and relates categorification to decategorification.</p>
+<p>The synthesis paper before you assumes the existence and content of
+these six topical papers and combines them. We do not re-prove their
+main theorems; we cite them. What we do prove are the <em>transit
+theorems</em> between levels, and we collect them into a single
+mathematical statement of the univalent correspondence (<a
+href="#sec:transit,sec:correspondence" data-reference-type="ref+label"
+data-reference="sec:transit,sec:correspondence">[sec:transit,sec:correspondence]</a>).</p>
+<h2 id="the-thesis">The thesis</h2>
+<p>The thesis of this paper, and of the series as a whole, has two
+layers.</p>
+<div id="prin:weak" class="principle">
+<p><strong>Principle 1</strong> (Univalent Correspondence, weak form).
+For the natural numbers, and more generally for any mathematical
+structure presentable by an essentially algebraic theory, the four
+perspectives <em>universal property</em> (Paper III), <em>Yoneda</em>
+(Paper IV), <em>HoTT term up to path equivalence</em> (Paper V), and
+<em>structural invariant</em> (Paper VI) yield equivalent
+characterisations.</p>
+</div>
+<div id="prin:strong" class="principle">
+<p><strong>Principle 2</strong> (Univalent Correspondence, strong form).
+Under the univalence axiom, the equivalences of <a href="#prin:weak"
+data-reference-type="ref+label" data-reference="prin:weak">1</a> are
+internalised as identities in a universe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>.
+The four characterisations do not merely yield isomorphic answers; they
+are paths in the same
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid,
+and the natural number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is a single point in that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid,
+viewed through four windows.</p>
+</div>
+<p>The strong form is the content of <a
+href="#thm:identity-of-perspectives" data-reference-type="ref+label"
+data-reference="thm:identity-of-perspectives">18</a> below. The weak
+form is established meta-theoretically by the work of Lawvere <span
+class="citation" data-cites="Lawvere1964"></span>, Lambek <span
+class="citation" data-cites="Lambek1972"></span>, Wadler <span
+class="citation" data-cites="Wadler2015"></span>, Awodey <span
+class="citation" data-cites="Awodey2014"></span>, and the HoTT
+Book <span class="citation" data-cites="HoTTBook"></span>. The strong
+form requires univalence and the structure identity principle (SIP); see
+<a href="#sec:transit-vi" data-reference-type="ref+label"
+data-reference="sec:transit-vi">3.5</a>.</p>
+<h2 id="why-a-sixth-row">Why a sixth row?</h2>
+<p>A natural question: if the universal property already characterises
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+up to canonical isomorphism, why do we need Yoneda, HoTT, and the
+structural view as separate rows? The short answer: each row resolves a
+residual question raised by the previous one.</p>
+<ul>
+<li><p><strong>Naive (I)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+Set-theoretic (II).</strong> The naive level confuses the symbol
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+with the number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>.
+The set-theoretic level resolves the confusion by exhibiting a definite
+mathematical object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0, 1, \ldots, 57\}</annotation></semantics></math>.</p></li>
+<li><p><strong>Set-theoretic (II)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+Universal property (III).</strong> The set-theoretic encoding is
+non-canonical (Benacerraf): von Neumann’s and Zermelo’s encodings
+disagree about whether
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">\{\emptyset\} \in 17</annotation></semantics></math>.
+The universal property abstracts away from the encoding by
+characterising the structure up to canonical isomorphism.</p></li>
+<li><p><strong>Universal property (III)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+Yoneda (IV).</strong> Universal properties give a relational
+identification one structure at a time. The Yoneda lemma generalises
+this to a universal principle: <em>every</em> object is determined by
+its system of incoming morphisms.
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is initial-among-X” becomes
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+<em>is</em> the functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mn>58</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}(-, 58)</annotation></semantics></math>.”</p></li>
+<li><p><strong>Yoneda (IV)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+HoTT (V).</strong> The Yoneda lemma yields
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>≅</mo><mi>Y</mi><mo>⇔</mo><msub><mi>h</mi><mi>X</mi></msub><mo>≅</mo><msub><mi>h</mi><mi>Y</mi></msub></mrow><annotation encoding="application/x-tex">X \cong Y \iff h_X \cong h_Y</annotation></semantics></math>
+as a meta-theorem about a category. Under univalence, this “iff” becomes
+a literal equality in the universe: the implication
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>X</mi></msub><mo>=</mo><msub><mi>h</mi><mi>Y</mi></msub><mo>→</mo><mi>X</mi><mo>=</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">h_X = h_Y \to X = Y</annotation></semantics></math>
+is constructed by transport, and the implication
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>≅</mo><mi>Y</mi><mo>→</mo><mi>X</mi><mo>=</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">X \cong Y \to X = Y</annotation></semantics></math>
+is the univalence axiom.</p></li>
+<li><p><strong>HoTT (V)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+Categorical/Structural (VI).</strong> HoTT is a formal system. The
+categorical/structural view is the philosophical commitment that
+<em>this is what mathematical objects are</em>: positions in structures,
+identified up to equivalence-respecting morphisms. SIP makes this
+philosophical commitment provable inside HoTT.</p></li>
+</ul>
+<h2 id="naming-the-correspondence">Naming the correspondence</h2>
+<p>The four rightmost rows of <a href="#tab:six-rows"
+data-reference-type="ref+label" data-reference="tab:six-rows">1</a>
+correspond to the four columns of the <em>computational tetrad</em>, the
+four-way extension of the Curry–Howard–Lambek correspondence shown in <a
+href="#tab:tetrad" data-reference-type="ref+label"
+data-reference="tab:tetrad">2</a>. We follow Wadler <span
+class="citation" data-cites="Wadler2015"></span> in calling its central
+insight <em>propositions-as-types-as-spaces</em>, but we call its strong
+form (internalised by the univalence axiom) <em>the univalent
+correspondence</em>. The terminology and its history are surveyed in <a
+href="#sec:naming" data-reference-type="ref+label"
+data-reference="sec:naming">7</a>.</p>
+<div id="tab:tetrad">
+<table>
+<caption>The computational tetrad. Each row is a single concept seen
+through four windows. Adapted from <span class="citation"
+data-cites="Wadler2015 HoTTBook"></span>; the explicit fourth column is
+due to Voevodsky’s univalent foundations project.</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Logic</strong></th>
+<th style="text-align: left;"><strong>Type theory</strong></th>
+<th style="text-align: left;"><strong>Category theory</strong></th>
+<th style="text-align: left;"><strong>Homotopy / topology</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Propositions</td>
+<td style="text-align: left;">Types</td>
+<td style="text-align: left;">Objects</td>
+<td style="text-align: left;">Spaces</td>
+</tr>
+<tr>
+<td style="text-align: left;">Proofs</td>
+<td style="text-align: left;">Terms</td>
+<td style="text-align: left;">Morphisms</td>
+<td style="text-align: left;">Points / paths</td>
+</tr>
+<tr>
+<td style="text-align: left;">Implication
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>→</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A \to B</annotation></semantics></math></td>
+<td style="text-align: left;">Function type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>→</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A \to B</annotation></semantics></math></td>
+<td style="text-align: left;">Hom-set</td>
+<td style="text-align: left;">Path space</td>
+</tr>
+<tr>
+<td style="text-align: left;">Conjunction
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∧</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A \wedge B</annotation></semantics></math></td>
+<td style="text-align: left;">Product
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>×</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A \times B</annotation></semantics></math></td>
+<td style="text-align: left;">Product / limit</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Disjunction
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∨</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A \vee B</annotation></semantics></math></td>
+<td style="text-align: left;">Sum
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>+</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A + B</annotation></semantics></math></td>
+<td style="text-align: left;">Coproduct / colimit</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Truth
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>⊤</mi><annotation encoding="application/x-tex">\top</annotation></semantics></math></td>
+<td style="text-align: left;">Unit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn mathvariant="bold">𝟏</mn><annotation encoding="application/x-tex">\mathbf{1}</annotation></semantics></math></td>
+<td style="text-align: left;">Terminal object</td>
+<td style="text-align: left;">Point</td>
+</tr>
+<tr>
+<td style="text-align: left;">Falsehood
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>⊥</mi><annotation encoding="application/x-tex">\bot</annotation></semantics></math></td>
+<td style="text-align: left;">Empty
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn mathvariant="bold">𝟎</mn><annotation encoding="application/x-tex">\mathbf{0}</annotation></semantics></math></td>
+<td style="text-align: left;">Initial object</td>
+<td style="text-align: left;">Empty space</td>
+</tr>
+<tr>
+<td style="text-align: left;">Equality
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a = b</annotation></semantics></math></td>
+<td style="text-align: left;">Identity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="sans-serif">𝖨</mi><mi mathvariant="sans-serif">𝖽</mi></mrow><mi>A</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{Id}_A(a, b)</annotation></semantics></math></td>
+<td style="text-align: left;">Isomorphism</td>
+<td style="text-align: left;">Homotopy equivalence</td>
+</tr>
+<tr>
+<td style="text-align: left;">Universal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∀</mo><annotation encoding="application/x-tex">\forall</annotation></semantics></math></td>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Π</mi><annotation encoding="application/x-tex">\Pi</annotation></semantics></math>-type</td>
+<td style="text-align: left;">Right adjoint / limit</td>
+<td style="text-align: left;">Fibration</td>
+</tr>
+<tr>
+<td style="text-align: left;">Existential
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∃</mo><annotation encoding="application/x-tex">\exists</annotation></semantics></math></td>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-type</td>
+<td style="text-align: left;">Left adjoint / colimit</td>
+<td style="text-align: left;">Total space</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="outline">Outline</h2>
+<p><a href="#sec:row-by-row" data-reference-type="ref+Label"
+data-reference="sec:row-by-row">2</a> reviews the six perspectives row
+by row, summarising the principal results of Papers I through VI. <a
+href="#sec:transit" data-reference-type="ref+Label"
+data-reference="sec:transit">3</a> proves the five transit theorems that
+move from one level to the next. <a href="#sec:framework"
+data-reference-type="ref+Label" data-reference="sec:framework">4</a>
+sets up the unified mathematical framework: an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid
+model under univalence, in which the four rightmost perspectives
+correspond to four functors out of one
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-topos.
+<a href="#sec:correspondence" data-reference-type="ref+Label"
+data-reference="sec:correspondence">5</a> states and proves the main
+identity-of-perspectives theorem. <a href="#sec:diagrams"
+data-reference-type="ref+Label" data-reference="sec:diagrams">6</a>
+makes the inter-level commutativity precise via commutative diagrams of
+equivalences. <a href="#sec:naming" data-reference-type="ref+Label"
+data-reference="sec:naming">7</a> surveys the history of the naming and
+explains our preference for “the univalent correspondence.” <a
+href="#sec:applications" data-reference-type="ref+Label"
+data-reference="sec:applications">8</a> sketches three downstream
+applications: ContextFS as a structural-identity computational
+primitive, transcendentals
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+in HoTT, and directed HoTT for representation theory. <a
+href="#sec:open" data-reference-type="ref+Label"
+data-reference="sec:open">9</a> collects open problems. <a
+href="#sec:conclusion" data-reference-type="ref+Label"
+data-reference="sec:conclusion">10</a> concludes.</p>
+<h1 id="sec:row-by-row">Row by Row: The Six Perspectives in Brief</h1>
+<p>This section is a synopsis of the six topical papers. We assume the
+reader has access to the topical papers and reproduce only enough
+material to make the synthesis self-contained.</p>
+<h2 id="sec:row-i">Paper I: Naive — numbers as symbols and
+quantities</h2>
+<p>Paper I <span class="citation" data-cites="paper-i"></span> occupies
+the pre-formal level. A natural number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is, at this level, a symbol on a page
+(“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>”),
+a Roman numeral (<span class="sans-serif">LVIII</span>), a tally
+(fifty-eight scratches), or a Babylonian sexagesimal cluster, and
+simultaneously a quantity (the cardinality of a counted collection). The
+paper traces this dual aspect through Mill’s empiricism, Husserl’s
+phenomenology of arithmetic, Frege’s critique of psychologism in
+<em>Grundlagen der Arithmetik</em> <span class="citation"
+data-cites="frege1884"></span> and <em>Sinn und Bedeutung</em> <span
+class="citation" data-cites="frege1892"></span>, and Benacerraf’s
+identification problem <span class="citation"
+data-cites="benacerraf1965"></span>.</p>
+<p>The principal lesson of Paper I is the syntax/semantics distinction:
+numerals are syntactic objects (symbols, words over an alphabet), while
+numbers are the semantic invariants that all adequate numeral systems
+share. The paper provides a Haskell artifact parsing four numeral
+systems (Hindu–Arabic, Roman, tally, Babylonian sexagesimal) into a
+single structural normal form.</p>
+<p>The naive level is shown to be simultaneously <em>insufficient</em>
+(because of symbol/object confusion, multiplicity of equally adequate
+representations, and a foundational underdetermination that already
+foreshadows the structuralist response) and <em>indispensable</em>
+(because embodied counting and culturally-transmitted numerals anchor
+mathematical content in human cognition). The paper closes by motivating
+each of the five formal levels developed in subsequent papers.</p>
+<h2 id="sec:row-ii">Paper II: Set-theoretic — numbers as von Neumann
+ordinals</h2>
+<p>Paper II <span class="citation" data-cites="paper-ii"></span> works
+in Zermelo–Fraenkel set theory with Choice (ZFC). It develops the von
+Neumann encoding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">0 = \emptyset</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>=</mo><mi>n</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n + 1 = n \cup \{n\}</annotation></semantics></math>,
+in which
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>58</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">58 = \{0, 1, \ldots, 57\}</annotation></semantics></math>,
+and contrasts it with Zermelo’s encoding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">0 = \emptyset</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n + 1 = \{n\}</annotation></semantics></math>.
+Both yield structures isomorphic to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="double-struck">ℕ</mi><mo>,</mo><mn>0</mn><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mathbb{N}, 0, \mathsf{succ})</annotation></semantics></math>
+as Peano models, yet they differ on internal set-theoretic questions
+such as whether
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>∈</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">2 \in 3</annotation></semantics></math>.</p>
+<p>The paper proves Benacerraf’s argument formally:</p>
+<div id="thm:benacerraf" class="theorem">
+<p><strong>Theorem 3</strong> (Benacerraf, formalised in Paper II).
+<em>There exist two ZFC-definable structures
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>N</mi><mi>v</mi></msub><mo>,</mo><msub><mn>0</mn><mi>v</mi></msub><mo>,</mo><msub><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mi>v</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N_v, 0_v, \mathsf{succ}_v)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>N</mi><mi>z</mi></msub><mo>,</mo><msub><mn>0</mn><mi>z</mi></msub><mo>,</mo><msub><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mi>z</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N_z, 0_z, \mathsf{succ}_z)</annotation></semantics></math>
+which both satisfy the second-order Peano axioms and are isomorphic as
+Peano structures, but which differ on a sentence of ZFC’s first-order
+language
+(e.g. “<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo>∈</mo><mn>2</mn><mi>.</mi><mspace width="0.167em"></mspace><mi>x</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\exists x \in 2.\, x = 1</annotation></semantics></math>”).
+Therefore, no choice of ZFC encoding can claim to be the unique correct
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>.</em></p>
+</div>
+<p>The paper develops addition, multiplication, and order recursively on
+the von Neumann ordinals, verifies the Peano axioms, and proves a
+representation theorem stating that any successor structure obtained
+from a class function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
+that is injective, has a base point not in its image, and admits
+transfinite iteration generates a model of Peano arithmetic isomorphic
+to the von Neumann naturals. It closes with a structuralist re-reading:
+the set-theoretic perspective <em>does</em> present numbers, but only as
+encodings; the structural content these encodings share is what we call
+<em>the number itself</em>.</p>
+<h2 id="sec:row-iii">Paper III: Universal property — numbers as initial
+successor structures</h2>
+<p>Paper III <span class="citation" data-cites="paper-iii"></span>
+introduces the natural numbers object (NNO).</p>
+<div id="def:nno" class="definition">
+<p><strong>Definition 4</strong> (NNO, Paper III). A <em>natural numbers
+object</em> in a category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+with terminal object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn mathvariant="bold">𝟏</mn><annotation encoding="application/x-tex">\mathbf{1}</annotation></semantics></math>
+is a triple
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>:</mo><mn mathvariant="bold">𝟏</mn><mo>→</mo><mi>N</mi><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo>:</mo><mi>N</mi><mo>→</mo><mi>N</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0\colon \mathbf{1} \to N,
+\mathsf{succ}\colon N \to N)</annotation></semantics></math> that is the
+initial
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, \mathsf{succ})</annotation></semantics></math>-algebra.
+Equivalently,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo stretchy="false" form="postfix">]</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, [0, \mathsf{succ}])</annotation></semantics></math>
+is initial among algebras for the endofunctor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>X</mi><mo>=</mo><mn mathvariant="bold">𝟏</mn><mo>+</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">F X = \mathbf{1} + X</annotation></semantics></math>
+(Lambek).</p>
+</div>
+<div id="thm:nno-up" class="theorem">
+<p><strong>Theorem 5</strong> (Universal property, Paper III,
+Theorem 3.2). <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, \mathsf{succ})</annotation></semantics></math>
+be an NNO in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>.
+For every pointed dynamical system
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, x_0, f)</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>,
+there exists a unique morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>:</mo><mi>N</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">h\colon N \to X</annotation></semantics></math>
+such that
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>∘</mo><mn>0</mn><mo>=</mo><msub><mi>x</mi><mn>0</mn></msub><mspace width="1.0em"></mspace><mtext mathvariant="normal">and</mtext><mspace width="1.0em"></mspace><mi>h</mi><mo>∘</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo>=</mo><mi>f</mi><mo>∘</mo><mi>h</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">h \circ 0 = x_0 \quad \text{and} \quad h \circ \mathsf{succ}= f \circ h.</annotation></semantics></math></em></p>
+</div>
+<p>The unique map
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>
+<em>is</em> the primitive recursion combinator
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{rec}(x_0, f)</annotation></semantics></math>.
+The integer
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is, in any NNO,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mn>58</mn></msup><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{succ}^{58}(0)</annotation></semantics></math>,
+and any two NNOs are canonically isomorphic via the unique maps in both
+directions, so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is well-defined up to that canonical isomorphism.</p>
+<p>Paper III also proves equivalence with second-order Peano axioms
+(P1–P5), discusses non-standard models of first-order PA (which the
+universal-property characterisation excludes), develops
+universal-property descriptions of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℤ</mi><annotation encoding="application/x-tex">\mathbb{Z}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℚ</mi><annotation encoding="application/x-tex">\mathbb{Q}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>,
+and presents the coalgebraic dual (final coalgebras, streams as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mi>X</mi><mi>.</mi><mspace width="0.167em"></mspace><mi>D</mi><mo>×</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">\nu X.\, D \times X</annotation></semantics></math>,
+codata, bisimulation as the corresponding induction principle).</p>
+<p>The paper closes by recasting the NNO Yonedically: a universal
+property is a representation of a functor, and the NNO represents the
+constant singleton functor on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑷</mi><mi mathvariant="bold-italic">𝒕</mi><mi mathvariant="bold-italic">𝑬</mi><mi mathvariant="bold-italic">𝒏</mi><mi mathvariant="bold-italic">𝒅</mi><mi mathvariant="bold-italic">𝒐</mi></mrow><annotation encoding="application/x-tex">\mathbf{PtEndo}</annotation></semantics></math>.
+This bridges to Paper IV.</p>
+<h2 id="sec:row-iv">Paper IV: Yoneda — numbers as representable
+functors</h2>
+<p>Paper IV <span class="citation" data-cites="paper-iv"></span>
+promotes the relational viewpoint to its categorical limit.</p>
+<div id="thm:yoneda" class="theorem">
+<p><strong>Theorem 6</strong> (Yoneda lemma, Paper IV, Theorem 3.1).
+<em>For any locally small category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>,
+object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>∈</mo><mi mathvariant="script">𝒞</mi></mrow><annotation encoding="application/x-tex">X \in \mathcal{C}</annotation></semantics></math>,
+and presheaf
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>:</mo><msup><mi mathvariant="script">𝒞</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>→</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">F\colon \mathcal{C}^{\mathrm{op}}\to \mathbf{Set}</annotation></semantics></math>,
+the map
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Φ</mi><mrow><mi>X</mi><mo>,</mo><mi>F</mi></mrow></msub><mo>:</mo><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow><mo stretchy="false" form="prefix">(</mo><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mi mathvariant="script">𝒞</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>F</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><mi>α</mi><mo>↦</mo><msub><mi>α</mi><mi>X</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi></mrow><mi>X</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\Phi_{X,F}\colon \mathrm{Nat}(\mathrm{Hom}_{\mathcal{C}}(-, X), F) \to F(X), \qquad
+\alpha \mapsto \alpha_X(\mathrm{id}_X)</annotation></semantics></math>
+is a bijection, natural in both
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>.</em></p>
+</div>
+<div class="corollary">
+<p><strong>Corollary 7</strong> (Fully faithful Yoneda embedding).
+<em>The functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>:</mo><mi mathvariant="script">𝒞</mi><mo>→</mo><mo stretchy="false" form="prefix">[</mo><msup><mi mathvariant="script">𝒞</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>,</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">y\colon \mathcal{C} \to [\mathcal{C}^{\mathrm{op}}, \mathbf{Set}]</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>↦</mo><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">X \mapsto \mathrm{Hom}(-, X)</annotation></semantics></math>,
+is fully faithful. Hence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>≅</mo><mi>Y</mi><mo>⇔</mo><msub><mi>h</mi><mi>X</mi></msub><mo>≅</mo><msub><mi>h</mi><mi>Y</mi></msub></mrow><annotation encoding="application/x-tex">X \cong Y \iff h_X \cong h_Y</annotation></semantics></math>.</em></p>
+</div>
+<p>In the category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑷</mi><mi mathvariant="bold-italic">𝒕</mi><mi mathvariant="bold-italic">𝑬</mi><mi mathvariant="bold-italic">𝒏</mi><mi mathvariant="bold-italic">𝒅</mi><mi mathvariant="bold-italic">𝒐</mi></mrow><annotation encoding="application/x-tex">\mathbf{PtEndo}</annotation></semantics></math>
+of pointed dynamical systems, the natural number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is identified with the functor that assigns to every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, x_0, f)</annotation></semantics></math>
+the value
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>f</mi><mn>58</mn></msup><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f^{58}(x_0)</annotation></semantics></math>.
+The structuralist’s slogan “numbers are positions in a structure” is now
+a theorem.</p>
+<p>Paper IV also proves the density theorem (every presheaf is a colimit
+of representables), surveys applications to groups (regular
+representations), spaces (functor of points), and schemes
+(Grothendieck’s program), and develops enriched,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>-categorical,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-categorical
+Yoneda (culminating in Lurie’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-Yoneda
+lemma <span class="citation" data-cites="lurie"></span>). It closes by
+arguing that under univalence, the implication
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>X</mi></msub><mo>≅</mo><msub><mi>h</mi><mi>Y</mi></msub><mo>⇒</mo><mi>X</mi><mo>=</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">h_X \cong h_Y \Rightarrow X = Y</annotation></semantics></math>
+is internalised as a path in the universe, preparing Paper V.</p>
+<h2 id="sec:row-v">Paper V: HoTT — numbers as inductive types up to path
+equivalence</h2>
+<p>Paper V <span class="citation" data-cites="paper-v"></span> is a
+self-contained development of Homotopy Type Theory. The natural numbers
+are the inductive type
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">ℕ</mi><mspace width="0.167em"></mspace><mo>:</mo><mspace width="-0.167em"></mspace><mspace width="-0.167em"></mspace><mo>=</mo><mspace width="0.167em"></mspace><mrow><mi mathvariant="sans-serif">𝖽</mi><mi mathvariant="sans-serif">𝖺</mi><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">𝖺</mi></mrow><mspace width="0.167em"></mspace><mi mathvariant="double-struck">ℕ</mi><mo>:</mo><mi mathvariant="script">𝒰</mi><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><mrow><mi mathvariant="sans-serif">𝗓</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗈</mi></mrow><mo>:</mo><mi mathvariant="double-struck">ℕ</mi><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">|</mo><mspace width="0.278em"></mspace><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo>:</mo><mi mathvariant="double-struck">ℕ</mi><mo>→</mo><mi mathvariant="double-struck">ℕ</mi><mo>,</mo></mrow><annotation encoding="application/x-tex">\mathbb{N}\,:\!\!=\, \mathsf{data}\, \mathbb{N}: \mathcal{U}\;|\; \mathsf{zero}: \mathbb{N}\;|\; \mathsf{succ}: \mathbb{N}\to \mathbb{N},</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is the canonical term
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mn>58</mn></msup><mspace width="0.167em"></mspace><mrow><mi mathvariant="sans-serif">𝗓</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗈</mi></mrow></mrow><annotation encoding="application/x-tex">\mathsf{succ}^{58}\,\mathsf{zero}</annotation></semantics></math>.</p>
+<p>The novelty of HoTT is the identity type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><msub><mo>=</mo><mi>A</mi></msub><mi>b</mi></mrow><annotation encoding="application/x-tex">a =_A b</annotation></semantics></math>,
+which is not a mere proposition but a structured object carrying the
+homotopical content of a <em>path space</em>. The paper develops path
+induction, transport, coherence, and the homotopy levels, and states
+Voevodsky’s univalence axiom:</p>
+<div id="thm:univalence" class="theorem">
+<p><strong>Theorem 8</strong> (Univalence axiom, Paper V, Theorem 4.2).
+<em>For all types
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>,</mo><mi>B</mi><mo>:</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">A, B : \mathcal{U}</annotation></semantics></math>,
+the canonical map
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝖽</mi><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">𝗈</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗊</mi><mi mathvariant="sans-serif">𝗏</mi></mrow><mo>:</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><msub><mo>=</mo><mi mathvariant="script">𝒰</mi></msub><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>≃</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{idtoeqv}\colon (A =_\mathcal{U}B) \to (A \simeq B)</annotation></semantics></math>
+is itself an equivalence. The inverse map is denoted
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖺</mi></mrow><mo>:</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>≃</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><msub><mo>=</mo><mi mathvariant="script">𝒰</mi></msub><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\mathsf{ua}\colon (A \simeq B) \to (A =_\mathcal{U}B).</annotation></semantics></math></em></p>
+</div>
+<p>The paper proves a contractibility theorem for the type of NNOs in
+HoTT:</p>
+<div id="thm:nno-contr" class="theorem">
+<p><strong>Theorem 9</strong> (Contractibility of NNO, Paper V,
+Theorem 4.4). <em>The type
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">O</mi></mrow><mo>:=</mo><munder><mo>∑</mo><mrow><mi>X</mi><mo>:</mo><mi mathvariant="script">𝒰</mi></mrow></munder><mspace width="0.278em"></mspace><munder><mo>∑</mo><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>:</mo><mi>X</mi></mrow></munder><mspace width="0.278em"></mspace><munder><mo>∑</mo><mrow><mi>s</mi><mo>:</mo><mi>X</mi><mo>→</mo><mi>X</mi></mrow></munder><mspace width="0.278em"></mspace><mrow><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝖨</mi><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝖺</mi><mi mathvariant="sans-serif">𝗅</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{NNO}:= \sum_{X : \mathcal{U}}\;\sum_{x_0 : X}\;\sum_{s : X \to X}\;
+\mathsf{isInitial}(X, x_0, s)</annotation></semantics></math> is
+contractible. The centre of contraction is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="double-struck">ℕ</mi><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗓</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗈</mi></mrow><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo>,</mo><mi>⋆</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mathbb{N}, \mathsf{zero}, \mathsf{succ}, \star)</annotation></semantics></math>,
+and every other quadruple is connected to it by a unique path.</em></p>
+</div>
+<p>This is the formal expression of the slogan
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is canonical across all NNOs.” Paper V also develops higher inductive
+types (interval, circle, spheres, suspensions, pushouts, propositional
+truncation, Cauchy real numbers as a higher inductive–inductive type),
+the cubical realisation of HoTT <span class="citation"
+data-cites="CCHM CubicalAgda"></span> in which univalence is provable
+rather than axiomatic, two-level type theory <span class="citation"
+data-cites="2LTT"></span>, modal HoTT, and directed HoTT <span
+class="citation" data-cites="RiehlShulman"></span>.</p>
+<h2 id="sec:row-vi">Paper VI: Categorical / structural — numbers as
+invariants</h2>
+<p>Paper VI <span class="citation" data-cites="paper-vi"></span>
+presents the structural answer to “what is a number?”. Numerals are
+invariants under all structure-preserving morphisms between models of
+arithmetic. The paper surveys mathematical structuralism in the
+philosophical tradition <span class="citation"
+data-cites="Resnik1997 Shapiro1997 Hellman1989 Awodey1996"></span>,
+presents its categorical formalisation through Lawvere’s ETCS <span
+class="citation" data-cites="Lawvere1964"></span> and the functorial
+semantics of algebraic theories <span class="citation"
+data-cites="Lawvere1963"></span>, and proves an isomorphism-invariance
+theorem for first-order properties of finitely-presented theories.</p>
+<div id="thm:sip" class="theorem">
+<p><strong>Theorem 10</strong> (Structure identity principle, Paper VI,
+Theorem 10.3). <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>
+be a notion of structure given by a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>X</mi><mo>:</mo><mi mathvariant="script">𝒰</mi></mrow></msub><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\sum_{X : \mathcal{U}} F(X)</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+a structure of finite signature. In HoTT, identification of structures
+is canonically equivalent to structure-preserving equivalence of
+carriers:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><msub><mo>=</mo><mrow><munder><mo>∑</mo><mi>X</mi></munder><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow></msub><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mo>′</mo></msup><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>≃</mo><mspace width="0.278em"></mspace><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><munder><mo>∑</mo><mrow><mi>f</mi><mo>:</mo><mi>X</mi><mo>≃</mo><msup><mi>X</mi><mo>′</mo></msup></mrow></munder><mspace width="0.167em"></mspace><mi>f</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> preserves </mtext><mspace width="0.333em"></mspace></mrow><mi>s</mi><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\bigl((X, s) =_{\sum_X F(X)} (X&#39;, s&#39;)\bigr) \;\simeq\;
+\bigl(\sum_{f : X \simeq X&#39;}\, f \text{ preserves } s, s&#39;\bigr).</annotation></semantics></math></em></p>
+</div>
+<div id="thm:eq-inv" class="theorem">
+<p><strong>Theorem 11</strong> (Equivalence-invariance, Paper VI,
+Theorem 10.4). <em>In HoTT, every property
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>:</mo><mi mathvariant="script">𝒮</mi><mo>→</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">P : \mathcal{S} \to \mathcal{U}</annotation></semantics></math>
+of structures of a given kind is automatically invariant under
+structure-preserving equivalence:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>≃</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mo>′</mo></msup><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, s) \simeq(X&#39;, s&#39;)</annotation></semantics></math>
+implies
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>≃</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mo>′</mo></msup><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X, s) \simeq P(X&#39;, s&#39;)</annotation></semantics></math>.</em></p>
+</div>
+<p>The paper exhibits two non-equal but isomorphic set-theoretic models
+of a small algebraic theory of pointed unary structures and verifies,
+formally and by Haskell code, that all numerical answers (cardinalities
+of definable subsets, values of definable functions) coincide. It
+connects categorification
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>-element
+groupoid in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑮</mi><mi mathvariant="bold-italic">𝒑</mi><mi mathvariant="bold-italic">𝒅</mi></mrow><annotation encoding="application/x-tex">\mathbf{Gpd}</annotation></semantics></math>
+that decategorifies to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>
+via
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_0</annotation></semantics></math>)
+and Euler-characteristic /
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>-theoretic
+decategorification to the same invariance principle.</p>
+<h1 id="sec:transit">The Five Transit Theorems</h1>
+<p>Each of the five steps from one row to the next has formal content.
+We collect those steps as theorems and prove them, where the proofs are
+not already inside the topical papers.</p>
+<h2 id="sec:transit-i">Naive to set-theoretic</h2>
+<div id="thm:transit-i" class="theorem">
+<p><strong>Theorem 12</strong> (Existence of a definite encoding).
+<em>There exists a class function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>:</mo><mi mathvariant="double-struck">ℕ</mi><mo>→</mo><msub><mi>V</mi><mi>ω</mi></msub></mrow><annotation encoding="application/x-tex">V : \mathbb{N}\to V_\omega</annotation></semantics></math>
+in ZFC, defined by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">V(0) = \emptyset</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">V(n+1) = V(n) \cup \{V(n)\}</annotation></semantics></math>,
+such that every numeral in any of the four numeral systems of Paper I
+(Hindu–Arabic, Roman, tally, Babylonian sexagesimal) determines, via
+parsing, a unique element of the image of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> The recursion is justified by Replacement and
+Foundation in ZFC; see Paper II, Theorem 3.4. The parsers are
+constructed in Paper I, §8. ◻</p>
+</div>
+<p><a href="#thm:transit-i" data-reference-type="ref+Label"
+data-reference="thm:transit-i">12</a> resolves the naive symbol/object
+confusion: there is a definite mathematical object the numeral refers
+to. But it does not resolve which one: that is Benacerraf’s problem (<a
+href="#thm:benacerraf" data-reference-type="ref+label"
+data-reference="thm:benacerraf">3</a>).</p>
+<h2 id="sec:transit-ii">Set-theoretic to universal property</h2>
+<div id="thm:transit-ii" class="theorem">
+<p><strong>Theorem 13</strong> (Encoding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇒</mo><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math>
+NNO). <em>The von Neumann encoding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
+exhibits
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi mathvariant="double-struck">ℕ</mi><mi>v</mi></msub><mo>,</mo><mi>∅</mi><mo>,</mo><mi>n</mi><mo>↦</mo><mi>n</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mathbb{N}_v, \emptyset, n \mapsto n \cup \{n\})</annotation></semantics></math>
+as a natural numbers object in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>.
+The Zermelo encoding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>
+exhibits
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi mathvariant="double-struck">ℕ</mi><mi>z</mi></msub><mo>,</mo><mi>∅</mi><mo>,</mo><mi>n</mi><mo>↦</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mathbb{N}_z, \emptyset, n \mapsto \{n\})</annotation></semantics></math>
+as a natural numbers object in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>.
+The unique map
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>:</mo><msub><mi mathvariant="double-struck">ℕ</mi><mi>v</mi></msub><mo>→</mo><msub><mi mathvariant="double-struck">ℕ</mi><mi>z</mi></msub></mrow><annotation encoding="application/x-tex">h\colon \mathbb{N}_v \to \mathbb{N}_z</annotation></semantics></math>
+guaranteed by the universal property of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="double-struck">ℕ</mi><mi>v</mi></msub><annotation encoding="application/x-tex">\mathbb{N}_v</annotation></semantics></math>
+is the bijection sending
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">V(n)</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Z</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Z(n)</annotation></semantics></math>,
+and is canonical.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> That both structures satisfy the second-order Peano
+axioms is Paper II, Theorems 3.5 and 4.2. By Paper III, Theorem 7.1,
+second-order Peano is equivalent to NNO. Initiality (and hence the
+canonical bijection) follows. ◻</p>
+</div>
+<p><a href="#thm:transit-ii" data-reference-type="ref+Label"
+data-reference="thm:transit-ii">13</a> resolves Benacerraf: the von
+Neumann and Zermelo encodings do not name the same set, but they name
+the same NNO up to a unique iso. The universal property is the
+encoding-independent shadow.</p>
+<h2 id="sec:transit-iii">Universal property to Yoneda</h2>
+<div id="thm:transit-iii" class="theorem">
+<p><strong>Theorem 14</strong> (NNO as a representation). <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+be a category with terminal object. The forgetful functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>:</mo><mrow><mi mathvariant="bold-italic">𝑷</mi><mi mathvariant="bold-italic">𝒕</mi><mi mathvariant="bold-italic">𝑬</mi><mi mathvariant="bold-italic">𝒏</mi><mi mathvariant="bold-italic">𝒅</mi><mi mathvariant="bold-italic">𝒐</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒞</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi mathvariant="script">𝒞</mi></mrow><annotation encoding="application/x-tex">U\colon \mathbf{PtEndo}(\mathcal{C}) \to \mathcal{C}</annotation></semantics></math>
+has a left adjoint
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+if and only if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+admits an NNO. In that case
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mn mathvariant="bold">𝟎</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">N = F(\mathbf{0})</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn mathvariant="bold">𝟎</mn><annotation encoding="application/x-tex">\mathbf{0}</annotation></semantics></math>
+is the initial object of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+(or, equivalently,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+is the value of the free pointed endo-system on the empty set), and the
+universal property of the NNO is exactly the unit of the
+adjunction.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> We connect the adjunction to Yoneda in two steps.</p>
+<p><em>Step 1: adjunction
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇒</mo><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math>
+universal property.</em> Suppose
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+is left adjoint to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>U</mi><annotation encoding="application/x-tex">U</annotation></semantics></math>.
+The unit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mo>:</mo><msub><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi></mrow><mi mathvariant="script">𝒞</mi></msub><mo>→</mo><mi>U</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">\eta\colon \mathrm{id}_\mathcal{C} \to U F</annotation></semantics></math>
+at the initial object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn mathvariant="bold">𝟎</mn><mo>∈</mo><mi mathvariant="script">𝒞</mi></mrow><annotation encoding="application/x-tex">\mathbf{0} \in \mathcal{C}</annotation></semantics></math>
+is the universal map
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mn mathvariant="bold">𝟎</mn></msub><mo>:</mo><mn mathvariant="bold">𝟎</mn><mo>→</mo><mi>U</mi><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mn mathvariant="bold">𝟎</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\eta_\mathbf{0}\colon \mathbf{0} \to U F (\mathbf{0})</annotation></semantics></math>.
+By the adjunction’s hom-set bijection
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mrow><mi mathvariant="bold-italic">𝑷</mi><mi mathvariant="bold-italic">𝒕</mi><mi mathvariant="bold-italic">𝑬</mi><mi mathvariant="bold-italic">𝒏</mi><mi mathvariant="bold-italic">𝒅</mi><mi mathvariant="bold-italic">𝒐</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mn mathvariant="bold">𝟎</mn><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mi mathvariant="script">𝒞</mi></msub><mo stretchy="false" form="prefix">(</mo><mn mathvariant="bold">𝟎</mn><mo>,</mo><mi>U</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}_{\mathbf{PtEndo}}(F(\mathbf{0}), (X, x_0, f)) \cong\mathrm{Hom}_\mathcal{C}(\mathbf{0}, U(X, x_0, f))</annotation></semantics></math>,
+the right-hand side is a singleton (initiality of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn mathvariant="bold">𝟎</mn><annotation encoding="application/x-tex">\mathbf{0}</annotation></semantics></math>),
+so the left-hand side is too: there is a <em>unique</em> morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mn mathvariant="bold">𝟎</mn><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">F(\mathbf{0}) \to (X, x_0, f)</annotation></semantics></math>
+for every pointed endo-system. This is precisely the universal property
+of the NNO (<a href="#thm:nno-up" data-reference-type="ref+label"
+data-reference="thm:nno-up">5</a>) with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>:=</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mn mathvariant="bold">𝟎</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">N := F(\mathbf{0})</annotation></semantics></math>.
+Conversely, an NNO supplies the action of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+on objects and the unit, and naturality of the bijection is forced by
+the universal property.</p>
+<p><em>Step 2: universal property
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇒</mo><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math>
+Yoneda representation.</em> Reading the previous bijection as an
+isomorphism of presheaves on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑷</mi><mi mathvariant="bold-italic">𝒕</mi><mi mathvariant="bold-italic">𝑬</mi><mi mathvariant="bold-italic">𝒏</mi><mi mathvariant="bold-italic">𝒅</mi><mi mathvariant="bold-italic">𝒐</mi></mrow><annotation encoding="application/x-tex">\mathbf{PtEndo}</annotation></semantics></math>,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mrow><mi mathvariant="bold-italic">𝑷</mi><mi mathvariant="bold-italic">𝒕</mi><mi mathvariant="bold-italic">𝑬</mi><mi mathvariant="bold-italic">𝒏</mi><mi mathvariant="bold-italic">𝒅</mi><mi mathvariant="bold-italic">𝒐</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mi>−</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>≅</mo><mspace width="0.278em"></mspace><msub><mi mathvariant="normal">Δ</mi><mn mathvariant="bold">𝟏</mn></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}_{\mathbf{PtEndo}}(N, -) \;\cong\; \Delta_{\mathbf{1}},</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="normal">Δ</mi><mn mathvariant="bold">𝟏</mn></msub><annotation encoding="application/x-tex">\Delta_{\mathbf{1}}</annotation></semantics></math>
+is the constant singleton presheaf, exhibits
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+as a representing object for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="normal">Δ</mi><mn mathvariant="bold">𝟏</mn></msub><annotation encoding="application/x-tex">\Delta_{\mathbf{1}}</annotation></semantics></math>.
+The Yoneda embedding sends
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+to the representable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>N</mi></msub><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msup><mrow><mi mathvariant="bold-italic">𝑷</mi><mi mathvariant="bold-italic">𝒕</mi><mi mathvariant="bold-italic">𝑬</mi><mi mathvariant="bold-italic">𝒏</mi><mi mathvariant="bold-italic">𝒅</mi><mi mathvariant="bold-italic">𝒐</mi></mrow><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>,</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">h_N \in [\mathbf{PtEndo}^{\mathrm{op}}, \mathbf{Set}]</annotation></semantics></math>,
+which equals (up to natural iso) the constant singleton presheaf. Thus
+the universal property is exactly the assertion that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>N</mi></msub><mo>≅</mo><msub><mi mathvariant="normal">Δ</mi><mn mathvariant="bold">𝟏</mn></msub></mrow><annotation encoding="application/x-tex">h_N \cong\Delta_{\mathbf{1}}</annotation></semantics></math>,
+which is the Yoneda formulation. See Paper III, Proposition 9.2 for the
+full computation. ◻</p>
+</div>
+<h2 id="sec:transit-iv">Yoneda to HoTT</h2>
+<div id="thm:transit-iv" class="theorem">
+<p><strong>Theorem 15</strong> (Yoneda + univalence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇒</mo><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math>
+identity). <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+be a univalent category in HoTT (in the sense of <span class="citation"
+data-cites="HoTTBook"></span>: a category in which the canonical map
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>≅</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(A = B) \to (A \cong B)</annotation></semantics></math>
+is an equivalence). Then for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>,</mo><mi>Y</mi><mo>∈</mo><mi mathvariant="script">𝒞</mi></mrow><annotation encoding="application/x-tex">X, Y \in \mathcal{C}</annotation></semantics></math>
+the chain
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>=</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>≃</mo><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>≅</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>≃</mo><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">(</mo><msub><mi>h</mi><mi>X</mi></msub><mo>≅</mo><msub><mi>h</mi><mi>Y</mi></msub><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>≃</mo><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">(</mo><msub><mi>h</mi><mi>X</mi></msub><mo>=</mo><msub><mi>h</mi><mi>Y</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X = Y) \;\simeq\; (X \cong Y) \;\simeq\; (h_X \cong h_Y) \;\simeq\; (h_X = h_Y)</annotation></semantics></math>
+of equivalences holds, with the first being the
+univalence-of-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+condition, the second being the Yoneda corollary, and the third being
+univalence of the functor category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><msup><mi mathvariant="script">𝒞</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>,</mo><mi mathvariant="script">𝒰</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[\mathcal{C}^{\mathrm{op}}, \mathcal{U}]</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> The first equivalence is by definition of a univalent
+category. The second is the Yoneda corollary (Paper IV, Corollary 3.4).
+The third is by function-extensionality and univalence applied
+componentwise; see <span class="citation" data-cites="HoTTBook"></span>.
+Composing the three gives an equivalence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>=</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mo>≃</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>h</mi><mi>X</mi></msub><mo>=</mo><msub><mi>h</mi><mi>Y</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X = Y) \simeq(h_X = h_Y)</annotation></semantics></math>,
+which is the desired internal identification. ◻</p>
+</div>
+<p><a href="#thm:transit-iv" data-reference-type="ref+Label"
+data-reference="thm:transit-iv">15</a> is the technical heart of the
+strong univalent correspondence: Yoneda’s “iff” becomes a four-way chain
+of equivalences, each two adjacent terms identified internally, so that
+the entire chain collapses to one type up to equivalence.</p>
+<h2 id="sec:transit-vi">HoTT to categorical / structural</h2>
+<div id="thm:transit-vi" class="theorem">
+<p><strong>Theorem 16</strong> (Univalence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇒</mo><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math>
+structural). <em>In HoTT, every type-theoretic property
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>
+of an algebraic structure is automatically structural in the sense of
+Paper VI: if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>≃</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mo>′</mo></msup><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, s) \simeq(X&#39;, s&#39;)</annotation></semantics></math>
+as structures, then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>≃</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mo>′</mo></msup><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X, s) \simeq P(X&#39;, s&#39;)</annotation></semantics></math>.
+In particular, the natural number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>,
+defined as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mn>58</mn></msup><mspace width="0.167em"></mspace><mrow><mi mathvariant="sans-serif">𝗓</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗈</mi></mrow></mrow><annotation encoding="application/x-tex">\mathsf{succ}^{58}\,\mathsf{zero}</annotation></semantics></math>
+in any NNO, agrees with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+in any equivalent NNO presentation.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> This is the structure identity principle (<a
+href="#thm:sip" data-reference-type="ref+label"
+data-reference="thm:sip">10</a>, Paper VI, Theorem 10.3) combined with
+path-action of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>.
+The application to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is <span class="citation" data-cites="paper-v"></span> (<a
+href="#thm:nno-contr" data-reference-type="ref+label"
+data-reference="thm:nno-contr">9</a>). ◻</p>
+</div>
+<p><a href="#thm:transit-vi" data-reference-type="ref+Label"
+data-reference="thm:transit-vi">16</a> is the converse direction of the
+previous transit: the structural perspective of Paper VI is no longer a
+methodological discipline (“write only iso-invariant definitions”) but a
+theorem of the foundations (“every definition you can write <em>is</em>
+iso-invariant”). Univalence is the principle that promotes the
+meta-condition to an internal one. We summarise the four-layer
+convergence in <a href="#tab:four-layers"
+data-reference-type="ref+label" data-reference="tab:four-layers">3</a>,
+reproduced from Paper VI.</p>
+<div id="tab:four-layers">
+<table>
+<caption>Four layers of one principle. Adapted from Paper VI,
+Table 10.1.</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Layer (Paper)</strong></th>
+<th style="text-align: left;"><strong>Statement</strong></th>
+<th style="text-align: left;"><strong>Status</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Categorical / structural (VI)</td>
+<td style="text-align: left;">Structural properties are
+iso-invariant</td>
+<td style="text-align: left;">Meta-theorem</td>
+</tr>
+<tr>
+<td style="text-align: left;">Universal property (III)</td>
+<td style="text-align: left;">Iso-class is canonical</td>
+<td style="text-align: left;">Theorem</td>
+</tr>
+<tr>
+<td style="text-align: left;">Yoneda (IV)</td>
+<td style="text-align: left;">Object known by relations</td>
+<td style="text-align: left;">Theorem</td>
+</tr>
+<tr>
+<td style="text-align: left;">HoTT + univalence (V)</td>
+<td style="text-align: left;">Iso-invariance is automatic</td>
+<td style="text-align: left;">Internal (SIP)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="sec:framework">Unified Framework: One
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-Groupoid,
+Four Windows</h1>
+<p>We now build the mathematical framework in which the four rightmost
+rows of <a href="#tab:six-rows" data-reference-type="ref+label"
+data-reference="tab:six-rows">1</a> become four windows on a single
+object.</p>
+<h2 id="sec:setup-univ">Setup: a univalent universe</h2>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>
+be a univalent universe of types in HoTT. We work informally in HoTT
+throughout; the reader who prefers a categorical semantics may interpret
+all our types as objects of an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>∞</mi><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\infty,1)</annotation></semantics></math>-topos,
+e.g. the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-topos
+of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoids,
+or any Grothendieck–Rezk–Lurie–Joyal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-topos <span
+class="citation" data-cites="lurie ShulmanInftyTopos"></span>.</p>
+<div id="def:four-functors" class="definition">
+<p><strong>Definition 17</strong> (The four-perspective functors). Fix a
+notion of structure given by a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-type
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">𝒮</mi><mspace width="0.278em"></mspace><mo>:=</mo><mspace width="0.278em"></mspace><munder><mo>∑</mo><mrow><mi>X</mi><mo>:</mo><mi mathvariant="script">𝒰</mi></mrow></munder><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{S} \;:=\; \sum_{X : \mathcal{U}} F(X)</annotation></semantics></math>
+for some structure-of-finite-signature predicate
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>:</mo><mi mathvariant="script">𝒰</mi><mo>→</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">F : \mathcal{U}\to \mathcal{U}</annotation></semantics></math>
+(e.g. pointed unary structures, the signature of an NNO). Write a
+typical structure as a pair
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑿</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathbf{X} = (X, s)</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>:</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">X : \mathcal{U}</annotation></semantics></math>
+is the carrier and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>:</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">s : F(X)</annotation></semantics></math>
+is the structure data. Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="script">𝒞</mi><mi mathvariant="script">𝒮</mi></msub><annotation encoding="application/x-tex">\mathcal{C}_\mathcal{S}</annotation></semantics></math>
+denote the category whose objects are inhabitants of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>
+and whose morphisms are structure-preserving maps. Define four
+functors:</p>
+<ul>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">𝖴</mi><mi mathvariant="sans-serif">𝖯</mi></mrow><mo>:</mo><mi mathvariant="script">𝒮</mi><mo>→</mo><msub><mrow><mi mathvariant="sans-serif">𝖯</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗈</mi><mi mathvariant="sans-serif">𝗉</mi></mrow><mi mathvariant="script">𝒰</mi></msub></mrow><annotation encoding="application/x-tex">\mathsf{UP}\colon \mathcal{S} \to \mathsf{Prop}_\mathcal{U}</annotation></semantics></math>
+sending
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑿</mi><annotation encoding="application/x-tex">\mathbf{X}</annotation></semantics></math>
+to the mere proposition
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝖨</mi><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝖺</mi><mi mathvariant="sans-serif">𝗅</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝑿</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{isInitial}(\mathbf{X})</annotation></semantics></math>
+of being initial in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="script">𝒞</mi><mi mathvariant="script">𝒮</mi></msub><annotation encoding="application/x-tex">\mathcal{C}_\mathcal{S}</annotation></semantics></math>;</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖸</mi><mo>:</mo><mi mathvariant="script">𝒮</mi><mo>→</mo><mo stretchy="false" form="prefix">[</mo><msubsup><mi mathvariant="script">𝒞</mi><mi mathvariant="script">𝒮</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msubsup><mo>,</mo><mi mathvariant="script">𝒰</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\mathsf{Y}\colon \mathcal{S} \to [\mathcal{C}_\mathcal{S}^{\mathrm{op}}, \mathcal{U}]</annotation></semantics></math>
+sending
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑿</mi><annotation encoding="application/x-tex">\mathbf{X}</annotation></semantics></math>
+to the presheaf
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi mathvariant="bold-italic">𝑿</mi></msub><mo>=</mo><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><msub><mi mathvariant="script">𝒞</mi><mi mathvariant="script">𝒮</mi></msub></msub><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mi mathvariant="bold-italic">𝑿</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">h_{\mathbf{X}} = \mathrm{Hom}_{\mathcal{C}_\mathcal{S}}(-, \mathbf{X})</annotation></semantics></math>
+(the Yoneda embedding restricted to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="script">𝒞</mi><mi mathvariant="script">𝒮</mi></msub><annotation encoding="application/x-tex">\mathcal{C}_\mathcal{S}</annotation></semantics></math>);</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖧</mi><mo>:</mo><mi mathvariant="script">𝒮</mi><mo>→</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">\mathsf{H}\colon \mathcal{S} \to \mathcal{U}</annotation></semantics></math>
+sending
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑿</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathbf{X} = (X, s)</annotation></semantics></math>
+to its carrier
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+with identity types unfolded to path spaces;</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖲</mi><mo>:</mo><mi mathvariant="script">𝒮</mi><mo>→</mo><mi mathvariant="script">𝒮</mi><mi>/</mi><mo>≃</mo></mrow><annotation encoding="application/x-tex">\mathsf{S}\colon \mathcal{S} \to \mathcal{S}/\simeq</annotation></semantics></math>
+sending
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑿</mi><annotation encoding="application/x-tex">\mathbf{X}</annotation></semantics></math>
+to its isomorphism class of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>-structures.</p></li>
+</ul>
+<p>The functors
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">𝖴</mi><mi mathvariant="sans-serif">𝖯</mi></mrow><mo>,</mo><mi mathvariant="sans-serif">𝖸</mi><mo>,</mo><mi mathvariant="sans-serif">𝖧</mi><mo>,</mo><mi mathvariant="sans-serif">𝖲</mi></mrow><annotation encoding="application/x-tex">\mathsf{UP}, \mathsf{Y}, \mathsf{H}, \mathsf{S}</annotation></semantics></math>
+are the four windows on a fixed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>-structure.</p>
+</div>
+<div id="thm:identity-of-perspectives" class="theorem">
+<p><strong>Theorem 18</strong> (Identity of perspectives). <em>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑿</mi><mo>,</mo><mi mathvariant="bold-italic">𝒀</mi><mo>:</mo><mi mathvariant="script">𝒮</mi></mrow><annotation encoding="application/x-tex">\mathbf{X}, \mathbf{Y} : \mathcal{S}</annotation></semantics></math>,
+the four statements</em></p>
+<ol>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">𝖴</mi><mi mathvariant="sans-serif">𝖯</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝑿</mi><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mrow><mi mathvariant="sans-serif">𝖴</mi><mi mathvariant="sans-serif">𝖯</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝒀</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{UP}(\mathbf{X}) \times \mathsf{UP}(\mathbf{Y})</annotation></semantics></math>
+together with the resulting unique iso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑿</mi><mo>≅</mo><mi mathvariant="bold-italic">𝒀</mi></mrow><annotation encoding="application/x-tex">\mathbf{X} \cong\mathbf{Y}</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="script">𝒞</mi><mi mathvariant="script">𝒮</mi></msub><annotation encoding="application/x-tex">\mathcal{C}_\mathcal{S}</annotation></semantics></math>;</em></p></li>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖸</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝑿</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mi mathvariant="sans-serif">𝖸</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝒀</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{Y}(\mathbf{X}) \cong\mathsf{Y}(\mathbf{Y})</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><msubsup><mi mathvariant="script">𝒞</mi><mi mathvariant="script">𝒮</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msubsup><mo>,</mo><mi mathvariant="script">𝒰</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[\mathcal{C}_\mathcal{S}^{\mathrm{op}}, \mathcal{U}]</annotation></semantics></math>;</em></p></li>
+<li><p><em>a path
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>:</mo><mi mathvariant="sans-serif">𝖧</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝑿</mi><mo stretchy="false" form="postfix">)</mo><msub><mo>=</mo><mi mathvariant="script">𝒰</mi></msub><mi mathvariant="sans-serif">𝖧</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝒀</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p\colon \mathsf{H}(\mathbf{X}) =_\mathcal{U}\mathsf{H}(\mathbf{Y})</annotation></semantics></math>
+together with a transport-coherence witness for the structure
+data;</em></p></li>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖲</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝑿</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi mathvariant="sans-serif">𝖲</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝒀</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{S}(\mathbf{X}) = \mathsf{S}(\mathbf{Y})</annotation></semantics></math>
+as elements of the quotient
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">𝒮</mi><mi>/</mi><mo>≃</mo></mrow><annotation encoding="application/x-tex">\mathcal{S}/\simeq</annotation></semantics></math>;</em></p></li>
+</ol>
+<p><em>are pairwise equivalent. Therefore, under the univalence axiom
+and SIP, they all reduce to the type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑿</mi><msub><mo>=</mo><mi mathvariant="script">𝒮</mi></msub><mi mathvariant="bold-italic">𝒀</mi></mrow><annotation encoding="application/x-tex">\mathbf{X} =_\mathcal{S} \mathbf{Y}</annotation></semantics></math>,
+which is itself an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid
+(the path space).</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em>
+<strong>(UP) <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇒</mo><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math> (Y).</strong>
+If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑿</mi><annotation encoding="application/x-tex">\mathbf{X}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝒀</mi><annotation encoding="application/x-tex">\mathbf{Y}</annotation></semantics></math>
+are both initial in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="script">𝒞</mi><mi mathvariant="script">𝒮</mi></msub><annotation encoding="application/x-tex">\mathcal{C}_\mathcal{S}</annotation></semantics></math>,
+the unique morphisms in both directions exhibit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑿</mi><mo>≅</mo><mi mathvariant="bold-italic">𝒀</mi></mrow><annotation encoding="application/x-tex">\mathbf{X} \cong\mathbf{Y}</annotation></semantics></math>.
+By full faithfulness of Yoneda,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi mathvariant="bold-italic">𝑿</mi></msub><mo>≅</mo><msub><mi>h</mi><mi mathvariant="bold-italic">𝒀</mi></msub></mrow><annotation encoding="application/x-tex">h_{\mathbf{X}} \cong h_{\mathbf{Y}}</annotation></semantics></math>.</p>
+<p><strong>(Y) <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇒</mo><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math> (H).</strong>
+By <a href="#thm:transit-iv" data-reference-type="ref+label"
+data-reference="thm:transit-iv">15</a>, applied to the univalent
+category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="script">𝒞</mi><mi mathvariant="script">𝒮</mi></msub><annotation encoding="application/x-tex">\mathcal{C}_\mathcal{S}</annotation></semantics></math>,
+the isomorphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi mathvariant="bold-italic">𝑿</mi></msub><mo>≅</mo><msub><mi>h</mi><mi mathvariant="bold-italic">𝒀</mi></msub></mrow><annotation encoding="application/x-tex">h_{\mathbf{X}} \cong h_{\mathbf{Y}}</annotation></semantics></math>
+is equivalent to a path
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi mathvariant="bold-italic">𝑿</mi></msub><mo>=</mo><msub><mi>h</mi><mi mathvariant="bold-italic">𝒀</mi></msub></mrow><annotation encoding="application/x-tex">h_{\mathbf{X}} = h_{\mathbf{Y}}</annotation></semantics></math>,
+which by univalence of the presheaf category gives an iso of carriers
+and hence (after structure transport) the path
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+together with its coherence witness.</p>
+<p><strong>(H) <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇒</mo><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math> (S).</strong>
+We unpack this step. The hypothesis is a path
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>:</mo><mi mathvariant="sans-serif">𝖧</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝑿</mi><mo stretchy="false" form="postfix">)</mo><msub><mo>=</mo><mi mathvariant="script">𝒰</mi></msub><mi mathvariant="sans-serif">𝖧</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝒀</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p\colon \mathsf{H}(\mathbf{X}) =_\mathcal{U}\mathsf{H}(\mathbf{Y})</annotation></semantics></math>
+between carriers, together with a transport-coherence witness
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>:</mo><msup><mrow><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖺</mi><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗉</mi><mi mathvariant="sans-serif">𝗈</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗍</mi></mrow><mi>F</mi></msup><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>s</mi><mi>X</mi></msub><mo stretchy="false" form="postfix">)</mo><msub><mo>=</mo><mrow><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="sans-serif">𝖧</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝒀</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow></msub><msub><mi>s</mi><mi>Y</mi></msub></mrow><annotation encoding="application/x-tex">q\colon \mathsf{transport}^F(p)(s_X) =_{F(\mathsf{H}(\mathbf{Y}))} s_Y</annotation></semantics></math>
+identifying the structure data after transport. By the construction of
+paths in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-types
+<span class="citation" data-cites="HoTTBook"></span>, the pair
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p, q)</annotation></semantics></math>
+is exactly an inhabitant of the type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑿</mi><msub><mo>=</mo><mi mathvariant="script">𝒮</mi></msub><mi mathvariant="bold-italic">𝒀</mi></mrow><annotation encoding="application/x-tex">\mathbf{X} =_\mathcal{S} \mathbf{Y}</annotation></semantics></math>
+where the right-hand side is a path in the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>X</mi><mo>:</mo><mi mathvariant="script">𝒰</mi></mrow></msub><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\sum_{X : \mathcal{U}} F(X)</annotation></semantics></math>
+that defines
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>.
+SIP (<a href="#thm:sip" data-reference-type="ref+label"
+data-reference="thm:sip">10</a>) then asserts that this
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-path
+is itself canonically equivalent to a structure-preserving equivalence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>f</mi><mo>:</mo><mi>X</mi><mo>≃</mo><msup><mi>X</mi><mo>′</mo></msup></mrow></msub><mspace width="0.167em"></mspace><mi>f</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> preserves </mtext><mspace width="0.333em"></mspace></mrow><mi>s</mi><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">\sum_{f : X \simeq X&#39;}\, f \text{ preserves } s, s&#39;</annotation></semantics></math>.
+Quotienting by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≃</mo><annotation encoding="application/x-tex">\simeq</annotation></semantics></math>
+yields the equality
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖲</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝑿</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi mathvariant="sans-serif">𝖲</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝒀</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{S}(\mathbf{X}) = \mathsf{S}(\mathbf{Y})</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">𝒮</mi><mi>/</mi><mo>≃</mo></mrow><annotation encoding="application/x-tex">\mathcal{S}/\simeq</annotation></semantics></math>.</p>
+<p><strong>(S) <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇒</mo><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math> (UP).</strong>
+If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖲</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝑿</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi mathvariant="sans-serif">𝖲</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="bold-italic">𝒀</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{S}(\mathbf{X}) = \mathsf{S}(\mathbf{Y})</annotation></semantics></math>,
+the representatives are isomorphic, so both are initial or neither is.
+The remaining content of (UP) (the unique morphisms) follows from
+initiality of either via SIP.</p>
+<p>The cycle closes; pairwise equivalence follows. The fact that the
+common type is an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid
+is built into HoTT: identity types are types, their identity types are
+types, and so on. ◻</p>
+</div>
+<p><a href="#thm:identity-of-perspectives"
+data-reference-type="ref+Label"
+data-reference="thm:identity-of-perspectives">18</a> is the technical
+formulation of <a href="#prin:strong" data-reference-type="ref+label"
+data-reference="prin:strong">2</a>. The four statements (UP), (Y), (H),
+(S) are not just analogous; they all live as inhabitants of the same
+path-type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑿</mi><msub><mo>=</mo><mi mathvariant="script">𝒮</mi></msub><mi mathvariant="bold-italic">𝒀</mi></mrow><annotation encoding="application/x-tex">\mathbf{X} =_\mathcal{S} \mathbf{Y}</annotation></semantics></math>
+in the type of structures.</p>
+<h2 id="the-unifying-picture">The unifying picture</h2>
+<p><a href="#fig:four-views" data-reference-type="ref+Label"
+data-reference="fig:four-views">1</a> shows the unified picture: a
+single
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid
+viewed through four functors, each producing one of the four columns of
+the computational tetrad.</p>
+<figure id="fig:four-views" data-latex-placement="ht">
+
+<figcaption>One
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid,
+four windows. The four functors of <a href="#def:four-functors"
+data-reference-type="ref+label"
+data-reference="def:four-functors">17</a> produce the four
+characterisations of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>.
+Under univalence and SIP, all four characterisations are pairwise
+equivalent (<a href="#thm:identity-of-perspectives"
+data-reference-type="ref+label"
+data-reference="thm:identity-of-perspectives">18</a>).</figcaption>
+</figure>
+<h2 id="stratification-by-homotopy-level">Stratification by homotopy
+level</h2>
+<p>The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid
+view stratifies. For the natural number type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>,
+which is a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>-type
+(a set, in the HoTT Book’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>-type
+indexing where contractible types are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(-2)</annotation></semantics></math>-types)
+by <span class="citation" data-cites="HoTTBook"></span>, the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid
+of NNOs is in fact a contractible
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid,
+by <a href="#thm:nno-contr" data-reference-type="ref+label"
+data-reference="thm:nno-contr">9</a>. So the path space between any two
+NNO presentations is itself contractible: the canonical iso between
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="double-struck">ℕ</mi><mi>v</mi></msub><annotation encoding="application/x-tex">\mathbb{N}_v</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="double-struck">ℕ</mi><mi>z</mi></msub><annotation encoding="application/x-tex">\mathbb{N}_z</annotation></semantics></math>
+is not just unique up to ambient choices but <em>essentially uniquely
+unique</em>, with all higher coherences automatic. This is what <a
+href="#thm:nno-contr" data-reference-type="ref+label"
+data-reference="thm:nno-contr">9</a> achieves that mere
+Peano-equivalence does not.</p>
+<p>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>,
+defined as a higher inductive–inductive type via Cauchy completion <span
+class="citation" data-cites="Booij HoTTBook"></span>, the situation is
+more delicate:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>
+is a set
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>-type)
+under the propositional truncation conditions of the HIIT, but the
+construction of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>
+from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℚ</mi><annotation encoding="application/x-tex">\mathbb{Q}</annotation></semantics></math>
+involves higher path constructors. The transcendentals
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+then appear as definite (canonical-up-to-path) inhabitants of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>
+via universal-property characterisations
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>π</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\sin(\pi) = 0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mi>f</mi></mrow><annotation encoding="application/x-tex">f&#39; = f</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">f(0) = 1</annotation></semantics></math>,
+etc.); see <a href="#sec:applications" data-reference-type="ref+label"
+data-reference="sec:applications">8</a>.</p>
+<h1 id="sec:correspondence">The Univalent Correspondence: Statement and
+Consequences</h1>
+<p>We now state the principle systematically.</p>
+<div id="prin:formal" class="principle">
+<p><strong>Principle 19</strong> (The univalent correspondence, formal
+version). Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>
+be a notion of structure given by an essentially algebraic theory in
+HoTT. Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>,</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">X, Y</annotation></semantics></math>
+be
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>-structures
+in a univalent universe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>.
+Then the following are pairwise equivalent in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>:</p>
+<ul>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+both have the same universal property (both initial, both terminal, both
+representing the same functor, etc.).</p></li>
+<li><p>The Yoneda embeddings
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mi>X</mi></msub><annotation encoding="application/x-tex">h_X</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mi>Y</mi></msub><annotation encoding="application/x-tex">h_Y</annotation></semantics></math>
+are isomorphic as presheaves.</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖧</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><msub><mo>=</mo><mi mathvariant="script">𝒰</mi></msub><mi mathvariant="sans-serif">𝖧</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{H}(X) =_\mathcal{U}\mathsf{H}(Y)</annotation></semantics></math>
+as types (identity in the universe).</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+are equal as elements of the type of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>-structures.</p></li>
+</ul>
+<p>The equivalences <span
+class="smallcaps">(I)</span> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇔</mo><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math> <span
+class="smallcaps">(II)</span> and <span
+class="smallcaps">(II)</span> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇔</mo><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math> <span
+class="smallcaps">(III)</span> are theorems; the equivalence <span
+class="smallcaps">(III)</span> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇔</mo><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math> <span
+class="smallcaps">(IV)</span> requires the structure identity principle
+(a theorem in HoTT, established for finite-signature structures in <span
+class="citation" data-cites="HoTTBook Escardo2019"></span>). The
+equivalence <span
+class="smallcaps">(I)</span> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇔</mo><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math> <span
+class="smallcaps">(IV)</span> requires univalence.</p>
+</div>
+<h2 id="the-fixed-point-reading">The fixed-point reading</h2>
+<p><a href="#prin:formal" data-reference-type="ref+Label"
+data-reference="prin:formal">19</a> can be read as a fixed-point
+statement. The four columns of the computational tetrad (<a
+href="#tab:tetrad" data-reference-type="ref+label"
+data-reference="tab:tetrad">2</a>) describe four languages for talking
+about objects: logic, type theory, category theory, homotopy theory.
+Univalence is the assertion that, for the universe of types, the four
+languages have a common semantic fixed point: a single
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid
+that satisfies all four descriptions simultaneously, with the four
+descriptions identified along the chain of equivalences just listed.</p>
+<div class="remark">
+<p><em>Remark 20</em> (Curry–Howard–Lambek–Voevodsky). The Curry–Howard
+correspondence <span class="citation" data-cites="Wadler2015"></span>
+identifies columns 1 and 2 (logic with type theory). The
+Curry–Howard–Lambek correspondence <span class="citation"
+data-cites="Lambek1972 maclane"></span> adds column 3 (category theory).
+Voevodsky’s univalent foundations <span class="citation"
+data-cites="Voevodsky HoTTBook"></span> adds column 4 (homotopy theory)
+by interpreting types as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoids
+and asserting univalence. The univalent correspondence is the strong
+form of the four-way Curry–Howard–Lambek–Voevodsky correspondence.</p>
+</div>
+<h2 id="application-to-the-natural-numbers">Application to the natural
+numbers</h2>
+<div id="cor:N-univalent" class="corollary">
+<p><strong>Corollary 21</strong> (The natural numbers are univalent).
+<em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">O</mi></mrow><annotation encoding="application/x-tex">\mathrm{NNO}</annotation></semantics></math>
+be the type of NNO structures in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>.
+The following are all the same data, up to canonical
+equivalence:</em></p>
+<ul>
+<li><p><em>the universal-property data
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝖨</mi><mi mathvariant="sans-serif">𝗇</mi><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝗍</mi><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝖺</mi><mi mathvariant="sans-serif">𝗅</mi></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, \mathsf{succ}, \mathsf{isInitial})</annotation></semantics></math>;</em></p></li>
+<li><p><em>the representable presheaf
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>N</mi></msub><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msup><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">O</mi></mrow><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>,</mo><mi mathvariant="script">𝒰</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">h_N \in [\mathrm{NNO}^{\mathrm{op}}, \mathcal{U}]</annotation></semantics></math>;</em></p></li>
+<li><p><em>the canonical inhabitant of the contractible type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">O</mi></mrow><annotation encoding="application/x-tex">\mathrm{NNO}</annotation></semantics></math>;</em></p></li>
+<li><p><em>the iso-class
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[(N, 0, \mathsf{succ})]</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">O</mi></mrow><mi>/</mi><mo>≃</mo></mrow><annotation encoding="application/x-tex">\mathrm{NNO}/\simeq</annotation></semantics></math>.</em></p></li>
+</ul>
+<p><em>The integer
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>,
+defined as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mn>58</mn></msup><mspace width="0.167em"></mspace><mrow><mi mathvariant="sans-serif">𝗓</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗈</mi></mrow></mrow><annotation encoding="application/x-tex">\mathsf{succ}^{58}\,\mathsf{zero}</annotation></semantics></math>,
+is invariant under all four identifications.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Combine <a
+href="#thm:nno-contr,thm:identity-of-perspectives,thm:transit-vi"
+data-reference-type="ref+label"
+data-reference="thm:nno-contr,thm:identity-of-perspectives,thm:transit-vi">[thm:nno-contr,thm:identity-of-perspectives,thm:transit-vi]</a>. ◻</p>
+</div>
+<h2 id="why-this-resolves-the-original-question">Why this resolves the
+original question</h2>
+<p>The original question of the series, “what is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>?”,
+has now four equivalent answers, each made precise by one of Papers III
+through VI:</p>
+<ul>
+<li><p><em>(III)</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is the unique element such that, for every pointed endo-system
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, x_0, f)</annotation></semantics></math>
+in any category with terminal object, the unique NNO morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>:</mo><mi mathvariant="double-struck">ℕ</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">h\colon \mathbb{N}\to X</annotation></semantics></math>
+sends
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>f</mi><mn>58</mn></msup><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f^{58}(x_0)</annotation></semantics></math>.</p></li>
+<li><p><em>(IV)</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is the natural number whose representable functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mn>58</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}(-, 58)</annotation></semantics></math>,
+under the Yoneda embedding into the presheaf topos, exhibits all probes
+onto
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+from below.</p></li>
+<li><p><em>(V)</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is the canonical term
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mn>58</mn></msup><mspace width="0.167em"></mspace><mrow><mi mathvariant="sans-serif">𝗓</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗈</mi></mrow><mo>:</mo><mi mathvariant="double-struck">ℕ</mi></mrow><annotation encoding="application/x-tex">\mathsf{succ}^{58}\,\mathsf{zero}: \mathbb{N}</annotation></semantics></math>,
+identified with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝖼</mi></mrow><mn>58</mn></msup><mspace width="0.167em"></mspace><mrow><mi mathvariant="sans-serif">𝗓</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝗈</mi></mrow></mrow><annotation encoding="application/x-tex">\mathsf{succ}^{58}\,\mathsf{zero}</annotation></semantics></math>
+in any equivalent NNO presentation by transport along the unique path in
+the contractible type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">N</mi><mi mathvariant="normal">O</mi></mrow><annotation encoding="application/x-tex">\mathrm{NNO}</annotation></semantics></math>.</p></li>
+<li><p><em>(VI)</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is the value of any (every) definable arithmetic quantity that, on the
+standard model of arithmetic, evaluates to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>;
+this value is invariant under all model isomorphisms by SIP.</p></li>
+</ul>
+<p>The univalent correspondence asserts that these four answers are not
+just <em>about</em> the same object: they are <em>the same data</em>,
+internally, in HoTT.</p>
+<h1 id="sec:diagrams">Hierarchical Composition: How Each Level Builds on
+the Previous</h1>
+<p>The univalent correspondence is not just a parallel array of four
+descriptions: it is a hierarchical composition in which each level uses
+the data of the previous one. We make the dependencies explicit.</p>
+<h2 id="composition-diagram">Composition diagram</h2>
+<p><a href="#fig:composition" data-reference-type="ref+Label"
+data-reference="fig:composition">2</a> shows the dependencies between
+the six rows.</p>
+<figure id="fig:composition" data-latex-placement="ht">
+
+<figcaption>Hierarchical composition: each transit theorem
+T<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+of <a href="#sec:transit" data-reference-type="ref+label"
+data-reference="sec:transit">3</a> carries level
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+to level
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k+1</annotation></semantics></math>
+by resolving the residual question of the previous level. T1 supplies a
+definite encoding (resolving the symbol/object confusion). T2 abstracts
+away from the Benacerraf-non-canonical encoding. T3 globalises the
+universal property by exhibiting the NNO as a representable functor. T4
+internalises Yoneda’s “iff” as a path in the universe via univalence. T5
+(<a href="#thm:transit-vi" data-reference-type="ref+label"
+data-reference="thm:transit-vi">16</a>) promotes the iso-invariance
+discipline to an internal theorem via SIP.</figcaption>
+</figure>
+<h2 id="composition-is-not-optional">Composition is not optional</h2>
+<p>A natural objection: if all four formal levels (III–VI) are
+equivalent under univalence, why bother with all four? Why not just use
+HoTT?</p>
+<p>The answer is that each level supplies indispensable conceptual
+content that the others alone would obscure:</p>
+<ul>
+<li><p>The universal property (III) is what <em>lets us recognise</em>
+an NNO when we see one. We do not begin in HoTT and then notice that the
+inductive type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>
+is initial; we begin with the universal property as a design constraint
+and use it to determine what the type-theoretic data must look
+like.</p></li>
+<li><p>Yoneda (IV) is the bridge that lets us speak of the universal
+property <em>relationally</em>, in any background category, not just
+inside HoTT. The Yoneda embedding is what we use when working with
+categories of geometric or algebraic objects (schemes, groups,
+manifolds) where the HoTT presentation is not yet fully
+developed.</p></li>
+<li><p>HoTT (V) is what <em>internalises</em> the equivalence: it is the
+formal system in which “up to iso” becomes “equal.”</p></li>
+<li><p>The categorical / structural perspective (VI) is the
+philosophical commitment that drives the whole programme. Without it, we
+have no reason to prefer one perspective over another; with it, we know
+what we are doing.</p></li>
+</ul>
+<h2 id="emergent-properties-from-composition">Emergent properties from
+composition</h2>
+<p>The hierarchical composition produces emergent properties not visible
+at any single level. We collect three.</p>
+<div id="prop:emergent-contract" class="proposition">
+<p><strong>Proposition 22</strong> (Emergent property: contractibility
+of NNO). <em>The NNO is contractible (Paper V, <a href="#thm:nno-contr"
+data-reference-type="ref+label" data-reference="thm:nno-contr">9</a>)
+only because the universal property (III) gives a unique map between any
+two NNOs, the Yoneda embedding (IV) gives that this unique map is an
+isomorphism, and the univalence axiom (V) promotes the isomorphism to a
+path. Set theory (II) alone gives only that the von Neumann and Zermelo
+encodings are isomorphic as Peano structures: the structure-of-paths
+between them is not visible at the set-theoretic level.</em></p>
+</div>
+<div id="prop:funext" class="proposition">
+<p><strong>Proposition 23</strong> (Emergent property: function
+extensionality). <em>Function extensionality is provable from univalence
+(<span class="citation" data-cites="HoTTBook"></span>, see Paper V §4).
+It is not provable from intensional Martin-Löf type theory alone, nor
+from the universal property of any individual structure. It emerges from
+the composition of universal property, Yoneda, and univalence.</em></p>
+</div>
+<div id="prop:synth-homotopy" class="proposition">
+<p><strong>Proposition 24</strong> (Emergent property: synthetic
+homotopy theory). <em>Synthetic homotopy theory (the development of
+algebraic topology entirely inside type theory:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">(</mo><msup><mi>S</mi><mn>1</mn></msup><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mi mathvariant="double-struck">ℤ</mi></mrow><annotation encoding="application/x-tex">\pi_1(S^1) \cong\mathbb{Z}</annotation></semantics></math>,
+the Hopf fibration, the Blakers–Massey theorem, etc. <span
+class="citation"
+data-cites="LicataShulman LicataFinster ShulmanStrength"></span>) is
+impossible at any of the levels (I), (II), (III), or (IV) alone. It
+emerges from the composition: the categorical perspective (VI) supplies
+the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid
+view, HoTT (V) gives identity types as path spaces, the Yoneda principle
+(IV) recovers presentability, and the universal property (III) gives
+recursion principles for the higher inductive types.</em></p>
+</div>
+<h2 id="commutativity-of-the-four-functor-diagram">Commutativity of the
+four-functor diagram</h2>
+<div id="thm:commutativity" class="theorem">
+<p><strong>Theorem 25</strong> (Commutativity). <em>The four functors of
+<a href="#def:four-functors" data-reference-type="ref+label"
+data-reference="def:four-functors">17</a> commute up to canonical
+natural equivalence: for every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>∈</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">X \in \mathcal{U}</annotation></semantics></math>,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖲</mi><mo>∘</mo><msup><mi mathvariant="sans-serif">𝖧</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo>∘</mo><mi mathvariant="sans-serif">𝖸</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mo>≃</mo><mspace width="0.167em"></mspace><mrow><mi mathvariant="sans-serif">𝖴</mi><mi mathvariant="sans-serif">𝖯</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathsf{S} \circ \mathsf{H}^{-1} \circ \mathsf{Y}\,(X) \,\simeq\, \mathsf{UP}(X)</annotation></semantics></math>
+in the appropriate sense, where the inverses are well-defined modulo
+contractibility of fibers (which holds for finite-signature structures
+by SIP).</em></p>
+</div>
+<div class="proof">
+<p><em>Sketch.</em> Each pair is treated by the corresponding transit
+theorem of <a href="#sec:transit" data-reference-type="ref+label"
+data-reference="sec:transit">3</a>. The composition
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖲</mi><mo>∘</mo><msup><mi mathvariant="sans-serif">𝖧</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo>∘</mo><mi mathvariant="sans-serif">𝖸</mi></mrow><annotation encoding="application/x-tex">\mathsf{S} \circ \mathsf{H}^{-1} \circ \mathsf{Y}</annotation></semantics></math>
+takes a structure to its representable presheaf, transports back to a
+type-theoretic representative, and projects to its iso-class; this is
+the same data as the universal-property witness for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>,
+after suppressing the choice of representative. Naturality follows from
+the naturality of each constituent. ◻</p>
+</div>
+<h1 id="sec:naming">Naming the Correspondence: A Brief History</h1>
+<p>We pause to justify our terminology. The four-way correspondence has
+many names; we explain why we settle on <em>the univalent
+correspondence</em>.</p>
+<h2 id="names-in-use">Names in use</h2>
+<ul>
+<li><p><strong>Curry–Howard correspondence</strong> (binary): logic with
+type theory. Curry (1934) <span class="citation"
+data-cites="wadler-pat"></span> observed it for combinatory logic;
+Howard (1969) <span class="citation" data-cites="wadler-pat"></span>
+extended it to natural deduction.</p></li>
+<li><p><strong>Curry–Howard–Lambek</strong> (three-way): adds category
+theory. Lambek (1972) <span class="citation"
+data-cites="Lambek1972"></span> showed that proofs of intuitionistic
+propositional logic and typed combinators share the equational theory of
+cartesian closed categories; this is the textbook three-way
+name.</p></li>
+<li><p><strong>Computational trinity</strong> (Harper, c. 2011): logic,
+languages (type theory), categories. Harper at CMU popularised the
+catchier name. A four-way version is sometimes called the computational
+tetrad.</p></li>
+<li><p><strong>Propositions-as-types</strong> (Wadler 2015 <span
+class="citation" data-cites="Wadler2015"></span>): emphasises the
+central insight rather than the historical figures. Extends naturally to
+“propositions-as-types-as-spaces” in HoTT.</p></li>
+<li><p><strong>Univalent foundations</strong> (Voevodsky, 2010 <span
+class="citation" data-cites="Voevodsky2010"></span>): the foundational
+programme built on the four-way correspondence. Homotopy Type Theory
+(HoTT) is the formal system; the HoTT Book <span class="citation"
+data-cites="HoTTBook"></span> is the canonical reference.</p></li>
+</ul>
+<h2 id="why-the-univalent-correspondence">Why “the univalent
+correspondence”</h2>
+<p>The phrase “Curry–Howard–Lambek–Voevodsky correspondence” is correct
+but unwieldy. “Propositions as types as spaces” is pedagogically apt but
+emphasises types and propositions over the unifying mechanism. We prefer
+<em>the univalent correspondence</em> for three reasons:</p>
+<ol>
+<li><p>It <em>names the unifying mechanism</em>: the univalence axiom is
+what promotes the four columns from analogous to literally the
+same.</p></li>
+<li><p>It is <em>neutral across the columns</em>: it does not privilege
+logic, types, categories, or spaces.</p></li>
+<li><p>It <em>credits the discovery</em>: Voevodsky’s univalent
+foundations project is the conceptual origin of the strong form (<a
+href="#prin:strong" data-reference-type="ref+label"
+data-reference="prin:strong">2</a>).</p></li>
+</ol>
+<p>We also use <em>the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid
+correspondence</em> when emphasising the underlying object, and
+<em>structural univalence</em> when emphasising the philosophical
+commitment of Paper VI.</p>
+<h2 id="the-deepest-formulation">The deepest formulation</h2>
+<p>For the record, the most precise summary of the unified language is
+the one from <span class="citation"
+data-cites="Voevodsky2010 HoTTBook"></span>, which we take as the
+deepest formulation of the univalent correspondence:</p>
+<blockquote>
+<p>The unified language is <em>synthetic homotopy theory</em> expressed
+as <em>dependent type theory</em>, with categorical semantics in
+<em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>∞</mi><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\infty,1)</annotation></semantics></math>-toposes</em>,
+interpreted logically via <em>propositions-as-types</em>. The whole
+package is <em>Univalent Foundations</em>.</p>
+</blockquote>
+<h1 id="sec:applications">Applications and Outlook</h1>
+<p>We close with three applications that the univalent correspondence
+illuminates.</p>
+<h2 id="sec:transcendentals">Transcendentals
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+in HoTT</h2>
+<p>The transcendental numbers
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+enter the framework via Paper V’s HIIT real numbers and Paper III’s
+universal-property characterisations.</p>
+<div id="def:R-HIIT" class="definition">
+<p><strong>Definition 26</strong> (Cauchy real numbers, HIIT, Paper V
+§5.5). The type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="double-struck">ℝ</mi><mi>C</mi></msub><annotation encoding="application/x-tex">\mathbb{R}_C</annotation></semantics></math>
+of Cauchy real numbers is the higher inductive–inductive type freely
+generated by:</p>
+<ul>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">𝗋</mi><mi mathvariant="sans-serif">𝖺</mi><mi mathvariant="sans-serif">𝗍</mi></mrow><mo>:</mo><mi mathvariant="double-struck">ℚ</mi><mo>→</mo><msub><mi mathvariant="double-struck">ℝ</mi><mi>C</mi></msub></mrow><annotation encoding="application/x-tex">\mathsf{rat}\colon \mathbb{Q}\to \mathbb{R}_C</annotation></semantics></math>;</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">𝗅</mi><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝗆</mi></mrow><mo>:</mo><msub><mo>∏</mo><mrow><mi>f</mi><mo>:</mo><mi mathvariant="double-struck">ℕ</mi><mo>→</mo><msub><mi mathvariant="double-struck">ℝ</mi><mi>C</mi></msub></mrow></msub><mspace width="0.167em"></mspace><mrow><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝗌</mi><mi mathvariant="sans-serif">𝖢</mi><mi mathvariant="sans-serif">𝖺</mi><mi mathvariant="sans-serif">𝗎</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝗁</mi><mi mathvariant="sans-serif">𝗒</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><msub><mi mathvariant="double-struck">ℝ</mi><mi>C</mi></msub></mrow><annotation encoding="application/x-tex">\mathsf{lim}\colon \prod_{f : \mathbb{N}\to \mathbb{R}_C}\, \mathsf{isCauchy}(f) \to \mathbb{R}_C</annotation></semantics></math>;</p></li>
+<li><p>path constructors identifying
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">𝗅</mi><mi mathvariant="sans-serif">𝗂</mi><mi mathvariant="sans-serif">𝗆</mi></mrow><mspace width="0.167em"></mspace><mi>f</mi></mrow><annotation encoding="application/x-tex">\mathsf{lim}\,f</annotation></semantics></math>
+for any two representations of the same Cauchy class;</p></li>
+<li><p>the truncation that makes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="double-struck">ℝ</mi><mi>C</mi></msub><annotation encoding="application/x-tex">\mathbb{R}_C</annotation></semantics></math>
+a set.</p></li>
+</ul>
+</div>
+<div id="thm:pi-e-hott" class="theorem">
+<p><strong>Theorem 27</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+in HoTT, after Paper V §10). <em>There exist canonical inhabitants
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mo>,</mo><mi>e</mi><mo>:</mo><msub><mi mathvariant="double-struck">ℝ</mi><mi>C</mi></msub></mrow><annotation encoding="application/x-tex">\pi, e : \mathbb{R}_C</annotation></semantics></math>
+characterised by the unique-existence propositions:</em></p>
+<ul>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>
+is the unique inhabitant of the truncated
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>x</mi><mo>:</mo><msub><mi mathvariant="double-struck">ℝ</mi><mi>C</mi></msub></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>&gt;</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mi>x</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mo>∀</mo><mi>y</mi><mo>∈</mo><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mi>.</mi><mspace width="0.167em"></mspace><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mi>y</mi><mo>&gt;</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\sum_{x : \mathbb{R}_C} (x &gt; 0) \times (\sin x = 0) \times (\forall y \in (0, x).\, \sin y &gt; 0)</annotation></semantics></math>;</em></p></li>
+<li><p><em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+is the unique inhabitant of the truncated
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>x</mi><mo>:</mo><msub><mi mathvariant="double-struck">ℝ</mi><mi>C</mi></msub></mrow></msub><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="normal">exp</mi><mo>&#8289;</mo></mrow><mi>x</mi><mo>=</mo><mi>e</mi><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="normal">exp</mi><mo>&#8289;</mo></mrow><mn>0</mn><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mo stretchy="false" form="prefix">(</mo><msup><mrow><mi mathvariant="normal">exp</mi><mo>&#8289;</mo></mrow><mo>′</mo></msup><mo>=</mo><mrow><mi mathvariant="normal">exp</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\sum_{x : \mathbb{R}_C} (\exp x = e) \times (\exp 0 = 1) \times (\exp&#39; = \exp)</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">exp</mi><annotation encoding="application/x-tex">\exp</annotation></semantics></math>
+is defined by power series.</em></p></li>
+</ul>
+<p><em>The truncation makes the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-types
+mere propositions
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(-1)</annotation></semantics></math>-types),
+hence inhabitants are unique up to a unique path.</em></p>
+</div>
+<p>The univalent correspondence applies to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+as it does to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>:
+each is identified with its representable functor, with its universal
+property (<em>half-period of</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">exp</mi><mo>&#8289;</mo></mrow><mo>:</mo><mi mathvariant="double-struck">ℝ</mi><mo>→</mo><msup><mi>S</mi><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">\exp\colon \mathbb{R}\to S^1</annotation></semantics></math>,
+<em>unique fixed point of differentiation with</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">f(0) = 1</annotation></semantics></math>),
+with its structural invariant under field automorphisms of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>,
+and with its canonical HoTT term up to path equivalence.</p>
+<h2 id="sec:contextfs">ContextFS as a structural-identity primitive</h2>
+<p>The ContextFS / typed memory project <span class="citation"
+data-cites="KnowledgeBase2026"></span> aims to provide AI agents with
+persistent typed memory that respects structural identity. The univalent
+correspondence supplies the theoretical foundation: two memory entries
+should be considered “the same” iff they witness the same structural
+invariant, iff they correspond to equal types in the ambient universe,
+iff they have the same Yoneda profile in the category of memory
+operations, iff they satisfy the same universal property.</p>
+<p>We sketch the architecture. A typed memory is a presheaf
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>:</mo><msup><mrow><mi mathvariant="sans-serif">𝖮</mi><mi mathvariant="sans-serif">𝗉</mi></mrow><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>→</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">M\colon \mathsf{Op}^{\mathrm{op}}\to \mathcal{U}</annotation></semantics></math>
+on the category of memory operations, where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>
+is a univalent universe of types. The universal-property layer specifies
+which operations any memory entry must support; the Yoneda layer makes
+“same memory entry” precise as natural isomorphism of presheaves; the
+HoTT layer makes “natural isomorphism” a path in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>;
+the categorical/structural layer ensures that all of this is preserved
+under change of universe (e.g. when the agent is migrated).</p>
+<div class="principle">
+<p><strong>Principle 28</strong> (ContextFS univalent slogan). A memory
+entry is identified by its structural role, not by its storage
+location.</p>
+</div>
+<p>This is precisely the univalent correspondence applied to a different
+domain: instead of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>,
+the entry is identified by what it does, not by where it lives.</p>
+<h2 id="sec:directed">Directed HoTT and synthetic
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-category
+theory</h2>
+<p>Riehl and Shulman’s simplicial type theory <span class="citation"
+data-cites="RiehlShulman"></span> extends HoTT with directed structure,
+allowing types whose paths are not necessarily invertible. This is the
+language of synthetic
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-category
+theory: an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-category
+is a type with a chosen directed structure satisfying the Segal and Rezk
+conditions internally.</p>
+<p>The univalent correspondence applies in the directed setting too, but
+modulo a shift: “equality of objects” becomes “isomorphism of objects”
+(an invertible path), distinct from
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+maps to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>”
+(a possibly non-invertible morphism). This is the right setting for
+representation theory, where representations are functors that need not
+be equivalences. We sketch the upshot in the language of Paper VI: a
+representation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>:</mo><mi>G</mi><mo>→</mo><mrow><mi mathvariant="sans-serif">𝖵</mi><mi mathvariant="sans-serif">𝖾</mi><mi mathvariant="sans-serif">𝖼</mi><mi mathvariant="sans-serif">𝗍</mi></mrow></mrow><annotation encoding="application/x-tex">\rho\colon G \to \mathsf{Vect}</annotation></semantics></math>
+is a directed map; a sub-representation is an iso-mono in the directed
+sense; the representation theory of finite groups becomes a synthetic
+theory of directed types over the classifying type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>G</mi></mrow><annotation encoding="application/x-tex">BG</annotation></semantics></math>.</p>
+<h2 id="sec:open-langlands">Open problem: analytic number theory in
+HoTT</h2>
+<p>The principal open problem the series acknowledges is that analytic
+number theory — Riemann zeta zeros, the Langlands programme, automorphic
+forms <span class="citation" data-cites="lurie"></span> — has not been
+substantially reformulated in HoTT. Algebraic number theory and parts of
+arithmetic geometry (schemes, sheaves, étale cohomology) admit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>∞</mi><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\infty,1)</annotation></semantics></math>-topos
+and condensed mathematics treatments <span class="citation"
+data-cites="ShulmanInftyTopos"></span> that connect cleanly to univalent
+foundations. But
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ζ</mi><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\zeta(s) = 0</annotation></semantics></math>
+as a HoTT-native statement, with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ζ</mi><annotation encoding="application/x-tex">\zeta</annotation></semantics></math>
+a HoTT-native object, remains unrealised.</p>
+<p>We frame this as the principal open question for the synthesis.</p>
+<h1 id="sec:open">Open Problems</h1>
+<p>We collect the open problems flagged by the topical papers and by the
+synthesis.</p>
+<ol>
+<li><p><strong>Coalgebraic / final-object dual for
+transcendentals.</strong> Paper III sketches the coalgebraic side:
+streams of digits, codata, bisimulation as the corresponding induction
+principle. A complete final-coalgebra characterisation of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+that avoids the inductive HIIT route is open.</p></li>
+<li><p><strong>Connections to Langlands and analytic number
+theory.</strong> <a href="#sec:open-langlands"
+data-reference-type="ref+Label"
+data-reference="sec:open-langlands">8.4</a>.</p></li>
+<li><p><strong>ETCS, IZF, and FOLDS as alternative structural
+foundations.</strong> Paper VI surveys ETCS; the relationship to
+Makkai’s FOLDS <span class="citation" data-cites="Makkai1995"></span>
+and to intuitionistic ZF (IZF) merits development.</p></li>
+<li><p><strong>Higher-categorical structure of NNO.</strong> The
+contractibility result (<a href="#thm:nno-contr"
+data-reference-type="ref+label" data-reference="thm:nno-contr">9</a>)
+shows the type of NNOs is a contractible type (a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(-2)</annotation></semantics></math>-type).
+The corresponding statement for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>∞</mi><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\infty,1)</annotation></semantics></math>-NNOs
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-toposes
+(Lurie’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>∞</mi><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\infty,1)</annotation></semantics></math>-NNO <span
+class="citation" data-cites="lurie"></span>) is more delicate.</p></li>
+<li><p><strong>ContextFS / type-memory as a structural-identity
+primitive.</strong> A formal account of typed persistent memory in HoTT,
+with structural identity as the primitive notion, is the principal
+applied research direction.</p></li>
+<li><p><strong>Directed univalence.</strong> Riehl and Shulman’s
+simplicial type theory has a partial directed univalence; a complete
+principle remains a research target <span class="citation"
+data-cites="RiehlShulman CisinskiNguyen"></span>.</p></li>
+<li><p><strong>Cubical higher inductive–inductive types.</strong> The
+Cauchy reals construction of Paper V is given in Book HoTT; a clean
+cubical version (in Cubical Agda <span class="citation"
+data-cites="CubicalAgda"></span>) is in progress but
+incomplete.</p></li>
+</ol>
+<h1 id="sec:conclusion">Conclusion</h1>
+<p>We have argued that the question <em>what is the natural number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>?</em>
+admits six progressively refined answers, and that the four most refined
+answers are not analogous but <em>literally the same</em> under
+Voevodsky’s univalence axiom. We named this identification the
+<em>univalent correspondence</em> (<a href="#prin:strong"
+data-reference-type="ref+label" data-reference="prin:strong">2</a>, <a
+href="#prin:formal" data-reference-type="ref+label"
+data-reference="prin:formal">19</a>), proved it as a theorem in HoTT (<a
+href="#thm:identity-of-perspectives" data-reference-type="ref+label"
+data-reference="thm:identity-of-perspectives">18</a>), exhibited the
+hierarchical composition by which each level builds on the previous (<a
+href="#sec:diagrams" data-reference-type="ref+label"
+data-reference="sec:diagrams">6</a>), and sketched applications to
+transcendentals, typed memory, and directed type theory.</p>
+<p>The integer
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is, in the unified picture: a position in the initial successor
+structure (Paper III), a representing functor (Paper IV), a canonical
+term in a contractible type of NNOs (Paper V), and an invariant under
+all model isomorphisms (Paper VI). These four characterisations are four
+windows on a single
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-groupoid,
+and under univalence they are pairwise identified. The univalent
+correspondence is the formal expression of the structuralist intuition
+that mathematical objects are positions in structures, not substances;
+under Voevodsky’s univalent foundations, this intuition becomes a
+theorem of the foundations themselves.</p>
+<p>The naive level (Paper I), in which
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is a symbol on a page, remains indispensable as the cognitive anchor
+that connects mathematics to human practice. The set-theoretic level
+(Paper II) remains the historical and technical foundation for working
+mathematicians, and the von Neumann encoding remains the textbook
+construction. But the univalent correspondence asserts that these levels
+are not the locus of meaning: the meaning lives at levels III through
+VI, where it is invariant, relational, type-theoretic, and structural —
+and, under univalence, all four at once.</p>
+<p>We close with the canonical quotation that has guided the series,
+from Paper I:</p>
+<blockquote>
+<p>A number is not a thing. It is a constraint that every consistent
+representation must satisfy, identified by a universal property and made
+formal by its representable functor. Numerals (58, <span
+class="sans-serif">LVIII</span>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="prefix">|</mo><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">\,||||\,||||</annotation></semantics></math>)
+are syntax. Numbers are semantic invariants of the categories that admit
+them.</p>
+</blockquote>
+<p>The univalent correspondence makes this slogan a theorem.</p>
+<h1 class="unnumbered" id="acknowledgments">Acknowledgments</h1>
+<p>This synthesis owes its existence to the topical papers I through VI,
+to the body of work surveyed in those papers (Lawvere, Mac Lane, Lambek,
+Martin-Löf, Voevodsky, Awodey, Shulman, Riehl, Lurie, Wadler, Harper,
+the Univalent Foundations Programme), and to the philosophical lineage
+of Frege, Benacerraf, Resnik, Shapiro, and Hellman. The naming
+“univalent correspondence” is internal to this project and is not
+claimed to be original; the underlying mathematical content is due to
+the named authors.</p>
+<div class="thebibliography">
+<p><span>99</span></p>
+<p>YonedaAI Research, <em>The Naive Perspective: Numbers as Symbols and
+Quantities</em>, Univalent Correspondence Series, Paper I, 2026.</p>
+<p>YonedaAI Research, <em>The Set-Theoretic Perspective: Numbers as von
+Neumann Ordinals</em>, Univalent Correspondence Series, Paper II,
+2026.</p>
+<p>YonedaAI Research, <em>The Universal Property Perspective: Numbers as
+Initial Successor Structures</em>, Univalent Correspondence Series,
+Paper III, 2026.</p>
+<p>YonedaAI Research, <em>The Yoneda Perspective: Numbers as
+Representable Functors</em>, Univalent Correspondence Series, Paper IV,
+2026.</p>
+<p>YonedaAI Research, <em>The HoTT Perspective: Numbers as Inductive
+Types up to Path Equivalence</em>, Univalent Correspondence Series,
+Paper V, 2026.</p>
+<p>YonedaAI Research, <em>The Categorical / Structural Perspective:
+Numbers as Invariants of Structure-Preserving Morphisms</em>, Univalent
+Correspondence Series, Paper VI, 2026.</p>
+<p>YonedaAI Research, <em>Knowledge Base: The Univalent
+Correspondence</em>, Magneton Internal Document, 2026.</p>
+<p>The Univalent Foundations Program, <em>Homotopy Type Theory:
+Univalent Foundations of Mathematics</em>, Institute for Advanced Study,
+2013. <code>arXiv:1308.0729</code>.</p>
+<p>V. Voevodsky, <em>The equivalence axiom and univalent models of type
+theory</em>, <code>arXiv:1402.5556</code>, 2014.</p>
+<p>V. Voevodsky, <em>Univalent foundations project</em>, Manuscript,
+IAS, 2010.</p>
+<p>S. Awodey and M. A. Warren, <em>Homotopy theoretic models of identity
+types</em>, Math. Proc. Cambridge Philos. Soc. <strong>146</strong>(1):
+45–55, 2009.</p>
+<p>C. Kapulkin and P. L. Lumsdaine, <em>The simplicial model of
+univalent foundations (after Voevodsky)</em>,
+J. Eur. Math. Soc. <strong>23</strong>(6): 2071–2126, 2021.</p>
+<p>P. L. Lumsdaine, <em>Weak omega-categories from intensional type
+theory</em>, Logical Methods in Computer Science
+<strong>6</strong>(3:24): 1–19, 2010.</p>
+<p>B. van den Berg and R. Garner, <em>Types are weak
+omega-groupoids</em>, Proc. London Math. Soc. <strong>102</strong>(2):
+370–394, 2011.</p>
+<p>D. R. Licata and M. Shulman, <em>Calculating the fundamental group of
+the circle in homotopy type theory</em>, in LICS 2013, pp. 223–232.</p>
+<p>D. R. Licata and E. Finster, <em>Eilenberg–MacLane spaces in homotopy
+type theory</em>, in CSL-LICS 2014, ACM, 2014.</p>
+<p>M. Shulman, <em>Higher inductive types and the formal Blakers–Massey
+theorem</em>, Proc. ACM Program. Lang. <strong>4</strong>(POPL):
+41:1–41:30, 2020.</p>
+<p>M. Shulman, <em>All
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>∞</mi><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\infty,1)</annotation></semantics></math>-toposes
+have strict univalent universes</em>, <code>arXiv:1904.07004</code>,
+2019.</p>
+<p>A. B. Booij, <em>Analysis in univalent type theory</em>, PhD thesis,
+University of Birmingham, 2020.</p>
+<p>C. Cohen, T. Coquand, S. Huber, A. Mörtberg, <em>Cubical type theory:
+a constructive interpretation of the univalence axiom</em>, in TYPES
+2015, LIPIcs 69, pp. 5:1–5:34.</p>
+<p>A. Vezzosi, A. Mörtberg, A. Abel, <em>Cubical Agda: a dependently
+typed programming language with univalence and higher inductive
+types</em>, Proc. ACM Program. Lang. <strong>3</strong>(ICFP):
+87:1–87:29, 2019.</p>
+<p>D. Annenkov, P. Capriotti, N. Kraus, C. Sattler, <em>Two-level type
+theory and applications</em>, Math. Structures
+Comput. Sci. <strong>33</strong>(8): 688–743, 2023.</p>
+<p>E. Riehl and M. Shulman, <em>A type theory for synthetic
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>-categories</em>,
+Higher Structures <strong>1</strong>(1): 147–224, 2017.
+<code>arXiv:1705.07442</code>.</p>
+<p>D.-C. Cisinski and H. K. Nguyen, <em>The universal coCartesian
+fibration</em>, <code>arXiv:2210.08945</code>, 2022.</p>
+<p>M. H. Escardó, <em>Introduction to Univalent Foundations of
+Mathematics with Agda</em>, Lecture notes, 2019.</p>
+<p>P. Martin-Löf, <em>Intuitionistic Type Theory</em>, Bibliopolis,
+1984.</p>
+<p>P. Wadler, <em>Propositions as types</em>, Communications of the ACM
+<strong>58</strong>(12): 75–84, 2015.</p>
+<p>J. Lambek, <em>Deductive systems and categories III: Cartesian closed
+categories, intuitionist propositional calculus, and combinatory
+logic</em>, in Toposes, Algebraic Geometry and Logic, LNM 274, Springer,
+1972, 57–82.</p>
+<p>S. Mac Lane, <em>Categories for the Working Mathematician</em>, 2nd
+ed., Graduate Texts in Mathematics <strong>5</strong>, Springer,
+1998.</p>
+<p>S. Mac Lane and I. Moerdijk, <em>Sheaves in Geometry and Logic: A
+First Introduction to Topos Theory</em>, Springer, 1992.</p>
+<p>E. Riehl, <em>Category Theory in Context</em>, Aurora: Dover Modern
+Math Originals, Dover, 2016.</p>
+<p>J. Lurie, <em>Higher Topos Theory</em>, Annals of Mathematics Studies
+<strong>170</strong>, Princeton, 2009.
+<code>arXiv:math/0608040</code>.</p>
+<p>G. M. Kelly, <em>Basic Concepts of Enriched Category Theory</em>, LMS
+Lecture Note Series <strong>64</strong>, Cambridge University Press,
+1982.</p>
+<p>T. Leinster, <em>Basic Category Theory</em>, Cambridge Studies in
+Advanced Mathematics <strong>143</strong>, Cambridge University Press,
+2014.</p>
+<p>F. W. Lawvere, <em>An elementary theory of the category of sets</em>,
+Proc. Nat. Acad. Sci. USA <strong>52</strong>(6): 1506–1511, 1964.</p>
+<p>F. W. Lawvere, <em>Functorial semantics of algebraic theories</em>,
+PhD thesis, Columbia University, 1963.</p>
+<p>F. W. Lawvere and R. Rosebrugh, <em>Sets for Mathematics</em>,
+Cambridge University Press, 2003.</p>
+<p>M. Makkai, <em>First-order logic with dependent sorts, with
+applications to category theory</em>, Preprint, McGill University, 1995.
+<a href="https://www.math.mcgill.ca/makkai/folds/foldsinpdf/FOLDS.pdf"
+class="uri">https://www.math.mcgill.ca/makkai/folds/foldsinpdf/FOLDS.pdf</a></p>
+<p>E. Meijer, M. Fokkinga, and R. Paterson, <em>Functional programming
+with bananas, lenses, envelopes, and barbed wire</em>, in FPCA ’91, LNCS
+523, Springer, 1991, 124–144.</p>
+<p>J. C. Baez and J. Dolan, <em>From finite sets to Feynman
+diagrams</em>, in Mathematics Unlimited — 2001 and Beyond, Springer,
+29–50, 2001.</p>
+<p>T. Leinster, <em>The Euler characteristic of a category</em>,
+Documenta Mathematica <strong>13</strong>: 21–49, 2008.</p>
+<p>J. von Neumann, <em>Zur Einführung der transfiniten Zahlen</em>, Acta
+Litt. Sci. Reg. Univ. Hung. Francisco-Josephinae <strong>1</strong>:
+199–208, 1923.</p>
+<p>E. Zermelo, <em>Untersuchungen über die Grundlagen der Mengenlehre
+I</em>, Math. Annalen <strong>65</strong>: 261–281, 1908.</p>
+<p>P. Halmos, <em>Naive Set Theory</em>, Van Nostrand, 1960.</p>
+<p>K. Kunen, <em>Set Theory: An Introduction to Independence
+Proofs</em>, North-Holland, 1980.</p>
+<p>J. R. Shoenfield, <em>Mathematical Logic</em>, Addison-Wesley,
+1967.</p>
+<p>P. Suppes, <em>Axiomatic Set Theory</em>, Van Nostrand, 1960.</p>
+<p>P. Benacerraf, <em>What numbers could not be</em>, Philosophical
+Review <strong>74</strong>(1): 47–73, 1965.</p>
+<p>P. Benacerraf, <em>Mathematical truth</em>, Journal of Philosophy
+<strong>70</strong>(19): 661–679, 1973.</p>
+<p>G. Frege, <em>Die Grundlagen der Arithmetik</em>, Breslau, 1884.</p>
+<p>G. Frege, <em>Über Sinn und Bedeutung</em>, Zeitschrift für
+Philosophie und philosophische Kritik <strong>100</strong>: 25–50,
+1892.</p>
+<p>E. Husserl, <em>Philosophie der Arithmetik</em>, Halle, 1891.</p>
+<p>J. S. Mill, <em>A System of Logic</em>, London, 1843.</p>
+<p>M. D. Resnik, <em>Mathematics as a science of patterns: Ontology and
+reference</em>, Noûs <strong>15</strong>(4): 529–550, 1981.</p>
+<p>M. D. Resnik, <em>Mathematics as a Science of Patterns</em>, Oxford
+University Press, 1997.</p>
+<p>S. Shapiro, <em>Philosophy of Mathematics: Structure and
+Ontology</em>, Oxford University Press, 1997.</p>
+<p>G. Hellman, <em>Mathematics Without Numbers: Towards a
+Modal-Structural Interpretation</em>, Oxford University Press, 1989.</p>
+<p>S. Awodey, <em>Structure in mathematics and logic: A categorical
+perspective</em>, Philosophia Mathematica <strong>4</strong>(3):
+209–237, 1996.</p>
+<p>S. Awodey, <em>An answer to Hellman’s question</em>, Philosophia
+Mathematica <strong>12</strong>(1): 54–64, 2004.</p>
+<p>S. Awodey, <em>Structuralism, invariance, and univalence</em>,
+Philosophia Mathematica <strong>22</strong>(1): 1–11, 2014.</p>
+<p>R. Dedekind, <em>Was sind und was sollen die Zahlen?</em>, Vieweg
+&amp; Sohn, Braunschweig, 1888.</p>
+<p>P. Wadler, <em>Propositions as types</em> (extended discussion of
+historical names), CACM <strong>58</strong>(12): 75–84, 2015.</p>
+<p>S. Carey, <em>The Origin of Concepts</em>, Oxford University Press,
+2009.</p>
+<p>S. Dehaene, <em>The Number Sense</em>, Oxford University Press,
+1997.</p>
+<p>G. Lakoff and R. Núñez, <em>Where Mathematics Comes From</em>, Basic
+Books, 2000.</p>
+</div>

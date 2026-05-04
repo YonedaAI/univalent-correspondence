@@ -1,0 +1,1808 @@
+
+<h1 id="sec:intro">Introduction</h1>
+<h2 id="the-structural-turn">The structural turn</h2>
+<p>Frege asked what numbers are; Dedekind answered: numbers are
+positions in a structure satisfying the simply infinite system
+axioms <span class="citation" data-cites="Dedekind1888"></span>. Frege
+rejected the answer because it left the structure underdetermined —“many
+systems”, not one. The twentieth century proved Dedekind right and Frege
+wrong: every system satisfying the axioms is canonically isomorphic to
+every other, and the only invariants that survive a change of model are
+the structural ones. Benacerraf <span class="citation"
+data-cites="Benacerraf1965"></span> sharpened the point: since
+infinitely many set-theoretic encodings (von Neumann’s, Zermelo’s, and
+uncountably many others) all satisfy Peano’s axioms, no encoding can
+claim to <em>be</em> the natural numbers without contradiction. Numbers,
+if they are anything, must be what is preserved under all such
+encodings.</p>
+<p>This paper formalizes that thesis. We argue that:</p>
+<ol>
+<li><p>“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>”
+denotes an invariant under all structure-preserving morphisms between
+models of arithmetic, in a sense made precise by functorial semantics
+(<a href="#sec:functorial" data-reference-type="ref+Label"
+data-reference="sec:functorial">4</a>).</p></li>
+<li><p>Mathematical structuralism — in its <em>ante rem</em>, <em>in
+re</em>, and modal variants — is the philosophical commitment that this
+is the right level of analysis.</p></li>
+<li><p>Category theory (and ETCS in particular) is the natural formal
+language because it is built around the principle that objects are
+determined up to isomorphism by their relationships.</p></li>
+<li><p>Homotopy Type Theory (HoTT) with the univalence axiom turns “up
+to isomorphism” from an external constraint into an internal
+theorem.</p></li>
+</ol>
+<p>The paper is the last of the six topical papers in the <em>Univalent
+Correspondence Project</em> and provides the bridge to the subsequent
+synthesis paper. The thesis we defend across all six papers is captured
+by the columns table reproduced (in shortened form) in <a
+href="#tab:columns" data-reference-type="ref+Label"
+data-reference="tab:columns">1</a>.</p>
+<div id="tab:columns">
+<table>
+<caption>The six-level columns table; this paper develops the bottom
+row.</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Level</strong></th>
+<th style="text-align: left;"><strong>What
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+<em>is</em></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Naive</td>
+<td style="text-align: left;">A symbol / a quantity</td>
+</tr>
+<tr>
+<td style="text-align: left;">Set-theoretic</td>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,\dots,57\}</annotation></semantics></math>
+(von Neumann)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Universal property</td>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>th
+iterate of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">s</mi><annotation encoding="application/x-tex">\mathrm{s}</annotation></semantics></math>
+in any initial
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mi mathvariant="normal">z</mi><mo>,</mo><mi mathvariant="normal">s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N,\mathrm{z},\mathrm{s})</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">Yoneda</td>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mn>58</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}(-, 58)</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">h</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(T_{\mathrm{arith}})</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">HoTT</td>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="normal">s</mi><mn>58</mn></msup><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">z</mi><mo stretchy="false" form="postfix">)</mo><mo>:</mo><mi mathvariant="double-struck">ℕ</mi></mrow><annotation encoding="application/x-tex">\mathrm{s}^{58}(\mathrm{z}) : \mathbb{N}</annotation></semantics></math>,
+identified up to path equivalence</td>
+</tr>
+<tr>
+<td style="text-align: left;">Categorical / structural</td>
+<td style="text-align: left;">An invariant of every isomorphism of
+arithmetic models</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="contributions-and-outline">Contributions and outline</h2>
+<p>We make three contributions. First, in <a href="#sec:structuralism"
+data-reference-type="ref+Label" data-reference="sec:structuralism">3</a>
+we present a unified treatment of the major flavors of structuralism
+(Resnik, Shapiro, Hellman, Awodey) and identify the precise sense in
+which categorical structuralism is the formal analogue of the
+philosophical thesis. Second, in <a href="#sec:functorial"
+data-reference-type="ref+Label" data-reference="sec:functorial">4</a> we
+develop functorial semantics for a small algebraic theory
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_{\mathrm{s}}</annotation></semantics></math>
+and prove that any natural isomorphism between two models induces
+equality of all definable numerical invariants (<a
+href="#thm:invariance" data-reference-type="ref+Label"
+data-reference="thm:invariance">26</a>). Third, in <a
+href="#sec:transport" data-reference-type="ref+Label"
+data-reference="sec:transport">9</a> we re-derive the same invariance
+principle as a special case of HoTT’s transport along paths, and we
+discuss categorification and decategorification (<a
+href="#sec:categorification" data-reference-type="ref+Label"
+data-reference="sec:categorification">10</a>) as the higher-dimensional
+analogue.</p>
+<p>The accompanying Haskell code (in
+<code>src/06-categorical-structural/</code>) implements functorial
+semantics for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_{\mathrm{s}}</annotation></semantics></math>,
+builds two non-equal but isomorphic models, and verifies that all
+observable numerical quantities agree under the isomorphism.</p>
+<p><a href="#sec:transport" data-reference-type="ref+Label"
+data-reference="sec:transport">9</a> contains the bridge to the
+synthesis paper: every structural property is automatically
+transportable along equivalences, and univalence is the principle that
+makes this an internal theorem of the foundations rather than a
+meta-theorem of mathematical practice.</p>
+<h1 id="sec:framework">Mathematical Framework</h1>
+<p>We fix terminology and notation. All categories are locally small
+unless stated otherwise; standard references for the categorical
+background are Mac Lane <span class="citation"
+data-cites="MacLane1971"></span> and Riehl <span class="citation"
+data-cites="Riehl2016"></span>.</p>
+<div class="definition">
+<p><strong>Definition 1</strong> (Category). A <em>category</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+consists of a class
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">b</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒞</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Ob}(\mathcal{C})</annotation></semantics></math>
+of objects, for each pair
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>,</mo><mi>B</mi><mo>∈</mo><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">b</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒞</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">A,B \in \mathrm{Ob}(\mathcal{C})</annotation></semantics></math>
+a set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mi mathvariant="script">𝒞</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>,</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}_\mathcal{C}(A,B)</annotation></semantics></math>
+of morphisms, an associative composition, and identity morphisms.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 2</strong> (Functor). A <em>functor</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>:</mo><mi mathvariant="script">𝒞</mi><mo>→</mo><mi mathvariant="script">𝒟</mi></mrow><annotation encoding="application/x-tex">F : \mathcal{C}\to \mathcal{D}</annotation></semantics></math>
+assigns to each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∈</mo><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">b</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒞</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">A \in \mathrm{Ob}(\mathcal{C})</annotation></semantics></math>
+an object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>∈</mo><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">b</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒟</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">F(A) \in \mathrm{Ob}(\mathcal{D})</annotation></semantics></math>
+and to each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>A</mi><mo>→</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">f : A \to B</annotation></semantics></math>
+a morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo><mo>:</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">F(f) : F(A) \to F(B)</annotation></semantics></math>,
+preserving composition and identities.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 3</strong> (Natural transformation). Given
+functors
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>,</mo><mi>G</mi><mo>:</mo><mi mathvariant="script">𝒞</mi><mo>→</mo><mi mathvariant="script">𝒟</mi></mrow><annotation encoding="application/x-tex">F, G : \mathcal{C}\to \mathcal{D}</annotation></semantics></math>,
+a <em>natural transformation</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>:</mo><mi>F</mi><mo>⇒</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">\alpha : F \Rightarrow G</annotation></semantics></math>
+is a family
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msub><mi>α</mi><mi>A</mi></msub><mo>:</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>G</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><msub><mo stretchy="false" form="postfix">}</mo><mrow><mi>A</mi><mo>∈</mo><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">b</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒞</mi><mo stretchy="false" form="postfix">)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">\{\alpha_A : F(A) \to G(A)\}_{A \in \mathrm{Ob}(\mathcal{C})}</annotation></semantics></math>
+such that for every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>A</mi><mo>→</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">f : A \to B</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo><mo>∘</mo><msub><mi>α</mi><mi>A</mi></msub><mo>=</mo><msub><mi>α</mi><mi>B</mi></msub><mo>∘</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">G(f) \circ \alpha_A = \alpha_B \circ F(f)</annotation></semantics></math>.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 4</strong> (Isomorphism). A morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>A</mi><mo>→</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">f : A \to B</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+is an <em>isomorphism</em> if there exists
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo>:</mo><mi>B</mi><mo>→</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">g : B \to A</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo>∘</mo><mi>f</mi><mo>=</mo><msub><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi></mrow><mi>A</mi></msub></mrow><annotation encoding="application/x-tex">g \circ f = \mathrm{id}_A</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>∘</mo><mi>g</mi><mo>=</mo><msub><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi></mrow><mi>B</mi></msub></mrow><annotation encoding="application/x-tex">f \circ g = \mathrm{id}_B</annotation></semantics></math>.
+We write
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>≅</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A \cong B</annotation></semantics></math>
+when an isomorphism exists.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 5</strong> (Equivalence of categories). Categories
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒟</mi><annotation encoding="application/x-tex">\mathcal{D}</annotation></semantics></math>
+are <em>equivalent</em>, written
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">𝒞</mi><mo>≃</mo><mi mathvariant="script">𝒟</mi></mrow><annotation encoding="application/x-tex">\mathcal{C}\simeq\mathcal{D}</annotation></semantics></math>,
+if there exist functors
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>:</mo><mi mathvariant="script">𝒞</mi><mo>→</mo><mi mathvariant="script">𝒟</mi></mrow><annotation encoding="application/x-tex">F : \mathcal{C}\to \mathcal{D}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>:</mo><mi mathvariant="script">𝒟</mi><mo>→</mo><mi mathvariant="script">𝒞</mi></mrow><annotation encoding="application/x-tex">G : \mathcal{D}\to \mathcal{C}</annotation></semantics></math>
+with natural isomorphisms
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>F</mi><mo>≅</mo><msub><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi></mrow><mi mathvariant="script">𝒞</mi></msub></mrow><annotation encoding="application/x-tex">G F \cong\mathrm{id}_\mathcal{C}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>G</mi><mo>≅</mo><msub><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi></mrow><mi mathvariant="script">𝒟</mi></msub></mrow><annotation encoding="application/x-tex">F G \cong\mathrm{id}_\mathcal{D}</annotation></semantics></math>.</p>
+</div>
+<div id="def:alg-theory" class="definition">
+<p><strong>Definition 6</strong> (Algebraic theory, in the Lawvere
+sense). An <em>algebraic theory</em> (in the sense of Lawvere <span
+class="citation" data-cites="Lawvere1963"></span>) is a small category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>
+with finite products, equipped with a distinguished object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>∈</mo><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">b</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">X \in \mathrm{Ob}(\mathcal{T})</annotation></semantics></math>
+such that every object is a finite power
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>X</mi><mi>n</mi></msup><annotation encoding="application/x-tex">X^n</annotation></semantics></math>
+for some
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">n \geq 0</annotation></semantics></math>.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 7</strong> (Model / interpretation). A
+<em>model</em> of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>
+in a category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>
+with finite products is a finite-product-preserving functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>:</mo><mi mathvariant="script">𝒯</mi><mo>→</mo><mi mathvariant="script">ℰ</mi></mrow><annotation encoding="application/x-tex">M : \mathcal{T}\to \mathcal{E}</annotation></semantics></math>.
+The category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo><mo>≔</mo><mrow><mi mathvariant="normal">F</mi><mi mathvariant="normal">P</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo>,</mo><mi mathvariant="script">ℰ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(\mathcal{T}) \coloneqq\mathrm{FP}(\mathcal{T}, \mathcal{E})</annotation></semantics></math>
+has finite-product-preserving functors as objects and natural
+transformations between them as morphisms.</p>
+</div>
+<div class="remark">
+<p><em>Remark 8</em> (Models in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>).
+When
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">ℰ</mi><mo>=</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">\mathcal{E}= \mathbf{Set}</annotation></semantics></math>,
+an interpretation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>:</mo><mi mathvariant="script">𝒯</mi><mo>→</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">M : \mathcal{T}\to \mathbf{Set}</annotation></semantics></math>
+assigns to the generating object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+a set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">M(X)</annotation></semantics></math>
+called the <em>carrier</em>. The other generating data of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>
+(operations, equations) are interpreted as functions and equalities on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">M(X)</annotation></semantics></math>.
+This is the standard universal-algebraic notion of model.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 9</strong> (Structure-preserving morphism). A
+<em>morphism of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>-models</em>
+from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>M</mi><mo>′</mo></msup><annotation encoding="application/x-tex">M&#39;</annotation></semantics></math>
+is a natural transformation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>:</mo><mi>M</mi><mo>⇒</mo><msup><mi>M</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">\alpha : M \Rightarrow M&#39;</annotation></semantics></math>.
+By naturality and finite-product preservation,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+is determined by its component
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>X</mi></msub><mo>:</mo><mi>M</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\alpha_X : M(X) \to M&#39;(X)</annotation></semantics></math>,
+which is a homomorphism in the universal-algebraic sense.</p>
+</div>
+<h2 id="notation-summary">Notation summary</h2>
+<p>For ease of reference we collect the central notation used throughout
+the paper.</p>
+<div id="tab:notation">
+<table>
+<caption>Notation used throughout.</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Symbol</strong></th>
+<th style="text-align: left;"><strong>Meaning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑮</mi><mi mathvariant="bold-italic">𝒑</mi><mi mathvariant="bold-italic">𝒅</mi></mrow><annotation encoding="application/x-tex">\mathbf{Gpd}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑪</mi><mi mathvariant="bold-italic">𝒂</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Cat}</annotation></semantics></math></td>
+<td style="text-align: left;">categories of sets, groupoids, small
+categories</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi mathvariant="script">𝒞</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><annotation encoding="application/x-tex">\mathcal{C}^\mathrm{op}</annotation></semantics></math></td>
+<td style="text-align: left;">opposite category of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mi mathvariant="script">𝒞</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>,</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}_\mathcal{C}(A,B)</annotation></semantics></math></td>
+<td style="text-align: left;">morphisms from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>F</mi><mo>,</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Nat}(F,G)</annotation></semantics></math></td>
+<td style="text-align: left;">natural transformations from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">g</mi></mrow></msub><annotation encoding="application/x-tex">T_{\mathrm{ring}}</annotation></semantics></math></td>
+<td style="text-align: left;">Lawvere theories (succ, ring)</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(\mathcal{T})</annotation></semantics></math></td>
+<td style="text-align: left;">category of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>-models
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">M(X)</annotation></semantics></math></td>
+<td style="text-align: left;">carrier of model
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">z</mi><mo>,</mo><mi mathvariant="normal">s</mi></mrow><annotation encoding="application/x-tex">\mathrm{z}, \mathrm{s}</annotation></semantics></math></td>
+<td style="text-align: left;">generating constant and unary in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≃</mo><annotation encoding="application/x-tex">\simeq</annotation></semantics></math></td>
+<td style="text-align: left;">equivalence (of categories or types)</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≅</mo><annotation encoding="application/x-tex">\cong</annotation></semantics></math></td>
+<td style="text-align: left;">isomorphism</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pi_0(G)</annotation></semantics></math></td>
+<td style="text-align: left;">set of connected components of groupoid
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>G</mi><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">|G|_{\mathrm{gpd}}</annotation></semantics></math></td>
+<td style="text-align: left;">groupoid cardinality</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>=</mo><mi>A</mi></msub><annotation encoding="application/x-tex">=_A</annotation></semantics></math></td>
+<td style="text-align: left;">identity type on type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+(HoTT)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="sec:structuralism">Mathematical Structuralism</h1>
+<h2 id="the-thesis">The thesis</h2>
+<p>Mathematical structuralism (Benacerraf <span class="citation"
+data-cites="Benacerraf1965"></span>, Resnik <span class="citation"
+data-cites="Resnik1997"></span>, Shapiro <span class="citation"
+data-cites="Shapiro1997"></span>, Hellman <span class="citation"
+data-cites="Hellman1989"></span>, Awodey <span class="citation"
+data-cites="Awodey1996 Awodey2014"></span>) is the view that mathematics
+studies structures rather than objects: the natural numbers are not a
+particular set or sequence but the abstract pattern that all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>-like
+structures share.</p>
+<p>Resnik’s slogan <span class="citation"
+data-cites="Resnik1981"></span> is that mathematical objects are
+“positions in patterns”. Shapiro distinguishes the position itself (an
+abstract place) from the objects that may occupy it. Hellman <span
+class="citation" data-cites="Hellman1989"></span> formulates the
+doctrine modally: a structure is a possible-world description, and
+arithmetic asserts what would be true of any system that realizes the
+structure.</p>
+<h2 id="three-flavors">Three flavors</h2>
+<div class="definition">
+<p><strong>Definition 10</strong> (Ante rem structuralism, Shapiro). The
+structures of mathematics exist independently of any particular system
+that realizes them. Numbers are real abstract entities, but their
+identity is exhausted by their relational properties.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 11</strong> (In re structuralism, Resnik).
+Mathematical structures are abstractions from collections of similar
+systems. There is no structure “in itself”; only patterns instantiated
+by concrete or abstract systems.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 12</strong> (Modal / eliminative structuralism,
+Hellman). There are no abstract structures or numbers; statements of
+arithmetic are read as universally quantified conditionals over all
+possible
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>-like
+systems: “In any
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>-sequence,
+the seventh element after zero satisfies
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>…</mi><annotation encoding="application/x-tex">\dots</annotation></semantics></math>”
+rather than
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>7</mn><annotation encoding="application/x-tex">7</annotation></semantics></math>
+satisfies
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>…</mi><annotation encoding="application/x-tex">\dots</annotation></semantics></math>”.</p>
+</div>
+<div class="example">
+<p><strong>Example 13</strong> (Three views of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>).
+</p>
+<ul>
+<li><p><em>Ante rem</em>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is an abstract position in the unique structure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">⟨</mo><mi mathvariant="double-struck">ℕ</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi mathvariant="normal">s</mi><mo stretchy="false" form="postfix">⟩</mo></mrow><annotation encoding="application/x-tex">\langle \mathbb{N}, 0, \mathrm{s}\rangle</annotation></semantics></math>.</p></li>
+<li><p><em>In re</em>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+is whatever is common to all things obtained by applying
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">s</mi><annotation encoding="application/x-tex">\mathrm{s}</annotation></semantics></math>
+exactly
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+times to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+in any concrete realization.</p></li>
+<li><p><em>Modal</em>:
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>58</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>59</mn></mrow><annotation encoding="application/x-tex">58 + 1 = 59</annotation></semantics></math>”
+means “it is necessary that, in any
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>-sequence,
+the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>th
+iterate’s successor is the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>59</mn><annotation encoding="application/x-tex">59</annotation></semantics></math>th
+iterate”.</p></li>
+</ul>
+</div>
+<h2 id="awodeys-category-theoretic-structuralism">Awodey’s
+category-theoretic structuralism</h2>
+<p>Awodey <span class="citation"
+data-cites="Awodey2004 Awodey2014"></span> argues that category theory
+is structuralism realized: “mathematical objects are determined up to
+isomorphism by their relations to other objects in the appropriate
+category, and structural properties are exactly those preserved by
+isomorphisms.” This is not a metaphysical claim but a methodological
+one: working categorically <em>is</em> working structurally.</p>
+<div id="prop:struct-iso" class="proposition">
+<p><strong>Proposition 14</strong> (Structural properties are
+isomorphism-invariant). <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+be a category and let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>
+be a property of objects of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+that is expressible using only the data of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+(objects, morphisms, composition, and finite limits/colimits where they
+exist). Then for any isomorphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>A</mi><mo>→</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">f : A \to B</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>⇔</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(A) \iff P(B)</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof sketch.</em> By induction on the complexity of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>.
+Atomic categorical statements (commutativity of squares, existence of
+fillers, equality of composites) are preserved by isomorphisms because
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>f</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">f^{-1}</annotation></semantics></math>
+are inverse, and composition is preserved. For complex
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>,
+the inductive step is straightforward. ◻</p>
+</div>
+<div class="remark">
+<p><em>Remark 15</em>. <a href="#prop:struct-iso"
+data-reference-type="ref+Label" data-reference="prop:struct-iso">14</a>
+is meta-mathematical: it presupposes a notion of “categorical formula”
+and identifies a syntactic class of properties whose semantics is
+invariant under isomorphism. In HoTT this becomes an <em>internal</em>
+theorem, the structure identity principle (<a href="#thm:sip"
+data-reference-type="ref+Label" data-reference="thm:sip">50</a>).</p>
+</div>
+<h2 id="ssec:compare">Comparison and reconciliation</h2>
+<p>The three flavors of structuralism are not in pairwise contradiction
+so much as in pairwise emphasis. We may organize them as follows.</p>
+<div id="tab:flavors">
+<table>
+<caption>Four flavors of structuralism on a single arithmetic
+equation.</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Flavor</strong></th>
+<th style="text-align: left;"><strong>Ontology</strong></th>
+<th style="text-align: left;"><strong>Reading of
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>+</mo><mn>7</mn><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">5 + 7 = 12</annotation></semantics></math>”</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Ante rem (Shapiro)</td>
+<td style="text-align: left;">Abstract structures exist</td>
+<td style="text-align: left;">The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>12</mn><annotation encoding="application/x-tex">12</annotation></semantics></math>-position
+satisfies
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>…</mi><annotation encoding="application/x-tex">\dots</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">In re (Resnik)</td>
+<td style="text-align: left;">Patterns abstracted from instances</td>
+<td style="text-align: left;">Common to all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>-sequences</td>
+</tr>
+<tr>
+<td style="text-align: left;">Modal (Hellman)</td>
+<td style="text-align: left;">No abstract structures</td>
+<td style="text-align: left;">In any possible
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>-system,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>…</mi><annotation encoding="application/x-tex">\dots</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">Categorical (Awodey)</td>
+<td style="text-align: left;">Categorical content only</td>
+<td style="text-align: left;">Isomorphism-invariant statement</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The categorical / structural perspective is compatible with each of
+the philosophical readings. Reading
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(T_\mathrm{s})</annotation></semantics></math>”
+as a Platonic abstract category gives the ante-rem version; reading it
+as a class of concrete realizations gives the in-re version; reading it
+as a possible-world quantifier gives the modal version. The
+functorial-semantics framework of <a href="#sec:functorial"
+data-reference-type="ref+Label" data-reference="sec:functorial">4</a> is
+metaphysically neutral; what it secures is the invariance principle that
+all three philosophical readings agree must hold.</p>
+<div class="remark">
+<p><em>Remark 16</em> (Awodey on univalence). Awodey’s later work <span
+class="citation" data-cites="Awodey2014"></span> extends this neutrality
+to univalent foundations: “the univalence axiom is the principle that
+makes the structuralist viewpoint formally consistent inside a
+foundational system”. We return to this in <a href="#sec:transport"
+data-reference-type="ref+Label"
+data-reference="sec:transport">9</a>.</p>
+</div>
+<h1 id="sec:functorial">Functorial Semantics</h1>
+<h2 id="lawvere-theories">Lawvere theories</h2>
+<p>We follow Lawvere’s 1963 Ph.D. thesis <span class="citation"
+data-cites="Lawvere1963"></span>: an algebraic theory is a category,
+models are functors, and homomorphisms are natural transformations. This
+rephrasing is consequential: we obtain a precise sense in which two
+models “compute the same number”.</p>
+<div class="definition">
+<p><strong>Definition 17</strong> (Lawvere theory). A <em>Lawvere
+theory</em> is a small category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>
+with finite products, equipped with a generator
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+such that every object of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>
+is (canonically) a finite power
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>X</mi><mi>n</mi></msup><annotation encoding="application/x-tex">X^n</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">n \geq 0</annotation></semantics></math>.
+Equivalently,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi mathvariant="script">𝒯</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><annotation encoding="application/x-tex">\mathcal{T}^\mathrm{op}</annotation></semantics></math>
+has finite coproducts and is the opposite of the free finite-product
+category on a single object plus operation symbols and axioms.</p>
+</div>
+<div id="ex:Tsucc" class="example">
+<p><strong>Example 18</strong> (The theory
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>
+of pointed unary structures). Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>
+be the Lawvere theory generated by:</p>
+<ul>
+<li><p>one object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>,</p></li>
+<li><p>a constant
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">z</mi><mo>:</mo><msup><mi>X</mi><mn>0</mn></msup><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">\mathrm{z}: X^0 \to X</annotation></semantics></math>
+(the “zero”),</p></li>
+<li><p>a unary operation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">s</mi><mo>:</mo><mi>X</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">\mathrm{s}: X \to X</annotation></semantics></math>
+(the “successor”),</p></li>
+</ul>
+<p>with no equations. A model in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>
+is a triple
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo>,</mo><mi>z</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(M, z, s)</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+is a set,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi><mo>∈</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">z \in M</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>:</mo><mi>M</mi><mo>→</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">s : M \to M</annotation></semantics></math>.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 19</strong> (Initial successor structure). A model
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi mathvariant="normal">s</mi><mo stretchy="false" form="postfix">)</mo><mo>∈</mo><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(N, 0, \mathrm{s}) \in \operatorname{Mod}(T_\mathrm{s})</annotation></semantics></math>
+is <em>initial</em> if for every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo>,</mo><mi>z</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(M, z, s)</annotation></semantics></math>
+there is a unique
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-homomorphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>:</mo><mi>N</mi><mo>→</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">h : N \to M</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>z</mi></mrow><annotation encoding="application/x-tex">h(0) = z</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>∘</mo><mi mathvariant="normal">s</mi><mo>=</mo><mi>s</mi><mo>∘</mo><mi>h</mi></mrow><annotation encoding="application/x-tex">h \circ \mathrm{s}= s \circ h</annotation></semantics></math>.</p>
+</div>
+<div id="thm:initial-N" class="theorem">
+<p><strong>Theorem 20</strong> (Standard model of arithmetic).
+<em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="double-struck">ℕ</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi mathvariant="normal">s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mathbb{N}, 0, \mathrm{s})</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">s</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>n</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\mathrm{s}(n) = n+1</annotation></semantics></math>
+is initial in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(T_\mathrm{s})</annotation></semantics></math>,
+and any two initial models are uniquely isomorphic.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Existence and uniqueness of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>
+are by primitive recursion. Two initial objects are connected by a
+unique morphism each way; their composites are identity by
+uniqueness. ◻</p>
+</div>
+<h2 id="category-of-models">Category of models</h2>
+<div class="definition">
+<p><strong>Definition 21</strong>. For a Lawvere theory
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>,
+let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(\mathcal{T})</annotation></semantics></math>
+denote the category of finite-product-preserving functors
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">𝒯</mi><mo>→</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">\mathcal{T}\to \mathbf{Set}</annotation></semantics></math>
+with natural transformations as morphisms.</p>
+</div>
+<div id="prop:hom-as-nat" class="proposition">
+<p><strong>Proposition 22</strong>. <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">𝒯</mi><mo>=</mo><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub></mrow><annotation encoding="application/x-tex">\mathcal{T}= T_\mathrm{s}</annotation></semantics></math>
+and let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>,</mo><msup><mi>M</mi><mo>′</mo></msup><mo>:</mo><mi mathvariant="script">𝒯</mi><mo>→</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">M, M&#39; : \mathcal{T}\to \mathbf{Set}</annotation></semantics></math>.
+The data of a natural transformation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>:</mo><mi>M</mi><mo>⇒</mo><msup><mi>M</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">\alpha : M \Rightarrow M&#39;</annotation></semantics></math>
+is exactly a function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>X</mi></msub><mo>:</mo><mi>M</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\alpha_X : M(X) \to M&#39;(X)</annotation></semantics></math>
+such that
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>X</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">z</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>*</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">z</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>*</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>α</mi><mi>X</mi></msub><mo>∘</mo><mi>M</mi><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">s</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">s</mi><mo stretchy="false" form="postfix">)</mo><mo>∘</mo><msub><mi>α</mi><mi>X</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\alpha_X(M(\mathrm{z})(\ast)) = M&#39;(\mathrm{z})(\ast), \quad
+  \alpha_X \circ M(\mathrm{s}) = M&#39;(\mathrm{s}) \circ \alpha_X.</annotation></semantics></math></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Naturality of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+on the morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">z</mi><mo>:</mo><msup><mi>X</mi><mn>0</mn></msup><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">\mathrm{z}: X^0 \to X</annotation></semantics></math>
+asserts the commutativity of <span class="math display">$$\begin{tikzcd}
+M(X^0) \arrow[r, "M(\mathrm{z})"] \arrow[d, "\alpha_{X^0}"'] &amp; M(X)
+\arrow[d, "\alpha_X"] \\
+M'(X^0) \arrow[r, "M'(\mathrm{z})"'] &amp; M'(X)
+\end{tikzcd}$$</span> Since both functors preserve finite products,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mn>0</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">M(X^0)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mn>0</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">M&#39;(X^0)</annotation></semantics></math>
+are terminal in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>
+(singletons
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>*</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\ast\}</annotation></semantics></math>)
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><msup><mi>X</mi><mn>0</mn></msup></msub><annotation encoding="application/x-tex">\alpha_{X^0}</annotation></semantics></math>
+is the unique map between them; the diagram thus collapses to the first
+displayed equation. Naturality on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">s</mi><mo>:</mo><mi>X</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">\mathrm{s}: X \to X</annotation></semantics></math>
+gives directly the second displayed equation. Conversely, any pair
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>α</mi><msup><mi>X</mi><mn>0</mn></msup></msub><mo>,</mo><msub><mi>α</mi><mi>X</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\alpha_{X^0}, \alpha_X)</annotation></semantics></math>
+satisfying these two equations extends uniquely to a natural
+transformation: finite-product preservation determines all higher
+components
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><msup><mi>X</mi><mi>n</mi></msup></msub><annotation encoding="application/x-tex">\alpha_{X^n}</annotation></semantics></math>
+as the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>-fold
+product of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><mi>X</mi></msub><annotation encoding="application/x-tex">\alpha_X</annotation></semantics></math>
+with itself. ◻</p>
+</div>
+<h2 id="definable-invariants">Definable invariants</h2>
+<p>We now make precise the notion of “numerical answer extracted from a
+model”.</p>
+<div id="def:def-inv" class="definition">
+<p><strong>Definition 23</strong> (Definable invariant). Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>
+be a Lawvere theory and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>
+a category. A <em>definable invariant</em> of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>-models
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>
+is a function
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>:</mo><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">b</mi></mrow><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">b</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">ℰ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I : \mathrm{Ob}(\operatorname{Mod}(\mathcal{T})) \to \mathrm{Ob}(\mathcal{E})</annotation></semantics></math>
+together with, for every isomorphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>:</mo><mi>M</mi><mo>→</mo><msup><mi>M</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">\alpha : M \to M&#39;</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(\mathcal{T})</annotation></semantics></math>,
+an isomorphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>α</mi><mo stretchy="false" form="postfix">)</mo><mo>:</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I(\alpha) : I(M) \to I(M&#39;)</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>,
+such that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msub><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi></mrow><mi>M</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi></mrow><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">I(\mathrm{id}_M) = \mathrm{id}_{I(M)}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+preserves composition. Equivalently,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+is a functor from the underlying groupoid of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(\mathcal{T})</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>.</p>
+</div>
+<div id="ex:cardinality" class="example">
+<p><strong>Example 24</strong>. Cardinality is a definable invariant
+when restricted to finite models:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>M</mi><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|M| = |M&#39;|</annotation></semantics></math>
+whenever
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>≅</mo><msup><mi>M</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">M \cong M&#39;</annotation></semantics></math>.
+This is the simplest example of the structural-invariance
+phenomenon.</p>
+</div>
+<div class="example">
+<p><strong>Example 25</strong> (Order of an element). For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-models
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo>,</mo><mi>z</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(M,z,s)</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>,
+define
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">d</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo>,</mo><mi>z</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">min</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo>≥</mo><mn>1</mn><mo>:</mo><msup><mi>s</mi><mi>n</mi></msup><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>z</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\mathrm{ord}(M,z,s) = \min \{ n \geq 1 : s^n(z) = z \}</annotation></semantics></math>
+if such
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+exists,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>
+otherwise. This is a definable invariant: any isomorphism preserves the
+orbit of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math>
+under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>.</p>
+</div>
+<div id="thm:invariance" class="theorem">
+<p><strong>Theorem 26</strong> (Invariance theorem). <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>
+be a Lawvere theory and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+a definable invariant. For any two isomorphic models
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>,</mo><msup><mi>M</mi><mo>′</mo></msup><mo>∈</mo><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">M, M&#39; \in \operatorname{Mod}(\mathcal{T})</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I(M) \cong I(M&#39;)</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>.
+In particular, when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">ℰ</mi><mo>=</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">\mathcal{E}= \mathbf{Set}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I(M)</annotation></semantics></math>
+is a (finite) cardinal,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|I(M)| = |I(M&#39;)|</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> By <a href="#def:def-inv"
+data-reference-type="ref+Label" data-reference="def:def-inv">23</a>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+acts functorially on the groupoid of isomorphisms. Functors send
+isomorphisms to isomorphisms, so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I(M) \cong I(M&#39;)</annotation></semantics></math>.
+Cardinality is itself an isomorphism invariant on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|I(M)| = |I(M&#39;)|</annotation></semantics></math>. ◻</p>
+</div>
+<div class="corollary">
+<p><strong>Corollary 27</strong> (Structural identity of models). <em>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>≅</mo><msup><mi>M</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">M \cong M&#39;</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(\mathcal{T})</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>M</mi><mo>′</mo></msup><annotation encoding="application/x-tex">M&#39;</annotation></semantics></math>
+agree on every definable invariant. In particular, every “numerical
+answer” computed from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+matches the corresponding answer computed from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>M</mi><mo>′</mo></msup><annotation encoding="application/x-tex">M&#39;</annotation></semantics></math>.</em></p>
+</div>
+<h1 id="sec:two-models">Two Models, One Answer</h1>
+<p>We make <a href="#thm:invariance" data-reference-type="ref+Label"
+data-reference="thm:invariance">26</a> concrete with two non-equal but
+isomorphic models of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>.
+The accompanying Haskell code (<a href="#sec:haskell"
+data-reference-type="ref+Label" data-reference="sec:haskell">11</a>)
+verifies each computed invariant.</p>
+<div id="ex:vN-Z" class="example">
+<p><strong>Example 28</strong> (von Neumann vs. Zermelo). Define two
+finite
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-models:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+  M_{\mathrm{vN}}(X) &amp;= \{\emptyset, \{\emptyset\}, \{\emptyset,\{\emptyset\}\}, \{\emptyset,\{\emptyset\},\{\emptyset,\{\emptyset\}\}\}\}, \\
+  M_{\mathrm{Z}}(X) &amp;= \{\emptyset, \{\emptyset\}, \{\{\emptyset\}\}, \{\{\{\emptyset\}\}\}\},
+\end{align*}</annotation></semantics></math> each with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">z</mi><annotation encoding="application/x-tex">\mathrm{z}</annotation></semantics></math>
+interpreted as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∅</mi><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">s</mi><annotation encoding="application/x-tex">\mathrm{s}</annotation></semantics></math>
+interpreted by the appropriate generation rule (von Neumann:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>↦</mo><mi>n</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n \mapsto n \cup \{n\}</annotation></semantics></math>;
+Zermelo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>↦</mo><mo stretchy="false" form="prefix">{</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">n \mapsto \{n\}</annotation></semantics></math>).</p>
+</div>
+<div id="prop:vN-Z-iso" class="proposition">
+<p><strong>Proposition 29</strong>.
+<em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>≅</mo><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">M_{\mathrm{vN}} \cong M_{\mathrm{Z}}</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(T_\mathrm{s})</annotation></semantics></math>,
+but
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>≠</mo><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">M_{\mathrm{vN}}(X) \neq M_{\mathrm{Z}}(X)</annotation></semantics></math>
+as sets in ZFC.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Define
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>X</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msup><mi mathvariant="normal">s</mi><mi>k</mi></msup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>∅</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="prefix">(</mo><msup><mi mathvariant="normal">s</mi><mi>k</mi></msup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>∅</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\alpha_X(M_{\mathrm{vN}}(\mathrm{s}^k)(\emptyset)) = M_{\mathrm{Z}}(\mathrm{s}^k)(\emptyset)</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">k = 0, 1, 2, 3</annotation></semantics></math>.
+By construction
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>X</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>∅</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>∅</mi></mrow><annotation encoding="application/x-tex">\alpha_X(\emptyset) = \emptyset</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>X</mi></msub><mo>∘</mo><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">s</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">s</mi><mo stretchy="false" form="postfix">)</mo><mo>∘</mo><msub><mi>α</mi><mi>X</mi></msub></mrow><annotation encoding="application/x-tex">\alpha_X \circ M_{\mathrm{vN}}(\mathrm{s}) = M_{\mathrm{Z}}(\mathrm{s}) \circ \alpha_X</annotation></semantics></math>,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+is a natural transformation by <a href="#prop:hom-as-nat"
+data-reference-type="ref+Label" data-reference="prop:hom-as-nat">22</a>.
+It is bijective on carriers, hence an isomorphism. Set-theoretic
+non-equality follows from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\{\emptyset,\{\emptyset\}\} \in M_{\mathrm{vN}}(X)</annotation></semantics></math>
+but
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo>∉</mo><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\{\emptyset,\{\emptyset\}\} \notin M_{\mathrm{Z}}(X)</annotation></semantics></math>
+(and vice versa for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\{\{\emptyset\}\}\}</annotation></semantics></math>). ◻</p>
+</div>
+<div class="remark">
+<p><em>Remark 30</em> (The Benacerraf situation). <a
+href="#prop:vN-Z-iso" data-reference-type="ref+Label"
+data-reference="prop:vN-Z-iso">29</a> is a finite, fully verifiable
+instance of Benacerraf’s identification problem <span class="citation"
+data-cites="Benacerraf1965"></span>: two structurally identical models
+that disagree on every set-membership question (“Is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>∅</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\{\emptyset\} \in 2</annotation></semantics></math>?”
+is true in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><annotation encoding="application/x-tex">M_{\mathrm{vN}}</annotation></semantics></math>,
+false in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">M_{\mathrm{Z}}</annotation></semantics></math>).
+The structuralist conclusion: such questions are not arithmetic; they
+are encoding-relative.</p>
+</div>
+<h2 id="definable-answers-agree">Definable answers agree</h2>
+<div id="thm:agreement" class="theorem">
+<p><strong>Theorem 31</strong> (Agreement of numerical invariants).
+<em>For every definable invariant
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-models
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>
+(or in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>
+via cardinality),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I(M_{\mathrm{vN}}) = I(M_{\mathrm{Z}})</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> By <a href="#prop:vN-Z-iso"
+data-reference-type="ref+Label" data-reference="prop:vN-Z-iso">29</a>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>≅</mo><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">M_{\mathrm{vN}} \cong M_{\mathrm{Z}}</annotation></semantics></math>.
+By <a href="#thm:invariance" data-reference-type="ref+Label"
+data-reference="thm:invariance">26</a>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I(M_{\mathrm{vN}}) \cong I(M_{\mathrm{Z}})</annotation></semantics></math>.
+For invariants taking values in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>
+(cardinalities, orbit lengths, fixed-point counts), an isomorphism in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>
+is equality. ◻</p>
+</div>
+<p>The Haskell implementation in <a href="#sec:haskell"
+data-reference-type="ref+Label" data-reference="sec:haskell">11</a>
+performs this verification computationally: it builds both models, an
+isomorphism between them, and a panel of definable invariants, and
+checks term-by-term that the computed values agree.</p>
+<h1 id="sec:morphisms">Morphisms of Models in Algebra</h1>
+<p>The framework of <a href="#sec:functorial"
+data-reference-type="ref+Label" data-reference="sec:functorial">4</a>
+extends to richer algebraic theories. We collect three illustrative
+cases.</p>
+<h2 id="ring-homomorphisms">Ring homomorphisms</h2>
+<p>The Lawvere theory
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">g</mi></mrow></msub><annotation encoding="application/x-tex">T_{\mathrm{ring}}</annotation></semantics></math>
+has signature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>+</mi><mo>,</mo><mi>−</mi><mo>,</mo><mi>⋅</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0, 1, +, -, \cdot\}</annotation></semantics></math>
+and the standard ring axioms. A morphism of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">g</mi></mrow></msub><annotation encoding="application/x-tex">T_{\mathrm{ring}}</annotation></semantics></math>-models
+is a ring homomorphism: a function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>R</mi><mo>→</mo><msup><mi>R</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">f : R \to R&#39;</annotation></semantics></math>
+with
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0</mn><mo>,</mo><mspace width="1.0em"></mspace><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>,</mo><mspace width="1.0em"></mspace><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>+</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="1.0em"></mspace><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>⋅</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">f(0) = 0, \quad f(1) = 1, \quad f(x + y) = f(x) + f(y), \quad f(x \cdot y) = f(x) \cdot f(y).</annotation></semantics></math>
+The structural invariants of a ring (commutativity, characteristic,
+dimension as a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℤ</mi><annotation encoding="application/x-tex">\mathbb{Z}</annotation></semantics></math>-module,
+prime spectrum,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>-theory)
+are preserved by isomorphism. Specifically,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℤ</mi><annotation encoding="application/x-tex">\mathbb{Z}</annotation></semantics></math>
+is initial in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">g</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(T_{\mathrm{ring}})</annotation></semantics></math>:
+there is a unique ring homomorphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">ℤ</mi><mo>→</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">\mathbb{Z}\to R</annotation></semantics></math>
+for any ring
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>,
+and it is the structural identification of integers inside
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>.</p>
+<div class="example">
+<p><strong>Example 32</strong> (Integers in a finite ring). Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mi mathvariant="double-struck">ℤ</mi><mi>/</mi><mn>12</mn><mi mathvariant="double-struck">ℤ</mi></mrow><annotation encoding="application/x-tex">R = \mathbb{Z}/12\mathbb{Z}</annotation></semantics></math>.
+The unique morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ι</mi><mo>:</mo><mi mathvariant="double-struck">ℤ</mi><mo>→</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">\iota : \mathbb{Z}\to R</annotation></semantics></math>
+is the canonical projection. The image
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ι</mi><mo stretchy="false" form="prefix">(</mo><mn>58</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>58</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>12</mn></mrow><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">\iota(58) = 58 \bmod 12 = 10</annotation></semantics></math>
+is the structural representative of
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>”
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>.
+Different rings give different representatives; the structural invariant
+is the function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>↦</mo><msub><mi>ι</mi><mi>R</mi></msub><mo stretchy="false" form="prefix">(</mo><mn>58</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">R \mapsto \iota_R(58)</annotation></semantics></math>,
+which is a natural transformation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ι</mi><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mn>58</mn><mo stretchy="false" form="postfix">)</mo><mo>:</mo><mn>1</mn><mo>⇒</mo><mi>U</mi></mrow><annotation encoding="application/x-tex">\iota(-)(58) : 1 \Rightarrow U</annotation></semantics></math>
+(where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>:</mo><mrow><mi mathvariant="bold-italic">𝑹</mi><mi mathvariant="bold-italic">𝒊</mi><mi mathvariant="bold-italic">𝒏</mi><mi mathvariant="bold-italic">𝒈</mi></mrow><mo>→</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">U : \mathbf{Ring}\to \mathbf{Set}</annotation></semantics></math>
+is the underlying-set functor).</p>
+</div>
+<h2 id="ordered-field-embeddings">Ordered field embeddings</h2>
+<p>The theory of ordered fields has signature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>+</mi><mo>,</mo><mi>−</mi><mo>,</mo><mi>⋅</mi><mo>,</mo><msup><mrow></mrow><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo>,</mo><mo>&lt;</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0, 1, +, -, \cdot, {}^{-1}, &lt;\}</annotation></semantics></math>
+and corresponding axioms. Morphisms are order-preserving field
+embeddings. The real numbers
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>
+are characterized as the unique (up to canonical isomorphism)
+Dedekind-complete ordered field, and any ordered-field morphism
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi mathvariant="double-struck">ℝ</mi><mo>→</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">f : \mathbb{R}\to F</annotation></semantics></math>
+is necessarily an embedding (because
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>
+preserves order and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>
+has no proper Dedekind cuts of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℚ</mi><annotation encoding="application/x-tex">\mathbb{Q}</annotation></semantics></math>).</p>
+<div id="prop:R-uniqueness" class="proposition">
+<p><strong>Proposition 33</strong>. <em>Any two Dedekind-complete
+ordered fields are uniquely isomorphic, and the unique isomorphism
+preserves the constants
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>π</mi><mo>,</mo><mi>e</mi><mo>,</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">0, 1, \pi, e, \dots</annotation></semantics></math>
+as structural invariants.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof sketch.</em> The order and field operations determine
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℚ</mi><annotation encoding="application/x-tex">\mathbb{Q}</annotation></semantics></math>
+inside any ordered field; Dedekind completion of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℚ</mi><annotation encoding="application/x-tex">\mathbb{Q}</annotation></semantics></math>
+inside the field gives a copy of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>;
+the order-preserving map between two such copies is forced by the
+universal property of Dedekind completion. ◻</p>
+</div>
+<h2 id="group-homomorphisms-and-conjugacy-invariants">Group
+homomorphisms and conjugacy invariants</h2>
+<p>The theory
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">p</mi></mrow></msub><annotation encoding="application/x-tex">T_{\mathrm{grp}}</annotation></semantics></math>
+has signature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>e</mi><mo>,</mo><mi>⋅</mi><mo>,</mo><msup><mrow></mrow><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{e, \cdot, {}^{-1}\}</annotation></semantics></math>
+and group axioms. A morphism of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">p</mi></mrow></msub><annotation encoding="application/x-tex">T_{\mathrm{grp}}</annotation></semantics></math>-models
+is a group homomorphism. The structural invariants are: order, exponent,
+abelianization, conjugacy class structure, character table (for finite
+groups). The cardinality
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>G</mi><mo stretchy="false" form="prefix">|</mo><mo>∈</mo><mi mathvariant="double-struck">ℕ</mi></mrow><annotation encoding="application/x-tex">|G| \in \mathbb{N}</annotation></semantics></math>
+is the simplest such invariant; the character table
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>χ</mi><mi>G</mi></msub><annotation encoding="application/x-tex">\chi_G</annotation></semantics></math>
+is a much richer one.</p>
+<div class="remark">
+<p><em>Remark 34</em> (Character tables and isospectrality). Two
+non-isomorphic groups can share the same character table; this rare
+phenomenon (the simplest example being a pair of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-groups
+of order
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>p</mi><mn>5</mn></msup><annotation encoding="application/x-tex">p^5</annotation></semantics></math>
+for some prime
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>)
+shows that the character table is a genuine but <em>partial</em>
+structural invariant. It distinguishes most groups but does not separate
+all isomorphism classes. The structuralist program does not require that
+one invariant separate all classes; it requires only that every
+invariant respect isomorphism.</p>
+</div>
+<h1 id="sec:topos">Models, Theories, and Toposes</h1>
+<h2 id="etcs-and-categorical-foundations">ETCS and categorical
+foundations</h2>
+<p>Lawvere’s Elementary Theory of the Category of Sets (ETCS, 1964 <span
+class="citation" data-cites="Lawvere1964"></span>) reformulates set
+theory as a first-order axiomatization of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>
+as a (well-pointed) topos with a natural-numbers object (NNO) and
+choice. It is a categorical foundation: structural at its core because
+the axioms refer only to the categorical relations (terminal object,
+products, exponentials, subobject classifier, NNO).</p>
+<div class="definition">
+<p><strong>Definition 35</strong> (Topos). A <em>topos</em> is a
+category with finite limits, exponentials, and a subobject classifier
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>.
+A topos has all the categorical structure needed to interpret
+higher-order logic.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 36</strong> (NNO in a topos). A
+<em>natural-numbers object</em> in a topos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>
+is an object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>:</mo><mn>1</mn><mo>→</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">0 : 1 \to N</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">s</mi><mo>:</mo><mi>N</mi><mo>→</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">\mathrm{s}: N \to N</annotation></semantics></math>
+such that for every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, x_0, f)</annotation></semantics></math>
+there is a unique
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>:</mo><mi>N</mi><mo>→</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">h : N \to X</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>∘</mo><mn>0</mn><mo>=</mo><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">h \circ 0 = x_0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>∘</mo><mi mathvariant="normal">s</mi><mo>=</mo><mi>f</mi><mo>∘</mo><mi>h</mi></mrow><annotation encoding="application/x-tex">h \circ \mathrm{s}= f \circ h</annotation></semantics></math>.</p>
+</div>
+<div class="theorem">
+<p><strong>Theorem 37</strong> (Lawvere). <em>ETCS is bi-interpretable
+with bounded Zermelo set theory plus a choice principle. Any model of
+ETCS contains a unique-up-to-isomorphism NNO, which serves as “the”
+natural numbers.</em></p>
+</div>
+<h2 id="models-in-toposes">Models in toposes</h2>
+<p>A model of an algebraic theory in a topos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>
+is a finite-product-preserving functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">𝒯</mi><mo>→</mo><mi mathvariant="script">ℰ</mi></mrow><annotation encoding="application/x-tex">\mathcal{T}\to \mathcal{E}</annotation></semantics></math>.
+Different toposes give different “universes” in which to interpret
+arithmetic, but the structural invariants survive.</p>
+<div class="example">
+<p><strong>Example 38</strong> (Sheaves). Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">ℰ</mi><mo>=</mo><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">h</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{E}= \mathrm{Sh}(X)</annotation></semantics></math>,
+the topos of sheaves on a topological space. A
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-model
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>
+is a sheaf of pointed unary structures. Locally these look like ordinary
+models in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>;
+globally they encode parameter dependence.</p>
+</div>
+<div class="example">
+<p><strong>Example 39</strong> (Effective topos). Hyland’s effective
+topos <span class="citation" data-cites="Hyland1982"></span> is a topos
+in which the NNO carries a different “computability” structure:
+morphisms
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>→</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">N \to N</annotation></semantics></math>
+are exactly the computable functions. The arithmetic invariants of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+(cardinality, orbit structure of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">s</mi><annotation encoding="application/x-tex">\mathrm{s}</annotation></semantics></math>)
+coincide with those of the standard model, but the morphism structure is
+richer.</p>
+</div>
+<h2 id="ultraproducts-and-non-standard-models">Ultraproducts and
+non-standard models</h2>
+<p>First-order Peano arithmetic
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="sans-serif">𝖯</mi><mi mathvariant="sans-serif">𝖠</mi></mrow><annotation encoding="application/x-tex">\mathsf{PA}</annotation></semantics></math>)
+is weaker than the categorical NNO: it has non-standard models, in
+particular ultrapowers
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="double-struck">ℕ</mi><mi>ω</mi></msup><mi>/</mi><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">\mathbb{N}^{\omega}/\mathcal{U}</annotation></semantics></math>
+for non-principal ultrafilters
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>.
+These models satisfy every first-order arithmetic sentence true in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>,
+but contain “infinite” elements.</p>
+<div class="theorem">
+<p><strong>Theorem 40</strong> (Łoś’ theorem). <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>
+be an ultrafilter on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+and let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>M</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>∈</mo><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(M_i)_{i \in I}</annotation></semantics></math>
+be a family of models of a first-order theory
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+The ultraproduct
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∏</mo><msub><mi>M</mi><mi>i</mi></msub><mi>/</mi><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">\prod M_i / \mathcal{U}</annotation></semantics></math>
+satisfies a first-order sentence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math>
+iff
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>i</mi><mo>:</mo><msub><mi>M</mi><mi>i</mi></msub><mo>⊨</mo><mi>φ</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">\{i : M_i \models \varphi\} \in \mathcal{U}</annotation></semantics></math>.</em></p>
+</div>
+<div class="remark">
+<p><em>Remark 41</em>. The categorical / NNO perspective forbids
+non-standard models: the universal property uniquely determines
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+(up to canonical isomorphism). The first-order PA perspective admits
+them. The structuralist response: non-standard models satisfy a
+different theory than full second-order PA, and they should be analyzed
+as a different (richer) structure, not as “alternative natural
+numbers”.</p>
+</div>
+<div class="example">
+<p><strong>Example 42</strong> (Ultrapower and the standard cut). Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>
+be a non-principal ultrafilter on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+and let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="double-struck">ℕ</mi><mo>*</mo></msup><mo>=</mo><msup><mi mathvariant="double-struck">ℕ</mi><mi>ω</mi></msup><mi>/</mi><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">\mathbb{N}^* = \mathbb{N}^\omega/\mathcal{U}</annotation></semantics></math>.
+The map
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ι</mi><mo>:</mo><mi mathvariant="double-struck">ℕ</mi><mo>→</mo><msup><mi mathvariant="double-struck">ℕ</mi><mo>*</mo></msup></mrow><annotation encoding="application/x-tex">\iota : \mathbb{N}\to \mathbb{N}^*</annotation></semantics></math>
+sending
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>↦</mo><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo>,</mo><mi>n</mi><mo>,</mo><mi>n</mi><mo>,</mo><mi>…</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">n \mapsto [n, n, n, \dots]</annotation></semantics></math>
+is an embedding of structures, but its image is a proper initial segment
+(the “standard cut”) of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi mathvariant="double-struck">ℕ</mi><mo>*</mo></msup><annotation encoding="application/x-tex">\mathbb{N}^*</annotation></semantics></math>.
+The structural invariants of the standard cut — cardinality, orbit
+structure of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">s</mi><annotation encoding="application/x-tex">\mathrm{s}</annotation></semantics></math>,
+the order-type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+— coincide with those of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>
+itself; the “new” elements of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi mathvariant="double-struck">ℕ</mi><mo>*</mo></msup><annotation encoding="application/x-tex">\mathbb{N}^*</annotation></semantics></math>
+form a non-trivial extension that is consistent with first-order PA but
+not with the categorical NNO universal property. Thus the categorical /
+structural perspective explains <em>why</em> non-standard models exist
+(PA is too weak to pin down
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>
+up to isomorphism) and <em>why</em> we discount them when speaking of
+“the” natural numbers (the structural invariants we care about live on
+the standard part).</p>
+</div>
+<div class="remark">
+<p><em>Remark 43</em> (Skolem’s paradox). The same phenomenon underlies
+Skolem’s paradox: the Löwenheim–Skolem theorem produces countable models
+of ZFC even though ZFC proves the existence of uncountable sets. The
+resolution is that “uncountable” is not absolute — it depends on which
+model’s notion of bijection one uses. Structural invariants of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℕ</mi><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℝ</mi><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math>
+(cardinality, definable subsets, etc.) are model-relative for
+first-order theories, and only become absolute when the theory pins down
+the model up to isomorphism (as second-order PA and the categorical NNO
+do).</p>
+</div>
+<h1 id="sec:yoneda">The Yoneda Embedding and Universal Properties</h1>
+<p>We pause to record how Yoneda and universal properties (the topics of
+papers 03 and 04 of this series) sit inside the structural
+perspective.</p>
+<div class="theorem">
+<p><strong>Theorem 44</strong> (Yoneda lemma). <em>For any locally small
+category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>,
+object
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>,
+and functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>:</mo><msup><mi mathvariant="script">𝒞</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>→</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">F : \mathcal{C}^\mathrm{op}\to \mathbf{Set}</annotation></semantics></math>,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow><mo stretchy="false" form="prefix">(</mo><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mi mathvariant="script">𝒞</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>F</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\mathrm{Nat}(\mathrm{Hom}_\mathcal{C}(-, A), F) \cong F(A).</annotation></semantics></math></em></p>
+</div>
+<div class="corollary">
+<p><strong>Corollary 45</strong> (Yoneda embedding is fully faithful).
+<em>The functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>:</mo><mi mathvariant="script">𝒞</mi><mo>→</mo><mo stretchy="false" form="prefix">[</mo><msup><mi mathvariant="script">𝒞</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>,</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">y : \mathcal{C}\to [\mathcal{C}^\mathrm{op}, \mathbf{Set}]</annotation></semantics></math>
+sending
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>↦</mo><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mi mathvariant="script">𝒞</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">A \mapsto \mathrm{Hom}_\mathcal{C}(-, A)</annotation></semantics></math>
+is fully faithful:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mi mathvariant="script">𝒞</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>,</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mrow><mi mathvariant="normal">N</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>y</mi><mi>A</mi><mo>,</mo><mi>y</mi><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}_\mathcal{C}(A, B) \cong\mathrm{Nat}(yA, yB)</annotation></semantics></math>.</em></p>
+</div>
+<div id="cor:id-by-rel" class="corollary">
+<p><strong>Corollary 46</strong> (Identity by relations).
+<em><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>≅</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A \cong B</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal{C}</annotation></semantics></math>
+iff
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mi>A</mi><mo>≅</mo><mi>y</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">yA \cong yB</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><msup><mi mathvariant="script">𝒞</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>,</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[\mathcal{C}^\mathrm{op}, \mathbf{Set}]</annotation></semantics></math>,
+iff
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}(-, A) \cong\mathrm{Hom}(-, B)</annotation></semantics></math>
+as presheaves.</em></p>
+</div>
+<p><a href="#cor:id-by-rel" data-reference-type="ref+Label"
+data-reference="cor:id-by-rel">46</a> is the Yoneda formulation of
+structuralism: an object is determined (up to canonical isomorphism) by
+its system of incoming maps.
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>”
+is its representable functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">H</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">m</mi></mrow><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mo>,</mo><mn>58</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Hom}_{\operatorname{Mod}(T_\mathrm{s})}(-, 58)</annotation></semantics></math>
+in the category of finite cyclic-or-linear successor structures.</p>
+<div class="proposition">
+<p><strong>Proposition 47</strong> (Universal properties are
+structural). <em>Any object characterized by a universal property is
+determined up to canonical isomorphism. Therefore, the value of any
+property of universally characterized objects depends only on the
+isomorphism class.</em></p>
+</div>
+<p>The categorical / structural perspective of <a href="#sec:functorial"
+data-reference-type="ref+Label" data-reference="sec:functorial">4</a>
+and the Yoneda perspective of <a href="#sec:yoneda"
+data-reference-type="ref+Label" data-reference="sec:yoneda">8</a> agree:
+both say that mathematical content is preserved by isomorphism and that
+this is the right level of identity.</p>
+<h1 id="sec:transport">Equivalence-Invariance and Transport</h1>
+<p>We now reach the bridge between the categorical / structural
+perspective and HoTT. The key technical fact is that HoTT — the
+type-theoretic side of the Curry–Howard–Lambek correspondence <span
+class="citation" data-cites="Wadler2015"></span> — validates an internal
+version of <a href="#prop:struct-iso" data-reference-type="ref+Label"
+data-reference="prop:struct-iso">14</a> and <a href="#thm:invariance"
+data-reference-type="ref+Label" data-reference="thm:invariance">26</a>:
+the <em>structure identity principle</em> (SIP).</p>
+<h2 id="univalence">Univalence</h2>
+<div class="definition">
+<p><strong>Definition 48</strong> (Univalence axiom, Voevodsky <span
+class="citation" data-cites="Voevodsky2010 HoTTBook"></span>). For types
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>,</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A, B</annotation></semantics></math>
+in a universe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒰</mi><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math>,
+the canonical map
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">q</mi><mi mathvariant="normal">v</mi></mrow><mo>:</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><msub><mo>=</mo><mi mathvariant="script">𝒰</mi></msub><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>≃</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{idtoeqv} : (A =_{\mathcal{U}} B) \to (A \simeq B)</annotation></semantics></math>
+is itself an equivalence.</p>
+</div>
+<p>Univalence asserts that “equality of types” and “equivalence of
+types” are themselves equivalent: any equivalence can be transported
+into an identification, and any identification gives back the
+corresponding equivalence.</p>
+<div class="theorem">
+<p><strong>Theorem 49</strong> (Transport). <em>Given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>:</mo><mi mathvariant="script">𝒰</mi><mo>→</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">P : \mathcal{U} \to \mathcal{U}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>:</mo><mi>A</mi><msub><mo>=</mo><mi mathvariant="script">𝒰</mi></msub><mi>B</mi></mrow><annotation encoding="application/x-tex">p : A =_\mathcal{U} B</annotation></semantics></math>,
+there is a function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">t</mi></mrow><mi>P</mi></msup><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo>:</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{transport}^P(p) : P(A) \to P(B)</annotation></semantics></math>.
+Moreover,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">t</mi></mrow><mi>P</mi></msup><mo stretchy="false" form="prefix">(</mo><msub><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">l</mi></mrow><mi>A</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">d</mi></mrow><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">\mathrm{transport}^P(\mathrm{refl}_A) = \mathrm{id}_{P(A)}</annotation></semantics></math>.</em></p>
+</div>
+<h2 id="structure-identity-principle">Structure identity principle</h2>
+<div id="thm:sip" class="theorem">
+<p><strong>Theorem 50</strong> (Structure identity principle, schematic
+form). <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>
+be a notion of structure (e.g. a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-model
+in HoTT) defined by a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>-type
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Σ</mi><mrow><mi>X</mi><mo>:</mo><mi mathvariant="script">𝒰</mi></mrow></msub><mspace width="0.167em"></mspace><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\Sigma_{X : \mathcal{U}}\, F(X)</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+is a structure of finite signature on the carrier
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>.
+Then identification of structures is canonically equivalent to
+structure-preserving equivalence of carriers:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><msub><mo>=</mo><mrow><msub><mi mathvariant="normal">Σ</mi><mi>X</mi></msub><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow></msub><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mo>′</mo></msup><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>≃</mo><mspace width="0.278em"></mspace><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><msub><mi mathvariant="normal">Σ</mi><mrow><mi>f</mi><mo>:</mo><mi>X</mi><mo>≃</mo><msup><mi>X</mi><mo>′</mo></msup></mrow></msub><mspace width="0.167em"></mspace><mi>f</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> preserves </mtext><mspace width="0.333em"></mspace></mrow><mi>s</mi><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\big( (X, s) =_{\Sigma_{X} F(X)} (X&#39;, s&#39;) \big) \;\simeq\; \big(\Sigma_{f : X \simeq X&#39;}\, f \text{ preserves } s, s&#39; \big).</annotation></semantics></math></em></p>
+</div>
+<div class="remark">
+<p><em>Remark 51</em>. <a href="#thm:sip"
+data-reference-type="ref+Label" data-reference="thm:sip">50</a> is
+proved level-by-level for set-level structures in the HoTT Book <span
+class="citation" data-cites="HoTTBook"></span>, Chapter 9, and
+generalized to higher levels by Coquand–Danielsson and others <span
+class="citation" data-cites="Escardo2019"></span>. It says: in HoTT, two
+structures of the same kind are equal iff they are isomorphic in the
+structure-preserving sense.</p>
+</div>
+<div id="thm:transport-inv" class="theorem">
+<p><strong>Theorem 52</strong> (Equivalence-invariance /
+transportability). <em>In HoTT, every property
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>:</mo><mi mathvariant="script">𝒮</mi><mo>→</mo><mi mathvariant="script">𝒰</mi></mrow><annotation encoding="application/x-tex">P : \mathcal{S} \to \mathcal{U}</annotation></semantics></math>
+of structures of a given kind
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒮</mi><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math>
+is automatically invariant under structure-preserving equivalence: if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><msub><mo>≃</mo><mi mathvariant="script">𝒮</mi></msub><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mo>′</mo></msup><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(X, s) \simeq_\mathcal{S} (X&#39;, s&#39;)</annotation></semantics></math>
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>≃</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mo>′</mo></msup><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X, s) \simeq P(X&#39;, s&#39;)</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> By <a href="#thm:sip" data-reference-type="ref+Label"
+data-reference="thm:sip">50</a>, structure-preserving equivalence is
+identification. By the action of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>
+on identifications (the J-rule, alias path induction), identifications
+are transported by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>.
+Combine. ◻</p>
+</div>
+<p><a href="#thm:transport-inv" data-reference-type="ref+Label"
+data-reference="thm:transport-inv">52</a> is the internal counterpart of
+the meta-theoretic <a href="#prop:struct-iso"
+data-reference-type="ref+Label" data-reference="prop:struct-iso">14</a>.
+Where the latter says “one ought to write only structural definitions”
+as a methodological discipline, the former says “every definition you
+can write is structural” as a theorem of the foundations. Univalence is
+the principle that promotes the meta-condition into an internal one.</p>
+<h2 id="the-bridge-to-synthesis">The bridge to synthesis</h2>
+<p>We can summarize the relationship as follows.</p>
+<div id="tab:four-layers">
+<table>
+<caption>Four layers of one principle.</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Layer</strong></th>
+<th style="text-align: left;"><strong>Statement</strong></th>
+<th style="text-align: left;"><strong>Status</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Categorical / structural</td>
+<td style="text-align: left;">Structural properties are
+iso-invariant</td>
+<td style="text-align: left;">Meta-theorem (<a href="#prop:struct-iso"
+data-reference-type="ref+Label"
+data-reference="prop:struct-iso">14</a>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Universal property</td>
+<td style="text-align: left;">Iso-class is canonical</td>
+<td style="text-align: left;">Theorem (NNO uniqueness)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Yoneda</td>
+<td style="text-align: left;">Object known by relations</td>
+<td style="text-align: left;">Theorem (Yoneda lemma)</td>
+</tr>
+<tr>
+<td style="text-align: left;">HoTT + univalence</td>
+<td style="text-align: left;">Iso-invariance is automatic</td>
+<td style="text-align: left;">Internal (<a href="#thm:transport-inv"
+data-reference-type="ref+Label"
+data-reference="thm:transport-inv">52</a>)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The synthesis paper develops <a href="#tab:four-layers"
+data-reference-type="ref+Label" data-reference="tab:four-layers">4</a>
+in detail; we record here only that the four rows describe the same fact
+(“mathematical content is structural”) with progressively stronger
+guarantees.</p>
+<h1 id="sec:categorification">Categorification and
+Decategorification</h1>
+<h2 id="from-sets-to-groupoids">From sets to groupoids</h2>
+<div class="definition">
+<p><strong>Definition 53</strong> (Groupoid). A <em>groupoid</em> is a
+category in which every morphism is invertible.</p>
+</div>
+<div class="definition">
+<p><strong>Definition 54</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_0</annotation></semantics></math>,
+set of connected components). For a groupoid
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pi_0(G)</annotation></semantics></math>
+is the set of isomorphism classes of objects.</p>
+</div>
+<div id="ex:58-groupoid" class="example">
+<p><strong>Example 55</strong>. Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>G</mi><mn>58</mn></msub><annotation encoding="application/x-tex">G_{58}</annotation></semantics></math>
+be a groupoid with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>
+objects
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0, 1, \dots, 57\}</annotation></semantics></math>
+and only identity morphisms. Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>G</mi><mn>58</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo stretchy="false" form="postfix">}</mo><mo>,</mo><mi>…</mi><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mn>57</mn><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\pi_0(G_{58}) = \{\{0\}, \dots, \{57\}\}</annotation></semantics></math>,
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>-element
+set. Cardinality is preserved:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>G</mi><mn>58</mn></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>58</mn></mrow><annotation encoding="application/x-tex">|\pi_0(G_{58})| = 58</annotation></semantics></math>.</p>
+</div>
+<div class="example">
+<p><strong>Example 56</strong> (A connected groupoid with one
+component). Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>G</mi><mrow><mi>B</mi><mi mathvariant="double-struck">ℤ</mi><mi>/</mi><mi>n</mi><mi mathvariant="double-struck">ℤ</mi></mrow></msub><annotation encoding="application/x-tex">G_{B\mathbb{Z}/n\mathbb{Z}}</annotation></semantics></math>
+be the groupoid with one object and automorphism group
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">ℤ</mi><mi>/</mi><mi>n</mi><mi mathvariant="double-struck">ℤ</mi></mrow><annotation encoding="application/x-tex">\mathbb{Z}/n\mathbb{Z}</annotation></semantics></math>.
+Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>G</mi><mrow><mi>B</mi><mi mathvariant="double-struck">ℤ</mi><mi>/</mi><mi>n</mi><mi mathvariant="double-struck">ℤ</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pi_0(G_{B\mathbb{Z}/n\mathbb{Z}})</annotation></semantics></math>
+is a one-element set.</p>
+</div>
+<h2 id="cardinality-of-groupoids">Cardinality of groupoids</h2>
+<p>For finite groupoids, a finer invariant than
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|\pi_0|</annotation></semantics></math>
+is the <em>groupoid cardinality</em> <span class="citation"
+data-cites="BaezDolan1998 Leinster2008"></span>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>G</mi><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub><mo>=</mo><munder><mo>∑</mo><mrow><mo stretchy="false" form="prefix">[</mo><mi>x</mi><mo stretchy="false" form="postfix">]</mo><mo>∈</mo><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo></mrow></munder><mfrac><mn>1</mn><mrow><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">t</mi></mrow><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">|G|_{\mathrm{gpd}} = \sum_{[x] \in \pi_0(G)} \frac{1}{|\mathrm{Aut}(x)|}.</annotation></semantics></math></p>
+<div class="example">
+<p><strong>Example 57</strong>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>G</mi><mn>58</mn></msub><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub><mo>=</mo><mn>58</mn></mrow><annotation encoding="application/x-tex">|G_{58}|_{\mathrm{gpd}} = 58</annotation></semantics></math>,
+since each automorphism group is trivial.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>G</mi><mrow><mi>B</mi><mi mathvariant="double-struck">ℤ</mi><mi>/</mi><mi>n</mi><mi mathvariant="double-struck">ℤ</mi></mrow></msub><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub><mo>=</mo><mn>1</mn><mi>/</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">|G_{B\mathbb{Z}/n\mathbb{Z}}|_{\mathrm{gpd}} = 1/n</annotation></semantics></math>,
+decategorifying to a rational invariant.</p>
+</div>
+<h2
+id="decategorification-euler-characteristic-k-theory">Decategorification,
+Euler characteristic,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>-theory</h2>
+<p>Decategorification is a general process of descending from
+higher-dimensional structure to numerical content:</p>
+<ul>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_0</annotation></semantics></math>
+from groupoids to sets (and then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>⋅</mi><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|\cdot|</annotation></semantics></math>
+to cardinals);</p></li>
+<li><p>Euler characteristic
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>χ</mi><annotation encoding="application/x-tex">\chi</annotation></semantics></math>
+from CW-complexes to integers;</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>K</mi><mn>0</mn></msub><annotation encoding="application/x-tex">K_0</annotation></semantics></math>
+from a triangulated category to its Grothendieck group.</p></li>
+</ul>
+<div id="def:euler-gpd" class="definition">
+<p><strong>Definition 58</strong> (Euler characteristic of finite
+groupoids). For a finite groupoid
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>,
+the <em>Euler characteristic</em> is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>χ</mi><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mi>G</mi><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\chi(G) = |G|_{\mathrm{gpd}}</annotation></semantics></math>.</p>
+</div>
+<div class="theorem">
+<p><strong>Theorem 59</strong> (Decategorification preserves
+equivalence). <em>Equivalent groupoids
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>≃</mo><msup><mi>G</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">G \simeq G&#39;</annotation></semantics></math>
+satisfy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><msup><mi>G</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pi_0(G) \cong\pi_0(G&#39;)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>G</mi><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><msup><mi>G</mi><mo>′</mo></msup><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">|G|_{\mathrm{gpd}} = |G&#39;|_{\mathrm{gpd}}</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Equivalences induce bijections on isomorphism
+classes, hence equal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_0</annotation></semantics></math>
+and equal sums in the cardinality formula. ◻</p>
+</div>
+<h2 id="numbers-in-physics">Numbers in physics</h2>
+<p>The same invariance principle reappears in physics. Gauge invariants
+and conserved quantities are exactly those numbers preserved under the
+symmetries of a system; what survives a gauge transformation is
+structural content, what fails to survive is gauge artifact.</p>
+<div class="example">
+<p><strong>Example 60</strong>. Mass, charge, energy, momentum, angular
+momentum, spin: each is a Noether-conserved quantity associated to a
+symmetry of the action functional. The conserved quantity is the
+structural invariant; the dynamical trajectory is the
+representation.</p>
+</div>
+<div class="example">
+<p><strong>Example 61</strong> (Spin as a representation-theoretic
+invariant). The total spin
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+of a quantum-mechanical particle is the index of an irreducible
+representation of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">U</mi></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{SU}(2)</annotation></semantics></math>.
+Two systems whose Hilbert-space representations of the rotation group
+are isomorphic carry the same spin:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+is an invariant of the representation, not of any concrete realization.
+This is the same structuralist move applied at a different sort of
+theory — a theory of representations of a Lie group rather than of a
+Lawvere theory.</p>
+</div>
+<div class="remark">
+<p><em>Remark 62</em>. The structuralist principle “numbers are
+invariants” is therefore not specific to mathematics. It is the same
+idea that physics calls <em>gauge invariance</em>, that representation
+theory calls <em>character / dimension / trace</em>, and that K-theory
+calls <em>stable equivalence class</em>. In each case the formal
+apparatus differs, but the conceptual move is the same: discard the
+representation-dependent content; retain only the structural
+content.</p>
+</div>
+<h2 id="beyond-decategorification-counting-beyond-cardinality">Beyond
+decategorification: counting beyond cardinality</h2>
+<p>Decategorification can carry more refined information than ordinary
+cardinality. We collect three increasingly fine invariants extracted
+from a (suitable) finite groupoid
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>:</p>
+<ol>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo>∈</mo><mi mathvariant="double-struck">ℕ</mi></mrow><annotation encoding="application/x-tex">|\pi_0(G)| \in \mathbb{N}</annotation></semantics></math>
+— the number of isomorphism classes of objects;</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>G</mi><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub><mo>∈</mo><msub><mi mathvariant="double-struck">ℚ</mi><mrow><mo>≥</mo><mn>0</mn></mrow></msub></mrow><annotation encoding="application/x-tex">|G|_{\mathrm{gpd}} \in \mathbb{Q}_{\geq 0}</annotation></semantics></math>
+— the groupoid cardinality, weighted by automorphism group
+orders;</p></li>
+<li><p>the homotopy type of the geometric realization
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|N(G)|</annotation></semantics></math>
+— a topological invariant containing all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mi>n</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pi_n(G)</annotation></semantics></math>.</p></li>
+</ol>
+<div class="example">
+<p><strong>Example 63</strong> (Combinatorial species and exponential
+generating functions). A combinatorial species is a functor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">F</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">t</mi></mrow><mrow><mi mathvariant="normal">b</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">j</mi></mrow></msub><mo>→</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">\mathrm{FinSet}_{\mathrm{bij}} \to \mathbf{Set}</annotation></semantics></math>.
+Its exponential generating function is the sum
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><munder><mo>∑</mo><mrow><mi>n</mi><mo>≥</mo><mn>0</mn></mrow></munder><mo stretchy="false" form="prefix">|</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo><mo stretchy="false" form="postfix">)</mo><mi>/</mi><msub><mi>S</mi><mi>n</mi></msub><mo stretchy="false" form="prefix">|</mo><mspace width="0.167em"></mspace><mfrac><msup><mi>z</mi><mi>n</mi></msup><mrow><mi>n</mi><mi>!</mi></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">F(z) = \sum_{n \geq 0} |F([n])/S_n| \, \frac{z^n}{n!},</annotation></semantics></math>
+encoding all the species’ counting data as a power series. The series is
+invariant under natural isomorphism of species: two equivalent species
+give the same EGF.</p>
+</div>
+<div class="theorem">
+<p><strong>Theorem 64</strong> (Invariance of decategorification).
+<em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo>:</mo><msub><mrow><mi mathvariant="bold-italic">𝑮</mi><mi mathvariant="bold-italic">𝒑</mi><mi mathvariant="bold-italic">𝒅</mi></mrow><mrow><mi mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></msub><mo>→</mo><mi mathvariant="script">ℰ</mi></mrow><annotation encoding="application/x-tex">\Phi : \mathbf{Gpd}_{\mathrm{fin}} \to \mathcal{E}</annotation></semantics></math>
+be any functor from the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>-category
+of finite groupoids to a category
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>.
+For equivalent groupoids
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>≃</mo><msup><mi>G</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">G \simeq G&#39;</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mi mathvariant="normal">Φ</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>G</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\Phi(G) \cong\Phi(G&#39;)</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℰ</mi><annotation encoding="application/x-tex">\mathcal{E}</annotation></semantics></math>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Φ</mi><annotation encoding="application/x-tex">\Phi</annotation></semantics></math>
+sends equivalences (which are the morphisms of the underlying
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>-groupoid
+of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mi mathvariant="bold-italic">𝑮</mi><mi mathvariant="bold-italic">𝒑</mi><mi mathvariant="bold-italic">𝒅</mi></mrow><mrow><mi mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></msub><annotation encoding="application/x-tex">\mathbf{Gpd}_{\mathrm{fin}}</annotation></semantics></math>)
+to isomorphisms. ◻</p>
+</div>
+<p>The previous theorem subsumes all the decategorification examples:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>⋅</mi><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">|\cdot|_{\mathrm{gpd}}</annotation></semantics></math>,
+Euler characteristic,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>K</mi><mn>0</mn></msub><annotation encoding="application/x-tex">K_0</annotation></semantics></math>
+are each instances of this invariance.</p>
+<h1 id="sec:haskell">Haskell Implementation</h1>
+<p>The accompanying code at <code>src/06-categorical-structural/</code>
+provides a runnable demonstration of the central theorem. We summarize
+the key data:</p>
+<ul>
+<li><p><code>Theory.hs</code>: the data type for a Lawvere theory and
+its operations (constants, unaries).</p></li>
+<li><p><code>Model.hs</code>: a record type representing a model in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>,
+with a carrier and interpretations of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">z</mi><annotation encoding="application/x-tex">\mathrm{z}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">s</mi><annotation encoding="application/x-tex">\mathrm{s}</annotation></semantics></math>.
+Provides <code>isHomomorphism</code> and
+<code>areIsomorphic</code>.</p></li>
+<li><p><code>Models.hs</code>: builds two finite
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-models
+on disjoint carrier types and an isomorphism witnessing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><mo>≅</mo><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub></mrow><annotation encoding="application/x-tex">M_{\mathrm{vN}} \cong M_{\mathrm{Z}}</annotation></semantics></math>.</p></li>
+<li><p><code>Invariants.hs</code>: a panel of definable invariants
+(cardinality, orbit length of zero, fixed-point count, image of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi mathvariant="normal">s</mi><mi>k</mi></msup><annotation encoding="application/x-tex">\mathrm{s}^k</annotation></semantics></math>
+at zero for various
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>).</p></li>
+<li><p><code>Main.hs</code>: instantiates the panel against both models
+and prints a side-by-side agreement table.</p></li>
+</ul>
+<p>A representative listing:</p>
+<div class="sourceCode" id="cb1" data-language="Haskell"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Two models with different carriers but same structure</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">modelVN  ::</span> <span class="dt">Model</span> <span class="dt">VNNum</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">modelZ   ::</span> <span class="dt">Model</span> <span class="dt">ZNum</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">isoVNtoZ ::</span> <span class="dt">VNNum</span> <span class="ot">-&gt;</span> <span class="dt">ZNum</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">isoZtoVN ::</span> <span class="dt">ZNum</span>  <span class="ot">-&gt;</span> <span class="dt">VNNum</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Cardinality vN  : &quot;</span> <span class="op">++</span> <span class="fu">show</span> (cardinality modelVN)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Cardinality Z   : &quot;</span> <span class="op">++</span> <span class="fu">show</span> (cardinality modelZ)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Orbit-of-zero vN: &quot;</span> <span class="op">++</span> <span class="fu">show</span> (orbitLen   modelVN)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Orbit-of-zero Z : &quot;</span> <span class="op">++</span> <span class="fu">show</span> (orbitLen   modelZ)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Each invariant agrees, witnessing Theorem 4.5</span></span></code></pre></div>
+<p>The code performs the verification: every numerical invariant
+computed against
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>M</mi><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">N</mi></mrow></msub><annotation encoding="application/x-tex">M_{\mathrm{vN}}</annotation></semantics></math>
+matches the corresponding invariant computed against
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>M</mi><mi mathvariant="normal">Z</mi></msub><annotation encoding="application/x-tex">M_{\mathrm{Z}}</annotation></semantics></math>,
+exactly as predicted by <a href="#thm:invariance,thm:agreement"
+data-reference-type="ref+Label"
+data-reference="thm:invariance,thm:agreement">[thm:invariance,thm:agreement]</a>.</p>
+<h1 id="sec:results">Results</h1>
+<p>We collect the principal results of the paper.</p>
+<div class="theorem">
+<p><strong>Theorem 65</strong> (Main, restatement). <em>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒯</mi><annotation encoding="application/x-tex">\mathcal{T}</annotation></semantics></math>
+be a Lawvere theory and let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>,</mo><msup><mi>M</mi><mo>′</mo></msup><mo>:</mo><mi mathvariant="script">𝒯</mi><mo>→</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">M, M&#39; : \mathcal{T}\to \mathbf{Set}</annotation></semantics></math>
+be two models. If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>≅</mo><msup><mi>M</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">M \cong M&#39;</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(\mathcal{T})</annotation></semantics></math>,
+then for every definable invariant
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+(<a href="#def:def-inv" data-reference-type="ref+Label"
+data-reference="def:def-inv">23</a>),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I(M) \cong I(M&#39;)</annotation></semantics></math>.
+In the special case
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">ℰ</mi><mo>=</mo><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow></mrow><annotation encoding="application/x-tex">\mathcal{E}= \mathbf{Set}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I(M)</annotation></semantics></math>
+a finite set,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>M</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|I(M)| = |I(M&#39;)|</annotation></semantics></math>.</em></p>
+</div>
+<div class="theorem">
+<p><strong>Theorem 66</strong> (Concrete instance). <em>The von Neumann
+and Zermelo finite ordinals up to height
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>4</mn><annotation encoding="application/x-tex">4</annotation></semantics></math>
+are isomorphic as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-models
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>
+but not equal as sets in ZFC. Every numerical invariant agrees on both.
+This agreement is verified computationally by the Haskell implementation
+in <a href="#sec:haskell" data-reference-type="ref+Label"
+data-reference="sec:haskell">11</a>.</em></p>
+</div>
+<div class="theorem">
+<p><strong>Theorem 67</strong> (HoTT promotion, restatement of <a
+href="#thm:transport-inv" data-reference-type="ref+Label"
+data-reference="thm:transport-inv">52</a>). <em>In HoTT with the
+univalence axiom, every property
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>
+of structures of a given kind is automatically invariant under
+structure-preserving equivalence. Hence the meta-theoretic discipline of
+writing only structural definitions becomes the internal theorem “every
+definition is structural”.</em></p>
+</div>
+<div class="theorem">
+<p><strong>Theorem 68</strong> (Decategorification preserves
+invariants). <em>For finite groupoids
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>≃</mo><msup><mi>G</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">G \simeq G&#39;</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo><mo>≅</mo><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><msup><mi>G</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pi_0(G) \cong\pi_0(G&#39;)</annotation></semantics></math>
+as sets,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>π</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><msup><mi>G</mi><mo>′</mo></msup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|\pi_0(G)| = |\pi_0(G&#39;)|</annotation></semantics></math>
+as natural numbers, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>G</mi><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><msup><mi>G</mi><mo>′</mo></msup><msub><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">|G|_{\mathrm{gpd}} = |G&#39;|_{\mathrm{gpd}}</annotation></semantics></math>
+as rational numbers.</em></p>
+</div>
+<h1 id="sec:discussion">Discussion</h1>
+<h2 id="implications">Implications</h2>
+<p>The invariance theorem (<a href="#thm:invariance"
+data-reference-type="ref+Label" data-reference="thm:invariance">26</a>)
+is technically modest — it says functors send isomorphisms to
+isomorphisms — but its philosophical force is large. Combined with <a
+href="#prop:struct-iso" data-reference-type="ref+Label"
+data-reference="prop:struct-iso">14</a>, it cashes out the structuralist
+slogan “numbers are positions” in a fully formal way: a position in a
+structure is exactly a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="script">𝒯</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(\mathcal{T})</annotation></semantics></math>-invariant
+of finite power, and
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>58</mn><annotation encoding="application/x-tex">58</annotation></semantics></math>”
+picks out the same thing in any model up to canonical isomorphism.</p>
+<p>In HoTT (<a href="#sec:transport" data-reference-type="ref+Label"
+data-reference="sec:transport">9</a>), the same principle is
+internalized: the meta-condition becomes a theorem. This is one of the
+two senses in which univalence is foundational: it eliminates the gap
+between “structural in principle” and “provably structural”.</p>
+<h2 id="alternative-categorical-foundations">Alternative categorical
+foundations</h2>
+<p>ETCS is not the only category-theoretic foundation for mathematics;
+it is the one closest to traditional set theory in expressive power.
+Other proposals deserve mention:</p>
+<ul>
+<li><p><strong>ETCS / well-pointed topos with NNO and
+choice</strong> <span class="citation" data-cites="Lawvere1964"></span>:
+a first-order axiomatization of the category of sets. Bi-interpretable
+with bounded Zermelo set theory plus choice.</p></li>
+<li><p><strong>SEAR (sets, elements, and relations)</strong>: a
+Lawvere-style structural set theory developed by Shulman, organized
+around relations rather than functions.</p></li>
+<li><p><strong>FOLDS (first-order logic with dependent sorts)</strong>:
+Makkai’s framework in which equality between objects of distinct sorts
+is not a well-formed formula, automatically enforcing structural
+invariance.</p></li>
+<li><p><strong>HoTT / Univalent Foundations</strong> <span
+class="citation" data-cites="HoTTBook"></span>: dependent type theory
+with the univalence axiom, in which structural invariance is a theorem
+of the foundations rather than a syntactic discipline.</p></li>
+</ul>
+<p>A common thread runs through all four: the formal apparatus is set up
+so that one cannot — or at least, one should not — formulate a
+non-structural property. Where ETCS achieves this by using only
+categorical primitives, FOLDS by sort discipline, and HoTT by
+univalence, the philosophical content is the same: only structural
+content is mathematically meaningful.</p>
+<h2 id="limitations">Limitations</h2>
+<p>We have presented the structural perspective at the level of finite
+Lawvere theories interpreted in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">𝑺</mi><mi mathvariant="bold-italic">𝒆</mi><mi mathvariant="bold-italic">𝒕</mi></mrow><annotation encoding="application/x-tex">\mathbf{Set}</annotation></semantics></math>.
+The full strength of the perspective requires:</p>
+<ul>
+<li><p>finite-product theories with sorts (multi-sorted Lawvere
+theories), which suffice for first-order universal algebra;</p></li>
+<li><p>finite-limit theories (essentially algebraic theories), which
+suffice for partial operations like division;</p></li>
+<li><p>topos-theoretic semantics for full first-order logic (geometric /
+coherent theories);</p></li>
+<li><p>dependent type theories (Martin-Löf, HoTT) for the most
+expressive case.</p></li>
+</ul>
+<p>The invariance principle survives at every level: the categorical
+content of the principle does not depend on the size of the theory.</p>
+<h2 id="connection-to-the-synthesis">Connection to the synthesis</h2>
+<p>This is paper
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>06</mn><annotation encoding="application/x-tex">06</annotation></semantics></math>
+of a six-paper series. The synthesis paper consolidates the per-topic
+results into a single thesis: that the levels in <a href="#tab:columns"
+data-reference-type="ref+Label" data-reference="tab:columns">1</a> (rows
+3–6) are not analogous but literally the same, identified up to
+equivalence, in HoTT with univalence. The present paper has prepared the
+ground for that consolidation by:</p>
+<ol>
+<li><p>supplying the formal version of structuralism (functorial
+semantics);</p></li>
+<li><p>proving the invariance theorem on which the consolidation
+depends;</p></li>
+<li><p>identifying univalence as the principle that promotes the
+invariance from a meta-theorem to an internal theorem.</p></li>
+</ol>
+<h1 id="sec:conclusion">Conclusion</h1>
+<p>A number is what survives every change of representation that
+preserves the structure. We have made this slogan precise: numbers are
+definable invariants of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-models,
+equivalently functors from the underlying groupoid of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Mod</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Mod}(T_\mathrm{s})</annotation></semantics></math>
+to whatever target category one chooses to extract numerical content
+into. Two models that are isomorphic as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi mathvariant="normal">s</mi></msub><annotation encoding="application/x-tex">T_\mathrm{s}</annotation></semantics></math>-models
+give the same answer to every such question. The Haskell code makes the
+principle executable for the von Neumann / Zermelo example.</p>
+<p>The deeper claim is that this principle is the same one that
+universal properties express, that the Yoneda embedding internalizes,
+and that HoTT with univalence makes literal: structural identity is
+identity. The synthesis paper develops the consequences.</p>
+<h2 class="unnumbered" id="future-work">Future work</h2>
+<p>Three directions deserve attention:</p>
+<ol>
+<li><p><em>Higher Lawvere theories:</em> extend the functorial-semantics
+framework to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>∞</mi><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\infty,1)</annotation></semantics></math>-Lawvere
+theories and verify that the invariance theorem persists at every level
+of homotopy.</p></li>
+<li><p><em>Modal structuralism in HoTT:</em> formalize Hellman’s modal
+structuralism using the modalities of HoTT (open / closed / monadic
+modalities) and compare to the absolute version.</p></li>
+<li><p><em>Decategorification of physical theories:</em> apply the
+invariance lens to gauge theories and conserved quantities, and clarify
+the relationship between structural invariance and Noether’s
+theorem.</p></li>
+</ol>
+<div class="thebibliography">
+<p><span>99</span></p>
+<p>Awodey, S. (1996). <em>Structure in Mathematics and Logic: A
+Categorical Perspective</em>. Philosophia Mathematica, 4(3),
+209–237.</p>
+<p>Awodey, S. (2004). <em>An Answer to Hellman’s Question: “Does
+Category Theory Provide a Framework for Mathematical
+Structuralism?”</em> Philosophia Mathematica, 12(1), 54–64.</p>
+<p>Awodey, S. (2014). <em>Structuralism, Invariance, and
+Univalence</em>. Philosophia Mathematica, 22(1), 1–11.</p>
+<p>Benacerraf, P. (1965). <em>What Numbers Could Not Be</em>.
+Philosophical Review, 74(1), 47–73.</p>
+<p>Dedekind, R. (1888). <em>Was sind und was sollen die Zahlen?</em>
+Vieweg &amp; Sohn, Braunschweig.</p>
+<p>Escardó, M. H. (2019). <em>Introduction to Univalent Foundations of
+Mathematics with Agda</em>. Lecture notes.</p>
+<p>Hellman, G. (1989). <em>Mathematics Without Numbers: Towards a
+Modal-Structural Interpretation</em>. Oxford University Press.</p>
+<p>The Univalent Foundations Program (2013). <em>Homotopy Type Theory:
+Univalent Foundations of Mathematics</em>. Institute for Advanced Study.
+arXiv:1308.0729.</p>
+<p>Hyland, J. M. E. (1982). <em>The Effective Topos</em>. In:
+A. S. Troelstra, D. van Dalen (eds.), The L. E. J. Brouwer Centenary
+Symposium, North-Holland, 165–216.</p>
+<p>Lawvere, F. W. (1963). <em>Functorial Semantics of Algebraic
+Theories</em>. PhD thesis, Columbia University. Reprinted in TAC
+Reprints 5 (2004).</p>
+<p>Lawvere, F. W. (1964). <em>An Elementary Theory of the Category of
+Sets</em>. Proceedings of the National Academy of Sciences, 52(6),
+1506–1511.</p>
+<p>Mac Lane, S. (1971). <em>Categories for the Working
+Mathematician</em>. Springer.</p>
+<p>Resnik, M. D. (1981). <em>Mathematics as a Science of Patterns:
+Ontology and Reference</em>. Noûs, 15(4), 529–550.</p>
+<p>Resnik, M. D. (1997). <em>Mathematics as a Science of Patterns</em>.
+Oxford University Press.</p>
+<p>Riehl, E. (2016). <em>Category Theory in Context</em>. Dover.</p>
+<p>Shapiro, S. (1997). <em>Philosophy of Mathematics: Structure and
+Ontology</em>. Oxford University Press.</p>
+<p>Voevodsky, V. (2010). <em>Univalent Foundations Project</em>.
+Manuscript.</p>
+<p>Wadler, P. (2015). <em>Propositions as Types</em>. Communications of
+the ACM, 58(12), 75–84.</p>
+<p>Baez, J. C., and Dolan, J. (1998). <em>From Finite Sets to Feynman
+Diagrams</em>. In: Mathematics Unlimited — 2001 and Beyond, Springer,
+29–50.</p>
+<p>Leinster, T. (2008). <em>The Euler Characteristic of a Category</em>.
+Documenta Mathematica, 13, 21–49.</p>
+</div>

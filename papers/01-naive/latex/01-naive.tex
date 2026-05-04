@@ -1,0 +1,1274 @@
+\documentclass[12pt]{article}
+
+% Core math
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{stmaryrd} % \llbracket, \rrbracket
+
+% Tables with paragraph-style cells
+\usepackage{tabularx}
+
+% Diagrams
+\usepackage{tikz-cd}
+\usepackage{tikz}
+
+% References
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+% Graphics
+\usepackage{graphicx}
+
+% Code listings
+\usepackage{listings}
+
+% Page layout
+\usepackage[margin=1in]{geometry}
+
+% GrokRxiv sidebar (uses modern LaTeX shipout/background hook)
+\usepackage{xcolor}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% GrokRxiv sidebar definition (first page only)
+\definecolor{grokgray}{RGB}{110,110,110}
+\AddToHook{shipout/background}{%
+  \ifnum\value{page}=1
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[
+        rotate=90,
+        anchor=south,
+        font=\Large\sffamily\bfseries\color{grokgray},
+        inner sep=0pt
+      ] at ([xshift=38pt, yshift=0.52\paperheight]current page.south west)
+      {GrokRxiv:2026.05.naive-perspective-numbers\quad
+       [\,math.HO\,]\quad
+       03 May 2026};
+    \end{tikzpicture}
+  \fi
+}
+
+% Listings styling
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  breaklines=true,
+  showstringspaces=false,
+  frame=single,
+  framesep=4pt
+}
+
+\title{The Naive Perspective: \\ Numbers as Symbols and Quantities \\
+\large Paper I of the Univalent Correspondence Series}
+
+\author{YonedaAI Research \\
+\textit{Univalent Correspondence Working Group} \\
+\textit{Independent Research Collective} \\
+\texttt{research@yonedaai.com}}
+
+\date{3 May 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This is the first paper in a six-part series, plus synthesis, on what we call
+the \emph{Univalent Correspondence}: six perspectives on what a natural number
+``is''. Across the series we proceed from the naive level (this paper),
+through set-theoretic encoding, universal property, the Yoneda perspective,
+Homotopy Type Theory (HoTT), and the categorical/structural view, before
+unifying the latter four under Voevodsky's univalence axiom. The present
+paper occupies the \emph{naive} or pre-formal level, where a number is at
+once a symbol (``58'', \textsf{LVIII}, \texttt{||||\,||||}) and a quantity
+(the cardinality of a counted collection). We treat numerals as syntax and
+the underlying number as semantics, and we trace this distinction through
+the historical arc that runs from Mill's empiricism, Husserl's phenomenology
+of arithmetic, and Frege's critique of psychologism, into Benacerraf's
+identification problem. We argue that the naive level is simultaneously
+\emph{insufficient}---because of symbol/object confusion, the multiplicity
+of equally adequate representations, and a foundational underdetermination
+that already foreshadows the structuralist response---and \emph{indispensable},
+because it is the interface where embodied counting, finger arithmetic,
+and culturally transmitted numeral systems anchor mathematical content in
+human cognition. We close by showing that the naive level is precisely
+where the structuralist's question, ``what role does this object play?'',
+first arises, thereby motivating each of the five formal levels developed
+in subsequent papers. We also provide a small Haskell artifact demonstrating
+the syntax-semantics distinction by parsing four numeral systems (Hindu-Arabic,
+Roman, tally, Babylonian sexagesimal) into a single structural normal form.
+\end{abstract}
+
+\tableofcontents
+\bigskip
+
+\section{Introduction}
+\label{sec:introduction}
+
+\subsection{The question}
+
+What is the number~58? On the page in front of you it is two glyphs, ``5''
+and ``8''. In a Roman inscription it is the four-glyph sequence
+\textsf{LVIII}. On a tally sheet kept by a shepherd it is fifty-eight scratches.
+In Babylonian sexagesimal cuneiform it is a single wedge cluster meaning
+``58''. Each of these is unambiguously a way of writing 58, and yet they share
+no graphical features, no spelling, no length. Whatever 58 \emph{is}, it
+cannot be any one of these inscriptions, for it survives translation between
+all of them.
+
+This paper is about the level of mathematical reflection at which one notices
+this fact for the first time. We call this the \emph{naive} level, in the
+technical, non-pejorative sense of being prior to formal axiomatization. It
+is the level of the schoolchild learning to count, of the merchant tallying
+goods, of the cuneiform scribe, and of every adult human who knows the
+arithmetical facts of daily life without ever having read a definition of
+the natural numbers. We will argue that this level is, at the same time,
+deeply inadequate as a foundation and absolutely indispensable as a
+phenomenology. The tension between these two claims sets up the entire
+remainder of the series.
+
+\subsection{Place in the series}
+
+The series of which this paper is the first instalment is organized around
+the following six-row table, which we will call the \emph{columns table}
+throughout:
+
+\begin{center}
+\begin{tabularx}{\textwidth}{l|X}
+\textbf{Level} & \textbf{What 58 \emph{is}} \\ \hline
+Naive & A symbol; a quantity \\
+Set-theoretic (von Neumann) & $\{0, 1, \ldots, 57\}$ \\
+Universal property & The 58th iteration of $\mathrm{succ}$ in any initial successor structure \\
+Yoneda & The representable functor $\mathrm{Hom}(-, 58)$ \\
+HoTT & A canonical term in the inductive type $\mathbb{N}$, up to path equivalence \\
+Categorical / structural & An invariant under structure-preserving morphisms of arithmetic \\
+\end{tabularx}
+\end{center}
+
+Subsequent papers will treat rows two through six in turn, and the synthesis
+paper will argue that rows three through six are, under the univalence
+axiom, literally---not metaphorically---the same theory viewed through
+different windows.
+
+The job of \emph{this} paper is to establish row one with care, both as a
+positive description of how mathematical content is normally encountered
+and as a critical diagnosis of why we cannot stop there.
+
+\subsection{Outline}
+
+\Cref{sec:numerals-syntax} surveys numeral systems, treating them as syntax,
+and articulates the syntax--semantics distinction in the form it takes at the
+naive level. \Cref{sec:counting-quantity} develops the dual aspect---numbers
+as quantities arising from counting and grouping---and connects this to
+embodied cognition. \Cref{sec:pre-fregean} traces the pre-Fregean intellectual
+history through Mill, Husserl, and Frege, with attention to Frege's critique
+of psychologism and his Sinn/Bedeutung distinction. \Cref{sec:insufficient}
+states three convergent reasons the naive level is insufficient as a
+foundation: the symbol/object confusion, multiplicity of representations,
+and Benacerraf's identification problem (anticipated already at the naive
+level). \Cref{sec:indispensable} argues conversely that the naive level is
+indispensable: counting, finger arithmetic, and embodied schemas are
+constitutive of the meaning of arithmetic, not optional pedagogical scaffolding.
+\Cref{sec:bridge} shows that the naive level is the natural locus for the
+structuralist's question, ``what role does this object play?'', and that
+this question is what every subsequent paper formalizes.
+\Cref{sec:results} states the principal results of the paper as theorems---a
+syntax/semantics adequacy lemma, a no-canonical-numeral theorem, and a
+naive Benacerraf principle. \Cref{sec:haskell} describes a small Haskell
+artifact that parses several numeral systems and reduces them all to a
+single structural normal form. \Cref{sec:discussion,sec:conclusion} reflect
+on connections and future work.
+
+\section{Mathematical Framework}
+\label{sec:framework}
+
+This paper is unusual within the series in that its mathematical framework
+is deliberately minimal: the entire point is to operate \emph{below} the
+threshold of axiomatic formalization. Nevertheless, we will need just enough
+formal language to say precisely what numerals are, what counting is, and
+what it means for two numerals to denote the same number. We collect this
+machinery here.
+
+\subsection{Numerals as words over a finite alphabet}
+
+\begin{definition}[Numeral system]
+\label{def:numeral-system}
+A \emph{numeral system} is a triple $\mathcal{N} = (\Sigma, L, \llbracket\,
+\cdot\, \rrbracket)$ where:
+\begin{enumerate}
+\item $\Sigma$ is a finite alphabet of \emph{glyphs};
+\item $L \subseteq \Sigma^*$ is a (possibly partial) language of well-formed
+\emph{numerals}; and
+\item $\llbracket\, \cdot\, \rrbracket : L \to \mathbb{N}$ is a
+\emph{denotation function} mapping each well-formed numeral to a natural
+number.
+\end{enumerate}
+We do not, at this stage, presuppose any particular formalization of
+$\mathbb{N}$; the codomain is the pretheoretic collection of natural
+numbers as understood by the practitioners of the system.
+\end{definition}
+
+\begin{example}[Hindu-Arabic decimal positional system]
+\label{ex:hindu-arabic}
+$\Sigma_{10} = \{0, 1, 2, \ldots, 9\}$, $L_{10}$ is the set of finite
+non-empty strings over $\Sigma_{10}$ with no leading $0$ except for the
+string ``$0$'' itself, and
+$\llbracket d_{n-1} d_{n-2} \cdots d_1 d_0 \rrbracket = \sum_{i=0}^{n-1}
+d_i \cdot 10^i$.
+\end{example}
+
+\begin{example}[Tally]
+\label{ex:tally}
+$\Sigma_{|} = \{\,|\,\}$, $L_{|} = \{\,|\,\}^*$ (all finite strings),
+$\llbracket s \rrbracket = $ the length of $s$. We will sometimes use
+``gate-five'' tally with a closing diagonal stroke; this changes
+$\Sigma_{|}$ but not the denotation.
+\end{example}
+
+\begin{example}[Roman]
+\label{ex:roman}
+$\Sigma_R = \{\,\textsf{I}, \textsf{V}, \textsf{X}, \textsf{L},
+\textsf{C}, \textsf{D}, \textsf{M}\,\}$ with the usual subtractive
+constraints determining $L_R$, and the standard semantics yielding
+$\llbracket \textsf{LVIII}\rrbracket = 58$.
+\end{example}
+
+\begin{example}[Babylonian sexagesimal]
+\label{ex:babylonian}
+A base-60 positional system using two cuneiform glyphs (one for ones, one
+for tens) to compose digits 1--59, with positional weights $60^i$. The
+historical absence of a true zero glyph in early Babylonian usage means
+$L$ is partial and ambiguity is resolved by context; modern transliterations
+add an explicit zero placeholder.
+\end{example}
+
+\subsection{Equivalence of numerals}
+
+\begin{definition}[Numeral equivalence]
+\label{def:numeral-equivalence}
+Two numerals $w_1 \in L_1$ and $w_2 \in L_2$ in possibly different numeral
+systems $\mathcal{N}_1, \mathcal{N}_2$ are \emph{equivalent}, written
+$w_1 \sim w_2$, iff $\llbracket w_1 \rrbracket_1 = \llbracket w_2
+\rrbracket_2$.
+\end{definition}
+
+\begin{remark}
+\label{rem:symbol-vs-number}
+Already in \cref{def:numeral-equivalence}, we have implicitly committed to
+a substantive thesis: that there is some target codomain in which
+$\llbracket w_1 \rrbracket_1$ and $\llbracket w_2 \rrbracket_2$ can be
+\emph{compared}. A consistently naive theorist who refuses any abstraction
+beyond the inscriptions themselves cannot even state when two numerals
+``mean the same thing''. The bare existence of \cref{def:numeral-equivalence}
+is therefore evidence that the naive level is not internally stable: as
+soon as one wishes to compare across numeral systems, one is reaching
+beyond pure syntax.
+\end{remark}
+
+\subsection{Counting as a function}
+
+\begin{definition}[Counting function]
+\label{def:counting}
+Let $X$ be a finite set whose elements are physically or conceptually
+individuable. A \emph{counting} of $X$ is a bijection $c : \{1, 2, \ldots,
+n\} \to X$ for some $n \in \mathbb{N}$. The number $n$ is called the
+\emph{cardinality} of $X$.
+\end{definition}
+
+\begin{remark}
+The \emph{availability} of \cref{def:counting} again presupposes more
+than the strictly naive theorist allows: it presupposes the natural numbers
+as an indexing device. We will return to this regress in
+\cref{sec:insufficient}.
+\end{remark}
+
+\section{Numerals as Syntax}
+\label{sec:numerals-syntax}
+
+\subsection{Positional, additive, and tally systems}
+
+The world's historical numeral systems can be roughly classified along two
+orthogonal axes: \emph{base} (the size of the radix used to bundle
+quantities) and \emph{principle} (positional vs.\ additive vs.\ pure tally).
+
+\paragraph{Tally.} The pure tally is base-1 in the sense that each unit
+contributes additively and there is no bundling. It is the simplest
+syntactic system one can imagine. Bone artifacts such as the Lebombo bone
+(c.\ 42{,}000 BCE) and the Ishango bone (c.\ 18{,}000--20{,}000 BCE) are
+typically interpreted as tallies.
+
+\paragraph{Additive systems.} Roman, Egyptian, and Greek alphabetic
+numerals are additive: distinct glyphs encode distinct values, and the
+value of a numeral is obtained (with local subtractive corrections) by
+summing the values of its glyphs. Such systems compress the tally---one
+glyph for ten, another for fifty, another for a hundred---without yet
+exploiting position.
+
+\paragraph{Positional systems.} The Babylonian sexagesimal system,
+Mesoamerican vigesimal systems, and the Hindu-Arabic decimal system are
+positional: a small alphabet of glyphs is reused at each ``place,'' and
+the place itself contributes a power of the base. Positional systems are
+exponentially more compact than additive ones in the length of the
+numeral required to denote a given number.
+
+\begin{proposition}[Compression by positionality]
+\label{prop:positional-compression}
+Let $b \geq 2$ be a base. A positional numeral system of base $b$ requires
+a numeral of length $\Theta(\log_b n)$ to denote $n$, whereas a pure tally
+system requires length $n$, and an additive system with $k$ glyphs of
+distinct values requires length $\Theta(n / v_{\max})$ where $v_{\max}$
+is the largest glyph value (asymptotically linear in $n$).
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+Standard. For positional, $n$ has $\lfloor \log_b n \rfloor + 1$ digits.
+For tally, length equals $n$. For additive, the optimal greedy
+representation uses $\Theta(n / v_{\max})$ tokens of the largest available
+glyph, plus $O(1)$ corrections.
+\end{proof}
+
+\subsection{Syntax versus semantics, naively stated}
+
+\begin{definition}[Naive syntax/semantics distinction]
+\label{def:naive-ss}
+Fix a numeral system $\mathcal{N} = (\Sigma, L, \llbracket\,\cdot\,\rrbracket)$.
+Then:
+\begin{itemize}
+\item the \emph{syntactic} content of a numeral $w$ is $w$ itself, the
+finite string of glyphs;
+\item the \emph{semantic} content is the value $\llbracket w \rrbracket$.
+\end{itemize}
+The fundamental observation of the naive level is that distinct syntactic
+strings can have identical semantic content---even \emph{within} one numeral
+system (e.g.\ \textsf{IIII} vs.\ \textsf{IV} in pre-medieval vs.\ medieval
+Roman usage)---and \emph{a fortiori} across systems.
+\end{definition}
+
+We emphasize that \cref{def:naive-ss} is a \emph{weak} version of the
+syntax/semantics distinction. The semantic codomain is the natural numbers
+treated as a primitive concept; we have not (yet) said what natural numbers
+are. The remaining papers in the series can each be read as offering a
+candidate filling of this gap.
+
+\subsection{Multiplicity and underdetermination}
+
+The fact that there are infinitely many numeral systems for the same
+underlying $\mathbb{N}$ is not a defect of any one system; it is a feature
+of the situation. But it generates a diagnostic question that returns
+again and again throughout the series: \emph{which features of the
+representation are essential to the number, and which are accidents of
+the inscription?} Phrasing this question already commits one to thinking
+of numbers as something \emph{other than} their inscriptions. We will see
+in \cref{sec:insufficient} that this is the first crack in the naive
+edifice.
+
+\section{Counting and Quantity}
+\label{sec:counting-quantity}
+
+\subsection{The dual aspect: number as quantity}
+
+The other face of the naive level is the use of numbers to express
+\emph{quantity}. A flock has 58 sheep; a sentence has 58 letters; a year
+has 365 days. The number-as-quantity face is older than any numeral
+system: archeological and ethnographic evidence of one-to-one correspondence
+between counted items and tally marks predates positional notation by tens
+of thousands of years.
+
+\begin{definition}[Naive cardinality, repeated for emphasis]
+\label{def:naive-cardinality}
+The \emph{cardinality} of a finite collection $X$ is the result of placing
+the elements of $X$ in one-to-one correspondence with an initial segment
+of the count sequence. In particular, two collections have the same
+cardinality iff they can be put into one-to-one correspondence with each
+other. We do not, at this stage, presuppose anywhere that this number
+``inhabits.''
+\end{definition}
+
+\begin{example}[Hume's principle, anticipated]
+\label{ex:hume}
+The following is sometimes called Hume's principle (after a remark in
+Hume's \emph{Treatise} I.iii.1): the number of $F$s equals the number of
+$G$s iff the $F$s and the $G$s can be put in one-to-one correspondence.
+This is the naive level's characterization of cardinal identity. Frege
+famously elevated it to a foundational role in his \emph{Grundlagen}
+(1884), and neologicism (Wright, Hale, Heck) takes it as definitionally
+sufficient for arithmetic.
+\end{example}
+
+\subsection{The count sequence and embodied cognition}
+
+The cognitive science literature documents that human and pre-linguistic
+infant counting relies on at least two distinct systems: a precise
+\emph{small number system} (subitizing, accurate up to about 4) and an
+approximate large number system whose Weber-fraction discriminability is
+roughly logarithmic. Numerals expand the precise system arbitrarily by
+piggy-backing on language and on culturally transmitted iteration schemes
+(``next, next, next''). Lakoff and N\'u\~nez argue that the count sequence
+itself is a conceptual metaphor grounded in embodied schemas: motion along
+a path, the iteration of grasping motions, the sequential pointing of a
+finger. We do not endorse all the metaphysics in their account, but we
+follow them on one thesis that we will need: \emph{the count sequence is
+not optional}. There is no human acquisition of arithmetic that bypasses
+the embodied count.
+
+\begin{remark}[Finger arithmetic]
+\label{rem:fingers}
+A working adult who has internalized the multiplication table to 9$\times$9
+typically retains traces of a finger-based representation, accessible as
+imagery if not in overt behavior. The Chinese ``Chisanbop'' technique and
+the Vedic Indian finger-counting traditions are explicit, mature systems
+in which finger configurations \emph{are} the numerals. They illustrate
+that the line between syntax (numerals as inscriptions) and embodied
+quantity (numbers as counted) is not where one might naively think it is:
+fingers are inscriptions on the body.
+\end{remark}
+
+\subsection{Counting as proto-induction}
+
+\begin{proposition}[Naive induction principle]
+\label{prop:naive-induction}
+Any property $P$ that (i) holds of an initial segment of the count
+sequence and (ii) is preserved when one passes from the current count to
+the next, holds of every count one will reach.
+\end{proposition}
+
+\begin{proof}[Discussion]
+At the naive level, this is not a theorem; it is the implicit principle
+that governs counting. ``Once you've counted that high, you can keep
+going.'' Formalizing this principle is the work of the universal-property
+paper (Paper III) and the HoTT paper (Paper V). What we record here is
+that the principle is already \emph{operative} at the naive level, in the
+sense that competent counters use it without knowing they are using it.
+\end{proof}
+
+\subsection{Quantity does not entail abstract object}
+
+A subtle but important observation. The naive use of numbers as quantities
+does not, by itself, commit one to numbers being objects. ``There are 58
+sheep'' may, on a deflationary reading, mean only that each of the 58
+sheep is a sheep and no further sheep is. This deflationary reading is
+internally consistent and, we believe, captures something real about how
+numbers function in the most everyday cases. But it cannot survive the
+move to \emph{arithmetic}---to facts of the form $58 = 2 \cdot 29$---without
+some non-trivial reification. We will return to this point in
+\cref{sec:insufficient}.
+
+\section{The Pre-Fregean and Early Fregean Background}
+\label{sec:pre-fregean}
+
+\subsection{Mill's empiricism}
+
+John Stuart Mill, in his \emph{System of Logic} (1843), Book II, Chapter
+VI, defended the view that arithmetical propositions are inductive
+generalizations from physical experience. ``$2 + 1 = 3$'' is, on his view,
+a generalization observed to hold whenever one combines a pair of pebbles
+with a single pebble. This view has the merit of explaining the
+applicability of arithmetic to the world, but it suffers from at least
+two well-known defects:
+\begin{enumerate}
+\item Arithmetical propositions appear necessary; inductive generalizations
+do not. We do not feel that ``$2+1=3$'' could fail in the way that ``every
+swan is white'' could fail.
+\item Arithmetical propositions apply to abstract and even imagined
+collections in exactly the way they apply to physical collections. The
+inductive base, on Mill's view, ought to be physical collections; the
+extension to abstracta then becomes mysterious.
+\end{enumerate}
+Frege made the criticism of Mill central in his \emph{Grundlagen} (1884),
+\S\S 7--10. We side with the orthodox post-Fregean reading on this, while
+recording that contemporary cognitive science (small-number system,
+approximate number system, neural representations of magnitude) gives
+Mill's account a partial vindication \emph{at the level of psychology}:
+something \emph{like} an empirical magnitude-sense is part of the
+acquisition story, even if it is not part of the justification story.
+
+\subsection{Husserl's phenomenology of arithmetic}
+
+Edmund Husserl's \emph{Philosophie der Arithmetik} (1891) attempted to
+ground arithmetic in mental acts of \emph{collective combination}: the
+mental act of bringing items together as a multiplicity. Frege's
+\emph{Review of Husserl} (1894) is one of the founding documents of
+analytic philosophy, and its central charge is \emph{psychologism}: the
+confusion of an objective content (a number, an arithmetical truth) with
+the subjective act by which a thinker entertains it. Husserl himself
+later moved away from this view; the mature Husserl (\emph{Logical
+Investigations}, 1900--01) accepts a sharp ideal/real distinction.
+
+\subsection{Frege's critique of psychologism}
+
+Frege's critique can be summarized as a slogan: \emph{the truth that $7$
+is prime does not depend on anyone's thinking it.} If it did, then by
+varying the thinker one would vary the truth, which is absurd. The same
+slogan re-purposed against the strict naive level says: \emph{the number
+58 cannot be the inscription ``58'',} for one and the same number is
+inscribed by many different glyph sequences.
+
+\begin{remark}[Sinn and Bedeutung]
+\label{rem:sinn-bedeutung}
+Frege's later distinction (\emph{\"Uber Sinn und Bedeutung}, 1892)
+between \emph{sense} (Sinn) and \emph{reference} (Bedeutung) is the
+mature articulation of the syntax/semantics distinction we have been
+developing. ``58'' and ``$2 \cdot 29$'' are different senses of the same
+referent. The naive level treats sense and reference as identical (or at
+least as undistinguished). Distinguishing them is one of the
+preconditions of all the formal levels to come.
+\end{remark}
+
+\subsection{Frege's logicism, briefly}
+
+Frege's positive program in the \emph{Grundlagen} and \emph{Grundgesetze}
+was to define numbers as extensions of certain second-order concepts:
+the number of $F$s is the extension of the concept ``equinumerous with
+$F$''. Russell's paradox showed that the unrestricted comprehension
+needed for such extensions is inconsistent. This is not the place to
+recount the recovery program (Russell's type theory, Zermelo's set
+theory, neologicism); we record only that Frege's specific reduction
+fails, while his \emph{methodological} thesis---that arithmetic is
+prior to and independent of psychology---is the orthodox view we take
+forward into the rest of the series.
+
+\section{Why the Naive Level is Insufficient}
+\label{sec:insufficient}
+
+We give three convergent arguments. They overlap, but each isolates a
+distinct failure mode.
+
+\subsection{The symbol/object confusion}
+
+\begin{theorem}[Symbol/object confusion theorem]
+\label{thm:symbol-object}
+There is no consistent way, working purely at the naive level, to identify
+a number with its inscription. In particular, if one assumes (i) that the
+glyph sequence ``58'' \emph{is} the number 58, and (ii) that
+$58 = \mathsf{LVIII}$, then one is forced to identify the glyph sequences
+``58'' and ``\textsf{LVIII}'', which are manifestly distinct.
+\end{theorem}
+
+\begin{proof}
+By transitivity of identity. If ``58'' $= 58$ and $58 = \mathsf{LVIII}$,
+then ``58'' $= \mathsf{LVIII}$. But the strings ``58'' and
+``\textsf{LVIII}'' are distinct strings of distinct glyphs over different
+alphabets. Contradiction.
+\end{proof}
+
+The argument is elementary, but it has weight. It shows that the very
+\emph{intelligibility} of equations like $58 = \mathsf{LVIII}$ requires
+distinguishing the number from any one of its inscriptions. The naive
+level is the level at which this distinction is not yet drawn; the rest
+of the series is the work of drawing it carefully.
+
+\subsection{Multiplicity of representations}
+
+\begin{theorem}[No-canonical-numeral theorem]
+\label{thm:no-canonical-numeral}
+There is no privileged numeral system. Specifically, for any finite set
+of numeral systems $\{\mathcal{N}_1, \ldots, \mathcal{N}_k\}$ each adequate
+for representing every natural number, there is a further numeral system
+$\mathcal{N}_{k+1}$, not equivalent to any $\mathcal{N}_i$ as a
+syntactic object, that is also adequate.
+\end{theorem}
+
+\begin{proof}
+Given $\mathcal{N}_1, \ldots, \mathcal{N}_k$, define $\mathcal{N}_{k+1}$
+as the positional system over base $b' = \max_i |\Sigma_i| + 1$. By
+construction, $|\Sigma_{k+1}| = b'$ exceeds the alphabet size of every
+$\mathcal{N}_i$, so $\mathcal{N}_{k+1}$ is not equivalent as a syntactic
+object to any of them. Adequacy is immediate from the standard properties
+of positional notation.
+\end{proof}
+
+\Cref{thm:no-canonical-numeral} is a syntactic version of a more famous
+theorem we will meet in Paper II:
+
+\subsection{Naive Benacerraf}
+
+\begin{theorem}[Naive Benacerraf principle]
+\label{thm:naive-benacerraf}
+Every numeral system $\mathcal{N}_i$ adequate for $\mathbb{N}$ is
+``equally good'' from the standpoint of arithmetic. Hence no
+$\mathcal{N}_i$ can be \emph{the} number system; numbers must be the
+common semantic content shared by all adequate $\mathcal{N}_i$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Let $\mathcal{N}_i, \mathcal{N}_j$ be adequate. For any
+arithmetical operation $\circ$ definable in both, one verifies that
+$\llbracket w_1 \circ w_2 \rrbracket_i = \llbracket w_1' \circ w_2'
+\rrbracket_j$ whenever $w_1 \sim w_1'$ and $w_2 \sim w_2'$, where $\sim$
+is the cross-system equivalence of \cref{def:numeral-equivalence}. This
+witnesses that $\mathcal{N}_i$ and $\mathcal{N}_j$ are interconvertible
+without arithmetical loss.
+\end{proof}
+
+\begin{remark}
+This is essentially Benacerraf's 1965 \emph{identification problem}
+``one floor down''. Benacerraf's problem asks why we should regard the
+von Neumann encoding as canonical when the Zermelo encoding is equally
+adequate. The naive Benacerraf principle observes the same multiplicity
+already at the level of numeral systems, before set theory is even
+brought in. Paper II will pursue Benacerraf at the set-theoretic level
+proper.
+\end{remark}
+
+\subsection{Convergence: numbers cannot be naive things}
+
+The three arguments above (symbol/object confusion, multiplicity of
+representations, naive Benacerraf) jointly establish:
+
+\begin{theorem}[Inadequacy of the naive level]
+\label{thm:naive-inadequate}
+A theory of arithmetic that identifies numbers with their inscriptions,
+or equivalently with any single privileged numeral system, cannot account
+for the existence of cross-system equations like $58 = \mathsf{LVIII}$.
+Therefore, numbers are not naively given things; they are something
+shared across all adequate inscriptions.
+\end{theorem}
+
+\begin{proof}
+Combine \cref{thm:symbol-object,thm:no-canonical-numeral,thm:naive-benacerraf}.
+\end{proof}
+
+\Cref{thm:naive-inadequate} is the negative result of the paper: the
+naive level cannot be the foundational level. The remainder of the
+series is the constructive search for what numbers \emph{are}, given
+that they are not their inscriptions.
+
+\section{Why the Naive Level is Indispensable}
+\label{sec:indispensable}
+
+The negative results of the previous section are sometimes overread, in
+the foundationalist literature, as showing that the naive level should be
+\emph{discarded} once the formal levels are in place. We disagree, and
+this section explains why.
+
+\subsection{Indispensability arguments}
+
+\begin{proposition}[Acquisition indispensability]
+\label{prop:acquisition}
+No human learns arithmetic without learning to count. The count sequence
+and the elementary numerals are the entry point into the entire
+mathematical edifice; no formal system of arithmetic has ever been
+acquired by anyone without first traversing the naive level.
+\end{proposition}
+
+\begin{proof}[Empirical sketch]
+This is an empirical claim, supported by the developmental psychology
+literature (Piaget, Gelman \& Gallistel, Carey). Mathematics education
+universally proceeds by way of numerals and counting; no curriculum
+introduces the Peano axioms or the natural number object first.
+\end{proof}
+
+\begin{proposition}[Application indispensability]
+\label{prop:application}
+Every application of arithmetic to the empirical world proceeds via
+counting. The bridge from the formal natural numbers to actual sheep,
+electrons, or seconds is provided by an act of counting (or its
+extension, measurement), which is a naive operation.
+\end{proposition}
+
+\begin{proof}[Discussion]
+A formalization of arithmetic gives the structural facts (e.g.\ that
+$58 = 2 \cdot 29$). It does not, by itself, tell us that there are 58
+sheep in the field. The latter requires an act of counting that connects
+the formal token to the empirical scene. Counting is irreducibly naive
+in our sense.
+\end{proof}
+
+\begin{proposition}[Pedagogical indispensability]
+\label{prop:pedagogical}
+The introduction of any of the formal levels (universal property,
+Yoneda, HoTT) presupposes facility with the naive level. The student
+who is to be taught the universal property of $\mathbb{N}$ must already
+know what $\mathbb{N}$ \emph{is intuitively}; the universal property
+purports to characterize what is being introduced, and the
+characterization is empty if the introduced object is not already
+familiar.
+\end{proposition}
+
+\subsection{The naive level as semantic anchor}
+
+The cumulative force of \cref{prop:acquisition,prop:application,%
+prop:pedagogical} is that the naive level is what \emph{makes the formal
+levels semantically non-empty}. A formal system is, considered abstractly,
+a manipulation of inscriptions according to rules. What gives it
+mathematical content is the connection to the naive practice it is
+designed to capture. This connection is not optional; it is constitutive.
+
+\begin{remark}[Compare: physical theories]
+\label{rem:physics-compare}
+This is similar in form to the role played in physics by operational
+definitions of measurement. A formal theory of mechanics is empty
+without the bridge laws that say what counts as a measurement of length,
+of time, of mass. The naive level of arithmetic plays the analogous
+bridging role between inscription-manipulation and quantitative content.
+\end{remark}
+
+\subsection{Insufficient and indispensable: not a paradox}
+
+The two main claims of the paper---that the naive level is insufficient
+(\cref{sec:insufficient}) and that it is indispensable
+(\cref{sec:indispensable})---are not in tension. They occupy different
+levels of analysis. The naive level is insufficient as a \emph{foundation}
+because it cannot answer foundational questions; it is indispensable as
+a \emph{phenomenology} because all foundational work begins from it and
+returns to it. The whole series should be read as taking this dual stance
+seriously: the formal levels do real foundational work, but they do so
+by way of, not by replacement of, the naive level.
+
+\section{Bridge to the Formal Levels: The Structuralist's Question}
+\label{sec:bridge}
+
+The diagnostic question that emerges from \cref{thm:naive-inadequate} is:
+if a number is not any of its inscriptions, what \emph{is} it? At the
+naive level, the natural answer is something like ``the number is what
+all these inscriptions have in common.'' Pressed for what they have in
+common, the naive theorist can offer only: the same place in the count
+sequence; the same arithmetical role.
+
+\begin{definition}[The structuralist's question]
+\label{def:structuralist-question}
+The \emph{structuralist's question}, asked of a putative mathematical
+object $X$, is: \emph{What role does $X$ play in the structure that
+contains it?}
+\end{definition}
+
+\begin{proposition}[The structuralist's question first arises naively]
+\label{prop:structuralist-naive}
+The structuralist's question is the natural follow-up to
+\cref{thm:naive-inadequate} as encountered at the naive level. Numbers
+are what their inscriptions share; what their inscriptions share is the
+arithmetical role; therefore, numbers are arithmetical roles.
+\end{proposition}
+
+This formulation is, of course, deeply unsatisfying as it stands. It
+trades on intuitive notions of ``role'' and ``share'' that have not been
+formalized. The five subsequent papers in the series can be read as
+five different formalizations of \cref{prop:structuralist-naive}:
+
+\begin{itemize}
+\item \textbf{Paper II (Set-theoretic).} A number's role is encoded by
+its membership profile in a chosen set-theoretic universe. Multiple
+encodings (von Neumann, Zermelo) instantiate the same role; their
+underdetermination is Benacerraf's identification problem.
+\item \textbf{Paper III (Universal property).} A number's role is its
+position in the initial successor structure $(\mathbb{N}, 0,
+\mathrm{succ})$, characterized by its universal property. The
+underdetermination of Paper II is dissolved.
+\item \textbf{Paper IV (Yoneda).} A number's role is its representable
+functor $\mathrm{Hom}(-, n)$. ``What role does $n$ play?'' becomes
+``what natural transformations land at $n$?''.
+\item \textbf{Paper V (HoTT).} A number's role is its identity (path)
+type within the inductive type $\mathbb{N}$. Univalence makes the
+role-identity equivalence native rather than merely modeled.
+\item \textbf{Paper VI (Categorical / structural).} A number's role
+is what is invariant under all structure-preserving morphisms of
+arithmetic.
+\end{itemize}
+
+The synthesis paper argues that, under univalence, papers III through
+VI are the same theory.
+
+\begin{remark}[The naive level is recovered, not erased]
+\label{rem:recovery}
+A subtle point. The structuralist's question, in any of its formal
+guises, gives a precise answer to ``what \emph{is} 58?'' But the answer
+is licensed by the naive level: it is licensed because the structural
+characterization \emph{recovers} the inscriptions and the counting practice
+in the right way. A formalization that gave the right structural answer
+but failed to recover the everyday use of ``58'' would be deficient as a
+theory of \emph{arithmetic} (whatever else it might be). The naive level
+is therefore not only a starting point but a constraint of adequacy on
+all the formalizations.
+\end{remark}
+
+\section{Results}
+\label{sec:results}
+
+We collect the principal results of the paper for ease of reference.
+
+\begin{theorem}[Symbol/object confusion]
+The strict identification of a number with any one of its inscriptions
+is inconsistent with the existence of cross-system equations.
+(\cref{thm:symbol-object})
+\end{theorem}
+
+\begin{theorem}[No-canonical-numeral]
+There is no privileged numeral system; for any finite set of adequate
+numeral systems there is a further adequate system not equivalent as a
+syntactic object to any of them. (\cref{thm:no-canonical-numeral})
+\end{theorem}
+
+\begin{theorem}[Naive Benacerraf principle]
+All adequate numeral systems are interconvertible without arithmetical
+loss; numbers are the shared semantic content of all of them.
+(\cref{thm:naive-benacerraf})
+\end{theorem}
+
+\begin{theorem}[Inadequacy of the naive level]
+A theory that identifies numbers with their inscriptions, or with any
+single privileged numeral system, cannot underwrite cross-system
+arithmetic. (\cref{thm:naive-inadequate})
+\end{theorem}
+
+\begin{proposition}[Indispensability of the naive level]
+The naive level is constitutive of (a) acquisition of arithmetic, (b)
+application of arithmetic, and (c) pedagogical introduction of formal
+arithmetic. (Combination of \cref{prop:acquisition,prop:application,%
+prop:pedagogical}.)
+\end{proposition}
+
+\begin{proposition}[Naive emergence of structuralism]
+The structuralist's question, ``what role does $n$ play?'', arises
+naturally from the inadequacy of the naive level and is the unifying
+question of papers II through VI. (\cref{prop:structuralist-naive})
+\end{proposition}
+
+\section{The Haskell Artifact}
+\label{sec:haskell}
+
+To illustrate the syntax/semantics distinction concretely we provide a
+small Haskell program that parses numerals in four systems---decimal,
+Roman, tally, and a simplified Babylonian sexagesimal---and reduces them
+all to a single structural normal form, namely a Peano natural number.
+
+The program is intentionally minimal. Its purpose is not industrial
+parsing but illustration of the following correspondence: distinct
+syntactic constructors (the parsers) feed a single semantic constructor
+(the normal form). What we model in code is exactly the diagram
+
+\[
+\begin{array}{ccc}
+\text{numeral} & \xrightarrow{\;\text{parse}\;} & \text{semantic value (Peano natural)}
+\end{array}
+\]
+with several different parsers and one shared codomain. We then test that
+\textsf{LVIII}, \texttt{58}, a tally of $58$ strokes (i.e.\
+\texttt{||||\dots||||} with $58$ vertical bars), and the sexagesimal
+$(58, 0)$ all reduce to the same Peano value.
+
+\subsection{Module structure}
+
+The artifact is split into the following modules:
+\begin{itemize}
+\item \texttt{Naive.Peano}: the structural normal form (Peano naturals)
+and basic arithmetic.
+\item \texttt{Naive.Decimal}: a Hindu-Arabic decimal parser.
+\item \texttt{Naive.Roman}: a Roman numeral parser handling subtractive
+notation.
+\item \texttt{Naive.Tally}: a tally parser.
+\item \texttt{Naive.Babylonian}: a simplified base-60 parser.
+\item \texttt{Main}: tests that all four parsers agree on a fixed sample.
+\end{itemize}
+The full source is at \texttt{src/01-naive/} in the project repository.
+
+\subsection{The shared codomain}
+
+\begin{lstlisting}[language=Haskell]
+data Peano = Z | S Peano deriving (Eq, Show)
+
+fromInt :: Int -> Peano
+fromInt n
+  | n <= 0    = Z
+  | otherwise = S (fromInt (n - 1))
+
+toInt :: Peano -> Int
+toInt Z     = 0
+toInt (S k) = 1 + toInt k
+
+addP :: Peano -> Peano -> Peano
+addP Z     y = y
+addP (S x) y = S (addP x y)
+\end{lstlisting}
+
+This is the structural normal form into which all four parsers reduce.
+We will return to this datum in Paper III, where we will recognize
+\texttt{Peano} as an instance of the universal property of $\mathbb{N}$,
+and in Paper V, where it appears as the inductive type defining
+$\mathbb{N}$ in HoTT.
+
+\subsection{Decimal, Roman, tally, Babylonian}
+
+A sketch of each parser:
+
+\begin{lstlisting}[language=Haskell]
+parseDecimal :: String -> Maybe Peano
+parseDecimal = fmap fromInt . readMaybe
+
+romanValue :: Char -> Maybe Int
+romanValue c = lookup c
+  [('I',1),('V',5),('X',10),('L',50),('C',100),('D',500),('M',1000)]
+
+parseRoman :: String -> Maybe Peano
+parseRoman = fmap fromInt . roman . map romanValue
+  where
+    roman vs = case sequence vs of
+      Nothing -> Nothing
+      Just xs -> Just (foldr step 0 (zip xs (drop 1 xs ++ [0])))
+    step (x,y) acc = if x < y then acc - x else acc + x
+
+-- Tally: count only '|'; '/' is a grouping symbol that
+-- contributes 0. Any other character fails.
+parseTally :: String -> Maybe Peano
+parseTally s
+  | all (`elem` "|/") s = Just (fromInt (length (filter (=='|') s)))
+  | otherwise           = Nothing
+
+-- Babylonian: not a string parser. Given a pre-tokenized
+-- list of (digit, place) pairs, return the denotation.
+fromBabylonian :: [(Int,Int)] -> Maybe Peano
+fromBabylonian places
+  | all valid places = Just (fromInt (sum
+      [d * 60 ^ p | (d,p) <- places]))
+  | otherwise        = Nothing
+  where valid (d, p) = 0 <= d && d < 60 && p >= 0
+\end{lstlisting}
+
+\subsection{The agreement test}
+
+\begin{lstlisting}[language=Haskell]
+main :: IO ()
+main = do
+  let dec   = parseDecimal   "58"
+      rom   = parseRoman     "LVIII"
+      tally = parseTally     (replicate 58 '|')
+      bab   = fromBabylonian [(58, 0)]
+  putStrLn $ "decimal:    " ++ show dec
+  putStrLn $ "roman:      " ++ show rom
+  putStrLn $ "tally:      " ++ show tally
+  putStrLn $ "babylonian: " ++ show bab
+  putStrLn $ "all equal?  " ++ show (and
+    [ dec == rom, rom == tally, tally == bab ])
+\end{lstlisting}
+
+The point of the test is exactly the point of the paper: four glyphically
+unrelated inscriptions reduce to the same structural object. The
+Haskell type system enforces this: all four reduction functions have
+codomain \texttt{Maybe Peano}, so equality of their outputs is
+meaningful.
+
+\begin{remark}[Notes on the artifact]
+\label{rem:artifact-notes}
+Two terminological points are worth flagging. First, \texttt{parseTally}
+counts only \texttt{'|'} marks; the diagonal \texttt{'/'} is treated as
+a grouping symbol contributing zero to the count. Hence, on this
+parser, \texttt{"//|||"} and \texttt{"|||"} both denote 3. The choice
+matches the paper's emphasis on denotation rather than well-formedness
+of inscription. Second, \texttt{fromBabylonian} is not a string parser
+but a denotation function on pre-tokenized \texttt{[(digit, place)]}
+lists. We retain \texttt{parseBabylonian} as a legacy alias in the
+shipped module. The full source treats this naming explicitly.
+\end{remark}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Connections to the rest of the series}
+
+The naive level establishes the desiderata that each formal level must
+meet. We summarize the form these desiderata take in each subsequent
+paper:
+
+\begin{itemize}
+\item \emph{Paper II (set-theoretic)} must explain how the multiplicity
+of inscriptions can be reduced to a single set-theoretic encoding---and
+must confront the residual underdetermination at the next level (von
+Neumann vs.\ Zermelo encoding).
+\item \emph{Paper III (universal property)} must show that the
+structural role identified at the naive level is captured by initiality
+in the category of successor structures; in particular, the unique
+recursion morphism must reproduce the everyday operations the naive
+level uses.
+\item \emph{Paper IV (Yoneda)} must show that the structural role is
+captured by the representable functor; in particular, the maps from
+$\mathrm{Hom}(-, n)$ to other functors $F$ correspond to elements of
+$F(n)$ in a way that respects the everyday operations.
+\item \emph{Paper V (HoTT)} must show that the structural role is
+captured by the inductive type, with identity types capturing the
+intuitive ``same number'' relation native to the naive level.
+\item \emph{Paper VI (categorical/structural)} must show that the
+structural role is exactly the invariant content under
+structure-preserving morphisms.
+\end{itemize}
+
+In each case, success of the formal level is measured by recovery of
+the naive practice. This is the methodological role of \cref{rem:recovery}.
+
+\subsection{The deflationary alternative}
+
+A reader might worry that we have stacked the deck in favor of
+realism about numbers. Could one not, instead, embrace a thoroughly
+nominalist view in which numerals are all there is, and arithmetic is
+a syntactic discipline of inscription manipulation? The literature
+contains serious such proposals (Field, Hellman, in different ways).
+We do not engage them in detail here; for our purposes it is enough to
+note that any such program must \emph{still} explain why distinct
+inscriptions of ``58'' (decimal, Roman, tally) are interchangeable in
+arithmetical contexts. That explanation is, in the end, a structural
+explanation; the nominalist's parsimony, if successful, is purchased
+at the cost of accepting structural facts about inscriptions.
+
+\subsection{Limitations}
+
+We have restricted attention throughout to the natural numbers. The
+naive level for the rationals, the reals, the complex numbers, the
+$p$-adic numbers, and the algebraic and transcendental numbers raises
+analogous but distinct issues. In particular, the relationship between
+the naive level and the universal-property level is more delicate for
+the real numbers, where the naive level is itself partly definitional
+(``what we mean by a real number is a Cauchy-completion / Dedekind cut /
+positional infinite expansion''). We defer these to a future companion
+piece.
+
+\subsection{The role of computer science}
+
+A subtler limitation: we have spoken of numerals as inscriptions on
+paper or stone. In the present era much arithmetic happens in machines,
+where numerals are voltage patterns, register configurations, or
+floating-point bit fields. The syntax/semantics distinction extends in
+the obvious way, with the wrinkle that inexact representations
+(floating-point) raise their own issues. We mention this only to flag
+that the naive level is not a fixed historical relic; it is a layer of
+mathematical practice that travels into new technological substrates
+without losing its character.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have argued that the naive perspective on number---numerals as syntax,
+quantities as semantics, with the two related by counting and
+denotation---is at once foundationally inadequate and practically
+indispensable. Inadequate, because numbers are not their inscriptions
+(\cref{thm:symbol-object}), no inscription is canonical
+(\cref{thm:no-canonical-numeral}), and adequate inscriptions are
+interconvertible (\cref{thm:naive-benacerraf}). Indispensable, because
+acquisition, application, and pedagogy of arithmetic all proceed
+through it (\cref{prop:acquisition,prop:application,prop:pedagogical}).
+
+The diagnostic move out of the naive level is the structuralist's
+question: \emph{what role does $n$ play?} (\cref{def:structuralist-question}).
+The remaining papers in this series formalize this question in five
+distinct ways and argue, in the synthesis, that under the univalence
+axiom the last four formalizations are equivalent.
+
+\subsection{Future work}
+
+\begin{itemize}
+\item Extend the naive analysis to rationals, reals, and complex
+numbers, with attention to the role of completion and continuity.
+\item Develop the cognitive-science side of the indispensability
+arguments more thoroughly: small-number system, approximate number
+system, magnitude representations.
+\item Pursue the question of inscription on machines (digital,
+neuromorphic, quantum), where the naive level is mediated by hardware.
+\item Connect the naive level to category-theoretic ``free models'':
+on a structuralist reading, the naive level corresponds to working with
+the free model on one generator, before any quotient by structural
+identifications.
+\end{itemize}
+
+\appendix
+
+\section{The Naive Sequence in Detail}
+\label{app:naive-sequence}
+
+For completeness we record the first 60 values of the count sequence in
+each of our four numeral systems. The point is purely illustrative: the
+table makes vivid the shared semantic content of glyphically unrelated
+inscriptions.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{r|l|l|l}
+\textbf{Decimal} & \textbf{Roman} & \textbf{Tally (gate-five)} & \textbf{Sexagesimal} \\ \hline
+0  & ---           & (empty)              & 0 \\
+1  & I             & |                    & 1 \\
+2  & II            & ||                   & 2 \\
+3  & III           & |||                  & 3 \\
+4  & IV            & ||||                 & 4 \\
+5  & V             & ||||/                & 5 \\
+\vdots & \vdots    & \vdots               & \vdots \\
+10 & X             & two gate-fives       & 10 \\
+20 & XX            & four gate-fives      & 20 \\
+50 & L             & ten gate-fives       & 50 \\
+58 & LVIII         & 11 gate-fives + 3    & 58 \\
+59 & LIX           & 11 gate-fives + 4    & 59 \\
+60 & LX            & 12 gate-fives        & $1{;}0$ \\
+\end{tabular}
+\end{center}
+
+The qualitative jump at row 60 in the sexagesimal column---where the
+representation acquires a second positional place---illustrates how
+positional systems amplify compactness at integer powers of the base.
+
+\section{A Worked Example: Why \texorpdfstring{$58 = \mathsf{LVIII}$}{58 = LVIII} is Non-Trivial}
+\label{app:lviii-example}
+
+We work the example through in detail, in part to illustrate the
+mechanics of the syntax/semantics distinction, and in part to show how
+much of arithmetic the naive theorist already implicitly uses.
+
+\paragraph{Decimal side.} The string ``58'' parses, in the standard
+positional algorithm, as $5 \cdot 10 + 8$. To compute this we need the
+multiplication $5 \cdot 10 = 50$ and the addition $50 + 8 = 58$. Both
+operations are themselves unfolded by the count sequence: we know
+$50 + 8 = 58$ because counting from 50 by ones for eight steps gives
+51, 52, 53, 54, 55, 56, 57, 58.
+
+\paragraph{Roman side.} The string \textsf{LVIII} parses, by the additive
+rule (no leading subtractive in this case), as
+$\mathsf{L} + \mathsf{V} + \mathsf{I} + \mathsf{I} + \mathsf{I} =
+50 + 5 + 1 + 1 + 1$. We compute $50 + 5 = 55$ (counting from 50 by
+ones for five steps) and $55 + 1 + 1 + 1 = 58$ (three more steps).
+
+\paragraph{Equality.} Both sides reduce to 58 (in the count-sequence
+sense). The equation $58 = \mathsf{LVIII}$ is therefore the assertion
+that two distinct procedures terminate at the same count. The naive
+theorist's grasp of this assertion presupposes (a) the count sequence,
+(b) the additive principle, (c) confidence that procedures starting
+from different inscriptions but tracking the same quantity will agree.
+None of these is a primitive of pure inscription manipulation.
+
+\paragraph{Lifting.} The structural lift in subsequent papers will say:
+forget the procedures; the equation reflects the fact that both
+inscriptions designate the same element of the initial successor
+structure / the same Peano term / the same path in $\mathbb{N}$.
+
+\section{On the Word ``Naive''}
+\label{app:naive}
+
+We have used ``naive'' throughout in a technical sense; we now record
+the choice. Two alternative terms are available: \emph{pre-formal} and
+\emph{pre-theoretic}.
+
+``Pre-formal'' is accurate but suggests temporal priority where we
+intend logical priority: the naive level is not what comes \emph{before}
+formalization in time but what \emph{lies underneath} it, even after
+formalization is complete.
+
+``Pre-theoretic'' is misleading because the naive level has plenty of
+implicit theory in it: counting, succession, the additive principle. It
+is pre-axiomatic, not pre-theoretic.
+
+``Naive'' has the disadvantage of pejorative overtones in everyday
+English; we use it in the established mathematical sense (cf.\ ``naive
+set theory'', ``naive Bayes'') of \emph{prior to formalization but
+serviceable for many purposes}. We hope the reader will tolerate the
+term in this technical sense.
+
+\begin{thebibliography}{99}
+
+\bibitem{awodey1996}
+S.~Awodey,
+\emph{Structure in Mathematics and Logic: A Categorical Perspective},
+Philosophia Mathematica \textbf{4} (1996), 209--237.
+
+\bibitem{benacerraf1965}
+P.~Benacerraf,
+\emph{What Numbers Could Not Be},
+The Philosophical Review \textbf{74} (1965), 47--73.
+
+\bibitem{benacerraf1973}
+P.~Benacerraf,
+\emph{Mathematical Truth},
+The Journal of Philosophy \textbf{70} (1973), 661--679.
+
+\bibitem{carey}
+S.~Carey,
+\emph{The Origin of Concepts},
+Oxford University Press, 2009.
+
+\bibitem{dehaene}
+S.~Dehaene,
+\emph{The Number Sense}, Oxford University Press, 1997.
+
+\bibitem{field1980}
+H.~Field,
+\emph{Science Without Numbers}, Princeton University Press, 1980.
+
+\bibitem{frege1884}
+G.~Frege,
+\emph{Die Grundlagen der Arithmetik}, Breslau, 1884.
+English translation by J.~L.~Austin, Blackwell, 1953.
+
+\bibitem{frege1892}
+G.~Frege,
+\emph{\"Uber Sinn und Bedeutung},
+Zeitschrift f\"ur Philosophie und philosophische Kritik \textbf{100}
+(1892), 25--50.
+
+\bibitem{frege1894}
+G.~Frege,
+Review of Husserl's \emph{Philosophie der Arithmetik},
+Zeitschrift f\"ur Philosophie und philosophische Kritik \textbf{103}
+(1894), 313--332.
+
+\bibitem{geier}
+M.~Geier (ed.),
+\emph{Frege's Lectures on Logic}, Open Court, 2004.
+
+\bibitem{gelman-gallistel}
+R.~Gelman and C.~R.~Gallistel,
+\emph{The Child's Understanding of Number},
+Harvard University Press, 1978.
+
+\bibitem{hale-wright}
+B.~Hale and C.~Wright,
+\emph{The Reason's Proper Study},
+Oxford University Press, 2001.
+
+\bibitem{hellman1989}
+G.~Hellman,
+\emph{Mathematics Without Numbers},
+Oxford University Press, 1989.
+
+\bibitem{husserl1891}
+E.~Husserl,
+\emph{Philosophie der Arithmetik}, Halle, 1891.
+
+\bibitem{ifrah}
+G.~Ifrah,
+\emph{The Universal History of Numbers},
+Wiley, 2000.
+
+\bibitem{lakoff-nunez}
+G.~Lakoff and R.~N\'u\~nez,
+\emph{Where Mathematics Comes From}, Basic Books, 2000.
+
+\bibitem{maclane}
+S.~Mac~Lane,
+\emph{Categories for the Working Mathematician}, 2nd ed., Springer, 1998.
+
+\bibitem{mill1843}
+J.~S.~Mill,
+\emph{A System of Logic}, London, 1843.
+
+\bibitem{piaget}
+J.~Piaget,
+\emph{The Child's Conception of Number},
+Routledge \& Kegan Paul, 1952.
+
+\bibitem{hottbook}
+The Univalent Foundations Program,
+\emph{Homotopy Type Theory: Univalent Foundations of Mathematics},
+Institute for Advanced Study, 2013. arXiv:1308.0729.
+
+\bibitem{wadler2015}
+P.~Wadler,
+\emph{Propositions as Types},
+Communications of the ACM \textbf{58} (2015), 75--84.
+
+\bibitem{wright1983}
+C.~Wright,
+\emph{Frege's Conception of Numbers as Objects},
+Aberdeen University Press, 1983.
+
+\end{thebibliography}
+
+\end{document}

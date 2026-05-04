@@ -1,0 +1,3627 @@
+---
+reviewer: codex (OpenAI)
+type: formatting
+paper: synthesis
+date: 2026-05-04T02:11:29Z
+---
+
+Reading additional input from stdin...
+OpenAI Codex v0.125.0 (research preview)
+--------
+workdir: /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 019df0c1-4398-7352-a7d2-a3df8d0928cf
+--------
+user
+Review the file at /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex for LaTeX formatting issues: compilation errors, missing packages, broken references, inconsistent styling. List all issues found, with line numbers.
+codex
+I’ll inspect the TeX source directly and use read-only checks only. Since this sandbox is read-only, I won’t run a LaTeX build that writes aux/output files unless there’s an existing build setup that supports a read-only diagnostic path.
+exec
+/usr/local/bin/zsh -lc 'nl -ba latex/synthesis.tex' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+     1	\documentclass[12pt]{article}
+     2	
+     3	% Core math
+     4	\usepackage{amsmath, amssymb, amsthm}
+     5	\usepackage{mathtools}
+     6	\usepackage{stmaryrd}
+     7	
+     8	% Tables
+     9	\usepackage{tabularx}
+    10	\usepackage{booktabs}
+    11	\usepackage{array}
+    12	
+    13	% Diagrams
+    14	\usepackage{tikz-cd}
+    15	\usepackage{tikz}
+    16	\usetikzlibrary{positioning, arrows.meta, calc, decorations.markings}
+    17	
+    18	% References (load order: hyperref before cleveref)
+    19	\usepackage[hidelinks]{hyperref}
+    20	\usepackage{cleveref}
+    21	\usepackage{xurl}
+    22	
+    23	% Graphics
+    24	\usepackage{graphicx}
+    25	
+    26	% Code listings
+    27	\usepackage{listings}
+    28	\usepackage{xcolor}
+    29	
+    30	% Page layout
+    31	\usepackage[margin=1in]{geometry}
+    32	
+    33	% Sidebar (use modern shipout/background hook)
+    34	% (no everypage required; LaTeX provides AddToHook)
+    35	
+    36	% Theorem environments
+    37	\newtheorem{theorem}{Theorem}[section]
+    38	\newtheorem{proposition}[theorem]{Proposition}
+    39	\newtheorem{lemma}[theorem]{Lemma}
+    40	\newtheorem{corollary}[theorem]{Corollary}
+    41	\theoremstyle{definition}
+    42	\newtheorem{definition}[theorem]{Definition}
+    43	\newtheorem{example}[theorem]{Example}
+    44	\newtheorem{principle}[theorem]{Principle}
+    45	\theoremstyle{remark}
+    46	\newtheorem{remark}[theorem]{Remark}
+    47	
+    48	% Listings styling for Haskell
+    49	\lstdefinelanguage{Haskell}{
+    50	  morekeywords={data, type, class, instance, where, let, in, do, case, of,
+    51	    if, then, else, module, import, newtype, deriving, family, forall},
+    52	  sensitive=true,
+    53	  morecomment=[l]{--},
+    54	  morestring=[b]"
+    55	}
+    56	\lstset{
+    57	  basicstyle=\ttfamily\small,
+    58	  keywordstyle=\color{blue!70!black}\bfseries,
+    59	  commentstyle=\color{green!50!black}\itshape,
+    60	  stringstyle=\color{red!70!black},
+    61	  showstringspaces=false,
+    62	  breaklines=true,
+    63	  frame=single,
+    64	  framesep=4pt,
+    65	  rulecolor=\color{gray!50},
+    66	  language=Haskell
+    67	}
+    68	
+    69	% GrokRxiv sidebar (first page)
+    70	\definecolor{grokgray}{RGB}{110,110,110}
+    71	\AddToHook{shipout/background}{%
+    72	  \ifnum\value{page}=1
+    73	    \begin{tikzpicture}[remember picture, overlay]
+    74	      \node[
+    75	        rotate=90,
+    76	        anchor=south,
+    77	        font=\Large\sffamily\bfseries\color{grokgray},
+    78	        inner sep=0pt
+    79	      ] at ([xshift=38pt, yshift=0.52\paperheight]current page.south west)
+    80	      {GrokRxiv:2026.05.univalent-correspondence-synthesis\quad
+    81	       [\,math.CT/math.LO\,]\quad
+    82	       03 May 2026};
+    83	    \end{tikzpicture}
+    84	  \fi
+    85	}
+    86	
+    87	% Macros
+    88	\newcommand{\N}{\mathbb{N}}
+    89	\newcommand{\Z}{\mathbb{Z}}
+    90	\newcommand{\Q}{\mathbb{Q}}
+    91	\newcommand{\R}{\mathbb{R}}
+    92	\newcommand{\C}{\mathbb{C}}
+    93	\newcommand{\Set}{\mathbf{Set}}
+    94	\newcommand{\Cat}{\mathbf{Cat}}
+    95	\newcommand{\Grpd}{\mathbf{Gpd}}
+    96	\newcommand{\PtEndo}{\mathbf{PtEndo}}
+    97	\newcommand{\Type}{\mathsf{Type}}
+    98	\newcommand{\U}{\mathcal{U}}
+    99	\newcommand{\op}{^{\mathrm{op}}}
+   100	\newcommand{\id}{\mathrm{id}}
+   101	\newcommand{\Hom}{\mathrm{Hom}}
+   102	\newcommand{\Nat}{\mathrm{Nat}}
+   103	\newcommand{\zero}{\mathsf{zero}}
+   104	\newcommand{\suc}{\mathsf{succ}}
+   105	\newcommand{\Id}{\mathsf{Id}}
+   106	\newcommand{\refl}{\mathsf{refl}}
+   107	\newcommand{\transport}{\mathsf{transport}}
+   108	\newcommand{\ua}{\mathsf{ua}}
+   109	\newcommand{\idtoeqv}{\mathsf{idtoeqv}}
+   110	\newcommand{\eqv}{\simeq}
+   111	\newcommand{\iso}{\cong}
+   112	\newcommand{\isContr}{\mathsf{isContr}}
+   113	\newcommand{\isProp}{\mathsf{isProp}}
+   114	\newcommand{\isSet}{\mathsf{isSet}}
+   115	\newcommand{\NNO}{\mathrm{NNO}}
+   116	
+   117	\title{The Univalent Correspondence: \\
+   118	How Six Perspectives on Number Become One \\
+   119	\large Synthesis of the Univalent Correspondence Series}
+   120	
+   121	\author{YonedaAI Research \\
+   122	\textit{Univalent Correspondence Project} \\
+   123	\textit{Synthesis paper for the six topical papers (I--VI)} \\
+   124	\texttt{research@yonedaai.example}}
+   125	
+   126	\date{3 May 2026}
+   127	
+   128	\begin{document}
+   129	\maketitle
+   130	
+   131	\begin{abstract}
+   132	This is the synthesis paper for the six-part series \emph{The Univalent
+   133	Correspondence}. Each topical paper takes one perspective on the question
+   134	``what is the natural number $58$?'' and develops it to maturity: Paper~I
+   135	treats $58$ naively as a symbol or quantity; Paper~II encodes it
+   136	set-theoretically as a von Neumann ordinal; Paper~III characterizes it by a
+   137	universal property as the $58$th iterate of $\suc$ in any initial successor
+   138	structure; Paper~IV identifies it with its representable functor
+   139	$\Hom(-, 58)$; Paper~V realises it as a canonical term of an inductive type
+   140	$\N$ in Homotopy Type Theory, identified up to path equivalence; Paper~VI
+   141	reads it structurally, as an invariant under all structure-preserving
+   142	morphisms between models of arithmetic. We argue that under Voevodsky's
+   143	univalence axiom, the four perspectives of Papers~III through~VI are not
+   144	analogous but \emph{literally identical}: an initial successor structure, a
+   145	representing presheaf, a contractible $\Sigma$-type of NNO structures, and a
+   146	structural invariant of arithmetic models are four faces of one
+   147	$\infty$-groupoid. We name this identification the \emph{univalent
+   148	correspondence}, building on the four-way computational tetrad of Curry,
+   149	Howard, Lambek, and Voevodsky (extending Wadler's
+   150	propositions-as-types-as-spaces and Harper's computational trinity). After
+   151	reviewing each level, motivating the canonical six-row table, and making the
+   152	unifying $\infty$-groupoid framework precise, we prove transit theorems
+   153	showing that each level transcends its predecessor: the set-theoretic level
+   154	resolves the naive symbol/object confusion but introduces
+   155	encoding-relativity (Benacerraf's identification problem); the universal
+   156	property resolves encoding by going relational; Yoneda makes ``relational
+   157	profile'' mathematically precise as a representable functor; HoTT makes
+   158	Yoneda's ``iff'' into a literal identity in the universe via univalence;
+   159	and the categorical/structural perspective is the philosophical commitment
+   160	that \emph{all of this} is what mathematical objects are. We close with a
+   161	research outlook on ContextFS / typed memory as a structural-identity
+   162	primitive, transcendentals $\pi$ and $e$ in HoTT via Cauchy reals as a
+   163	higher inductive--inductive type, directed HoTT and synthetic
+   164	$\infty$-category theory, and the principal open problem: a synthetic
+   165	foundation for analytic number theory.
+   166	\end{abstract}
+   167	
+   168	\tableofcontents
+   169	\bigskip
+   170	
+   171	\section{Introduction}
+   172	\label{sec:intro}
+   173	
+   174	\subsection{The question and the six perspectives}
+   175	
+   176	The Univalent Correspondence series asks one question --- \emph{what is the
+   177	natural number $58$?} --- and answers it six different ways. The six papers
+   178	of the series each occupy one row of \cref{tab:six-rows}, the central
+   179	organizing artifact of the project. The synthesis paper before you argues
+   180	that the rightmost four rows describe the \emph{same} mathematical object,
+   181	identified up to equivalence by Voevodsky's univalence axiom.
+   182	
+   183	\begin{table}[ht]
+   184	\centering
+   185	\begin{tabularx}{\textwidth}{l X}
+   186	\toprule
+   187	\textbf{Level (Paper)} & \textbf{What $58$ is at this level} \\
+   188	\midrule
+   189	Naive (I) & A symbol on the page; a quantity counted by a finger or scratch. \\
+   190	Set-theoretic (II) & The von Neumann ordinal $\{0, 1, \ldots, 57\}$; equivalently, any iso-class of ZFC encodings of the same Peano structure. \\
+   191	Universal property (III) & The $58$-th iterate $\suc^{58}(\zero)$ in \emph{any} initial successor structure $(N, 0, \suc)$ in any category with terminal object. \\
+   192	Yoneda (IV) & The representable functor $\Hom(-, 58)$ on the appropriate category; equivalently, the entire system of probes that land on $58$. \\
+   193	HoTT (V) & A canonical term in the inductive type $\N$, identified up to path equivalence (and hence, by univalence, identified across NNO presentations). \\
+   194	Categorical / structural (VI) & A semantic invariant, in the sense of Awodey, Resnik, and Shapiro, under all structure-preserving morphisms between models of arithmetic. \\
+   195	\bottomrule
+   196	\end{tabularx}
+   197	\caption{The six perspectives on the natural number $58$. Rows~III--VI
+   198	become literally identical under the univalence axiom (\cref{sec:transit}).}
+   199	\label{tab:six-rows}
+   200	\end{table}
+   201	
+   202	The series is not a survey. Each topical paper is a self-contained
+   203	mathematical development with its own theorems, proofs, and Haskell
+   204	artifacts. Paper~I~\cite{paper-i} is historical and philosophical, anchoring
+   205	the discussion in numerals and counting; Paper~II~\cite{paper-ii}
+   206	axiomatizes ZFC, develops the von Neumann hierarchy, and proves Benacerraf's
+   207	identification problem in formal terms; Paper~III~\cite{paper-iii}
+   208	introduces the natural numbers object, derives primitive recursion from its
+   209	universal property, and shows the equivalence with second-order Peano
+   210	arithmetic; Paper~IV~\cite{paper-iv} proves the Yoneda lemma in covariant
+   211	and contravariant forms, with applications to numbers, groups, schemes, and
+   212	the $\infty$-categorical generalization; Paper~V~\cite{paper-v} is a
+   213	self-contained development of HoTT including identity types, path
+   214	induction, the univalence axiom, higher inductive types, and the cubical
+   215	realisation; Paper~VI~\cite{paper-vi} surveys mathematical structuralism,
+   216	proves an isomorphism-invariance theorem for first-order properties, and
+   217	relates categorification to decategorification.
+   218	
+   219	The synthesis paper before you assumes the existence and content of these
+   220	six topical papers and combines them. We do not re-prove their main
+   221	theorems; we cite them. What we do prove are the \emph{transit theorems}
+   222	between levels, and we collect them into a single mathematical statement of
+   223	the univalent correspondence (\cref{sec:transit,sec:correspondence}).
+   224	
+   225	\subsection{The thesis}
+   226	
+   227	The thesis of this paper, and of the series as a whole, has two layers.
+   228	
+   229	\begin{principle}[Univalent Correspondence, weak form]
+   230	\label{prin:weak}
+   231	For the natural numbers, and more generally for any mathematical
+   232	structure presentable by an essentially algebraic theory, the four
+   233	perspectives \emph{universal property} (Paper~III), \emph{Yoneda}
+   234	(Paper~IV), \emph{HoTT term up to path equivalence} (Paper~V), and
+   235	\emph{structural invariant} (Paper~VI) yield equivalent characterisations.
+   236	\end{principle}
+   237	
+   238	\begin{principle}[Univalent Correspondence, strong form]
+   239	\label{prin:strong}
+   240	Under the univalence axiom, the equivalences of \cref{prin:weak} are
+   241	internalised as identities in a universe $\U$. The four characterisations
+   242	do not merely yield isomorphic answers; they are paths in the same
+   243	$\infty$-groupoid, and the natural number $58$ is a single point in that
+   244	$\infty$-groupoid, viewed through four windows.
+   245	\end{principle}
+   246	
+   247	The strong form is the content of \cref{thm:identity-of-perspectives}
+   248	below. The weak form is established meta-theoretically by the work of
+   249	Lawvere~\cite{Lawvere1964}, Lambek~\cite{Lambek1972}, Wadler~\cite{Wadler2015},
+   250	Awodey~\cite{Awodey2014}, and the HoTT Book~\cite{HoTTBook}. The strong
+   251	form requires univalence and the structure identity principle (SIP); see
+   252	\cref{sec:transit-vi}.
+   253	
+   254	\subsection{Why a sixth row?}
+   255	
+   256	A natural question: if the universal property already characterises $58$ up
+   257	to canonical isomorphism, why do we need Yoneda, HoTT, and the structural
+   258	view as separate rows? The short answer: each row resolves a residual
+   259	question raised by the previous one.
+   260	
+   261	\begin{itemize}
+   262	\item \textbf{Naive (I) $\to$ Set-theoretic (II).} The naive level confuses
+   263	the symbol $58$ with the number $58$. The set-theoretic level resolves the
+   264	confusion by exhibiting a definite mathematical object
+   265	$\{0, 1, \ldots, 57\}$.
+   266	\item \textbf{Set-theoretic (II) $\to$ Universal property (III).} The
+   267	set-theoretic encoding is non-canonical (Benacerraf): von Neumann's and
+   268	Zermelo's encodings disagree about whether $\{\emptyset\} \in 17$. The
+   269	universal property abstracts away from the encoding by characterising the
+   270	structure up to canonical isomorphism.
+   271	\item \textbf{Universal property (III) $\to$ Yoneda (IV).} Universal
+   272	properties give a relational identification one structure at a time. The
+   273	Yoneda lemma generalises this to a universal principle: \emph{every} object
+   274	is determined by its system of incoming morphisms. ``$58$ is initial-among-X''
+   275	becomes ``$58$ \emph{is} the functor $\Hom(-, 58)$.''
+   276	\item \textbf{Yoneda (IV) $\to$ HoTT (V).} The Yoneda lemma yields
+   277	$X \iso Y \iff h_X \iso h_Y$ as a meta-theorem about a category. Under
+   278	univalence, this ``iff'' becomes a literal equality in the universe: the
+   279	implication $h_X = h_Y \to X = Y$ is constructed by transport, and the
+   280	implication $X \iso Y \to X = Y$ is the univalence axiom.
+   281	\item \textbf{HoTT (V) $\to$ Categorical/Structural (VI).} HoTT is a formal
+   282	system. The categorical/structural view is the philosophical commitment
+   283	that \emph{this is what mathematical objects are}: positions in structures,
+   284	identified up to equivalence-respecting morphisms. SIP makes this
+   285	philosophical commitment provable inside HoTT.
+   286	\end{itemize}
+   287	
+   288	\subsection{Naming the correspondence}
+   289	
+   290	The four rightmost rows of \cref{tab:six-rows} correspond to the four
+   291	columns of the \emph{computational tetrad}, the four-way extension of the
+   292	Curry--Howard--Lambek correspondence shown in \cref{tab:tetrad}. We follow
+   293	Wadler~\cite{Wadler2015} in calling its central insight
+   294	\emph{propositions-as-types-as-spaces}, but we call its strong form
+   295	(internalised by the univalence axiom) \emph{the univalent correspondence}.
+   296	The terminology and its history are surveyed in \cref{sec:naming}.
+   297	
+   298	\begin{table}[ht]
+   299	\centering
+   300	\begin{tabularx}{\textwidth}{X X X X}
+   301	\toprule
+   302	\textbf{Logic} & \textbf{Type theory} & \textbf{Category theory} &
+   303	\textbf{Homotopy / topology} \\
+   304	\midrule
+   305	Propositions & Types & Objects & Spaces \\
+   306	Proofs & Terms & Morphisms & Points / paths \\
+   307	Implication $A \to B$ & Function type $A \to B$ & Hom-set & Path space \\
+   308	Conjunction $A \wedge B$ & Product $A \times B$ & Product / limit & --- \\
+   309	Disjunction $A \vee B$ & Sum $A + B$ & Coproduct / colimit & --- \\
+   310	Truth $\top$ & Unit $\mathbf{1}$ & Terminal object & Point \\
+   311	Falsehood $\bot$ & Empty $\mathbf{0}$ & Initial object & Empty space \\
+   312	Equality $a = b$ & Identity $\Id_A(a, b)$ & Isomorphism & Homotopy equivalence \\
+   313	Universal $\forall$ & $\Pi$-type & Right adjoint / limit & Fibration \\
+   314	Existential $\exists$ & $\Sigma$-type & Left adjoint / colimit & Total space \\
+   315	\bottomrule
+   316	\end{tabularx}
+   317	\caption{The computational tetrad. Each row is a single concept seen
+   318	through four windows. Adapted from~\cite{Wadler2015,HoTTBook}; the
+   319	explicit fourth column is due to Voevodsky's univalent foundations
+   320	project.}
+   321	\label{tab:tetrad}
+   322	\end{table}
+   323	
+   324	\subsection{Outline}
+   325	
+   326	\Cref{sec:row-by-row} reviews the six perspectives row by row, summarising
+   327	the principal results of Papers~I through~VI. \Cref{sec:transit} proves the
+   328	five transit theorems that move from one level to the next.
+   329	\Cref{sec:framework} sets up the unified mathematical framework: an
+   330	$\infty$-groupoid model under univalence, in which the four rightmost
+   331	perspectives correspond to four functors out of one $\infty$-topos.
+   332	\Cref{sec:correspondence} states and proves the main identity-of-perspectives
+   333	theorem. \Cref{sec:diagrams} makes the inter-level commutativity precise via
+   334	commutative diagrams of equivalences. \Cref{sec:naming} surveys the history
+   335	of the naming and explains our preference for ``the univalent
+   336	correspondence.'' \Cref{sec:applications} sketches three downstream
+   337	applications: ContextFS as a structural-identity computational primitive,
+   338	transcendentals $\pi$ and $e$ in HoTT, and directed HoTT for representation
+   339	theory. \Cref{sec:open} collects open problems. \Cref{sec:conclusion}
+   340	concludes.
+   341	
+   342	\section{Row by Row: The Six Perspectives in Brief}
+   343	\label{sec:row-by-row}
+   344	
+   345	This section is a synopsis of the six topical papers. We assume the reader
+   346	has access to the topical papers and reproduce only enough material to
+   347	make the synthesis self-contained.
+   348	
+   349	\subsection{Paper I: Naive --- numbers as symbols and quantities}
+   350	\label{sec:row-i}
+   351	
+   352	Paper~I~\cite{paper-i} occupies the pre-formal level. A natural number $58$
+   353	is, at this level, a symbol on a page (``$58$''), a Roman numeral
+   354	(\textsf{LVIII}), a tally (fifty-eight scratches), or a Babylonian
+   355	sexagesimal cluster, and simultaneously a quantity (the cardinality of a
+   356	counted collection). The paper traces this dual aspect through Mill's
+   357	empiricism, Husserl's phenomenology of arithmetic, Frege's critique of
+   358	psychologism in \emph{Grundlagen der Arithmetik}~\cite{frege1884} and
+   359	\emph{Sinn und Bedeutung}~\cite{frege1892}, and Benacerraf's identification
+   360	problem~\cite{benacerraf1965}.
+   361	
+   362	The principal lesson of Paper~I is the syntax/semantics distinction: numerals
+   363	are syntactic objects (symbols, words over an alphabet), while numbers are
+   364	the semantic invariants that all adequate numeral systems share. The paper
+   365	provides a Haskell artifact parsing four numeral systems (Hindu--Arabic,
+   366	Roman, tally, Babylonian sexagesimal) into a single structural normal form.
+   367	
+   368	The naive level is shown to be simultaneously \emph{insufficient} (because
+   369	of symbol/object confusion, multiplicity of equally adequate
+   370	representations, and a foundational underdetermination that already
+   371	foreshadows the structuralist response) and \emph{indispensable} (because
+   372	embodied counting and culturally-transmitted numerals anchor mathematical
+   373	content in human cognition). The paper closes by motivating each of the
+   374	five formal levels developed in subsequent papers.
+   375	
+   376	\subsection{Paper II: Set-theoretic --- numbers as von Neumann ordinals}
+   377	\label{sec:row-ii}
+   378	
+   379	Paper~II~\cite{paper-ii} works in Zermelo--Fraenkel set theory with Choice
+   380	(ZFC). It develops the von Neumann encoding $0 = \emptyset$,
+   381	$n + 1 = n \cup \{n\}$, in which $58 = \{0, 1, \ldots, 57\}$, and contrasts
+   382	it with Zermelo's encoding $0 = \emptyset$, $n + 1 = \{n\}$. Both yield
+   383	structures isomorphic to $(\N, 0, \suc)$ as Peano models, yet they differ
+   384	on internal set-theoretic questions such as whether $2 \in 3$.
+   385	
+   386	The paper proves Benacerraf's argument formally:
+   387	
+   388	\begin{theorem}[Benacerraf, formalised in Paper~II]
+   389	\label{thm:benacerraf}
+   390	There exist two ZFC-definable structures $(N_v, 0_v, \suc_v)$ and
+   391	$(N_z, 0_z, \suc_z)$ which both satisfy the second-order Peano axioms and
+   392	are isomorphic as Peano structures, but which differ on a sentence of
+   393	ZFC's first-order language (e.g.\ ``$\exists x \in 2.\, x = 1$'').
+   394	Therefore, no choice of ZFC encoding can claim to be the unique correct
+   395	$\N$.
+   396	\end{theorem}
+   397	
+   398	The paper develops addition, multiplication, and order recursively on the
+   399	von Neumann ordinals, verifies the Peano axioms, and proves a representation
+   400	theorem stating that any successor structure obtained from a class function
+   401	$S$ that is injective, has a base point not in its image, and admits
+   402	transfinite iteration generates a model of Peano arithmetic isomorphic to
+   403	the von Neumann naturals. It closes with a structuralist re-reading: the
+   404	set-theoretic perspective \emph{does} present numbers, but only as
+   405	encodings; the structural content these encodings share is what we call
+   406	\emph{the number itself}.
+   407	
+   408	\subsection{Paper III: Universal property --- numbers as initial successor structures}
+   409	\label{sec:row-iii}
+   410	
+   411	Paper~III~\cite{paper-iii} introduces the natural numbers object (NNO).
+   412	
+   413	\begin{definition}[NNO, Paper~III]
+   414	\label{def:nno}
+   415	A \emph{natural numbers object} in a category $\mathcal{C}$ with terminal
+   416	object $\mathbf{1}$ is a triple $(N, 0\colon \mathbf{1} \to N,
+   417	\suc\colon N \to N)$ that is the initial $(0, \suc)$-algebra. Equivalently,
+   418	$(N, [0, \suc])$ is initial among algebras for the endofunctor
+   419	$F X = \mathbf{1} + X$ (Lambek).
+   420	\end{definition}
+   421	
+   422	\begin{theorem}[Universal property, Paper~III, Theorem~3.2]
+   423	\label{thm:nno-up}
+   424	Let $(N, 0, \suc)$ be an NNO in $\mathcal{C}$. For every pointed dynamical
+   425	system $(X, x_0, f)$ in $\mathcal{C}$, there exists a unique morphism
+   426	$h\colon N \to X$ such that
+   427	\[
+   428	h \circ 0 = x_0 \quad \text{and} \quad h \circ \suc = f \circ h.
+   429	\]
+   430	\end{theorem}
+   431	
+   432	The unique map $h$ \emph{is} the primitive recursion combinator
+   433	$\mathrm{rec}(x_0, f)$. The integer $58$ is, in any NNO,
+   434	$\suc^{58}(0)$, and any two NNOs are canonically isomorphic via the unique
+   435	maps in both directions, so $58$ is well-defined up to that canonical
+   436	isomorphism.
+   437	
+   438	Paper~III also proves equivalence with second-order Peano axioms
+   439	(P1--P5), discusses non-standard models of first-order PA (which the
+   440	universal-property characterisation excludes), develops universal-property
+   441	descriptions of $\Z$, $\Q$, $\R$, $\pi$, $e$, and presents the coalgebraic
+   442	dual (final coalgebras, streams as $\nu X.\, D \times X$, codata,
+   443	bisimulation as the corresponding induction principle).
+   444	
+   445	The paper closes by recasting the NNO Yonedically: a universal property is
+   446	a representation of a functor, and the NNO represents the constant singleton
+   447	functor on $\PtEndo$. This bridges to Paper~IV.
+   448	
+   449	\subsection{Paper IV: Yoneda --- numbers as representable functors}
+   450	\label{sec:row-iv}
+   451	
+   452	Paper~IV~\cite{paper-iv} promotes the relational viewpoint to its
+   453	categorical limit.
+   454	
+   455	\begin{theorem}[Yoneda lemma, Paper~IV, Theorem~3.1]
+   456	\label{thm:yoneda}
+   457	For any locally small category $\mathcal{C}$, object $X \in \mathcal{C}$,
+   458	and presheaf $F\colon \mathcal{C}\op \to \Set$, the map
+   459	\[
+   460	\Phi_{X,F}\colon \Nat(\Hom_{\mathcal{C}}(-, X), F) \to F(X), \qquad
+   461	\alpha \mapsto \alpha_X(\id_X)
+   462	\]
+   463	is a bijection, natural in both $X$ and $F$.
+   464	\end{theorem}
+   465	
+   466	\begin{corollary}[Fully faithful Yoneda embedding]
+   467	The functor $y\colon \mathcal{C} \to [\mathcal{C}\op, \Set]$,
+   468	$X \mapsto \Hom(-, X)$, is fully faithful. Hence
+   469	$X \iso Y \iff h_X \iso h_Y$.
+   470	\end{corollary}
+   471	
+   472	In the category $\PtEndo$ of pointed dynamical systems, the natural number
+   473	$58$ is identified with the functor that assigns to every
+   474	$(X, x_0, f)$ the value $f^{58}(x_0)$. The structuralist's slogan
+   475	``numbers are positions in a structure'' is now a theorem.
+   476	
+   477	Paper~IV also proves the density theorem (every presheaf is a colimit of
+   478	representables), surveys applications to groups (regular representations),
+   479	spaces (functor of points), and schemes (Grothendieck's program), and
+   480	develops enriched, $2$-categorical, and $\infty$-categorical Yoneda
+   481	(culminating in Lurie's $\infty$-Yoneda lemma~\cite{lurie}). It closes by
+   482	arguing that under univalence, the implication
+   483	$h_X \iso h_Y \Rightarrow X = Y$ is internalised as a path in the universe,
+   484	preparing Paper~V.
+   485	
+   486	\subsection{Paper V: HoTT --- numbers as inductive types up to path equivalence}
+   487	\label{sec:row-v}
+   488	
+   489	Paper~V~\cite{paper-v} is a self-contained development of Homotopy Type
+   490	Theory. The natural numbers are the inductive type
+   491	\[
+   492	\N \,:\!\!=\, \mathsf{data}\, \N : \U \;|\; \zero : \N \;|\; \suc : \N \to \N,
+   493	\]
+   494	and $58$ is the canonical term $\suc^{58}\,\zero$.
+   495	
+   496	The novelty of HoTT is the identity type $a =_A b$, which is not a mere
+   497	proposition but a structured object carrying the homotopical content of a
+   498	\emph{path space}. The paper develops path induction, transport, coherence,
+   499	and the homotopy levels, and states Voevodsky's univalence axiom:
+   500	
+   501	\begin{theorem}[Univalence axiom, Paper~V, Theorem~4.2]
+   502	\label{thm:univalence}
+   503	For all types $A, B : \U$, the canonical map
+   504	$\idtoeqv\colon (A =_\U B) \to (A \eqv B)$ is itself an equivalence. The
+   505	inverse map is denoted
+   506	\[
+   507	\ua\colon (A \eqv B) \to (A =_\U B).
+   508	\]
+   509	\end{theorem}
+   510	
+   511	The paper proves a contractibility theorem for the type of NNOs in HoTT:
+   512	
+   513	\begin{theorem}[Contractibility of NNO, Paper~V, Theorem~4.4]
+   514	\label{thm:nno-contr}
+   515	The type
+   516	\[
+   517	\NNO := \sum_{X : \U}\;\sum_{x_0 : X}\;\sum_{s : X \to X}\;
+   518	\mathsf{isInitial}(X, x_0, s)
+   519	\]
+   520	is contractible. The centre of contraction is $(\N, \zero, \suc, \star)$,
+   521	and every other quadruple is connected to it by a unique path.
+   522	\end{theorem}
+   523	
+   524	This is the formal expression of the slogan ``$58$ is canonical across all
+   525	NNOs.'' Paper~V also develops higher inductive types (interval, circle,
+   526	spheres, suspensions, pushouts, propositional truncation, Cauchy real
+   527	numbers as a higher inductive--inductive type), the cubical realisation of
+   528	HoTT~\cite{CCHM,CubicalAgda} in which univalence is provable rather than
+   529	axiomatic, two-level type theory~\cite{2LTT}, modal HoTT, and directed
+   530	HoTT~\cite{RiehlShulman}.
+   531	
+   532	\subsection{Paper VI: Categorical / structural --- numbers as invariants}
+   533	\label{sec:row-vi}
+   534	
+   535	Paper~VI~\cite{paper-vi} presents the structural answer to ``what is a
+   536	number?''. Numerals are invariants under all structure-preserving
+   537	morphisms between models of arithmetic. The paper surveys mathematical
+   538	structuralism in the philosophical
+   539	tradition~\cite{Resnik1997,Shapiro1997,Hellman1989,Awodey1996}, presents
+   540	its categorical formalisation through Lawvere's ETCS~\cite{Lawvere1964}
+   541	and the functorial semantics of algebraic theories~\cite{Lawvere1963},
+   542	and proves an isomorphism-invariance theorem for first-order properties
+   543	of finitely-presented theories.
+   544	
+   545	\begin{theorem}[Structure identity principle, Paper~VI, Theorem~10.3]
+   546	\label{thm:sip}
+   547	Let $\mathcal{S}$ be a notion of structure given by a $\Sigma$-type
+   548	$\sum_{X : \U} F(X)$ for $F$ a structure of finite signature. In HoTT,
+   549	identification of structures is canonically equivalent to
+   550	structure-preserving equivalence of carriers:
+   551	\[
+   552	\bigl((X, s) =_{\sum_X F(X)} (X', s')\bigr) \;\eqv\;
+   553	\bigl(\sum_{f : X \eqv X'}\, f \text{ preserves } s, s'\bigr).
+   554	\]
+   555	\end{theorem}
+   556	
+   557	\begin{theorem}[Equivalence-invariance, Paper~VI, Theorem~10.4]
+   558	\label{thm:eq-inv}
+   559	In HoTT, every property $P : \mathcal{S} \to \U$ of structures of a given
+   560	kind is automatically invariant under structure-preserving equivalence:
+   561	$(X, s) \eqv (X', s')$ implies $P(X, s) \eqv P(X', s')$.
+   562	\end{theorem}
+   563	
+   564	The paper exhibits two non-equal but isomorphic set-theoretic models of a
+   565	small algebraic theory of pointed unary structures and verifies, formally
+   566	and by Haskell code, that all numerical answers (cardinalities of
+   567	definable subsets, values of definable functions) coincide. It connects
+   568	categorification ($58$-element groupoid in $\Grpd$ that decategorifies to
+   569	$58$ in $\Set$ via $\pi_0$) and Euler-characteristic / $K$-theoretic
+   570	decategorification to the same invariance principle.
+   571	
+   572	\section{The Five Transit Theorems}
+   573	\label{sec:transit}
+   574	
+   575	Each of the five steps from one row to the next has formal content. We
+   576	collect those steps as theorems and prove them, where the proofs are not
+   577	already inside the topical papers.
+   578	
+   579	\subsection{Naive to set-theoretic}
+   580	\label{sec:transit-i}
+   581	
+   582	\begin{theorem}[Existence of a definite encoding]
+   583	\label{thm:transit-i}
+   584	There exists a class function $V : \N \to V_\omega$ in ZFC, defined by
+   585	$V(0) = \emptyset$, $V(n+1) = V(n) \cup \{V(n)\}$, such that every numeral
+   586	in any of the four numeral systems of Paper~I (Hindu--Arabic, Roman, tally,
+   587	Babylonian sexagesimal) determines, via parsing, a unique element of the
+   588	image of $V$.
+   589	\end{theorem}
+   590	
+   591	\begin{proof}
+   592	The recursion is justified by Replacement and Foundation in ZFC; see
+   593	Paper~II, Theorem~3.4. The parsers are constructed in Paper~I, \S8.
+   594	\end{proof}
+   595	
+   596	\Cref{thm:transit-i} resolves the naive symbol/object confusion: there is
+   597	a definite mathematical object the numeral refers to. But it does not
+   598	resolve which one: that is Benacerraf's problem (\cref{thm:benacerraf}).
+   599	
+   600	\subsection{Set-theoretic to universal property}
+   601	\label{sec:transit-ii}
+   602	
+   603	\begin{theorem}[Encoding $\Rightarrow$ NNO]
+   604	\label{thm:transit-ii}
+   605	The von Neumann encoding $V$ exhibits $(\N_v, \emptyset, n \mapsto n \cup \{n\})$
+   606	as a natural numbers object in $\Set$. The Zermelo encoding $Z$ exhibits
+   607	$(\N_z, \emptyset, n \mapsto \{n\})$ as a natural numbers object in $\Set$.
+   608	The unique map $h\colon \N_v \to \N_z$ guaranteed by the universal property
+   609	of $\N_v$ is the bijection sending $V(n)$ to $Z(n)$, and is canonical.
+   610	\end{theorem}
+   611	
+   612	\begin{proof}
+   613	That both structures satisfy the second-order Peano axioms is Paper~II,
+   614	Theorems~3.5 and~4.2. By Paper~III, Theorem~7.1, second-order Peano is
+   615	equivalent to NNO. Initiality (and hence the canonical bijection) follows.
+   616	\end{proof}
+   617	
+   618	\Cref{thm:transit-ii} resolves Benacerraf: the von Neumann and Zermelo
+   619	encodings do not name the same set, but they name the same NNO up to a
+   620	unique iso. The universal property is the encoding-independent shadow.
+   621	
+   622	\subsection{Universal property to Yoneda}
+   623	\label{sec:transit-iii}
+   624	
+   625	\begin{theorem}[NNO as a representation]
+   626	\label{thm:transit-iii}
+   627	Let $\mathcal{C}$ be a category with terminal object. The forgetful
+   628	functor $U\colon \PtEndo(\mathcal{C}) \to \mathcal{C}$ has a left adjoint
+   629	$F$ if and only if $\mathcal{C}$ admits an NNO. In that case
+   630	$N = F(\mathbf{0})$ where $\mathbf{0}$ is the initial object of
+   631	$\mathcal{C}$ (or, equivalently, $N$ is the value of the free pointed
+   632	endo-system on the empty set), and the universal property of the NNO is
+   633	exactly the unit of the adjunction.
+   634	\end{theorem}
+   635	
+   636	\begin{proof}
+   637	We connect the adjunction to Yoneda in two steps.
+   638	
+   639	\emph{Step 1: adjunction $\Rightarrow$ universal property.} Suppose $F$
+   640	is left adjoint to $U$. The unit $\eta\colon \id_\mathcal{C} \to U F$ at the
+   641	initial object $\mathbf{0} \in \mathcal{C}$ is the universal map
+   642	$\eta_\mathbf{0}\colon \mathbf{0} \to U F (\mathbf{0})$. By the
+   643	adjunction's hom-set bijection
+   644	$\Hom_{\PtEndo}(F(\mathbf{0}), (X, x_0, f)) \iso \Hom_\mathcal{C}(\mathbf{0}, U(X, x_0, f))$,
+   645	the right-hand side is a singleton (initiality of $\mathbf{0}$), so the
+   646	left-hand side is too: there is a \emph{unique} morphism
+   647	$F(\mathbf{0}) \to (X, x_0, f)$ for every pointed endo-system. This is
+   648	precisely the universal property of the NNO (\cref{thm:nno-up}) with
+   649	$N := F(\mathbf{0})$. Conversely, an NNO supplies the action of $F$ on
+   650	objects and the unit, and naturality of the bijection is forced by the
+   651	universal property.
+   652	
+   653	\emph{Step 2: universal property $\Rightarrow$ Yoneda representation.}
+   654	Reading the previous bijection as an isomorphism of presheaves on
+   655	$\PtEndo$,
+   656	\[
+   657	\Hom_{\PtEndo}(N, -) \;\iso\; \Delta_{\mathbf{1}},
+   658	\]
+   659	where $\Delta_{\mathbf{1}}$ is the constant singleton presheaf, exhibits
+   660	$N$ as a representing object for $\Delta_{\mathbf{1}}$. The Yoneda
+   661	embedding sends $N$ to the representable $h_N \in [\PtEndo\op, \Set]$,
+   662	which equals (up to natural iso) the constant singleton presheaf. Thus
+   663	the universal property is exactly the assertion that $h_N \iso \Delta_{\mathbf{1}}$,
+   664	which is the Yoneda formulation. See Paper~III, Proposition~9.2 for the
+   665	full computation.
+   666	\end{proof}
+   667	
+   668	\subsection{Yoneda to HoTT}
+   669	\label{sec:transit-iv}
+   670	
+   671	\begin{theorem}[Yoneda + univalence $\Rightarrow$ identity]
+   672	\label{thm:transit-iv}
+   673	Let $\mathcal{C}$ be a univalent category in HoTT (in the sense of
+   674	\cite[Definition~9.1.6]{HoTTBook}: a category in which the canonical map
+   675	$(A = B) \to (A \iso B)$ is an equivalence). Then for $X, Y \in \mathcal{C}$
+   676	the chain
+   677	\[
+   678	(X = Y) \;\eqv\; (X \iso Y) \;\eqv\; (h_X \iso h_Y) \;\eqv\; (h_X = h_Y)
+   679	\]
+   680	of equivalences holds, with the first being the univalence-of-$\mathcal{C}$
+   681	condition, the second being the Yoneda corollary, and the third being
+   682	univalence of the functor category $[\mathcal{C}\op, \U]$.
+   683	\end{theorem}
+   684	
+   685	\begin{proof}
+   686	The first equivalence is by definition of a univalent category. The second
+   687	is the Yoneda corollary (Paper~IV, Corollary~3.4). The third is by
+   688	function-extensionality and univalence applied componentwise; see
+   689	\cite[Theorem~9.2.5]{HoTTBook}. Composing the three gives an equivalence
+   690	$(X = Y) \eqv (h_X = h_Y)$, which is the desired internal identification.
+   691	\end{proof}
+   692	
+   693	\Cref{thm:transit-iv} is the technical heart of the strong univalent
+   694	correspondence: Yoneda's ``iff'' becomes a four-way chain of equivalences,
+   695	each two adjacent terms identified internally, so that the entire chain
+   696	collapses to one type up to equivalence.
+   697	
+   698	\subsection{HoTT to categorical / structural}
+   699	\label{sec:transit-vi}
+   700	
+   701	\begin{theorem}[Univalence $\Rightarrow$ structural]
+   702	\label{thm:transit-vi}
+   703	In HoTT, every type-theoretic property $P$ of an algebraic structure is
+   704	automatically structural in the sense of Paper~VI: if
+   705	$(X, s) \eqv (X', s')$ as structures, then $P(X, s) \eqv P(X', s')$. In
+   706	particular, the natural number $58$, defined as $\suc^{58}\,\zero$ in any
+   707	NNO, agrees with $58$ in any equivalent NNO presentation.
+   708	\end{theorem}
+   709	
+   710	\begin{proof}
+   711	This is the structure identity principle (\cref{thm:sip}, Paper~VI,
+   712	Theorem~10.3) combined with path-action of $P$. The application to $58$
+   713	is \cite[Corollary~5.4]{paper-v} (\cref{thm:nno-contr}).
+   714	\end{proof}
+   715	
+   716	\Cref{thm:transit-vi} is the converse direction of the previous transit:
+   717	the structural perspective of Paper~VI is no longer a methodological
+   718	discipline (``write only iso-invariant definitions'') but a theorem of the
+   719	foundations (``every definition you can write \emph{is} iso-invariant'').
+   720	Univalence is the principle that promotes the meta-condition to an
+   721	internal one. We summarise the four-layer convergence in
+   722	\cref{tab:four-layers}, reproduced from Paper~VI.
+   723	
+   724	\begin{table}[ht]
+   725	\centering
+   726	\begin{tabular}{lll}
+   727	\toprule
+   728	\textbf{Layer (Paper)} & \textbf{Statement} & \textbf{Status} \\
+   729	\midrule
+   730	Categorical / structural (VI) & Structural properties are iso-invariant
+   731	& Meta-theorem \\
+   732	Universal property (III) & Iso-class is canonical & Theorem (NNO uniqueness) \\
+   733	Yoneda (IV) & Object known by relations & Theorem (Yoneda) \\
+   734	HoTT + univalence (V) & Iso-invariance is automatic & Internal (SIP) \\
+   735	\bottomrule
+   736	\end{tabular}
+   737	\caption{Four layers of one principle. Adapted from Paper~VI,
+   738	Table~10.1.}
+   739	\label{tab:four-layers}
+   740	\end{table}
+   741	
+   742	\section{Unified Framework: One \texorpdfstring{$\infty$}{Infinity}-Groupoid, Four Windows}
+   743	\label{sec:framework}
+   744	
+   745	We now build the mathematical framework in which the four right-most rows
+   746	of \cref{tab:six-rows} become four windows on a single object.
+   747	
+   748	\subsection{Setup: a univalent universe}
+   749	\label{sec:setup-univ}
+   750	
+   751	Let $\U$ be a univalent universe of types in HoTT. We work informally in
+   752	HoTT throughout; the reader who prefers a categorical semantics may
+   753	interpret all our types as objects of an $(\infty,1)$-topos, e.g.\ the
+   754	$\infty$-topos of $\infty$-groupoids, or any
+   755	Grothendieck--Rezk--Lurie--Joyal $\infty$-topos~\cite{lurie,ShulmanInftyTopos}.
+   756	
+   757	\begin{definition}[The four-perspective functors]
+   758	\label{def:four-functors}
+   759	Fix a notion of structure given by a $\Sigma$-type
+   760	\[
+   761	\mathcal{S} \;:=\; \sum_{X : \U} F(X)
+   762	\]
+   763	for some structure-of-finite-signature predicate $F : \U \to \U$ (e.g.\
+   764	pointed unary structures, the signature of an NNO). Write a typical
+   765	structure as a pair $\mathbf{X} = (X, s)$ where $X : \U$ is the carrier
+   766	and $s : F(X)$ is the structure data. Let $\mathcal{C}_\mathcal{S}$
+   767	denote the category whose objects are inhabitants of $\mathcal{S}$ and
+   768	whose morphisms are structure-preserving maps. Define four functors:
+   769	\begin{itemize}
+   770	\item $\mathsf{UP}\colon \mathcal{S} \to \mathsf{Prop}_\U$ sending
+   771	$\mathbf{X}$ to the mere proposition $\mathsf{isInitial}(\mathbf{X})$ of
+   772	being initial in $\mathcal{C}_\mathcal{S}$;
+   773	\item $\mathsf{Y}\colon \mathcal{S} \to [\mathcal{C}_\mathcal{S}\op, \U]$
+   774	sending $\mathbf{X}$ to the presheaf
+   775	$h_{\mathbf{X}} = \Hom_{\mathcal{C}_\mathcal{S}}(-, \mathbf{X})$
+   776	(the Yoneda embedding restricted to $\mathcal{C}_\mathcal{S}$);
+   777	\item $\mathsf{H}\colon \mathcal{S} \to \U$ sending $\mathbf{X} = (X, s)$
+   778	to its carrier $X$ with identity types unfolded to path spaces;
+   779	\item $\mathsf{S}\colon \mathcal{S} \to \mathcal{S}/\eqv$ sending
+   780	$\mathbf{X}$ to its isomorphism class of $\mathcal{S}$-structures.
+   781	\end{itemize}
+   782	The functors $\mathsf{UP}, \mathsf{Y}, \mathsf{H}, \mathsf{S}$ are the
+   783	four windows on a fixed $\mathcal{S}$-structure.
+   784	\end{definition}
+   785	
+   786	\begin{theorem}[Identity of perspectives]
+   787	\label{thm:identity-of-perspectives}
+   788	For $\mathbf{X}, \mathbf{Y} : \mathcal{S}$, the four statements
+   789	\begin{enumerate}
+   790	\item[(UP)] $\mathsf{UP}(\mathbf{X}) \times \mathsf{UP}(\mathbf{Y})$
+   791	together with the resulting unique iso $\mathbf{X} \iso \mathbf{Y}$ in
+   792	$\mathcal{C}_\mathcal{S}$;
+   793	\item[(Y)] $\mathsf{Y}(\mathbf{X}) \iso \mathsf{Y}(\mathbf{Y})$ in
+   794	$[\mathcal{C}_\mathcal{S}\op, \U]$;
+   795	\item[(H)] a path
+   796	$p\colon \mathsf{H}(\mathbf{X}) =_\U \mathsf{H}(\mathbf{Y})$ together
+   797	with a transport-coherence witness for the structure data;
+   798	\item[(S)] $\mathsf{S}(\mathbf{X}) = \mathsf{S}(\mathbf{Y})$ as elements
+   799	of the quotient $\mathcal{S}/\eqv$;
+   800	\end{enumerate}
+   801	are pairwise equivalent. Therefore, under the univalence axiom and SIP,
+   802	they all reduce to the type
+   803	$\mathbf{X} =_\mathcal{S} \mathbf{Y}$, which is itself an
+   804	$\infty$-groupoid (the path space).
+   805	\end{theorem}
+   806	
+   807	\begin{proof}
+   808	\textbf{(UP)~$\Rightarrow$~(Y).} If $\mathbf{X}$ and $\mathbf{Y}$ are
+   809	both initial in $\mathcal{C}_\mathcal{S}$, the unique morphisms in both
+   810	directions exhibit $\mathbf{X} \iso \mathbf{Y}$. By full faithfulness of
+   811	Yoneda, $h_{\mathbf{X}} \iso h_{\mathbf{Y}}$.
+   812	
+   813	\textbf{(Y)~$\Rightarrow$~(H).} By \cref{thm:transit-iv}, applied to the
+   814	univalent category $\mathcal{C}_\mathcal{S}$, the isomorphism
+   815	$h_{\mathbf{X}} \iso h_{\mathbf{Y}}$ is equivalent to a path
+   816	$h_{\mathbf{X}} = h_{\mathbf{Y}}$, which by univalence of the presheaf
+   817	category gives an iso of carriers and hence (after structure transport)
+   818	the path $p$ together with its coherence witness.
+   819	
+   820	\textbf{(H)~$\Rightarrow$~(S).} We unpack this step. The hypothesis is a
+   821	path $p\colon \mathsf{H}(\mathbf{X}) =_\U \mathsf{H}(\mathbf{Y})$
+   822	between carriers, together with a transport-coherence witness
+   823	$q\colon \transport^F(p)(s_X) =_{F(\mathsf{H}(\mathbf{Y}))} s_Y$
+   824	identifying the structure data after transport. By the construction of
+   825	paths in $\Sigma$-types
+   826	\cite[Theorem~2.7.2]{HoTTBook}, the pair $(p, q)$ is exactly an
+   827	inhabitant of the type $\mathbf{X} =_\mathcal{S} \mathbf{Y}$ where the
+   828	right-hand side is a path in the $\Sigma$-type
+   829	$\sum_{X : \U} F(X)$ that defines $\mathcal{S}$. SIP
+   830	(\cref{thm:sip}) then asserts that this $\Sigma$-path is itself
+   831	canonically equivalent to a structure-preserving equivalence
+   832	$\sum_{f : X \eqv X'}\, f \text{ preserves } s, s'$. Quotienting by
+   833	$\eqv$ yields the equality
+   834	$\mathsf{S}(\mathbf{X}) = \mathsf{S}(\mathbf{Y})$ in
+   835	$\mathcal{S}/\eqv$.
+   836	
+   837	\textbf{(S)~$\Rightarrow$~(UP).} If
+   838	$\mathsf{S}(\mathbf{X}) = \mathsf{S}(\mathbf{Y})$, the representatives are
+   839	isomorphic, so both are initial or neither is. The remaining content of
+   840	(UP) (the unique morphisms) follows from initiality of either via SIP.
+   841	
+   842	The cycle closes; pairwise equivalence follows. The fact that the common
+   843	type is an $\infty$-groupoid is built into HoTT: identity types are types,
+   844	their identity types are types, and so on.
+   845	\end{proof}
+   846	
+   847	\Cref{thm:identity-of-perspectives} is the technical formulation of
+   848	\cref{prin:strong}. The four statements (UP), (Y), (H), (S) are not just
+   849	analogous; they all live as inhabitants of the same path-type
+   850	$\mathbf{X} =_\mathcal{S} \mathbf{Y}$ in the type of structures.
+   851	
+   852	\subsection{The unifying picture}
+   853	
+   854	\Cref{fig:four-views} shows the unified picture: a single $\infty$-groupoid
+   855	viewed through four functors, each producing one of the four columns of
+   856	the computational tetrad.
+   857	
+   858	\begin{figure}[ht]
+   859	\centering
+   860	\begin{tikzpicture}[node distance=2.0cm and 2.5cm]
+   861	\node (X) [draw, circle, minimum size=2cm, thick] {$X \in \U$};
+   862	\node (UP) [above left=of X] {$(\mathsf{UP})$ initial in $\mathcal{S}$};
+   863	\node (Y) [above right=of X] {$(\mathsf{Y})$ representable functor};
+   864	\node (H) [below left=of X] {$(\mathsf{H})$ canonical term in $\U$};
+   865	\node (S) [below right=of X] {$(\mathsf{S})$ structural invariant};
+   866	\draw[-{Stealth[length=3mm]}] (X) -- (UP);
+   867	\draw[-{Stealth[length=3mm]}] (X) -- (Y);
+   868	\draw[-{Stealth[length=3mm]}] (X) -- (H);
+   869	\draw[-{Stealth[length=3mm]}] (X) -- (S);
+   870	\draw[<->, dashed] (UP) -- (Y) node[midway, above] {$\eqv$};
+   871	\draw[<->, dashed] (Y) -- (S) node[midway, right] {$\eqv$};
+   872	\draw[<->, dashed] (S) -- (H) node[midway, below] {$\eqv$};
+   873	\draw[<->, dashed] (H) -- (UP) node[midway, left] {$\eqv$};
+   874	\end{tikzpicture}
+   875	\caption{One $\infty$-groupoid, four windows. The four functors of
+   876	\cref{def:four-functors} produce the four characterisations of $X$. Under
+   877	univalence and SIP, all four characterisations are pairwise equivalent
+   878	(\cref{thm:identity-of-perspectives}).}
+   879	\label{fig:four-views}
+   880	\end{figure}
+   881	
+   882	\subsection{Stratification by homotopy level}
+   883	
+   884	The $\infty$-groupoid view stratifies. For the natural number type $\N$,
+   885	which is a $0$-type (a set, in the HoTT Book's $n$-type indexing where
+   886	contractible types are $(-2)$-types) by~\cite[Theorem~7.1.6]{HoTTBook}, the
+   887	$\infty$-groupoid of NNOs is in fact a contractible $\infty$-groupoid, by
+   888	\cref{thm:nno-contr}. So the path space between any two NNO presentations
+   889	is itself contractible: the canonical iso between $\N_v$ and $\N_z$ is
+   890	not just unique up to ambient choices but \emph{essentially uniquely
+   891	unique}, with all higher coherences automatic. This is what
+   892	\cref{thm:nno-contr} achieves that mere Peano-equivalence does not.
+   893	
+   894	For $\R$, defined as a higher inductive--inductive type via Cauchy
+   895	completion~\cite{Booij,HoTTBook}, the situation is more delicate: $\R$ is
+   896	a set ($0$-type) under the propositional truncation conditions of the
+   897	HIIT, but the construction of $\R$ from $\Q$ involves higher path
+   898	constructors. The transcendentals $\pi$ and $e$ then appear as definite
+   899	(canonical-up-to-path) inhabitants of $\R$ via universal-property
+   900	characterisations
+   901	($\sin(\pi) = 0$, $f' = f$ and $f(0) = 1$, etc.); see \cref{sec:applications}.
+   902	
+   903	\section{The Univalent Correspondence: Statement and Consequences}
+   904	\label{sec:correspondence}
+   905	
+   906	We now state the principle systematically.
+   907	
+   908	\begin{principle}[The univalent correspondence, formal version]
+   909	\label{prin:formal}
+   910	Let $\mathcal{S}$ be a notion of structure given by an essentially
+   911	algebraic theory in HoTT. Let $X, Y$ be $\mathcal{S}$-structures in a
+   912	univalent universe $\U$. Then the following are pairwise equivalent in
+   913	$\U$:
+   914	\begin{itemize}
+   915	\item[\textsc{(I)}] $X$ and $Y$ both have the same universal property
+   916	(both initial, both terminal, both representing the same functor, etc.).
+   917	\item[\textsc{(II)}] The Yoneda embeddings $h_X$ and $h_Y$ are
+   918	isomorphic as presheaves.
+   919	\item[\textsc{(III)}] $\mathsf{H}(X) =_\U \mathsf{H}(Y)$ as types
+   920	(identity in the universe).
+   921	\item[\textsc{(IV)}] $X$ and $Y$ are equal as elements of the type of
+   922	$\mathcal{S}$-structures.
+   923	\end{itemize}
+   924	The equivalences \textsc{(I)}~$\Leftrightarrow$~\textsc{(II)} and
+   925	\textsc{(II)}~$\Leftrightarrow$~\textsc{(III)} are theorems; the
+   926	equivalence \textsc{(III)}~$\Leftrightarrow$~\textsc{(IV)} requires the
+   927	structure identity principle (a theorem in HoTT, established for
+   928	finite-signature structures in~\cite{HoTTBook,Escardo2019}). The
+   929	equivalence \textsc{(I)}~$\Leftrightarrow$~\textsc{(IV)} requires
+   930	univalence.
+   931	\end{principle}
+   932	
+   933	\subsection{The fixed-point reading}
+   934	
+   935	\Cref{prin:formal} can be read as a fixed-point statement. The four
+   936	columns of the computational tetrad (\cref{tab:tetrad}) describe four
+   937	languages for talking about objects: logic, type theory, category
+   938	theory, homotopy theory. Univalence is the assertion that, for the
+   939	universe of types, the four languages have a common semantic
+   940	fixed point: a single $\infty$-groupoid that satisfies all four
+   941	descriptions simultaneously, with the four descriptions identified along
+   942	the chain of equivalences just listed.
+   943	
+   944	\begin{remark}[Curry--Howard--Lambek--Voevodsky]
+   945	The Curry--Howard correspondence~\cite{Wadler2015} identifies columns~1
+   946	and~2 (logic with type theory). The Curry--Howard--Lambek
+   947	correspondence~\cite{Lambek1972,maclane} adds column~3 (category theory).
+   948	Voevodsky's univalent foundations~\cite{Voevodsky,HoTTBook} adds
+   949	column~4 (homotopy theory) by interpreting types as $\infty$-groupoids
+   950	and asserting univalence. The univalent correspondence is the strong
+   951	form of the four-way Curry--Howard--Lambek--Voevodsky correspondence.
+   952	\end{remark}
+   953	
+   954	\subsection{Application to the natural numbers}
+   955	
+   956	\begin{corollary}[The natural numbers are univalent]
+   957	\label{cor:N-univalent}
+   958	Let $\NNO$ be the type of NNO structures in $\U$. The following are all
+   959	the same data, up to canonical equivalence:
+   960	\begin{itemize}
+   961	\item the universal-property data $(N, 0, \suc, \mathsf{isInitial})$;
+   962	\item the representable presheaf $h_N \in [\NNO\op, \U]$;
+   963	\item the canonical inhabitant of the contractible type $\NNO$;
+   964	\item the iso-class $[(N, 0, \suc)]$ in $\NNO/\eqv$.
+   965	\end{itemize}
+   966	The integer $58$, defined as $\suc^{58}\,\zero$, is invariant under all
+   967	four identifications.
+   968	\end{corollary}
+   969	
+   970	\begin{proof}
+   971	Combine \cref{thm:nno-contr,thm:identity-of-perspectives,thm:transit-vi}.
+   972	\end{proof}
+   973	
+   974	\subsection{Why this resolves the original question}
+   975	
+   976	The original question of the series, ``what is $58$?'', has now four
+   977	equivalent answers, each made precise by one of Papers~III through~VI:
+   978	\begin{itemize}
+   979	\item \emph{(III)} $58$ is the unique element such that, for every pointed
+   980	endo-system $(X, x_0, f)$ in any category with terminal object, the unique
+   981	NNO morphism $h\colon \N \to X$ sends $58$ to $f^{58}(x_0)$.
+   982	\item \emph{(IV)} $58$ is the natural number whose representable functor
+   983	$\Hom(-, 58)$, under the Yoneda embedding into the presheaf topos, exhibits
+   984	all probes onto $58$ from below.
+   985	\item \emph{(V)} $58$ is the canonical term $\suc^{58}\,\zero : \N$,
+   986	identified with $\suc^{58}\,\zero$ in any equivalent NNO presentation by
+   987	transport along the unique path in the contractible type $\NNO$.
+   988	\item \emph{(VI)} $58$ is the value of any (every) definable arithmetic
+   989	quantity that, on the standard model of arithmetic, evaluates to $58$;
+   990	this value is invariant under all model isomorphisms by SIP.
+   991	\end{itemize}
+   992	The univalent correspondence asserts that these four answers are not just
+   993	\emph{about} the same object: they are \emph{the same data}, internally,
+   994	in HoTT.
+   995	
+   996	\section{Hierarchical Composition: How Each Level Builds on the Previous}
+   997	\label{sec:diagrams}
+   998	
+   999	The univalent correspondence is not just a parallel array of four
+  1000	descriptions: it is a hierarchical composition in which each level uses
+  1001	the data of the previous one. We make the dependencies explicit.
+  1002	
+  1003	\subsection{Composition diagram}
+  1004	
+  1005	\Cref{fig:composition} shows the dependencies between the six rows.
+  1006	
+  1007	\begin{figure}[ht]
+  1008	\centering
+  1009	\begin{tikzcd}[column sep=2.4em, row sep=large]
+  1010	\text{(I) Naive}
+  1011	  \arrow[r, "{\text{T1}}", "{\text{definite encoding}}"']
+  1012	& \text{(II) Set-theoretic}
+  1013	  \arrow[r, "{\text{T2}}", "{\text{Benacerraf}\,\Rightarrow\,\text{NNO}}"']
+  1014	& \text{(III) Universal property}
+  1015	  \arrow[r, "{\text{T3}}", "{\text{NNO is rep.\ functor}}"']
+  1016	& \text{(IV) Yoneda}
+  1017	  \arrow[r, "{\text{T4}}", "{\text{univalence}}"']
+  1018	& \text{(V) HoTT}
+  1019	  \arrow[r, "{\text{T5}}", "{\text{SIP}}"']
+  1020	& \text{(VI) Structural}
+  1021	\end{tikzcd}
+  1022	\caption{Hierarchical composition: each transit theorem
+  1023	T$k$ of \cref{sec:transit} carries level $k$ to level $k+1$ by
+  1024	resolving the residual question of the previous level. T1 supplies a
+  1025	definite encoding (resolving the symbol/object confusion). T2 abstracts
+  1026	away from the Benacerraf-non-canonical encoding. T3 globalises the
+  1027	universal property by exhibiting the NNO as a representable functor. T4
+  1028	internalises Yoneda's ``iff'' as a path in the universe via univalence.
+  1029	T5 (\cref{thm:transit-vi}) promotes the iso-invariance discipline to an
+  1030	internal theorem via SIP.}
+  1031	\label{fig:composition}
+  1032	\end{figure}
+  1033	
+  1034	\subsection{Composition is not optional}
+  1035	
+  1036	A natural objection: if all four formal levels (III--VI) are equivalent
+  1037	under univalence, why bother with all four? Why not just use HoTT?
+  1038	
+  1039	The answer is that each level supplies indispensable conceptual content
+  1040	that the others alone would obscure:
+  1041	\begin{itemize}
+  1042	\item The universal property (III) is what \emph{lets us recognise} an
+  1043	NNO when we see one. We do not begin in HoTT and then notice that the
+  1044	inductive type $\N$ is initial; we begin with the universal property as
+  1045	a design constraint and use it to determine what the type-theoretic data
+  1046	must look like.
+  1047	\item Yoneda (IV) is the bridge that lets us speak of the universal
+  1048	property \emph{relationally}, in any background category, not just inside
+  1049	HoTT. The Yoneda embedding is what we use when working with categories
+  1050	of geometric or algebraic objects (schemes, groups, manifolds) where the
+  1051	HoTT presentation is not yet fully developed.
+  1052	\item HoTT (V) is what \emph{internalises} the equivalence: it is the
+  1053	formal system in which ``up to iso'' becomes ``equal.''
+  1054	\item The categorical / structural perspective (VI) is the philosophical
+  1055	commitment that drives the whole programme. Without it, we have no
+  1056	reason to prefer one perspective over another; with it, we know what
+  1057	we are doing.
+  1058	\end{itemize}
+  1059	
+  1060	\subsection{Emergent properties from composition}
+  1061	
+  1062	The hierarchical composition produces emergent properties not visible at
+  1063	any single level. We collect three.
+  1064	
+  1065	\begin{proposition}[Emergent property: contractibility of NNO]
+  1066	\label{prop:emergent-contract}
+  1067	The NNO is contractible (Paper~V, \cref{thm:nno-contr}) only because the
+  1068	universal property (III) gives a unique map between any two NNOs, the
+  1069	Yoneda embedding (IV) gives that this unique map is an isomorphism, and
+  1070	the univalence axiom (V) promotes the isomorphism to a path. Set theory
+  1071	(II) alone gives only that the von Neumann and Zermelo encodings are
+  1072	isomorphic as Peano structures: the structure-of-paths between them is not
+  1073	visible at the set-theoretic level.
+  1074	\end{proposition}
+  1075	
+  1076	\begin{proposition}[Emergent property: function extensionality]
+  1077	\label{prop:funext}
+  1078	Function extensionality is provable from univalence
+  1079	(\cite[\S4.9]{HoTTBook}, see Paper~V \S4). It is not provable
+  1080	from intensional Martin-L\"of type theory alone, nor from the universal
+  1081	property of any individual structure. It emerges from the composition of
+  1082	universal property, Yoneda, and univalence.
+  1083	\end{proposition}
+  1084	
+  1085	\begin{proposition}[Emergent property: synthetic homotopy theory]
+  1086	\label{prop:synth-homotopy}
+  1087	Synthetic homotopy theory (the development of algebraic topology entirely
+  1088	inside type theory: $\pi_1(S^1) \iso \Z$, the Hopf fibration, the
+  1089	Blakers--Massey theorem, etc.~\cite{LicataShulman,LicataFinster,ShulmanStrength})
+  1090	is impossible at any of the levels (I), (II), (III), or (IV) alone. It
+  1091	emerges from the composition: the categorical perspective (VI) supplies
+  1092	the $\infty$-groupoid view, HoTT (V) gives identity types as path spaces,
+  1093	the Yoneda principle (IV) recovers presentability, and the universal
+  1094	property (III) gives recursion principles for the higher inductive types.
+  1095	\end{proposition}
+  1096	
+  1097	\subsection{Commutativity of the four-functor diagram}
+  1098	
+  1099	\begin{theorem}[Commutativity]
+  1100	\label{thm:commutativity}
+  1101	The four functors of \cref{def:four-functors} commute up to canonical
+  1102	natural equivalence: for every $X \in \U$,
+  1103	\[
+  1104	\mathsf{S} \circ \mathsf{H}^{-1} \circ \mathsf{Y}\,(X) \,\eqv\, \mathsf{UP}(X)
+  1105	\]
+  1106	in the appropriate sense, where the inverses are well-defined modulo
+  1107	contractibility of fibers (which holds for finite-signature structures by
+  1108	SIP).
+  1109	\end{theorem}
+  1110	
+  1111	\begin{proof}[Sketch]
+  1112	Each pair is treated by the corresponding transit theorem of
+  1113	\cref{sec:transit}. The composition $\mathsf{S} \circ \mathsf{H}^{-1} \circ \mathsf{Y}$
+  1114	takes a structure to its representable presheaf, transports back to a
+  1115	type-theoretic representative, and projects to its iso-class; this is the
+  1116	same data as the universal-property witness for $X$, after suppressing the
+  1117	choice of representative. Naturality follows from the naturality of each
+  1118	constituent.
+  1119	\end{proof}
+  1120	
+  1121	\section{Naming the Correspondence: A Brief History}
+  1122	\label{sec:naming}
+  1123	
+  1124	We pause to justify our terminology. The four-way correspondence has many
+  1125	names; we explain why we settle on \emph{the univalent correspondence}.
+  1126	
+  1127	\subsection{Names in use}
+  1128	
+  1129	\begin{itemize}
+  1130	\item \textbf{Curry--Howard correspondence} (binary): logic with type
+  1131	theory. Curry (1934)~\cite{wadler-pat} observed it for combinatory logic;
+  1132	Howard (1969)~\cite{wadler-pat} extended it to natural deduction.
+  1133	\item \textbf{Curry--Howard--Lambek correspondence} (three-way):
+  1134	adds category theory. Lambek (1972)~\cite{Lambek1972} showed that proofs of
+  1135	intuitionistic propositional logic and typed combinators share the
+  1136	equational theory of cartesian closed categories. This is the textbook
+  1137	three-way name.
+  1138	\item \textbf{Computational trinity} (Harper, c.\ 2011): logic, languages
+  1139	(type theory), categories. Harper at CMU popularised the catchier name. A
+  1140	four-way version is sometimes called the computational tetrad.
+  1141	\item \textbf{Propositions-as-types} (Wadler 2015~\cite{Wadler2015}):
+  1142	emphasises the central insight rather than the historical figures.
+  1143	Extends naturally to ``propositions-as-types-as-spaces'' in HoTT.
+  1144	\item \textbf{Univalent foundations} (Voevodsky, 2010~\cite{Voevodsky2010}):
+  1145	the foundational programme built on the four-way correspondence. Homotopy
+  1146	Type Theory (HoTT) is the formal system; the
+  1147	HoTT Book~\cite{HoTTBook} is the canonical reference.
+  1148	\end{itemize}
+  1149	
+  1150	\subsection{Why ``the univalent correspondence''}
+  1151	
+  1152	The phrase ``Curry--Howard--Lambek--Voevodsky correspondence'' is correct
+  1153	but unwieldy. ``Propositions as types as spaces'' is pedagogically apt
+  1154	but emphasises types and propositions over the unifying mechanism. We
+  1155	prefer \emph{the univalent correspondence} for three reasons:
+  1156	\begin{enumerate}
+  1157	\item It \emph{names the unifying mechanism}: the univalence axiom is
+  1158	what promotes the four columns from analogous to literally the same.
+  1159	\item It is \emph{neutral across the columns}: it does not privilege
+  1160	logic, types, categories, or spaces.
+  1161	\item It \emph{credits the discovery}: Voevodsky's univalent foundations
+  1162	project is the conceptual origin of the strong form
+  1163	(\cref{prin:strong}).
+  1164	\end{enumerate}
+  1165	
+  1166	We also use \emph{the $\infty$-groupoid correspondence} when emphasising
+  1167	the underlying object, and \emph{structural univalence} when emphasising
+  1168	the philosophical commitment of Paper~VI.
+  1169	
+  1170	\subsection{The deepest formulation}
+  1171	
+  1172	For the record, the most precise summary of the unified language is the
+  1173	one from~\cite{Voevodsky2010,HoTTBook}, which we take as the deepest
+  1174	formulation of the univalent correspondence:
+  1175	
+  1176	\begin{quote}
+  1177	The unified language is \emph{synthetic homotopy theory} expressed as
+  1178	\emph{dependent type theory}, with categorical semantics in
+  1179	\emph{$(\infty,1)$-toposes}, interpreted logically via
+  1180	\emph{propositions-as-types}. The whole package is
+  1181	\emph{Univalent Foundations}.
+  1182	\end{quote}
+  1183	
+  1184	\section{Applications and Outlook}
+  1185	\label{sec:applications}
+  1186	
+  1187	We close with three applications that the univalent correspondence
+  1188	illuminates.
+  1189	
+  1190	\subsection{Transcendentals \texorpdfstring{$\pi$ and $e$}{pi and e} in HoTT}
+  1191	\label{sec:transcendentals}
+  1192	
+  1193	The transcendental numbers $\pi$ and $e$ enter the framework via Paper~V's
+  1194	HIIT real numbers and Paper~III's universal-property characterisations.
+  1195	
+  1196	\begin{definition}[Cauchy real numbers, HIIT, Paper~V \S5.5]
+  1197	\label{def:R-HIIT}
+  1198	The type $\R_C$ of Cauchy real numbers is the higher inductive--inductive
+  1199	type freely generated by:
+  1200	\begin{itemize}
+  1201	\item $\mathsf{rat}\colon \Q \to \R_C$;
+  1202	\item $\mathsf{lim}\colon \prod_{f : \N \to \R_C}\, \mathsf{isCauchy}(f) \to \R_C$;
+  1203	\item path constructors identifying $\mathsf{lim}\,f$ for any two
+  1204	representations of the same Cauchy class;
+  1205	\item the truncation that makes $\R_C$ a set.
+  1206	\end{itemize}
+  1207	\end{definition}
+  1208	
+  1209	\begin{theorem}[$\pi$ and $e$ in HoTT, after Paper~V \S10]
+  1210	\label{thm:pi-e-hott}
+  1211	There exist canonical inhabitants $\pi, e : \R_C$ characterised by the
+  1212	unique-existence propositions:
+  1213	\begin{itemize}
+  1214	\item $\pi$ is the unique inhabitant of the truncated $\Sigma$-type
+  1215	$\sum_{x : \R_C} (x > 0) \times (\sin x = 0) \times (\forall y \in (0, x).\, \sin y > 0)$;
+  1216	\item $e$ is the unique inhabitant of the truncated $\Sigma$-type
+  1217	$\sum_{x : \R_C} (\exp x = e) \times (\exp 0 = 1) \times (\exp' = \exp)$,
+  1218	where $\exp$ is defined by power series.
+  1219	\end{itemize}
+  1220	The truncation makes the $\Sigma$-types mere propositions ($(-1)$-types),
+  1221	hence inhabitants are unique up to a unique path.
+  1222	\end{theorem}
+  1223	
+  1224	The univalent correspondence applies to $\pi$ and $e$ as it does to $58$:
+  1225	each is identified with its representable functor, with its universal
+  1226	property (\emph{half-period of} $\exp\colon \R \to S^1$, \emph{unique fixed
+  1227	point of differentiation with} $f(0) = 1$), with its structural invariant
+  1228	under field automorphisms of $\R$, and with its canonical HoTT term up to
+  1229	path equivalence.
+  1230	
+  1231	\subsection{ContextFS as a structural-identity primitive}
+  1232	\label{sec:contextfs}
+  1233	
+  1234	The ContextFS / typed memory project~\cite{KnowledgeBase2026} aims to
+  1235	provide AI agents with persistent typed memory that respects structural
+  1236	identity. The univalent correspondence supplies the theoretical foundation:
+  1237	two memory entries should be considered ``the same'' iff they witness the
+  1238	same structural invariant, iff they correspond to equal types in the
+  1239	ambient universe, iff they have the same Yoneda profile in the category
+  1240	of memory operations, iff they satisfy the same universal property.
+  1241	
+  1242	We sketch the architecture. A typed memory is a presheaf
+  1243	$M\colon \mathsf{Op}\op \to \U$ on the category of memory operations, where
+  1244	$\U$ is a univalent universe of types. The universal-property layer
+  1245	specifies which operations any memory entry must support; the Yoneda
+  1246	layer makes ``same memory entry'' precise as natural isomorphism of
+  1247	presheaves; the HoTT layer makes ``natural isomorphism'' a path in $\U$;
+  1248	the categorical/structural layer ensures that all of this is preserved
+  1249	under change of universe (e.g.\ when the agent is migrated).
+  1250	
+  1251	\begin{principle}[ContextFS univalent slogan]
+  1252	A memory entry is identified by its structural role, not by its storage
+  1253	location.
+  1254	\end{principle}
+  1255	
+  1256	This is precisely the univalent correspondence applied to a different
+  1257	domain: instead of $58$, the entry is identified by what it does, not by
+  1258	where it lives.
+  1259	
+  1260	\subsection{Directed HoTT and synthetic \texorpdfstring{$\infty$}{Infinity}-category theory}
+  1261	\label{sec:directed}
+  1262	
+  1263	Riehl and Shulman's simplicial type theory~\cite{RiehlShulman} extends
+  1264	HoTT with directed structure, allowing types whose paths are not
+  1265	necessarily invertible. This is the language of synthetic
+  1266	$\infty$-category theory: an $\infty$-category is a type with a chosen
+  1267	directed structure satisfying the Segal and Rezk conditions internally.
+  1268	
+  1269	The univalent correspondence applies in the directed setting too, but
+  1270	modulo a shift: ``equality of objects'' becomes ``isomorphism of objects''
+  1271	(an invertible path), distinct from ``$X$ maps to $Y$'' (a possibly
+  1272	non-invertible morphism). This is the right setting for
+  1273	representation theory, where representations are functors that need not
+  1274	be equivalences. We sketch the upshot in the language of Paper~VI: a
+  1275	representation $\rho\colon G \to \mathsf{Vect}$ is a directed map; a
+  1276	sub-representation is an iso-mono in the directed sense; the
+  1277	representation theory of finite groups becomes a synthetic theory of
+  1278	directed types over the classifying type $BG$.
+  1279	
+  1280	\subsection{Open problem: analytic number theory in HoTT}
+  1281	\label{sec:open-langlands}
+  1282	
+  1283	The principal open problem the series acknowledges is that analytic number
+  1284	theory --- Riemann zeta zeros, the Langlands programme, automorphic
+  1285	forms~\cite{lurie} --- has not been substantially reformulated in HoTT.
+  1286	Algebraic number theory and parts of arithmetic geometry (schemes, sheaves,
+  1287	\'etale cohomology) admit $(\infty,1)$-topos and condensed mathematics
+  1288	treatments~\cite{ShulmanInftyTopos} that connect cleanly to univalent
+  1289	foundations. But $\zeta(s) = 0$ as a HoTT-native statement, with $\zeta$ a
+  1290	HoTT-native object, remains unrealised.
+  1291	
+  1292	We frame this as the principal open question for the synthesis.
+  1293	
+  1294	\section{Open Problems}
+  1295	\label{sec:open}
+  1296	
+  1297	We collect the open problems flagged by the topical papers and by the
+  1298	synthesis.
+  1299	
+  1300	\begin{enumerate}
+  1301	\item \textbf{Coalgebraic / final-object dual for transcendentals.}
+  1302	Paper~III sketches the coalgebraic side: streams of digits, codata,
+  1303	bisimulation as the corresponding induction principle. A complete
+  1304	final-coalgebra characterisation of $\pi$ and $e$ that avoids the
+  1305	inductive HIIT route is open.
+  1306	\item \textbf{Connections to Langlands and analytic number theory.}
+  1307	\Cref{sec:open-langlands}.
+  1308	\item \textbf{ETCS, IZF, and FOLDS as alternative structural foundations.}
+  1309	Paper~VI surveys ETCS; the relationship to Makkai's
+  1310	FOLDS~\cite{Makkai1995} and to intuitionistic ZF (IZF) merits
+  1311	development.
+  1312	\item \textbf{Higher-categorical structure of NNO.} The contractibility
+  1313	result (\cref{thm:nno-contr}) shows the type of NNOs is a contractible
+  1314	type (a $(-2)$-type). The corresponding statement for $(\infty,1)$-NNOs in
+  1315	$\infty$-toposes (Lurie's $(\infty,1)$-NNO~\cite{lurie}) is more delicate.
+  1316	\item \textbf{ContextFS / type-memory as a structural-identity primitive.}
+  1317	A formal account of typed persistent memory in HoTT, with structural
+  1318	identity as the primitive notion, is the principal applied research
+  1319	direction.
+  1320	\item \textbf{Directed univalence.} Riehl and Shulman's simplicial type
+  1321	theory has a partial directed univalence; a complete principle remains a
+  1322	research target~\cite{RiehlShulman,CisinskiNguyen}.
+  1323	\item \textbf{Cubical higher inductive--inductive types.} The Cauchy
+  1324	reals construction of Paper~V is given in Book HoTT; a clean cubical
+  1325	version (in Cubical Agda~\cite{CubicalAgda}) is in progress but
+  1326	incomplete.
+  1327	\end{enumerate}
+  1328	
+  1329	\section{Conclusion}
+  1330	\label{sec:conclusion}
+  1331	
+  1332	We have argued that the question \emph{what is the natural number $58$?}
+  1333	admits six progressively refined answers, and that the four most refined
+  1334	answers are not analogous but \emph{literally the same} under Voevodsky's
+  1335	univalence axiom. We named this identification the \emph{univalent
+  1336	correspondence} (\cref{prin:strong}, \cref{prin:formal}), proved it as a
+  1337	theorem in HoTT (\cref{thm:identity-of-perspectives}), exhibited the
+  1338	hierarchical composition by which each level builds on the previous
+  1339	(\cref{sec:diagrams}), and sketched applications to transcendentals,
+  1340	typed memory, and directed type theory.
+  1341	
+  1342	The integer $58$ is, in the unified picture: a position in the initial
+  1343	successor structure (Paper~III), a representing functor (Paper~IV), a
+  1344	canonical term in a contractible type of NNOs (Paper~V), and an
+  1345	invariant under all model isomorphisms (Paper~VI). These four
+  1346	characterisations are four windows on a single $\infty$-groupoid, and
+  1347	under univalence they are pairwise identified. The univalent correspondence
+  1348	is the formal expression of the structuralist intuition that mathematical
+  1349	objects are positions in structures, not substances; under Voevodsky's
+  1350	univalent foundations, this intuition becomes a theorem of the
+  1351	foundations themselves.
+  1352	
+  1353	The naive level (Paper~I), in which $58$ is a symbol on a page, remains
+  1354	indispensable as the cognitive anchor that connects mathematics to human
+  1355	practice. The set-theoretic level (Paper~II) remains the historical and
+  1356	technical foundation for working mathematicians, and the von Neumann
+  1357	encoding remains the textbook construction. But the univalent
+  1358	correspondence asserts that these levels are not the locus of meaning:
+  1359	the meaning lives at levels III through VI, where it is invariant,
+  1360	relational, type-theoretic, and structural --- and, under univalence, all
+  1361	four at once.
+  1362	
+  1363	We close with the canonical quotation that has guided the series, from
+  1364	Paper~I:
+  1365	
+  1366	\begin{quote}
+  1367	A number is not a thing. It is a constraint that every consistent
+  1368	representation must satisfy, identified by a universal property and made
+  1369	formal by its representable functor. Numerals (58, \textsf{LVIII},
+  1370	$\,||||\,||||$) are syntax. Numbers are semantic invariants of the
+  1371	categories that admit them.
+  1372	\end{quote}
+  1373	
+  1374	\noindent The univalent correspondence makes this slogan a theorem.
+  1375	
+  1376	\section*{Acknowledgments}
+  1377	
+  1378	This synthesis owes its existence to the topical papers~I through~VI, to
+  1379	the body of work surveyed in those papers (Lawvere, Mac Lane, Lambek,
+  1380	Martin-L\"of, Voevodsky, Awodey, Shulman, Riehl, Lurie, Wadler, Harper,
+  1381	the Univalent Foundations Programme), and to the philosophical lineage of
+  1382	Frege, Benacerraf, Resnik, Shapiro, and Hellman. The naming
+  1383	``univalent correspondence'' is internal to this project and is not
+  1384	claimed to be original; the underlying mathematical content is due to the
+  1385	named authors.
+  1386	
+  1387	\begin{thebibliography}{99}
+  1388	
+  1389	% --- Topical papers in this series ---
+  1390	
+  1391	\bibitem{paper-i}
+  1392	YonedaAI Research,
+  1393	\emph{The Naive Perspective: Numbers as Symbols and Quantities},
+  1394	Univalent Correspondence Series, Paper~I, 2026.
+  1395	
+  1396	\bibitem{paper-ii}
+  1397	YonedaAI Research,
+  1398	\emph{The Set-Theoretic Perspective: Numbers as von Neumann Ordinals},
+  1399	Univalent Correspondence Series, Paper~II, 2026.
+  1400	
+  1401	\bibitem{paper-iii}
+  1402	YonedaAI Research,
+  1403	\emph{The Universal Property Perspective: Numbers as Initial Successor Structures},
+  1404	Univalent Correspondence Series, Paper~III, 2026.
+  1405	
+  1406	\bibitem{paper-iv}
+  1407	YonedaAI Research,
+  1408	\emph{The Yoneda Perspective: Numbers as Representable Functors},
+  1409	Univalent Correspondence Series, Paper~IV, 2026.
+  1410	
+  1411	\bibitem{paper-v}
+  1412	YonedaAI Research,
+  1413	\emph{The HoTT Perspective: Numbers as Inductive Types up to Path Equivalence},
+  1414	Univalent Correspondence Series, Paper~V, 2026.
+  1415	
+  1416	\bibitem{paper-vi}
+  1417	YonedaAI Research,
+  1418	\emph{The Categorical / Structural Perspective: Numbers as Invariants of Structure-Preserving Morphisms},
+  1419	Univalent Correspondence Series, Paper~VI, 2026.
+  1420	
+  1421	\bibitem{KnowledgeBase2026}
+  1422	YonedaAI Research,
+  1423	\emph{Knowledge Base: The Univalent Correspondence},
+  1424	Magneton Internal Document, 2026.
+  1425	
+  1426	% --- Foundations of HoTT and univalence ---
+  1427	
+  1428	\bibitem{HoTTBook}
+  1429	The Univalent Foundations Program,
+  1430	\emph{Homotopy Type Theory: Univalent Foundations of Mathematics},
+  1431	Institute for Advanced Study, 2013.
+  1432	\texttt{arXiv:1308.0729}.
+  1433	
+  1434	\bibitem{Voevodsky}
+  1435	V.~Voevodsky,
+  1436	\emph{The equivalence axiom and univalent models of type theory},
+  1437	\texttt{arXiv:1402.5556}, 2014.
+  1438	
+  1439	\bibitem{Voevodsky2010}
+  1440	V.~Voevodsky,
+  1441	\emph{Univalent foundations project},
+  1442	Manuscript, IAS, 2010.
+  1443	
+  1444	\bibitem{AwodeyWarren}
+  1445	S.~Awodey and M.~A.~Warren,
+  1446	\emph{Homotopy theoretic models of identity types},
+  1447	Math.\ Proc.\ Cambridge Philos.\ Soc.\ \textbf{146}(1): 45--55, 2009.
+  1448	
+  1449	\bibitem{KapulkinLumsdaine}
+  1450	C.~Kapulkin and P.~L.~Lumsdaine,
+  1451	\emph{The simplicial model of univalent foundations (after Voevodsky)},
+  1452	J.\ Eur.\ Math.\ Soc.\ \textbf{23}(6): 2071--2126, 2021.
+  1453	
+  1454	\bibitem{LumsdaineGroupoid}
+  1455	P.~L.~Lumsdaine,
+  1456	\emph{Weak omega-categories from intensional type theory},
+  1457	Logical Methods in Computer Science \textbf{6}(3:24): 1--19, 2010.
+  1458	
+  1459	\bibitem{vandenBergGarner}
+  1460	B.~van den Berg and R.~Garner,
+  1461	\emph{Types are weak omega-groupoids},
+  1462	Proc.\ London Math.\ Soc.\ \textbf{102}(2): 370--394, 2011.
+  1463	
+  1464	\bibitem{LicataShulman}
+  1465	D.~R.~Licata and M.~Shulman,
+  1466	\emph{Calculating the fundamental group of the circle in homotopy type theory},
+  1467	in LICS 2013, pp.~223--232.
+  1468	
+  1469	\bibitem{LicataFinster}
+  1470	D.~R.~Licata and E.~Finster,
+  1471	\emph{Eilenberg--MacLane spaces in homotopy type theory},
+  1472	in CSL-LICS 2014, ACM, 2014.
+  1473	
+  1474	\bibitem{ShulmanStrength}
+  1475	M.~Shulman,
+  1476	\emph{Higher inductive types and the formal Blakers--Massey theorem},
+  1477	Proc.\ ACM Program.\ Lang.\ \textbf{4}(POPL): 41:1--41:30, 2020.
+  1478	
+  1479	\bibitem{ShulmanInftyTopos}
+  1480	M.~Shulman,
+  1481	\emph{All $(\infty,1)$-toposes have strict univalent universes},
+  1482	\texttt{arXiv:1904.07004}, 2019.
+  1483	
+  1484	\bibitem{Booij}
+  1485	A.~B.~Booij,
+  1486	\emph{Analysis in univalent type theory},
+  1487	PhD thesis, University of Birmingham, 2020.
+  1488	
+  1489	\bibitem{CCHM}
+  1490	C.~Cohen, T.~Coquand, S.~Huber, A.~M\"ortberg,
+  1491	\emph{Cubical type theory: a constructive interpretation of the univalence axiom},
+  1492	in TYPES 2015, LIPIcs 69, pp.~5:1--5:34.
+  1493	
+  1494	\bibitem{CubicalAgda}
+  1495	A.~Vezzosi, A.~M\"ortberg, A.~Abel,
+  1496	\emph{Cubical Agda: a dependently typed programming language with univalence and higher inductive types},
+  1497	Proc.\ ACM Program.\ Lang.\ \textbf{3}(ICFP): 87:1--87:29, 2019.
+  1498	
+  1499	\bibitem{2LTT}
+  1500	D.~Annenkov, P.~Capriotti, N.~Kraus, C.~Sattler,
+  1501	\emph{Two-level type theory and applications},
+  1502	Math.\ Structures Comput.\ Sci.\ \textbf{33}(8): 688--743, 2023.
+  1503	
+  1504	\bibitem{RiehlShulman}
+  1505	E.~Riehl and M.~Shulman,
+  1506	\emph{A type theory for synthetic $\infty$-categories},
+  1507	Higher Structures \textbf{1}(1): 147--224, 2017.
+  1508	\texttt{arXiv:1705.07442}.
+  1509	
+  1510	\bibitem{CisinskiNguyen}
+  1511	D.-C.~Cisinski and H.~K.~Nguyen,
+  1512	\emph{The universal coCartesian fibration},
+  1513	\texttt{arXiv:2210.08945}, 2022.
+  1514	
+  1515	\bibitem{Escardo2019}
+  1516	M.~H.~Escard\'o,
+  1517	\emph{Introduction to Univalent Foundations of Mathematics with Agda},
+  1518	Lecture notes, 2019.
+  1519	
+  1520	% --- Type theory and Curry--Howard ---
+  1521	
+  1522	\bibitem{MartinLof84}
+  1523	P.~Martin-L\"of,
+  1524	\emph{Intuitionistic Type Theory},
+  1525	Bibliopolis, 1984.
+  1526	
+  1527	\bibitem{Wadler2015}
+  1528	P.~Wadler,
+  1529	\emph{Propositions as types},
+  1530	Communications of the ACM \textbf{58}(12): 75--84, 2015.
+  1531	
+  1532	\bibitem{Lambek1972}
+  1533	J.~Lambek,
+  1534	\emph{Deductive systems and categories III: Cartesian closed categories,
+  1535	intuitionist propositional calculus, and combinatory logic},
+  1536	in Toposes, Algebraic Geometry and Logic, LNM 274, Springer, 1972, 57--82.
+  1537	
+  1538	% --- Category theory ---
+  1539	
+  1540	\bibitem{maclane}
+  1541	S.~Mac Lane,
+  1542	\emph{Categories for the Working Mathematician},
+  1543	2nd ed., Graduate Texts in Mathematics \textbf{5}, Springer, 1998.
+  1544	
+  1545	\bibitem{maclane-moerdijk}
+  1546	S.~Mac Lane and I.~Moerdijk,
+  1547	\emph{Sheaves in Geometry and Logic: A First Introduction to Topos Theory},
+  1548	Springer, 1992.
+  1549	
+  1550	\bibitem{riehl}
+  1551	E.~Riehl,
+  1552	\emph{Category Theory in Context},
+  1553	Aurora: Dover Modern Math Originals, Dover, 2016.
+  1554	
+  1555	\bibitem{lurie}
+  1556	J.~Lurie,
+  1557	\emph{Higher Topos Theory},
+  1558	Annals of Mathematics Studies \textbf{170}, Princeton, 2009.
+  1559	\texttt{arXiv:math/0608040}.
+  1560	
+  1561	\bibitem{kelly}
+  1562	G.~M.~Kelly,
+  1563	\emph{Basic Concepts of Enriched Category Theory},
+  1564	LMS Lecture Note Series \textbf{64}, Cambridge University Press, 1982.
+  1565	
+  1566	\bibitem{leinster}
+  1567	T.~Leinster,
+  1568	\emph{Basic Category Theory},
+  1569	Cambridge Studies in Advanced Mathematics \textbf{143}, Cambridge University Press, 2014.
+  1570	
+  1571	\bibitem{Lawvere1964}
+  1572	F.~W.~Lawvere,
+  1573	\emph{An elementary theory of the category of sets},
+  1574	Proc.\ Nat.\ Acad.\ Sci.\ USA \textbf{52}(6): 1506--1511, 1964.
+  1575	
+  1576	\bibitem{Lawvere1963}
+  1577	F.~W.~Lawvere,
+  1578	\emph{Functorial semantics of algebraic theories},
+  1579	PhD thesis, Columbia University, 1963.
+  1580	
+  1581	\bibitem{LawvereRosebrugh2003}
+  1582	F.~W.~Lawvere and R.~Rosebrugh,
+  1583	\emph{Sets for Mathematics},
+  1584	Cambridge University Press, 2003.
+  1585	
+  1586	\bibitem{Makkai1995}
+  1587	M.~Makkai,
+  1588	\emph{First-order logic with dependent sorts, with applications to category theory},
+  1589	Preprint, McGill University, 1995.
+  1590	\url{https://www.math.mcgill.ca/makkai/folds/foldsinpdf/FOLDS.pdf}
+  1591	
+  1592	\bibitem{MeijerFokkingaPaterson1991}
+  1593	E.~Meijer, M.~Fokkinga, and R.~Paterson,
+  1594	\emph{Functional programming with bananas, lenses, envelopes, and barbed wire},
+  1595	in FPCA '91, LNCS 523, Springer, 1991, 124--144.
+  1596	
+  1597	\bibitem{BaezDolan1998}
+  1598	J.~C.~Baez and J.~Dolan,
+  1599	\emph{From finite sets to Feynman diagrams},
+  1600	in Mathematics Unlimited --- 2001 and Beyond, Springer, 29--50, 2001.
+  1601	
+  1602	\bibitem{Leinster2008}
+  1603	T.~Leinster,
+  1604	\emph{The Euler characteristic of a category},
+  1605	Documenta Mathematica \textbf{13}: 21--49, 2008.
+  1606	
+  1607	% --- Set theory ---
+  1608	
+  1609	\bibitem{vonNeumann1923}
+  1610	J.~von Neumann,
+  1611	\emph{Zur Einf\"uhrung der transfiniten Zahlen},
+  1612	Acta Litt.\ Sci.\ Reg.\ Univ.\ Hung.\ Francisco-Josephinae \textbf{1}: 199--208, 1923.
+  1613	
+  1614	\bibitem{zermelo1908}
+  1615	E.~Zermelo,
+  1616	\emph{Untersuchungen \"uber die Grundlagen der Mengenlehre I},
+  1617	Math.\ Annalen \textbf{65}: 261--281, 1908.
+  1618	
+  1619	\bibitem{halmos1960}
+  1620	P.~Halmos,
+  1621	\emph{Naive Set Theory},
+  1622	Van Nostrand, 1960.
+  1623	
+  1624	\bibitem{kunen1980}
+  1625	K.~Kunen,
+  1626	\emph{Set Theory: An Introduction to Independence Proofs},
+  1627	North-Holland, 1980.
+  1628	
+  1629	\bibitem{shoenfield1967}
+  1630	J.~R.~Shoenfield,
+  1631	\emph{Mathematical Logic},
+  1632	Addison-Wesley, 1967.
+  1633	
+  1634	\bibitem{suppes1960}
+  1635	P.~Suppes,
+  1636	\emph{Axiomatic Set Theory},
+  1637	Van Nostrand, 1960.
+  1638	
+  1639	% --- Philosophy of mathematics ---
+  1640	
+  1641	\bibitem{benacerraf1965}
+  1642	P.~Benacerraf,
+  1643	\emph{What numbers could not be},
+  1644	Philosophical Review \textbf{74}(1): 47--73, 1965.
+  1645	
+  1646	\bibitem{benacerraf1973}
+  1647	P.~Benacerraf,
+  1648	\emph{Mathematical truth},
+  1649	Journal of Philosophy \textbf{70}(19): 661--679, 1973.
+  1650	
+  1651	\bibitem{frege1884}
+  1652	G.~Frege,
+  1653	\emph{Die Grundlagen der Arithmetik},
+  1654	Breslau, 1884.
+  1655	
+  1656	\bibitem{frege1892}
+  1657	G.~Frege,
+  1658	\emph{\"Uber Sinn und Bedeutung},
+  1659	Zeitschrift f\"ur Philosophie und philosophische Kritik \textbf{100}: 25--50, 1892.
+  1660	
+  1661	\bibitem{husserl1891}
+  1662	E.~Husserl,
+  1663	\emph{Philosophie der Arithmetik},
+  1664	Halle, 1891.
+  1665	
+  1666	\bibitem{mill1843}
+  1667	J.~S.~Mill,
+  1668	\emph{A System of Logic},
+  1669	London, 1843.
+  1670	
+  1671	\bibitem{Resnik1981}
+  1672	M.~D.~Resnik,
+  1673	\emph{Mathematics as a science of patterns: Ontology and reference},
+  1674	No\^us \textbf{15}(4): 529--550, 1981.
+  1675	
+  1676	\bibitem{Resnik1997}
+  1677	M.~D.~Resnik,
+  1678	\emph{Mathematics as a Science of Patterns},
+  1679	Oxford University Press, 1997.
+  1680	
+  1681	\bibitem{Shapiro1997}
+  1682	S.~Shapiro,
+  1683	\emph{Philosophy of Mathematics: Structure and Ontology},
+  1684	Oxford University Press, 1997.
+  1685	
+  1686	\bibitem{Hellman1989}
+  1687	G.~Hellman,
+  1688	\emph{Mathematics Without Numbers: Towards a Modal-Structural Interpretation},
+  1689	Oxford University Press, 1989.
+  1690	
+  1691	\bibitem{Awodey1996}
+  1692	S.~Awodey,
+  1693	\emph{Structure in mathematics and logic: A categorical perspective},
+  1694	Philosophia Mathematica \textbf{4}(3): 209--237, 1996.
+  1695	
+  1696	\bibitem{Awodey2004}
+  1697	S.~Awodey,
+  1698	\emph{An answer to Hellman's question},
+  1699	Philosophia Mathematica \textbf{12}(1): 54--64, 2004.
+  1700	
+  1701	\bibitem{Awodey2014}
+  1702	S.~Awodey,
+  1703	\emph{Structuralism, invariance, and univalence},
+  1704	Philosophia Mathematica \textbf{22}(1): 1--11, 2014.
+  1705	
+  1706	\bibitem{Dedekind1888}
+  1707	R.~Dedekind,
+  1708	\emph{Was sind und was sollen die Zahlen?},
+  1709	Vieweg \& Sohn, Braunschweig, 1888.
+  1710	
+  1711	% --- Misc / cognitive science ---
+  1712	
+  1713	\bibitem{wadler-pat}
+  1714	P.~Wadler,
+  1715	\emph{Propositions as types}
+  1716	(extended discussion of historical names),
+  1717	CACM \textbf{58}(12): 75--84, 2015.
+  1718	
+  1719	\bibitem{carey}
+  1720	S.~Carey,
+  1721	\emph{The Origin of Concepts},
+  1722	Oxford University Press, 2009.
+  1723	
+  1724	\bibitem{dehaene}
+  1725	S.~Dehaene,
+  1726	\emph{The Number Sense},
+  1727	Oxford University Press, 1997.
+  1728	
+  1729	\bibitem{lakoff-nunez}
+  1730	G.~Lakoff and R.~N\'u\~nez,
+  1731	\emph{Where Mathematics Comes From},
+  1732	Basic Books, 2000.
+  1733	
+  1734	\end{thebibliography}
+  1735	
+  1736	\end{document}
+
+exec
+/usr/local/bin/zsh -lc 'ls -la' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+total 0
+drwxr-xr-x  6 mlong  staff  192 May  3 19:56 .
+drwxr-xr-x  9 mlong  staff  288 May  3 19:48 ..
+drwxr-xr-x  2 mlong  staff   64 May  3 19:56 images
+drwxr-xr-x  8 mlong  staff  256 May  3 20:11 latex
+drwxr-xr-x  2 mlong  staff   64 May  3 19:56 pdf
+drwxr-xr-x  6 mlong  staff  192 May  3 20:11 reviews
+
+exec
+/usr/local/bin/zsh -lc "rg -n \"\\\\(usepackage|documentclass|input|include|label|ref|cite|bibliography|bibliographystyle|autoref|cref|Cref|eqref|href|url)|TODO|FIXME|undefined|missing\" latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ exited 2 in 0ms:
+rg: regex parse error:
+    (?:\(usepackage|documentclass|input|include|label|ref|cite|bibliography|bibliographystyle|autoref|cref|Cref|eqref|href|url)|TODO|FIXME|undefined|missing)
+                                                                                                                                                            ^
+error: unopened group
+
+exec
+/usr/local/bin/zsh -lc 'ls -la latex' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+total 1208
+drwxr-xr-x  8 mlong  staff     256 May  3 20:11 .
+drwxr-xr-x  6 mlong  staff     192 May  3 19:56 ..
+-rw-r--r--  1 mlong  staff   21307 May  3 20:11 synthesis.aux
+-rw-r--r--  1 mlong  staff   36308 May  3 20:11 synthesis.log
+-rw-r--r--  1 mlong  staff   10171 May  3 20:11 synthesis.out
+-rw-r--r--  1 mlong  staff  409832 May  3 20:11 synthesis.pdf
+-rw-r--r--  1 mlong  staff   72920 May  3 20:11 synthesis.tex
+-rw-r--r--  1 mlong  staff    4248 May  3 20:11 synthesis.toc
+
+codex
+There’s already a prior LaTeX build output in `latex/`, so I can use `synthesis.log` and `synthesis.aux` without generating new files. I’m going to cross-check the log warnings against the source lines rather than reporting stale or generic warnings.
+exec
+/usr/local/bin/zsh -lc 'rg -n "''^!|Warning|Undefined|undefined|multiply defined|Overfull|Underfull|LaTeX Error|Package .* Error|Citation|Reference|Rerun|Missing|Runaway|Emergency" latex/synthesis.log' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+exec
+/usr/local/bin/zsh -lc "rg -n \"\\\\(documentclass|usepackage|newcommand|newtheorem|usetikzlibrary|label|cref|Cref|ref|cite|url|texorpdfstring|begin|end)\" latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+679:Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+876:Underfull \hbox (badness 10000) in paragraph at lines 316--316
+881:Underfull \hbox (badness 10000) in paragraph at lines 316--316
+886:Underfull \hbox (badness 1057) in paragraph at lines 316--316
+891:Overfull \hbox (53.19553pt too wide) in paragraph at lines 726--738
+896:Overfull \hbox (184.96349pt too wide) in paragraph at lines 1021--1030
+901:Overfull \hbox (3.49767pt too wide) in paragraph at lines 1133--1138
+907:Underfull \hbox (badness 3861) in paragraph at lines 1435--1438
+913:Underfull \hbox (badness 10000) in paragraph at lines 1511--1514
+
+ exited 2 in 0ms:
+rg: regex parse error:
+    (?:\(documentclass|usepackage|newcommand|newtheorem|usetikzlibrary|label|cref|Cref|ref|cite|url|texorpdfstring|begin|end))
+                                                                                                                             ^
+error: unopened group
+
+exec
+/usr/local/bin/zsh -lc 'rg -n "Overfull|Underfull|Warning|undefined|Citation|Reference|Package" latex/synthesis.log' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+27:Package: amsmath 2025/07/09 v2.17z AMS math features
+32:Package: amstext 2024/11/17 v2.01 AMS text
+40:Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+44:Package: amsopn 2022/04/08 v2.04 operator names
+95:Package: amssymb 2013/01/14 v3.01 AMS font symbols
+98:Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+106:Package: amsthm 2020/05/29 v2.20.6
+118:Package: mathtools 2024/10/04 v1.31 mathematical typesetting tools
+121:Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+125:Package: calc 2025/03/01 v4.3b Infix arithmetic (KKT,FJ)
+138:Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
+153:Package: stmaryrd 1994/03/03 St Mary's Road symbol package
+159:Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
+162:Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
+180:Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+200:Package: tikz-cd 2021/05/04 v1.0 Commutative diagrams with TikZ
+215:Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
+217:Package: pgf 2025-08-29 v3.1.11a (3.1.11a)
+221:Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+224:Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+227:Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+232:Package graphics Info: Driver file: pdftex.def on input line 106.
+242:Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
+295:Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+300:Package xcolor Info: Driver file: pdftex.def on input line 274.
+303:Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+304:Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+305:Package xcolor Info: Model `RGB' extended on input line 1365.
+306:Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+307:Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+308:Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+309:Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+310:Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+311:Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+314:Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
+457:Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
+463:Package: pgfcomp-version-1-18 2025-08-29 v3.1.11a (3.1.11a)
+471:Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
+479:Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
+562:Package: hyperref 2026-01-29 v7.01p Hypertext links for LaTeX
+565:Package: iftex 2024/12/12 v1.0g TeX engine tests
+568:Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+571:Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+574:Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+577:Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+580:Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+584:Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+586:Package pdftexcmds Info: \pdf@primitive is available.
+587:Package pdftexcmds Info: \pdf@ifprimitive is available.
+588:Package pdftexcmds Info: \pdfdraftmode found.
+591:Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+594:Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
+597:Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+601:Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+603:Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+608:Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+612:Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+625:Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+634:Package hyperref Info: Hyper figures OFF on input line 4201.
+635:Package hyperref Info: Link nesting OFF on input line 4206.
+636:Package hyperref Info: Hyper index ON on input line 4209.
+637:Package hyperref Info: Plain pages OFF on input line 4216.
+638:Package hyperref Info: Backreferencing OFF on input line 4221.
+639:Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+640:Package hyperref Info: Bookmarks ON on input line 4468.
+645:Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+651:Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+654:Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+660:Package hyperref Info: Hyper figures OFF on input line 6084.
+661:Package hyperref Info: Link nesting OFF on input line 6089.
+662:Package hyperref Info: Hyper index ON on input line 6092.
+663:Package hyperref Info: backreferencing OFF on input line 6099.
+664:Package hyperref Info: Link coloring OFF on input line 6104.
+665:Package hyperref Info: Link coloring with OCG OFF on input line 6109.
+666:Package hyperref Info: PDF/A mode OFF on input line 6114.
+671:Package hyperref Info: Driver (autodetected): hpdftex.
+679:Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+682:Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+684:Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+689:Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
+690:Package cleveref Info: `hyperref' support loaded on input line 2370.
+701:Package cleveref Info: `amsthm' support loaded on input line 3026.
+705:Package: xurl 2022/01/09 v 0.10 modify URL breaks
+733:Package: listings 2025/11/14 1.11b (Carsten Heinz)
+742:Package: geometry 2026/03/07 v6.0 Page Geometry
+745:Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+802:Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+803:Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+810:Package hyperref Info: Link coloring OFF on input line 128.
+876:Underfull \hbox (badness 10000) in paragraph at lines 316--316
+881:Underfull \hbox (badness 10000) in paragraph at lines 316--316
+886:Underfull \hbox (badness 1057) in paragraph at lines 316--316
+891:Overfull \hbox (53.19553pt too wide) in paragraph at lines 726--738
+896:Overfull \hbox (184.96349pt too wide) in paragraph at lines 1021--1030
+901:Overfull \hbox (3.49767pt too wide) in paragraph at lines 1133--1138
+907:Underfull \hbox (badness 3861) in paragraph at lines 1435--1438
+913:Underfull \hbox (badness 10000) in paragraph at lines 1511--1514
+923:Package rerunfilecheck Info: File `synthesis.out' has not changed.
+
+exec
+/usr/local/bin/zsh -lc 'tail -80 latex/synthesis.log' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+
+[5] [6] [7] [8] [9] [10]
+Overfull \hbox (53.19553pt too wide) in paragraph at lines 726--738
+ [][] 
+ []
+
+[11] [12] [13] [14]
+Overfull \hbox (184.96349pt too wide) in paragraph at lines 1021--1030
+ [][] 
+ []
+
+[15] [16]
+Overfull \hbox (3.49767pt too wide) in paragraph at lines 1133--1138
+[]\OT1/cmr/bx/n/12 Curry--Howard--Lambek cor-re-spon-dence \OT1/cmr/m/n/12 (thr
+ee-way): adds cat-e-gory the-ory. Lam-
+ []
+
+[17] [18] [19] [20] [21]
+Underfull \hbox (badness 3861) in paragraph at lines 1435--1438
+[]\OT1/cmr/m/n/12 V. Vo-evod-sky, \OT1/cmr/m/it/12 The equiv-a-lence ax-iom and
+ uni-va-lent mod-els of type the-ory\OT1/cmr/m/n/12 ,
+ []
+
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 1511--1514
+[]\OT1/cmr/m/n/12 D.-C. Cisin-ski and H. K. Nguyen, \OT1/cmr/m/it/12 The uni-ve
+r-sal co-Carte-sian fi-bra-tion\OT1/cmr/m/n/12 ,
+ []
+
+[23] [24] [25] (./synthesis.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+ ***********
+Package rerunfilecheck Info: File `synthesis.out' has not changed.
+(rerunfilecheck)             Checksum: 0C1E37F1BA310B1DDF90042CC7668445;10171.
+ ) 
+Here is how much of TeX's memory you used:
+ 26919 strings out of 467525
+ 513723 string characters out of 5418982
+ 901236 words of memory out of 5000000
+ 55223 multiletter control sequences out of 15000+600000
+ 648276 words of font info for 117 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 116i,17n,121p,712b,1043s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
+usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></
+usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
+sr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb>
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
+usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
+r/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
+local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
+cal/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loca
+l/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/
+texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/tex
+live/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texliv
+e/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive
+/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/
+2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/20
+26/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2
+026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
+26/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2026
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2026/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2026/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2026/texm
+f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2026/
+texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2026/te
+xmf-dist/fonts/type1/public/cm-super/sfti1200.pfb>
+Output written on synthesis.pdf (25 pages, 409832 bytes).
+PDF statistics:
+ 763 PDF objects out of 1000 (max. 8388607)
+ 666 compressed objects within 7 object streams
+ 180 named destinations out of 1000 (max. 500000)
+ 357 words of extra memory for PDF output out of 10000 (max. 10000000)
+
+
+exec
+/usr/local/bin/zsh -lc "sed -n '1010,1040p' latex/synthesis.tex | nl -ba -v 1010" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+exec
+/usr/local/bin/zsh -lc "sed -n '700,745p' latex/synthesis.tex | nl -ba -v 700" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+   700	
+   701	\begin{theorem}[Univalence $\Rightarrow$ structural]
+   702	\label{thm:transit-vi}
+   703	In HoTT, every type-theoretic property $P$ of an algebraic structure is
+   704	automatically structural in the sense of Paper~VI: if
+   705	$(X, s) \eqv (X', s')$ as structures, then $P(X, s) \eqv P(X', s')$. In
+   706	particular, the natural number $58$, defined as $\suc^{58}\,\zero$ in any
+   707	NNO, agrees with $58$ in any equivalent NNO presentation.
+   708	\end{theorem}
+   709	
+   710	\begin{proof}
+   711	This is the structure identity principle (\cref{thm:sip}, Paper~VI,
+   712	Theorem~10.3) combined with path-action of $P$. The application to $58$
+   713	is \cite[Corollary~5.4]{paper-v} (\cref{thm:nno-contr}).
+   714	\end{proof}
+   715	
+   716	\Cref{thm:transit-vi} is the converse direction of the previous transit:
+   717	the structural perspective of Paper~VI is no longer a methodological
+   718	discipline (``write only iso-invariant definitions'') but a theorem of the
+   719	foundations (``every definition you can write \emph{is} iso-invariant'').
+   720	Univalence is the principle that promotes the meta-condition to an
+   721	internal one. We summarise the four-layer convergence in
+   722	\cref{tab:four-layers}, reproduced from Paper~VI.
+   723	
+   724	\begin{table}[ht]
+   725	\centering
+   726	\begin{tabular}{lll}
+   727	\toprule
+   728	\textbf{Layer (Paper)} & \textbf{Statement} & \textbf{Status} \\
+   729	\midrule
+   730	Categorical / structural (VI) & Structural properties are iso-invariant
+   731	& Meta-theorem \\
+   732	Universal property (III) & Iso-class is canonical & Theorem (NNO uniqueness) \\
+   733	Yoneda (IV) & Object known by relations & Theorem (Yoneda) \\
+   734	HoTT + univalence (V) & Iso-invariance is automatic & Internal (SIP) \\
+   735	\bottomrule
+   736	\end{tabular}
+   737	\caption{Four layers of one principle. Adapted from Paper~VI,
+   738	Table~10.1.}
+   739	\label{tab:four-layers}
+   740	\end{table}
+   741	
+   742	\section{Unified Framework: One \texorpdfstring{$\infty$}{Infinity}-Groupoid, Four Windows}
+   743	\label{sec:framework}
+   744	
+   745	We now build the mathematical framework in which the four right-most rows
+
+ succeeded in 0ms:
+  1010	\text{(I) Naive}
+  1011	  \arrow[r, "{\text{T1}}", "{\text{definite encoding}}"']
+  1012	& \text{(II) Set-theoretic}
+  1013	  \arrow[r, "{\text{T2}}", "{\text{Benacerraf}\,\Rightarrow\,\text{NNO}}"']
+  1014	& \text{(III) Universal property}
+  1015	  \arrow[r, "{\text{T3}}", "{\text{NNO is rep.\ functor}}"']
+  1016	& \text{(IV) Yoneda}
+  1017	  \arrow[r, "{\text{T4}}", "{\text{univalence}}"']
+  1018	& \text{(V) HoTT}
+  1019	  \arrow[r, "{\text{T5}}", "{\text{SIP}}"']
+  1020	& \text{(VI) Structural}
+  1021	\end{tikzcd}
+  1022	\caption{Hierarchical composition: each transit theorem
+  1023	T$k$ of \cref{sec:transit} carries level $k$ to level $k+1$ by
+  1024	resolving the residual question of the previous level. T1 supplies a
+  1025	definite encoding (resolving the symbol/object confusion). T2 abstracts
+  1026	away from the Benacerraf-non-canonical encoding. T3 globalises the
+  1027	universal property by exhibiting the NNO as a representable functor. T4
+  1028	internalises Yoneda's ``iff'' as a path in the universe via univalence.
+  1029	T5 (\cref{thm:transit-vi}) promotes the iso-invariance discipline to an
+  1030	internal theorem via SIP.}
+  1031	\label{fig:composition}
+  1032	\end{figure}
+  1033	
+  1034	\subsection{Composition is not optional}
+  1035	
+  1036	A natural objection: if all four formal levels (III--VI) are equivalent
+  1037	under univalence, why bother with all four? Why not just use HoTT?
+  1038	
+  1039	The answer is that each level supplies indispensable conceptual content
+  1040	that the others alone would obscure:
+
+exec
+/usr/local/bin/zsh -lc "sed -n '1125,1145p' latex/synthesis.tex | nl -ba -v 1125" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+  1125	names; we explain why we settle on \emph{the univalent correspondence}.
+  1126	
+  1127	\subsection{Names in use}
+  1128	
+  1129	\begin{itemize}
+  1130	\item \textbf{Curry--Howard correspondence} (binary): logic with type
+  1131	theory. Curry (1934)~\cite{wadler-pat} observed it for combinatory logic;
+  1132	Howard (1969)~\cite{wadler-pat} extended it to natural deduction.
+  1133	\item \textbf{Curry--Howard--Lambek correspondence} (three-way):
+  1134	adds category theory. Lambek (1972)~\cite{Lambek1972} showed that proofs of
+  1135	intuitionistic propositional logic and typed combinators share the
+  1136	equational theory of cartesian closed categories. This is the textbook
+  1137	three-way name.
+  1138	\item \textbf{Computational trinity} (Harper, c.\ 2011): logic, languages
+  1139	(type theory), categories. Harper at CMU popularised the catchier name. A
+  1140	four-way version is sometimes called the computational tetrad.
+  1141	\item \textbf{Propositions-as-types} (Wadler 2015~\cite{Wadler2015}):
+  1142	emphasises the central insight rather than the historical figures.
+  1143	Extends naturally to ``propositions-as-types-as-spaces'' in HoTT.
+  1144	\item \textbf{Univalent foundations} (Voevodsky, 2010~\cite{Voevodsky2010}):
+  1145	the foundational programme built on the four-way correspondence. Homotopy
+
+exec
+/usr/local/bin/zsh -lc "sed -n '298,320p' latex/synthesis.tex | nl -ba -v 298" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+   298	\begin{table}[ht]
+   299	\centering
+   300	\begin{tabularx}{\textwidth}{X X X X}
+   301	\toprule
+   302	\textbf{Logic} & \textbf{Type theory} & \textbf{Category theory} &
+   303	\textbf{Homotopy / topology} \\
+   304	\midrule
+   305	Propositions & Types & Objects & Spaces \\
+   306	Proofs & Terms & Morphisms & Points / paths \\
+   307	Implication $A \to B$ & Function type $A \to B$ & Hom-set & Path space \\
+   308	Conjunction $A \wedge B$ & Product $A \times B$ & Product / limit & --- \\
+   309	Disjunction $A \vee B$ & Sum $A + B$ & Coproduct / colimit & --- \\
+   310	Truth $\top$ & Unit $\mathbf{1}$ & Terminal object & Point \\
+   311	Falsehood $\bot$ & Empty $\mathbf{0}$ & Initial object & Empty space \\
+   312	Equality $a = b$ & Identity $\Id_A(a, b)$ & Isomorphism & Homotopy equivalence \\
+   313	Universal $\forall$ & $\Pi$-type & Right adjoint / limit & Fibration \\
+   314	Existential $\exists$ & $\Sigma$-type & Left adjoint / colimit & Total space \\
+   315	\bottomrule
+   316	\end{tabularx}
+   317	\caption{The computational tetrad. Each row is a single concept seen
+   318	through four windows. Adapted from~\cite{Wadler2015,HoTTBook}; the
+   319	explicit fourth column is due to Voevodsky's univalent foundations
+   320	project.}
+
+exec
+/usr/local/bin/zsh -lc "sed -n '1428,1440p' latex/synthesis.tex | nl -ba -v 1428" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+  1428	\bibitem{HoTTBook}
+  1429	The Univalent Foundations Program,
+  1430	\emph{Homotopy Type Theory: Univalent Foundations of Mathematics},
+  1431	Institute for Advanced Study, 2013.
+  1432	\texttt{arXiv:1308.0729}.
+  1433	
+  1434	\bibitem{Voevodsky}
+  1435	V.~Voevodsky,
+  1436	\emph{The equivalence axiom and univalent models of type theory},
+  1437	\texttt{arXiv:1402.5556}, 2014.
+  1438	
+  1439	\bibitem{Voevodsky2010}
+  1440	V.~Voevodsky,
+
+exec
+/usr/local/bin/zsh -lc "sed -n '1504,1515p' latex/synthesis.tex | nl -ba -v 1504" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+  1504	\bibitem{RiehlShulman}
+  1505	E.~Riehl and M.~Shulman,
+  1506	\emph{A type theory for synthetic $\infty$-categories},
+  1507	Higher Structures \textbf{1}(1): 147--224, 2017.
+  1508	\texttt{arXiv:1705.07442}.
+  1509	
+  1510	\bibitem{CisinskiNguyen}
+  1511	D.-C.~Cisinski and H.~K.~Nguyen,
+  1512	\emph{The universal coCartesian fibration},
+  1513	\texttt{arXiv:2210.08945}, 2022.
+  1514	
+  1515	\bibitem{Escardo2019}
+
+exec
+/usr/local/bin/zsh -lc "sed -n '990,1022p' latex/synthesis.tex | nl -ba -v 990" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+   990	this value is invariant under all model isomorphisms by SIP.
+   991	\end{itemize}
+   992	The univalent correspondence asserts that these four answers are not just
+   993	\emph{about} the same object: they are \emph{the same data}, internally,
+   994	in HoTT.
+   995	
+   996	\section{Hierarchical Composition: How Each Level Builds on the Previous}
+   997	\label{sec:diagrams}
+   998	
+   999	The univalent correspondence is not just a parallel array of four
+  1000	descriptions: it is a hierarchical composition in which each level uses
+  1001	the data of the previous one. We make the dependencies explicit.
+  1002	
+  1003	\subsection{Composition diagram}
+  1004	
+  1005	\Cref{fig:composition} shows the dependencies between the six rows.
+  1006	
+  1007	\begin{figure}[ht]
+  1008	\centering
+  1009	\begin{tikzcd}[column sep=2.4em, row sep=large]
+  1010	\text{(I) Naive}
+  1011	  \arrow[r, "{\text{T1}}", "{\text{definite encoding}}"']
+  1012	& \text{(II) Set-theoretic}
+  1013	  \arrow[r, "{\text{T2}}", "{\text{Benacerraf}\,\Rightarrow\,\text{NNO}}"']
+  1014	& \text{(III) Universal property}
+  1015	  \arrow[r, "{\text{T3}}", "{\text{NNO is rep.\ functor}}"']
+  1016	& \text{(IV) Yoneda}
+  1017	  \arrow[r, "{\text{T4}}", "{\text{univalence}}"']
+  1018	& \text{(V) HoTT}
+  1019	  \arrow[r, "{\text{T5}}", "{\text{SIP}}"']
+  1020	& \text{(VI) Structural}
+  1021	\end{tikzcd}
+  1022	\caption{Hierarchical composition: each transit theorem
+
+exec
+/usr/local/bin/zsh -lc "rg -n -F '\\label{' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+172:\label{sec:intro}
+199:\label{tab:six-rows}
+230:\label{prin:weak}
+239:\label{prin:strong}
+321:\label{tab:tetrad}
+343:\label{sec:row-by-row}
+350:\label{sec:row-i}
+377:\label{sec:row-ii}
+389:\label{thm:benacerraf}
+409:\label{sec:row-iii}
+414:\label{def:nno}
+423:\label{thm:nno-up}
+450:\label{sec:row-iv}
+456:\label{thm:yoneda}
+487:\label{sec:row-v}
+502:\label{thm:univalence}
+514:\label{thm:nno-contr}
+533:\label{sec:row-vi}
+546:\label{thm:sip}
+558:\label{thm:eq-inv}
+573:\label{sec:transit}
+580:\label{sec:transit-i}
+583:\label{thm:transit-i}
+601:\label{sec:transit-ii}
+604:\label{thm:transit-ii}
+623:\label{sec:transit-iii}
+626:\label{thm:transit-iii}
+669:\label{sec:transit-iv}
+672:\label{thm:transit-iv}
+699:\label{sec:transit-vi}
+702:\label{thm:transit-vi}
+739:\label{tab:four-layers}
+743:\label{sec:framework}
+749:\label{sec:setup-univ}
+758:\label{def:four-functors}
+787:\label{thm:identity-of-perspectives}
+879:\label{fig:four-views}
+904:\label{sec:correspondence}
+909:\label{prin:formal}
+957:\label{cor:N-univalent}
+997:\label{sec:diagrams}
+1031:\label{fig:composition}
+1066:\label{prop:emergent-contract}
+1077:\label{prop:funext}
+1086:\label{prop:synth-homotopy}
+1100:\label{thm:commutativity}
+1122:\label{sec:naming}
+1185:\label{sec:applications}
+1191:\label{sec:transcendentals}
+1197:\label{def:R-HIIT}
+1210:\label{thm:pi-e-hott}
+1232:\label{sec:contextfs}
+1261:\label{sec:directed}
+1281:\label{sec:open-langlands}
+1295:\label{sec:open}
+1330:\label{sec:conclusion}
+
+exec
+/usr/local/bin/zsh -lc "rg -n -F '\\bibitem{' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+1391:\bibitem{paper-i}
+1396:\bibitem{paper-ii}
+1401:\bibitem{paper-iii}
+1406:\bibitem{paper-iv}
+1411:\bibitem{paper-v}
+1416:\bibitem{paper-vi}
+1421:\bibitem{KnowledgeBase2026}
+1428:\bibitem{HoTTBook}
+1434:\bibitem{Voevodsky}
+1439:\bibitem{Voevodsky2010}
+1444:\bibitem{AwodeyWarren}
+1449:\bibitem{KapulkinLumsdaine}
+1454:\bibitem{LumsdaineGroupoid}
+1459:\bibitem{vandenBergGarner}
+1464:\bibitem{LicataShulman}
+1469:\bibitem{LicataFinster}
+1474:\bibitem{ShulmanStrength}
+1479:\bibitem{ShulmanInftyTopos}
+1484:\bibitem{Booij}
+1489:\bibitem{CCHM}
+1494:\bibitem{CubicalAgda}
+1499:\bibitem{2LTT}
+1504:\bibitem{RiehlShulman}
+1510:\bibitem{CisinskiNguyen}
+1515:\bibitem{Escardo2019}
+1522:\bibitem{MartinLof84}
+1527:\bibitem{Wadler2015}
+1532:\bibitem{Lambek1972}
+1540:\bibitem{maclane}
+1545:\bibitem{maclane-moerdijk}
+1550:\bibitem{riehl}
+1555:\bibitem{lurie}
+1561:\bibitem{kelly}
+1566:\bibitem{leinster}
+1571:\bibitem{Lawvere1964}
+1576:\bibitem{Lawvere1963}
+1581:\bibitem{LawvereRosebrugh2003}
+1586:\bibitem{Makkai1995}
+1592:\bibitem{MeijerFokkingaPaterson1991}
+1597:\bibitem{BaezDolan1998}
+1602:\bibitem{Leinster2008}
+1609:\bibitem{vonNeumann1923}
+1614:\bibitem{zermelo1908}
+1619:\bibitem{halmos1960}
+1624:\bibitem{kunen1980}
+1629:\bibitem{shoenfield1967}
+1634:\bibitem{suppes1960}
+1641:\bibitem{benacerraf1965}
+1646:\bibitem{benacerraf1973}
+1651:\bibitem{frege1884}
+1656:\bibitem{frege1892}
+1661:\bibitem{husserl1891}
+1666:\bibitem{mill1843}
+1671:\bibitem{Resnik1981}
+1676:\bibitem{Resnik1997}
+1681:\bibitem{Shapiro1997}
+1686:\bibitem{Hellman1989}
+1691:\bibitem{Awodey1996}
+1696:\bibitem{Awodey2004}
+1701:\bibitem{Awodey2014}
+1706:\bibitem{Dedekind1888}
+1713:\bibitem{wadler-pat}
+1719:\bibitem{carey}
+1724:\bibitem{dehaene}
+1729:\bibitem{lakoff-nunez}
+
+exec
+/usr/local/bin/zsh -lc "rg -n -F '\\cite{' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+204:artifacts. Paper~I~\cite{paper-i} is historical and philosophical, anchoring
+205:the discussion in numerals and counting; Paper~II~\cite{paper-ii}
+207:identification problem in formal terms; Paper~III~\cite{paper-iii}
+210:arithmetic; Paper~IV~\cite{paper-iv} proves the Yoneda lemma in covariant
+212:the $\infty$-categorical generalization; Paper~V~\cite{paper-v} is a
+215:realisation; Paper~VI~\cite{paper-vi} surveys mathematical structuralism,
+249:Lawvere~\cite{Lawvere1964}, Lambek~\cite{Lambek1972}, Wadler~\cite{Wadler2015},
+250:Awodey~\cite{Awodey2014}, and the HoTT Book~\cite{HoTTBook}. The strong
+293:Wadler~\cite{Wadler2015} in calling its central insight
+318:through four windows. Adapted from~\cite{Wadler2015,HoTTBook}; the
+352:Paper~I~\cite{paper-i} occupies the pre-formal level. A natural number $58$
+358:psychologism in \emph{Grundlagen der Arithmetik}~\cite{frege1884} and
+359:\emph{Sinn und Bedeutung}~\cite{frege1892}, and Benacerraf's identification
+360:problem~\cite{benacerraf1965}.
+379:Paper~II~\cite{paper-ii} works in Zermelo--Fraenkel set theory with Choice
+411:Paper~III~\cite{paper-iii} introduces the natural numbers object (NNO).
+452:Paper~IV~\cite{paper-iv} promotes the relational viewpoint to its
+481:(culminating in Lurie's $\infty$-Yoneda lemma~\cite{lurie}). It closes by
+489:Paper~V~\cite{paper-v} is a self-contained development of Homotopy Type
+528:HoTT~\cite{CCHM,CubicalAgda} in which univalence is provable rather than
+529:axiomatic, two-level type theory~\cite{2LTT}, modal HoTT, and directed
+530:HoTT~\cite{RiehlShulman}.
+535:Paper~VI~\cite{paper-vi} presents the structural answer to ``what is a
+539:tradition~\cite{Resnik1997,Shapiro1997,Hellman1989,Awodey1996}, presents
+540:its categorical formalisation through Lawvere's ETCS~\cite{Lawvere1964}
+541:and the functorial semantics of algebraic theories~\cite{Lawvere1963},
+755:Grothendieck--Rezk--Lurie--Joyal $\infty$-topos~\cite{lurie,ShulmanInftyTopos}.
+895:completion~\cite{Booij,HoTTBook}, the situation is more delicate: $\R$ is
+928:finite-signature structures in~\cite{HoTTBook,Escardo2019}). The
+945:The Curry--Howard correspondence~\cite{Wadler2015} identifies columns~1
+947:correspondence~\cite{Lambek1972,maclane} adds column~3 (category theory).
+948:Voevodsky's univalent foundations~\cite{Voevodsky,HoTTBook} adds
+1089:Blakers--Massey theorem, etc.~\cite{LicataShulman,LicataFinster,ShulmanStrength})
+1131:theory. Curry (1934)~\cite{wadler-pat} observed it for combinatory logic;
+1132:Howard (1969)~\cite{wadler-pat} extended it to natural deduction.
+1134:adds category theory. Lambek (1972)~\cite{Lambek1972} showed that proofs of
+1141:\item \textbf{Propositions-as-types} (Wadler 2015~\cite{Wadler2015}):
+1144:\item \textbf{Univalent foundations} (Voevodsky, 2010~\cite{Voevodsky2010}):
+1147:HoTT Book~\cite{HoTTBook} is the canonical reference.
+1173:one from~\cite{Voevodsky2010,HoTTBook}, which we take as the deepest
+1234:The ContextFS / typed memory project~\cite{KnowledgeBase2026} aims to
+1263:Riehl and Shulman's simplicial type theory~\cite{RiehlShulman} extends
+1285:forms~\cite{lurie} --- has not been substantially reformulated in HoTT.
+1288:treatments~\cite{ShulmanInftyTopos} that connect cleanly to univalent
+1310:FOLDS~\cite{Makkai1995} and to intuitionistic ZF (IZF) merits
+1315:$\infty$-toposes (Lurie's $(\infty,1)$-NNO~\cite{lurie}) is more delicate.
+1322:research target~\cite{RiehlShulman,CisinskiNguyen}.
+1325:version (in Cubical Agda~\cite{CubicalAgda}) is in progress but
+
+exec
+/usr/local/bin/zsh -lc "rg -n -F '\\cite[' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+674:\cite[Definition~9.1.6]{HoTTBook}: a category in which the canonical map
+689:\cite[Theorem~9.2.5]{HoTTBook}. Composing the three gives an equivalence
+713:is \cite[Corollary~5.4]{paper-v} (\cref{thm:nno-contr}).
+826:\cite[Theorem~2.7.2]{HoTTBook}, the pair $(p, q)$ is exactly an
+886:contractible types are $(-2)$-types) by~\cite[Theorem~7.1.6]{HoTTBook}, the
+1079:(\cite[\S4.9]{HoTTBook}, see Paper~V \S4). It is not provable
+
+exec
+/usr/local/bin/zsh -lc 'which chktex' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+exec
+/usr/local/bin/zsh -lc 'rg -n "rightmost|right-most|right most|realise|realize|programme|program|iso-invariant|isomorphism-invariant|invariant under|rows~III|Rows~III|Paper~[IVX]+|Paper [IVX]+" latex/synthesis.tex' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+/Library/TeX/texbin/chktex
+
+ succeeded in 0ms:
+134:``what is the natural number $58$?'' and develops it to maturity: Paper~I
+135:treats $58$ naively as a symbol or quantity; Paper~II encodes it
+136:set-theoretically as a von Neumann ordinal; Paper~III characterizes it by a
+138:structure; Paper~IV identifies it with its representable functor
+139:$\Hom(-, 58)$; Paper~V realises it as a canonical term of an inductive type
+140:$\N$ in Homotopy Type Theory, identified up to path equivalence; Paper~VI
+141:reads it structurally, as an invariant under all structure-preserving
+180:that the rightmost four rows describe the \emph{same} mathematical object,
+197:\caption{The six perspectives on the natural number $58$. Rows~III--VI
+204:artifacts. Paper~I~\cite{paper-i} is historical and philosophical, anchoring
+205:the discussion in numerals and counting; Paper~II~\cite{paper-ii}
+207:identification problem in formal terms; Paper~III~\cite{paper-iii}
+210:arithmetic; Paper~IV~\cite{paper-iv} proves the Yoneda lemma in covariant
+212:the $\infty$-categorical generalization; Paper~V~\cite{paper-v} is a
+215:realisation; Paper~VI~\cite{paper-vi} surveys mathematical structuralism,
+233:perspectives \emph{universal property} (Paper~III), \emph{Yoneda}
+234:(Paper~IV), \emph{HoTT term up to path equivalence} (Paper~V), and
+235:\emph{structural invariant} (Paper~VI) yield equivalent characterisations.
+290:The four rightmost rows of \cref{tab:six-rows} correspond to the four
+330:$\infty$-groupoid model under univalence, in which the four rightmost
+349:\subsection{Paper I: Naive --- numbers as symbols and quantities}
+352:Paper~I~\cite{paper-i} occupies the pre-formal level. A natural number $58$
+362:The principal lesson of Paper~I is the syntax/semantics distinction: numerals
+376:\subsection{Paper II: Set-theoretic --- numbers as von Neumann ordinals}
+379:Paper~II~\cite{paper-ii} works in Zermelo--Fraenkel set theory with Choice
+388:\begin{theorem}[Benacerraf, formalised in Paper~II]
+408:\subsection{Paper III: Universal property --- numbers as initial successor structures}
+411:Paper~III~\cite{paper-iii} introduces the natural numbers object (NNO).
+413:\begin{definition}[NNO, Paper~III]
+422:\begin{theorem}[Universal property, Paper~III, Theorem~3.2]
+438:Paper~III also proves equivalence with second-order Peano axioms
+447:functor on $\PtEndo$. This bridges to Paper~IV.
+449:\subsection{Paper IV: Yoneda --- numbers as representable functors}
+452:Paper~IV~\cite{paper-iv} promotes the relational viewpoint to its
+455:\begin{theorem}[Yoneda lemma, Paper~IV, Theorem~3.1]
+477:Paper~IV also proves the density theorem (every presheaf is a colimit of
+479:spaces (functor of points), and schemes (Grothendieck's program), and
+484:preparing Paper~V.
+486:\subsection{Paper V: HoTT --- numbers as inductive types up to path equivalence}
+489:Paper~V~\cite{paper-v} is a self-contained development of Homotopy Type
+501:\begin{theorem}[Univalence axiom, Paper~V, Theorem~4.2]
+513:\begin{theorem}[Contractibility of NNO, Paper~V, Theorem~4.4]
+525:NNOs.'' Paper~V also develops higher inductive types (interval, circle,
+532:\subsection{Paper VI: Categorical / structural --- numbers as invariants}
+535:Paper~VI~\cite{paper-vi} presents the structural answer to ``what is a
+545:\begin{theorem}[Structure identity principle, Paper~VI, Theorem~10.3]
+557:\begin{theorem}[Equivalence-invariance, Paper~VI, Theorem~10.4]
+560:kind is automatically invariant under structure-preserving equivalence:
+586:in any of the four numeral systems of Paper~I (Hindu--Arabic, Roman, tally,
+593:Paper~II, Theorem~3.4. The parsers are constructed in Paper~I, \S8.
+613:That both structures satisfy the second-order Peano axioms is Paper~II,
+614:Theorems~3.5 and~4.2. By Paper~III, Theorem~7.1, second-order Peano is
+664:which is the Yoneda formulation. See Paper~III, Proposition~9.2 for the
+687:is the Yoneda corollary (Paper~IV, Corollary~3.4). The third is by
+704:automatically structural in the sense of Paper~VI: if
+711:This is the structure identity principle (\cref{thm:sip}, Paper~VI,
+717:the structural perspective of Paper~VI is no longer a methodological
+718:discipline (``write only iso-invariant definitions'') but a theorem of the
+719:foundations (``every definition you can write \emph{is} iso-invariant'').
+722:\cref{tab:four-layers}, reproduced from Paper~VI.
+730:Categorical / structural (VI) & Structural properties are iso-invariant
+737:\caption{Four layers of one principle. Adapted from Paper~VI,
+745:We now build the mathematical framework in which the four right-most rows
+966:The integer $58$, defined as $\suc^{58}\,\zero$, is invariant under all
+990:this value is invariant under all model isomorphisms by SIP.
+1055:commitment that drives the whole programme. Without it, we have no
+1067:The NNO is contractible (Paper~V, \cref{thm:nno-contr}) only because the
+1079:(\cite[\S4.9]{HoTTBook}, see Paper~V \S4). It is not provable
+1145:the foundational programme built on the four-way correspondence. Homotopy
+1168:the philosophical commitment of Paper~VI.
+1193:The transcendental numbers $\pi$ and $e$ enter the framework via Paper~V's
+1194:HIIT real numbers and Paper~III's universal-property characterisations.
+1196:\begin{definition}[Cauchy real numbers, HIIT, Paper~V \S5.5]
+1209:\begin{theorem}[$\pi$ and $e$ in HoTT, after Paper~V \S10]
+1274:be equivalences. We sketch the upshot in the language of Paper~VI: a
+1284:theory --- Riemann zeta zeros, the Langlands programme, automorphic
+1290:HoTT-native object, remains unrealised.
+1302:Paper~III sketches the coalgebraic side: streams of digits, codata,
+1309:Paper~VI surveys ETCS; the relationship to Makkai's
+1324:reals construction of Paper~V is given in Book HoTT; a clean cubical
+1343:successor structure (Paper~III), a representing functor (Paper~IV), a
+1344:canonical term in a contractible type of NNOs (Paper~V), and an
+1345:invariant under all model isomorphisms (Paper~VI). These four
+1353:The naive level (Paper~I), in which $58$ is a symbol on a page, remains
+1355:practice. The set-theoretic level (Paper~II) remains the historical and
+1364:Paper~I:
+1394:Univalent Correspondence Series, Paper~I, 2026.
+1399:Univalent Correspondence Series, Paper~II, 2026.
+1404:Univalent Correspondence Series, Paper~III, 2026.
+1409:Univalent Correspondence Series, Paper~IV, 2026.
+1414:Univalent Correspondence Series, Paper~V, 2026.
+1419:Univalent Correspondence Series, Paper~VI, 2026.
+1496:\emph{Cubical Agda: a dependently typed programming language with univalence and higher inductive types},
+1594:\emph{Functional programming with bananas, lenses, envelopes, and barbed wire},
+
+exec
+/usr/local/bin/zsh -lc 'which lacheck' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+/Library/TeX/texbin/lacheck
+
+exec
+/usr/local/bin/zsh -lc 'kpsewhich xurl.sty' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+/usr/local/texlive/2026/texmf-dist/tex/latex/xurl/xurl.sty
+
+codex
+The build log has no hard errors, undefined references, or citation warnings. The concrete formatting problems it reports are bad boxes; I’m also running lint-style read-only checks to catch source-level LaTeX style problems that a successful build can still hide.
+exec
+/usr/local/bin/zsh -lc 'lacheck latex/synthesis.tex' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+"latex/synthesis.tex", line 49: possible unwanted space at "{"
+"latex/synthesis.tex", line 56: possible unwanted space at "{"
+"latex/synthesis.tex", line 615: missing `\@' before `.' in "NNO."
+"latex/synthesis.tex", line 629: missing `\@' before `.' in "NNO."
+"latex/synthesis.tex", line 751: missing `\@' before `.' in "TT."
+"latex/synthesis.tex", line 911: missing `\@' before `.' in "TT."
+"latex/synthesis.tex", line 1049: missing `\@' before `.' in "TT."
+"latex/synthesis.tex", line 1285: missing `\@' before `.' in "TT."
+
+exec
+/usr/local/bin/zsh -lc "sed -n '1,120p' /usr/local/texlive/2026/texmf-dist/tex/latex/xurl/xurl.sty" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+%% $Id: xurl.sty 400 2022-01-09 13:12:20Z herbert $
+%%
+%% This is file `xurl.sty',
+%%
+%% IMPORTANT NOTICE:
+%%
+%% Package `xurl'
+%%
+%% Herbert Voss <hvoss _at_ tug.org>
+%%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%% in directory macros/latex/base/lppl.txt.
+%%
+%% DESCRIPTION:
+%%   `xurl' is a package for extended URL breaks
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{xurl}[2022/01/09 v 0.10 modify URL breaks]
+
+\newif\if@no@biblatex \@no@biblatexfalse
+\DeclareOption{nobiblatex}{\@no@biblatextrue}
+
+\DeclareOption*{\PassOptionsToPackage\CurrentOption{url}}
+\ProcessOptions\relax
+%
+\RequirePackage{url}
+%
+\if@no@biblatex\else
+  \@ifpackageloaded{biblatex}{%
+    \typeout{xurl: Set penalties for biblatex}%
+    \setcounter{biburllcpenalty}{100}%
+    \setcounter{biburlucpenalty}{200}%
+    \global\setcounter{biburlnumpenalty}{100}%
+  }{}       % biblatex has it's own url handling
+\fi
+%
+%\mathchardef\UrlBigBreakPenalty=100
+%\mathchardef\UrlBreakPenalty=200
+
+\def\UrlBreaks{\do\.\do\@\do\\\do\/\do\!\do\_\do\|\do\;\do\>\do\]%
+\do\)\do\,\do\?\do\&\do\'\do+\do\=\do\#\do:%
+\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l%
+\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z%
+\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L%
+\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z%
+\do0\do1\do2\do3\do4\do5\do6\do7\do8\do9}
+%
+\def\UrlSpecials{%
+  \do\ {\Url@space}%
+  \do\%{\Url@percent}%
+  \do\^^M{\Url@space}%
+  \Url@force@Tilde
+}
+
+\Urlmuskip=0mu plus 1mu
+%
+\def\useOriginalUrlSetting{%
+\def\UrlBreaks{\do\.\do\@\do\\\do\/\do\!\do\_\do\|\do\;\do\>\do\]%
+ \do\)\do\,\do\?\do\&\do\'\do+\do\=\do\#}%
+\def\UrlSpecials{\do\ {\Url@space}\do\%{\Url@percent}\do\^^M{\Url@space}%
+   \Url@force@Tilde}% package option may force faked text-ascii-tilde
+}
+
+\endinput
+
+\def\UrlSpecials{%
+  \do\ {\Url@space}%
+  \do\%{\Url@percent}%
+  \do\^^M{\Url@space}%
+  \Url@force@Tilde
+  \do\/{/\penalty\UrlBreakPenalty}%
+  \do\a{a\penalty\UrlBreakPenalty}%
+  \do\b{b\penalty\UrlBreakPenalty}%
+  \do\c{c\penalty\UrlBreakPenalty}%
+  \do\d{d\penalty\UrlBreakPenalty}%
+  \do\e{e\penalty\UrlBreakPenalty}%
+  \do\f{f\penalty\UrlBreakPenalty}%
+  \do\g{g\penalty\UrlBreakPenalty}%
+  \do\h{h\penalty\UrlBreakPenalty}%
+  \do\i{i\penalty\UrlBreakPenalty}%
+  \do\j{j\penalty\UrlBreakPenalty}%
+  \do\k{k\penalty\UrlBreakPenalty}%
+  \do\l{l\penalty\UrlBreakPenalty}%
+  \do\m{m\penalty\UrlBreakPenalty}%
+  \do\n{n\penalty\UrlBreakPenalty}%
+  \do\o{o\penalty\UrlBreakPenalty}%
+  \do\p{p\penalty\UrlBreakPenalty}%
+  \do\q{q\penalty\UrlBreakPenalty}%
+  \do\r{r\penalty\UrlBreakPenalty}%
+  \do\s{s\penalty\UrlBreakPenalty}%
+  \do\t{t\penalty\UrlBreakPenalty}%
+  \do\u{u\penalty\UrlBreakPenalty}%
+  \do\v{v\penalty\UrlBreakPenalty}%
+  \do\w{w\penalty\UrlBreakPenalty}%
+  \do\x{x\penalty\UrlBreakPenalty}%
+  \do\y{y\penalty\UrlBreakPenalty}%
+  \do\z{z\penalty\UrlBreakPenalty}%
+  \do\A{A\penalty\UrlBreakPenalty}%
+  \do\B{B\penalty\UrlBreakPenalty}%
+  \do\C{C\penalty\UrlBreakPenalty}%
+  \do\D{D\penalty\UrlBreakPenalty}%
+  \do\E{E\penalty\UrlBreakPenalty}%
+  \do\F{F\penalty\UrlBreakPenalty}%
+  \do\G{G\penalty\UrlBreakPenalty}%
+  \do\H{H\penalty\UrlBreakPenalty}%
+  \do\I{I\penalty\UrlBreakPenalty}%
+  \do\J{J\penalty\UrlBreakPenalty}%
+  \do\K{K\penalty\UrlBreakPenalty}%
+  \do\L{L\penalty\UrlBreakPenalty}%
+  \do\M{M\penalty\UrlBreakPenalty}%
+  \do\N{N\penalty\UrlBreakPenalty}%
+  \do\O{O\penalty\UrlBreakPenalty}%
+  \do\P{P\penalty\UrlBreakPenalty}%
+  \do\Q{Q\penalty\UrlBreakPenalty}%
+  \do\R{R\penalty\UrlBreakPenalty}%
+  \do\S{S\penalty\UrlBreakPenalty}%
+  \do\T{T\penalty\UrlBreakPenalty}%
+  \do\U{U\penalty\UrlBreakPenalty}%
+  \do\V{V\penalty\UrlBreakPenalty}%
+
+exec
+/usr/local/bin/zsh -lc 'rg -n "''^!|LaTeX Warning:|Package .* Warning:|Citation .* undefined|Reference .* undefined|There were undefined|multiply defined|Output written|No pages of output" latex/synthesis.log' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+962:Output written on synthesis.pdf (25 pages, 409832 bytes).
+
+exec
+/usr/local/bin/zsh -lc 'chktex -q latex/synthesis.tex' in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ exited 2 in 0ms:
+Warning 18 in latex/synthesis.tex line 54: Use either `` or '' as an alternative to `"'.
+  morestring=[b]"  
+                ^
+Warning 8 in latex/synthesis.tex line 123: Wrong length of dash may have been used.
+\textit{Synthesis paper for the six topical papers (I--VI)} \\  
+                                                     ^^
+Warning 38 in latex/synthesis.tex line 134: You should not use punctuation in front of quotes.
+``what is the natural number $58$?'' and develops it to maturity: Paper~I  
+                                 ^
+Warning 8 in latex/synthesis.tex line 163: Wrong length of dash may have been used.
+higher inductive--inductive type, directed HoTT and synthetic  
+                ^^
+Warning 24 in latex/synthesis.tex line 172: Delete this space to maintain correct pagereferences.
+\label{sec:intro}  
+^
+Warning 8 in latex/synthesis.tex line 197: Wrong length of dash may have been used.
+\caption{The six perspectives on the natural number $58$. Rows~III--VI  
+                                                                  ^^
+Warning 24 in latex/synthesis.tex line 199: Delete this space to maintain correct pagereferences.
+\label{tab:six-rows}  
+^
+Warning 24 in latex/synthesis.tex line 230: Delete this space to maintain correct pagereferences.
+\label{prin:weak}  
+^
+Warning 24 in latex/synthesis.tex line 239: Delete this space to maintain correct pagereferences.
+\label{prin:strong}  
+^
+Warning 38 in latex/synthesis.tex line 275: You should not use punctuation in front of quotes.
+becomes ``$58$ \emph{is} the functor $\Hom(-, 58)$.''  
+                                                  ^
+Warning 13 in latex/synthesis.tex line 285: Intersentence spacing (`\@') should perhaps be used.
+philosophical commitment provable inside HoTT.  
+                                             ^
+Warning 8 in latex/synthesis.tex line 292: Wrong length of dash may have been used.
+Curry--Howard--Lambek correspondence shown in \cref{tab:tetrad}. We follow  
+     ^^
+Warning 8 in latex/synthesis.tex line 292: Wrong length of dash may have been used.
+Curry--Howard--Lambek correspondence shown in \cref{tab:tetrad}. We follow  
+             ^^
+Warning 24 in latex/synthesis.tex line 321: Delete this space to maintain correct pagereferences.
+\label{tab:tetrad}  
+^
+Warning 13 in latex/synthesis.tex line 327: Intersentence spacing (`\@') should perhaps be used.
+the principal results of Papers~I through~VI. \Cref{sec:transit} proves the  
+                                            ^
+Warning 38 in latex/synthesis.tex line 336: You should not use punctuation in front of quotes.
+correspondence.'' \Cref{sec:applications} sketches three downstream  
+              ^
+Warning 24 in latex/synthesis.tex line 343: Delete this space to maintain correct pagereferences.
+\label{sec:row-by-row}  
+^
+Warning 13 in latex/synthesis.tex line 349: Intersentence spacing (`\@') should perhaps be used.
+\subsection{Paper I: Naive --- numbers as symbols and quantities}  
+                   ^
+Warning 24 in latex/synthesis.tex line 350: Delete this space to maintain correct pagereferences.
+\label{sec:row-i}  
+^
+Warning 8 in latex/synthesis.tex line 365: Wrong length of dash may have been used.
+provides a Haskell artifact parsing four numeral systems (Hindu--Arabic,  
+                                                               ^^
+Warning 13 in latex/synthesis.tex line 376: Intersentence spacing (`\@') should perhaps be used.
+\subsection{Paper II: Set-theoretic --- numbers as von Neumann ordinals}  
+                    ^
+Warning 24 in latex/synthesis.tex line 377: Delete this space to maintain correct pagereferences.
+\label{sec:row-ii}  
+^
+Warning 8 in latex/synthesis.tex line 379: Wrong length of dash may have been used.
+Paper~II~\cite{paper-ii} works in Zermelo--Fraenkel set theory with Choice  
+                                         ^^
+Warning 24 in latex/synthesis.tex line 389: Delete this space to maintain correct pagereferences.
+\label{thm:benacerraf}  
+^
+Warning 13 in latex/synthesis.tex line 408: Intersentence spacing (`\@') should perhaps be used.
+\subsection{Paper III: Universal property --- numbers as initial successor structures}  
+                     ^
+Warning 24 in latex/synthesis.tex line 409: Delete this space to maintain correct pagereferences.
+\label{sec:row-iii}  
+^
+Warning 24 in latex/synthesis.tex line 414: Delete this space to maintain correct pagereferences.
+\label{def:nno}  
+^
+Warning 24 in latex/synthesis.tex line 423: Delete this space to maintain correct pagereferences.
+\label{thm:nno-up}  
+^
+Warning 13 in latex/synthesis.tex line 447: Intersentence spacing (`\@') should perhaps be used.
+functor on $\PtEndo$. This bridges to Paper~IV.  
+                                              ^
+Warning 13 in latex/synthesis.tex line 449: Intersentence spacing (`\@') should perhaps be used.
+\subsection{Paper IV: Yoneda --- numbers as representable functors}  
+                    ^
+Warning 24 in latex/synthesis.tex line 450: Delete this space to maintain correct pagereferences.
+\label{sec:row-iv}  
+^
+Warning 24 in latex/synthesis.tex line 456: Delete this space to maintain correct pagereferences.
+\label{thm:yoneda}  
+^
+Warning 13 in latex/synthesis.tex line 486: Intersentence spacing (`\@') should perhaps be used.
+\subsection{Paper V: HoTT --- numbers as inductive types up to path equivalence}  
+                   ^
+Warning 24 in latex/synthesis.tex line 487: Delete this space to maintain correct pagereferences.
+\label{sec:row-v}  
+^
+Warning 24 in latex/synthesis.tex line 502: Delete this space to maintain correct pagereferences.
+\label{thm:univalence}  
+^
+Warning 13 in latex/synthesis.tex line 511: Intersentence spacing (`\@') should perhaps be used.
+The paper proves a contractibility theorem for the type of NNOs in HoTT:  
+                                                                       ^
+Warning 24 in latex/synthesis.tex line 514: Delete this space to maintain correct pagereferences.
+\label{thm:nno-contr}  
+^
+Warning 38 in latex/synthesis.tex line 525: You should not use punctuation in front of quotes.
+NNOs.'' Paper~V also develops higher inductive types (interval, circle,  
+    ^
+Warning 8 in latex/synthesis.tex line 527: Wrong length of dash may have been used.
+numbers as a higher inductive--inductive type), the cubical realisation of  
+                             ^^
+Warning 13 in latex/synthesis.tex line 532: Intersentence spacing (`\@') should perhaps be used.
+\subsection{Paper VI: Categorical / structural --- numbers as invariants}  
+                    ^
+Warning 24 in latex/synthesis.tex line 533: Delete this space to maintain correct pagereferences.
+\label{sec:row-vi}  
+^
+Warning 38 in latex/synthesis.tex line 536: You should not use punctuation in front of quotes.
+number?''. Numerals are invariants under all structure-preserving  
+      ^
+Warning 24 in latex/synthesis.tex line 546: Delete this space to maintain correct pagereferences.
+\label{thm:sip}  
+^
+Warning 24 in latex/synthesis.tex line 558: Delete this space to maintain correct pagereferences.
+\label{thm:eq-inv}  
+^
+Warning 24 in latex/synthesis.tex line 573: Delete this space to maintain correct pagereferences.
+\label{sec:transit}  
+^
+Warning 24 in latex/synthesis.tex line 580: Delete this space to maintain correct pagereferences.
+\label{sec:transit-i}  
+^
+Warning 24 in latex/synthesis.tex line 583: Delete this space to maintain correct pagereferences.
+\label{thm:transit-i}  
+^
+Warning 8 in latex/synthesis.tex line 586: Wrong length of dash may have been used.
+in any of the four numeral systems of Paper~I (Hindu--Arabic, Roman, tally,  
+                                                    ^^
+Warning 13 in latex/synthesis.tex line 592: Intersentence spacing (`\@') should perhaps be used.
+The recursion is justified by Replacement and Foundation in ZFC; see  
+                                                               ^
+Warning 24 in latex/synthesis.tex line 601: Delete this space to maintain correct pagereferences.
+\label{sec:transit-ii}  
+^
+Warning 24 in latex/synthesis.tex line 604: Delete this space to maintain correct pagereferences.
+\label{thm:transit-ii}  
+^
+Warning 13 in latex/synthesis.tex line 615: Intersentence spacing (`\@') should perhaps be used.
+equivalent to NNO. Initiality (and hence the canonical bijection) follows.  
+                 ^
+Warning 24 in latex/synthesis.tex line 623: Delete this space to maintain correct pagereferences.
+\label{sec:transit-iii}  
+^
+Warning 24 in latex/synthesis.tex line 626: Delete this space to maintain correct pagereferences.
+\label{thm:transit-iii}  
+^
+Warning 13 in latex/synthesis.tex line 629: Intersentence spacing (`\@') should perhaps be used.
+$F$ if and only if $\mathcal{C}$ admits an NNO. In that case  
+                                              ^
+Warning 24 in latex/synthesis.tex line 669: Delete this space to maintain correct pagereferences.
+\label{sec:transit-iv}  
+^
+Warning 24 in latex/synthesis.tex line 672: Delete this space to maintain correct pagereferences.
+\label{thm:transit-iv}  
+^
+Warning 2 in latex/synthesis.tex line 674: Non-breaking space (`~') should have been used.
+\cite[Definition~9.1.6]{HoTTBook}: a category in which the canonical map  
+^
+Warning 2 in latex/synthesis.tex line 689: Non-breaking space (`~') should have been used.
+\cite[Theorem~9.2.5]{HoTTBook}. Composing the three gives an equivalence  
+^
+Warning 24 in latex/synthesis.tex line 699: Delete this space to maintain correct pagereferences.
+\label{sec:transit-vi}  
+^
+Warning 24 in latex/synthesis.tex line 702: Delete this space to maintain correct pagereferences.
+\label{thm:transit-vi}  
+^
+Warning 13 in latex/synthesis.tex line 704: Intersentence spacing (`\@') should perhaps be used.
+automatically structural in the sense of Paper~VI: if  
+                                                 ^
+Warning 2 in latex/synthesis.tex line 713: Non-breaking space (`~') should have been used.
+is \cite[Corollary~5.4]{paper-v} (\cref{thm:nno-contr}).  
+  ^
+Warning 13 in latex/synthesis.tex line 722: Intersentence spacing (`\@') should perhaps be used.
+\cref{tab:four-layers}, reproduced from Paper~VI.  
+                                                ^
+Warning 24 in latex/synthesis.tex line 739: Delete this space to maintain correct pagereferences.
+\label{tab:four-layers}  
+^
+Warning 24 in latex/synthesis.tex line 743: Delete this space to maintain correct pagereferences.
+\label{sec:framework}  
+^
+Warning 24 in latex/synthesis.tex line 749: Delete this space to maintain correct pagereferences.
+\label{sec:setup-univ}  
+^
+Warning 13 in latex/synthesis.tex line 751: Intersentence spacing (`\@') should perhaps be used.
+Let $\U$ be a univalent universe of types in HoTT. We work informally in  
+                                                 ^
+Warning 8 in latex/synthesis.tex line 755: Wrong length of dash may have been used.
+Grothendieck--Rezk--Lurie--Joyal $\infty$-topos~\cite{lurie,ShulmanInftyTopos}.  
+            ^^
+Warning 8 in latex/synthesis.tex line 755: Wrong length of dash may have been used.
+Grothendieck--Rezk--Lurie--Joyal $\infty$-topos~\cite{lurie,ShulmanInftyTopos}.  
+                  ^^
+Warning 8 in latex/synthesis.tex line 755: Wrong length of dash may have been used.
+Grothendieck--Rezk--Lurie--Joyal $\infty$-topos~\cite{lurie,ShulmanInftyTopos}.  
+                         ^^
+Warning 24 in latex/synthesis.tex line 758: Delete this space to maintain correct pagereferences.
+\label{def:four-functors}  
+^
+Warning 24 in latex/synthesis.tex line 787: Delete this space to maintain correct pagereferences.
+\label{thm:identity-of-perspectives}  
+^
+Warning 2 in latex/synthesis.tex line 826: Non-breaking space (`~') should have been used.
+\cite[Theorem~2.7.2]{HoTTBook}, the pair $(p, q)$ is exactly an  
+^
+Warning 13 in latex/synthesis.tex line 840: Intersentence spacing (`\@') should perhaps be used.
+(UP) (the unique morphisms) follows from initiality of either via SIP.  
+                                                                     ^
+Warning 13 in latex/synthesis.tex line 843: Intersentence spacing (`\@') should perhaps be used.
+type is an $\infty$-groupoid is built into HoTT: identity types are types,  
+                                               ^
+Warning 24 in latex/synthesis.tex line 879: Delete this space to maintain correct pagereferences.
+\label{fig:four-views}  
+^
+Warning 8 in latex/synthesis.tex line 894: Wrong length of dash may have been used.
+For $\R$, defined as a higher inductive--inductive type via Cauchy  
+                                       ^^
+Warning 24 in latex/synthesis.tex line 904: Delete this space to maintain correct pagereferences.
+\label{sec:correspondence}  
+^
+Warning 24 in latex/synthesis.tex line 909: Delete this space to maintain correct pagereferences.
+\label{prin:formal}  
+^
+Warning 13 in latex/synthesis.tex line 911: Intersentence spacing (`\@') should perhaps be used.
+algebraic theory in HoTT. Let $X, Y$ be $\mathcal{S}$-structures in a  
+                        ^
+Warning 8 in latex/synthesis.tex line 944: Wrong length of dash may have been used.
+\begin{remark}[Curry--Howard--Lambek--Voevodsky]  
+                    ^^
+Warning 8 in latex/synthesis.tex line 944: Wrong length of dash may have been used.
+\begin{remark}[Curry--Howard--Lambek--Voevodsky]  
+                            ^^
+Warning 8 in latex/synthesis.tex line 944: Wrong length of dash may have been used.
+\begin{remark}[Curry--Howard--Lambek--Voevodsky]  
+                                    ^^
+Warning 8 in latex/synthesis.tex line 945: Wrong length of dash may have been used.
+The Curry--Howard correspondence~\cite{Wadler2015} identifies columns~1  
+         ^^
+Warning 8 in latex/synthesis.tex line 946: Wrong length of dash may have been used.
+and~2 (logic with type theory). The Curry--Howard--Lambek  
+                                         ^^
+Warning 8 in latex/synthesis.tex line 946: Wrong length of dash may have been used.
+and~2 (logic with type theory). The Curry--Howard--Lambek  
+                                                 ^^
+Warning 8 in latex/synthesis.tex line 951: Wrong length of dash may have been used.
+form of the four-way Curry--Howard--Lambek--Voevodsky correspondence.  
+                          ^^
+Warning 8 in latex/synthesis.tex line 951: Wrong length of dash may have been used.
+form of the four-way Curry--Howard--Lambek--Voevodsky correspondence.  
+                                  ^^
+Warning 8 in latex/synthesis.tex line 951: Wrong length of dash may have been used.
+form of the four-way Curry--Howard--Lambek--Voevodsky correspondence.  
+                                          ^^
+Warning 24 in latex/synthesis.tex line 957: Delete this space to maintain correct pagereferences.
+\label{cor:N-univalent}  
+^
+Warning 38 in latex/synthesis.tex line 976: You should not use punctuation in front of quotes.
+The original question of the series, ``what is $58$?'', has now four  
+                                                   ^
+Warning 13 in latex/synthesis.tex line 977: Intersentence spacing (`\@') should perhaps be used.
+equivalent answers, each made precise by one of Papers~III through~VI:  
+                                                                     ^
+Warning 13 in latex/synthesis.tex line 990: Intersentence spacing (`\@') should perhaps be used.
+this value is invariant under all model isomorphisms by SIP.  
+                                                           ^
+Warning 13 in latex/synthesis.tex line 994: Intersentence spacing (`\@') should perhaps be used.
+in HoTT.  
+       ^
+Warning 24 in latex/synthesis.tex line 997: Delete this space to maintain correct pagereferences.
+\label{sec:diagrams}  
+^
+Warning 18 in latex/synthesis.tex line 1011: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T1}}", "{\text{definite encoding}}"']  
+            ^
+Warning 18 in latex/synthesis.tex line 1011: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T1}}", "{\text{definite encoding}}"']  
+                        ^
+Warning 18 in latex/synthesis.tex line 1011: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T1}}", "{\text{definite encoding}}"']  
+                           ^
+Warning 18 in latex/synthesis.tex line 1011: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T1}}", "{\text{definite encoding}}"']  
+                                                      ^
+Warning 18 in latex/synthesis.tex line 1013: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T2}}", "{\text{Benacerraf}\,\Rightarrow\,\text{NNO}}"']  
+            ^
+Warning 18 in latex/synthesis.tex line 1013: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T2}}", "{\text{Benacerraf}\,\Rightarrow\,\text{NNO}}"']  
+                        ^
+Warning 18 in latex/synthesis.tex line 1013: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T2}}", "{\text{Benacerraf}\,\Rightarrow\,\text{NNO}}"']  
+                           ^
+Warning 18 in latex/synthesis.tex line 1013: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T2}}", "{\text{Benacerraf}\,\Rightarrow\,\text{NNO}}"']  
+                                                                        ^
+Warning 18 in latex/synthesis.tex line 1015: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T3}}", "{\text{NNO is rep.\ functor}}"']  
+            ^
+Warning 18 in latex/synthesis.tex line 1015: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T3}}", "{\text{NNO is rep.\ functor}}"']  
+                        ^
+Warning 18 in latex/synthesis.tex line 1015: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T3}}", "{\text{NNO is rep.\ functor}}"']  
+                           ^
+Warning 18 in latex/synthesis.tex line 1015: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T3}}", "{\text{NNO is rep.\ functor}}"']  
+                                                         ^
+Warning 18 in latex/synthesis.tex line 1017: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T4}}", "{\text{univalence}}"']  
+            ^
+Warning 18 in latex/synthesis.tex line 1017: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T4}}", "{\text{univalence}}"']  
+                        ^
+Warning 18 in latex/synthesis.tex line 1017: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T4}}", "{\text{univalence}}"']  
+                           ^
+Warning 18 in latex/synthesis.tex line 1017: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T4}}", "{\text{univalence}}"']  
+                                               ^
+Warning 18 in latex/synthesis.tex line 1019: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T5}}", "{\text{SIP}}"']  
+            ^
+Warning 18 in latex/synthesis.tex line 1019: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T5}}", "{\text{SIP}}"']  
+                        ^
+Warning 18 in latex/synthesis.tex line 1019: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T5}}", "{\text{SIP}}"']  
+                           ^
+Warning 18 in latex/synthesis.tex line 1019: Use either `` or '' as an alternative to `"'.
+  \arrow[r, "{\text{T5}}", "{\text{SIP}}"']  
+                                        ^
+Warning 24 in latex/synthesis.tex line 1031: Delete this space to maintain correct pagereferences.
+\label{fig:composition}  
+^
+Warning 8 in latex/synthesis.tex line 1036: Wrong length of dash may have been used.
+A natural objection: if all four formal levels (III--VI) are equivalent  
+                                                   ^^
+Warning 13 in latex/synthesis.tex line 1037: Intersentence spacing (`\@') should perhaps be used.
+under univalence, why bother with all four? Why not just use HoTT?  
+                                                                 ^
+Warning 13 in latex/synthesis.tex line 1049: Intersentence spacing (`\@') should perhaps be used.
+HoTT. The Yoneda embedding is what we use when working with categories  
+    ^
+Warning 38 in latex/synthesis.tex line 1053: You should not use punctuation in front of quotes.
+formal system in which ``up to iso'' becomes ``equal.''  
+                                                    ^
+Warning 24 in latex/synthesis.tex line 1066: Delete this space to maintain correct pagereferences.
+\label{prop:emergent-contract}  
+^
+Warning 24 in latex/synthesis.tex line 1077: Delete this space to maintain correct pagereferences.
+\label{prop:funext}  
+^
+Warning 24 in latex/synthesis.tex line 1086: Delete this space to maintain correct pagereferences.
+\label{prop:synth-homotopy}  
+^
+Warning 8 in latex/synthesis.tex line 1089: Wrong length of dash may have been used.
+Blakers--Massey theorem, etc.~\cite{LicataShulman,LicataFinster,ShulmanStrength})  
+       ^^
+Warning 24 in latex/synthesis.tex line 1100: Delete this space to maintain correct pagereferences.
+\label{thm:commutativity}  
+^
+Warning 24 in latex/synthesis.tex line 1122: Delete this space to maintain correct pagereferences.
+\label{sec:naming}  
+^
+Warning 8 in latex/synthesis.tex line 1130: Wrong length of dash may have been used.
+\item \textbf{Curry--Howard correspondence} (binary): logic with type  
+                   ^^
+Warning 8 in latex/synthesis.tex line 1133: Wrong length of dash may have been used.
+\item \textbf{Curry--Howard--Lambek correspondence} (three-way):  
+                   ^^
+Warning 8 in latex/synthesis.tex line 1133: Wrong length of dash may have been used.
+\item \textbf{Curry--Howard--Lambek correspondence} (three-way):  
+                           ^^
+Warning 13 in latex/synthesis.tex line 1143: Intersentence spacing (`\@') should perhaps be used.
+Extends naturally to ``propositions-as-types-as-spaces'' in HoTT.  
+                                                                ^
+Warning 8 in latex/synthesis.tex line 1152: Wrong length of dash may have been used.
+The phrase ``Curry--Howard--Lambek--Voevodsky correspondence'' is correct  
+                  ^^
+Warning 8 in latex/synthesis.tex line 1152: Wrong length of dash may have been used.
+The phrase ``Curry--Howard--Lambek--Voevodsky correspondence'' is correct  
+                          ^^
+Warning 8 in latex/synthesis.tex line 1152: Wrong length of dash may have been used.
+The phrase ``Curry--Howard--Lambek--Voevodsky correspondence'' is correct  
+                                  ^^
+Warning 13 in latex/synthesis.tex line 1168: Intersentence spacing (`\@') should perhaps be used.
+the philosophical commitment of Paper~VI.  
+                                        ^
+Warning 24 in latex/synthesis.tex line 1185: Delete this space to maintain correct pagereferences.
+\label{sec:applications}  
+^
+Warning 24 in latex/synthesis.tex line 1191: Delete this space to maintain correct pagereferences.
+\label{sec:transcendentals}  
+^
+Warning 24 in latex/synthesis.tex line 1197: Delete this space to maintain correct pagereferences.
+\label{def:R-HIIT}  
+^
+Warning 8 in latex/synthesis.tex line 1198: Wrong length of dash may have been used.
+The type $\R_C$ of Cauchy real numbers is the higher inductive--inductive  
+                                                              ^^
+Warning 35 in latex/synthesis.tex line 1202: You should perhaps use `\lim' instead.
+\item $\mathsf{lim}\colon \prod_{f : \N \to \R_C}\, \mathsf{isCauchy}(f) \to \R_C$;  
+               ^^^
+Warning 35 in latex/synthesis.tex line 1203: You should perhaps use `\lim' instead.
+\item path constructors identifying $\mathsf{lim}\,f$ for any two  
+                                             ^^^
+Warning 24 in latex/synthesis.tex line 1210: Delete this space to maintain correct pagereferences.
+\label{thm:pi-e-hott}  
+^
+Warning 24 in latex/synthesis.tex line 1232: Delete this space to maintain correct pagereferences.
+\label{sec:contextfs}  
+^
+Warning 24 in latex/synthesis.tex line 1261: Delete this space to maintain correct pagereferences.
+\label{sec:directed}  
+^
+Warning 13 in latex/synthesis.tex line 1274: Intersentence spacing (`\@') should perhaps be used.
+be equivalences. We sketch the upshot in the language of Paper~VI: a  
+                                                                 ^
+Warning 24 in latex/synthesis.tex line 1281: Delete this space to maintain correct pagereferences.
+\label{sec:open-langlands}  
+^
+Warning 13 in latex/synthesis.tex line 1285: Intersentence spacing (`\@') should perhaps be used.
+forms~\cite{lurie} --- has not been substantially reformulated in HoTT.  
+                                                                      ^
+Warning 24 in latex/synthesis.tex line 1295: Delete this space to maintain correct pagereferences.
+\label{sec:open}  
+^
+Warning 13 in latex/synthesis.tex line 1309: Intersentence spacing (`\@') should perhaps be used.
+Paper~VI surveys ETCS; the relationship to Makkai's  
+                     ^
+Warning 8 in latex/synthesis.tex line 1323: Wrong length of dash may have been used.
+\item \textbf{Cubical higher inductive--inductive types.} The Cauchy  
+                                      ^^
+Warning 13 in latex/synthesis.tex line 1324: Intersentence spacing (`\@') should perhaps be used.
+reals construction of Paper~V is given in Book HoTT; a clean cubical  
+                                                   ^
+Warning 24 in latex/synthesis.tex line 1330: Delete this space to maintain correct pagereferences.
+\label{sec:conclusion}  
+^
+Warning 13 in latex/synthesis.tex line 1364: Intersentence spacing (`\@') should perhaps be used.
+Paper~I:  
+       ^
+Warning 36 in latex/synthesis.tex line 1447: You should put a space in front of parenthesis.
+Math.\ Proc.\ Cambridge Philos.\ Soc.\ \textbf{146}(1): 45--55, 2009.  
+                                                   ^
+Warning 36 in latex/synthesis.tex line 1452: You should put a space in front of parenthesis.
+J.\ Eur.\ Math.\ Soc.\ \textbf{23}(6): 2071--2126, 2021.  
+                                  ^
+Warning 36 in latex/synthesis.tex line 1457: You should put a space in front of parenthesis.
+Logical Methods in Computer Science \textbf{6}(3:24): 1--19, 2010.  
+                                              ^
+Warning 36 in latex/synthesis.tex line 1462: You should put a space in front of parenthesis.
+Proc.\ London Math.\ Soc.\ \textbf{102}(2): 370--394, 2011.  
+                                       ^
+Warning 8 in latex/synthesis.tex line 1471: Wrong length of dash may have been used.
+\emph{Eilenberg--MacLane spaces in homotopy type theory},  
+               ^^
+Warning 8 in latex/synthesis.tex line 1476: Wrong length of dash may have been used.
+\emph{Higher inductive types and the formal Blakers--Massey theorem},  
+                                                   ^^
+Warning 36 in latex/synthesis.tex line 1477: You should put a space in front of parenthesis.
+Proc.\ ACM Program.\ Lang.\ \textbf{4}(POPL): 41:1--41:30, 2020.  
+                                      ^
+Warning 36 in latex/synthesis.tex line 1497: You should put a space in front of parenthesis.
+Proc.\ ACM Program.\ Lang.\ \textbf{3}(ICFP): 87:1--87:29, 2019.  
+                                      ^
+Warning 36 in latex/synthesis.tex line 1502: You should put a space in front of parenthesis.
+Math.\ Structures Comput.\ Sci.\ \textbf{33}(8): 688--743, 2023.  
+                                            ^
+Warning 36 in latex/synthesis.tex line 1507: You should put a space in front of parenthesis.
+Higher Structures \textbf{1}(1): 147--224, 2017.  
+                            ^
+Warning 36 in latex/synthesis.tex line 1530: You should put a space in front of parenthesis.
+Communications of the ACM \textbf{58}(12): 75--84, 2015.  
+                                     ^
+Warning 13 in latex/synthesis.tex line 1534: Intersentence spacing (`\@') should perhaps be used.
+\emph{Deductive systems and categories III: Cartesian closed categories,  
+                                          ^
+Warning 36 in latex/synthesis.tex line 1574: You should put a space in front of parenthesis.
+Proc.\ Nat.\ Acad.\ Sci.\ USA \textbf{52}(6): 1506--1511, 1964.  
+                                         ^
+Warning 36 in latex/synthesis.tex line 1644: You should put a space in front of parenthesis.
+Philosophical Review \textbf{74}(1): 47--73, 1965.  
+                                ^
+Warning 36 in latex/synthesis.tex line 1649: You should put a space in front of parenthesis.
+Journal of Philosophy \textbf{70}(19): 661--679, 1973.  
+                                 ^
+Warning 36 in latex/synthesis.tex line 1674: You should put a space in front of parenthesis.
+No\^us \textbf{15}(4): 529--550, 1981.  
+                  ^
+Warning 36 in latex/synthesis.tex line 1694: You should put a space in front of parenthesis.
+Philosophia Mathematica \textbf{4}(3): 209--237, 1996.  
+                                  ^
+Warning 36 in latex/synthesis.tex line 1699: You should put a space in front of parenthesis.
+Philosophia Mathematica \textbf{12}(1): 54--64, 2004.  
+                                   ^
+Warning 36 in latex/synthesis.tex line 1704: You should put a space in front of parenthesis.
+Philosophia Mathematica \textbf{22}(1): 1--11, 2014.  
+                                   ^
+Warning 36 in latex/synthesis.tex line 1717: You should put a space in front of parenthesis.
+CACM \textbf{58}(12): 75--84, 2015.  
+                ^
+
+exec
+/usr/local/bin/zsh -lc "perl -ne 'while(/\\\\cite(?:\\[["'^]]*'"\\])?\\{(["'^}]*)'"\\}/g){ for "'$x (split /,/, $1){$x=~s/''^'"\\s+|\\s+"'$//g; print "$.:$x'"\\n\"}}' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+exec
+/usr/local/bin/zsh -lc "perl -ne 'while(/\\\\(?:[Cc]?ref|eqref)\\{(["'^}]*)'"\\}/g){ for "'$x (split /,/, $1){$x=~s/''^'"\\s+|\\s+"'$//g; print "$.:$x'"\\n\"}}' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+204:paper-i
+205:paper-ii
+207:paper-iii
+210:paper-iv
+212:paper-v
+215:paper-vi
+249:Lawvere1964
+249:Lambek1972
+249:Wadler2015
+250:Awodey2014
+250:HoTTBook
+293:Wadler2015
+318:Wadler2015
+318:HoTTBook
+352:paper-i
+358:frege1884
+359:frege1892
+360:benacerraf1965
+379:paper-ii
+411:paper-iii
+452:paper-iv
+481:lurie
+489:paper-v
+528:CCHM
+528:CubicalAgda
+529:2LTT
+530:RiehlShulman
+535:paper-vi
+539:Resnik1997
+539:Shapiro1997
+539:Hellman1989
+539:Awodey1996
+540:Lawvere1964
+541:Lawvere1963
+674:HoTTBook
+689:HoTTBook
+713:paper-v
+755:lurie
+755:ShulmanInftyTopos
+826:HoTTBook
+886:HoTTBook
+895:Booij
+895:HoTTBook
+928:HoTTBook
+928:Escardo2019
+945:Wadler2015
+947:Lambek1972
+947:maclane
+948:Voevodsky
+948:HoTTBook
+1079:HoTTBook
+1089:LicataShulman
+1089:LicataFinster
+1089:ShulmanStrength
+1131:wadler-pat
+1132:wadler-pat
+1134:Lambek1972
+1141:Wadler2015
+1144:Voevodsky2010
+1147:HoTTBook
+1173:Voevodsky2010
+1173:HoTTBook
+1234:KnowledgeBase2026
+1263:RiehlShulman
+1285:lurie
+1288:ShulmanInftyTopos
+1310:Makkai1995
+1315:lurie
+1322:RiehlShulman
+1322:CisinskiNguyen
+1325:CubicalAgda
+
+ succeeded in 0ms:
+178:tab:six-rows
+198:sec:transit
+223:sec:transit
+223:sec:correspondence
+240:prin:weak
+247:thm:identity-of-perspectives
+252:sec:transit-vi
+290:tab:six-rows
+292:tab:tetrad
+296:sec:naming
+326:sec:row-by-row
+327:sec:transit
+329:sec:framework
+332:sec:correspondence
+333:sec:diagrams
+334:sec:naming
+336:sec:applications
+339:sec:open
+339:sec:conclusion
+596:thm:transit-i
+598:thm:benacerraf
+618:thm:transit-ii
+648:thm:nno-up
+693:thm:transit-iv
+711:thm:sip
+713:thm:nno-contr
+716:thm:transit-vi
+722:tab:four-layers
+746:tab:six-rows
+813:thm:transit-iv
+830:thm:sip
+847:thm:identity-of-perspectives
+848:prin:strong
+854:fig:four-views
+876:def:four-functors
+878:thm:identity-of-perspectives
+888:thm:nno-contr
+892:thm:nno-contr
+901:sec:applications
+935:prin:formal
+936:tab:tetrad
+971:thm:nno-contr
+971:thm:identity-of-perspectives
+971:thm:transit-vi
+1005:fig:composition
+1023:sec:transit
+1029:thm:transit-vi
+1067:thm:nno-contr
+1101:def:four-functors
+1113:sec:transit
+1163:prin:strong
+1307:sec:open-langlands
+1313:thm:nno-contr
+1336:prin:strong
+1336:prin:formal
+1337:thm:identity-of-perspectives
+1339:sec:diagrams
+
+exec
+/usr/local/bin/zsh -lc "sed -n '780,885p' latex/synthesis.tex | nl -ba -v 780" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+   780	$\mathbf{X}$ to its isomorphism class of $\mathcal{S}$-structures.
+   781	\end{itemize}
+   782	The functors $\mathsf{UP}, \mathsf{Y}, \mathsf{H}, \mathsf{S}$ are the
+   783	four windows on a fixed $\mathcal{S}$-structure.
+   784	\end{definition}
+   785	
+   786	\begin{theorem}[Identity of perspectives]
+   787	\label{thm:identity-of-perspectives}
+   788	For $\mathbf{X}, \mathbf{Y} : \mathcal{S}$, the four statements
+   789	\begin{enumerate}
+   790	\item[(UP)] $\mathsf{UP}(\mathbf{X}) \times \mathsf{UP}(\mathbf{Y})$
+   791	together with the resulting unique iso $\mathbf{X} \iso \mathbf{Y}$ in
+   792	$\mathcal{C}_\mathcal{S}$;
+   793	\item[(Y)] $\mathsf{Y}(\mathbf{X}) \iso \mathsf{Y}(\mathbf{Y})$ in
+   794	$[\mathcal{C}_\mathcal{S}\op, \U]$;
+   795	\item[(H)] a path
+   796	$p\colon \mathsf{H}(\mathbf{X}) =_\U \mathsf{H}(\mathbf{Y})$ together
+   797	with a transport-coherence witness for the structure data;
+   798	\item[(S)] $\mathsf{S}(\mathbf{X}) = \mathsf{S}(\mathbf{Y})$ as elements
+   799	of the quotient $\mathcal{S}/\eqv$;
+   800	\end{enumerate}
+   801	are pairwise equivalent. Therefore, under the univalence axiom and SIP,
+   802	they all reduce to the type
+   803	$\mathbf{X} =_\mathcal{S} \mathbf{Y}$, which is itself an
+   804	$\infty$-groupoid (the path space).
+   805	\end{theorem}
+   806	
+   807	\begin{proof}
+   808	\textbf{(UP)~$\Rightarrow$~(Y).} If $\mathbf{X}$ and $\mathbf{Y}$ are
+   809	both initial in $\mathcal{C}_\mathcal{S}$, the unique morphisms in both
+   810	directions exhibit $\mathbf{X} \iso \mathbf{Y}$. By full faithfulness of
+   811	Yoneda, $h_{\mathbf{X}} \iso h_{\mathbf{Y}}$.
+   812	
+   813	\textbf{(Y)~$\Rightarrow$~(H).} By \cref{thm:transit-iv}, applied to the
+   814	univalent category $\mathcal{C}_\mathcal{S}$, the isomorphism
+   815	$h_{\mathbf{X}} \iso h_{\mathbf{Y}}$ is equivalent to a path
+   816	$h_{\mathbf{X}} = h_{\mathbf{Y}}$, which by univalence of the presheaf
+   817	category gives an iso of carriers and hence (after structure transport)
+   818	the path $p$ together with its coherence witness.
+   819	
+   820	\textbf{(H)~$\Rightarrow$~(S).} We unpack this step. The hypothesis is a
+   821	path $p\colon \mathsf{H}(\mathbf{X}) =_\U \mathsf{H}(\mathbf{Y})$
+   822	between carriers, together with a transport-coherence witness
+   823	$q\colon \transport^F(p)(s_X) =_{F(\mathsf{H}(\mathbf{Y}))} s_Y$
+   824	identifying the structure data after transport. By the construction of
+   825	paths in $\Sigma$-types
+   826	\cite[Theorem~2.7.2]{HoTTBook}, the pair $(p, q)$ is exactly an
+   827	inhabitant of the type $\mathbf{X} =_\mathcal{S} \mathbf{Y}$ where the
+   828	right-hand side is a path in the $\Sigma$-type
+   829	$\sum_{X : \U} F(X)$ that defines $\mathcal{S}$. SIP
+   830	(\cref{thm:sip}) then asserts that this $\Sigma$-path is itself
+   831	canonically equivalent to a structure-preserving equivalence
+   832	$\sum_{f : X \eqv X'}\, f \text{ preserves } s, s'$. Quotienting by
+   833	$\eqv$ yields the equality
+   834	$\mathsf{S}(\mathbf{X}) = \mathsf{S}(\mathbf{Y})$ in
+   835	$\mathcal{S}/\eqv$.
+   836	
+   837	\textbf{(S)~$\Rightarrow$~(UP).} If
+   838	$\mathsf{S}(\mathbf{X}) = \mathsf{S}(\mathbf{Y})$, the representatives are
+   839	isomorphic, so both are initial or neither is. The remaining content of
+   840	(UP) (the unique morphisms) follows from initiality of either via SIP.
+   841	
+   842	The cycle closes; pairwise equivalence follows. The fact that the common
+   843	type is an $\infty$-groupoid is built into HoTT: identity types are types,
+   844	their identity types are types, and so on.
+   845	\end{proof}
+   846	
+   847	\Cref{thm:identity-of-perspectives} is the technical formulation of
+   848	\cref{prin:strong}. The four statements (UP), (Y), (H), (S) are not just
+   849	analogous; they all live as inhabitants of the same path-type
+   850	$\mathbf{X} =_\mathcal{S} \mathbf{Y}$ in the type of structures.
+   851	
+   852	\subsection{The unifying picture}
+   853	
+   854	\Cref{fig:four-views} shows the unified picture: a single $\infty$-groupoid
+   855	viewed through four functors, each producing one of the four columns of
+   856	the computational tetrad.
+   857	
+   858	\begin{figure}[ht]
+   859	\centering
+   860	\begin{tikzpicture}[node distance=2.0cm and 2.5cm]
+   861	\node (X) [draw, circle, minimum size=2cm, thick] {$X \in \U$};
+   862	\node (UP) [above left=of X] {$(\mathsf{UP})$ initial in $\mathcal{S}$};
+   863	\node (Y) [above right=of X] {$(\mathsf{Y})$ representable functor};
+   864	\node (H) [below left=of X] {$(\mathsf{H})$ canonical term in $\U$};
+   865	\node (S) [below right=of X] {$(\mathsf{S})$ structural invariant};
+   866	\draw[-{Stealth[length=3mm]}] (X) -- (UP);
+   867	\draw[-{Stealth[length=3mm]}] (X) -- (Y);
+   868	\draw[-{Stealth[length=3mm]}] (X) -- (H);
+   869	\draw[-{Stealth[length=3mm]}] (X) -- (S);
+   870	\draw[<->, dashed] (UP) -- (Y) node[midway, above] {$\eqv$};
+   871	\draw[<->, dashed] (Y) -- (S) node[midway, right] {$\eqv$};
+   872	\draw[<->, dashed] (S) -- (H) node[midway, below] {$\eqv$};
+   873	\draw[<->, dashed] (H) -- (UP) node[midway, left] {$\eqv$};
+   874	\end{tikzpicture}
+   875	\caption{One $\infty$-groupoid, four windows. The four functors of
+   876	\cref{def:four-functors} produce the four characterisations of $X$. Under
+   877	univalence and SIP, all four characterisations are pairwise equivalent
+   878	(\cref{thm:identity-of-perspectives}).}
+   879	\label{fig:four-views}
+   880	\end{figure}
+   881	
+   882	\subsection{Stratification by homotopy level}
+   883	
+   884	The $\infty$-groupoid view stratifies. For the natural number type $\N$,
+   885	which is a $0$-type (a set, in the HoTT Book's $n$-type indexing where
+
+exec
+/usr/local/bin/zsh -lc "rg -n \"begin\\{tikzcd\\}|begin\\{tabular\\}|begin\\{tabularx\\}|begin\\{figure\\}|begin\\{table\\}|begin\\{lstlisting\\}|\\\\includegraphics\" latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ exited 2 in 0ms:
+rg: regex parse error:
+    (?:begin\{tikzcd\}|begin\{tabular\}|begin\{tabularx\}|begin\{figure\}|begin\{table\}|begin\{lstlisting\}|\includegraphics)
+                                                                                                             ^^
+error: unrecognized escape sequence
+
+exec
+/usr/local/bin/zsh -lc "rg -n \"\\b(HoTT|NNO|ZFC|ETCS|SIP|UP|VI|IV|III|II|I)\\.("'$| [A-Z]| '"\\\\Cref| \\\\cref)\" latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ exited 2 in 0ms:
+rg: regex parse error:
+    (?:\b(HoTT|NNO|ZFC|ETCS|SIP|UP|VI|IV|III|II|I)\.($| [A-Z]| \Cref| \cref))
+                                                               ^^
+error: unrecognized escape sequence
+
+exec
+/usr/local/bin/zsh -lc "rg -n -F '\\begin{tikzcd}' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+1009:\begin{tikzcd}[column sep=2.4em, row sep=large]
+
+exec
+/usr/local/bin/zsh -lc "rg -n -F '\\begin{tabular}' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+726:\begin{tabular}{lll}
+
+exec
+/usr/local/bin/zsh -lc "rg -n -F '\\begin{tabularx}' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+185:\begin{tabularx}{\textwidth}{l X}
+300:\begin{tabularx}{\textwidth}{X X X X}
+
+exec
+/usr/local/bin/zsh -lc "rg -n -F '\\begin{figure}' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+858:\begin{figure}[ht]
+1007:\begin{figure}[ht]
+
+exec
+/usr/local/bin/zsh -lc "rg -n -F '\\includegraphics' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ exited 1 in 0ms:
+exec
+/usr/local/bin/zsh -lc "rg -n -e '\\b(HoTT|NNO|ZFC|ETCS|SIP|UP|VI|IV|III|II|I)\\.("'$| [A-Z]| '"\\\\Cref| \\\\cref)' latex/synthesis.tex" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+285:philosophical commitment provable inside HoTT.
+327:the principal results of Papers~I through~VI. \Cref{sec:transit} proves the
+447:functor on $\PtEndo$. This bridges to Paper~IV.
+615:equivalent to NNO. Initiality (and hence the canonical bijection) follows.
+629:$F$ if and only if $\mathcal{C}$ admits an NNO. In that case
+722:\cref{tab:four-layers}, reproduced from Paper~VI.
+751:Let $\U$ be a univalent universe of types in HoTT. We work informally in
+840:(UP) (the unique morphisms) follows from initiality of either via SIP.
+911:algebraic theory in HoTT. Let $X, Y$ be $\mathcal{S}$-structures in a
+990:this value is invariant under all model isomorphisms by SIP.
+994:in HoTT.
+1049:HoTT. The Yoneda embedding is what we use when working with categories
+1143:Extends naturally to ``propositions-as-types-as-spaces'' in HoTT.
+1168:the philosophical commitment of Paper~VI.
+1285:forms~\cite{lurie} --- has not been substantially reformulated in HoTT.
+
+exec
+/usr/local/bin/zsh -lc "stat -f '%Sm %N' latex/synthesis.tex latex/synthesis.log latex/synthesis.aux latex/synthesis.pdf" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+exec
+/usr/local/bin/zsh -lc "sed -n '600,632p' latex/synthesis.tex | nl -ba -v 600" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+May  3 20:11:06 2026 latex/synthesis.tex
+May  3 20:11:14 2026 latex/synthesis.log
+May  3 20:11:14 2026 latex/synthesis.aux
+May  3 20:11:14 2026 latex/synthesis.pdf
+
+ succeeded in 0ms:
+   600	\subsection{Set-theoretic to universal property}
+   601	\label{sec:transit-ii}
+   602	
+   603	\begin{theorem}[Encoding $\Rightarrow$ NNO]
+   604	\label{thm:transit-ii}
+   605	The von Neumann encoding $V$ exhibits $(\N_v, \emptyset, n \mapsto n \cup \{n\})$
+   606	as a natural numbers object in $\Set$. The Zermelo encoding $Z$ exhibits
+   607	$(\N_z, \emptyset, n \mapsto \{n\})$ as a natural numbers object in $\Set$.
+   608	The unique map $h\colon \N_v \to \N_z$ guaranteed by the universal property
+   609	of $\N_v$ is the bijection sending $V(n)$ to $Z(n)$, and is canonical.
+   610	\end{theorem}
+   611	
+   612	\begin{proof}
+   613	That both structures satisfy the second-order Peano axioms is Paper~II,
+   614	Theorems~3.5 and~4.2. By Paper~III, Theorem~7.1, second-order Peano is
+   615	equivalent to NNO. Initiality (and hence the canonical bijection) follows.
+   616	\end{proof}
+   617	
+   618	\Cref{thm:transit-ii} resolves Benacerraf: the von Neumann and Zermelo
+   619	encodings do not name the same set, but they name the same NNO up to a
+   620	unique iso. The universal property is the encoding-independent shadow.
+   621	
+   622	\subsection{Universal property to Yoneda}
+   623	\label{sec:transit-iii}
+   624	
+   625	\begin{theorem}[NNO as a representation]
+   626	\label{thm:transit-iii}
+   627	Let $\mathcal{C}$ be a category with terminal object. The forgetful
+   628	functor $U\colon \PtEndo(\mathcal{C}) \to \mathcal{C}$ has a left adjoint
+   629	$F$ if and only if $\mathcal{C}$ admits an NNO. In that case
+   630	$N = F(\mathbf{0})$ where $\mathbf{0}$ is the initial object of
+   631	$\mathcal{C}$ (or, equivalently, $N$ is the value of the free pointed
+   632	endo-system on the empty set), and the universal property of the NNO is
+
+exec
+/usr/local/bin/zsh -lc "sed -n '740,755p' latex/synthesis.tex | nl -ba -v 740" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+   740	\end{table}
+   741	
+   742	\section{Unified Framework: One \texorpdfstring{$\infty$}{Infinity}-Groupoid, Four Windows}
+   743	\label{sec:framework}
+   744	
+   745	We now build the mathematical framework in which the four right-most rows
+   746	of \cref{tab:six-rows} become four windows on a single object.
+   747	
+   748	\subsection{Setup: a univalent universe}
+   749	\label{sec:setup-univ}
+   750	
+   751	Let $\U$ be a univalent universe of types in HoTT. We work informally in
+   752	HoTT throughout; the reader who prefers a categorical semantics may
+   753	interpret all our types as objects of an $(\infty,1)$-topos, e.g.\ the
+   754	$\infty$-topos of $\infty$-groupoids, or any
+   755	Grothendieck--Rezk--Lurie--Joyal $\infty$-topos~\cite{lurie,ShulmanInftyTopos}.
+
+exec
+/usr/local/bin/zsh -lc "sed -n '904,913p' latex/synthesis.tex | nl -ba -v 904" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+   904	\label{sec:correspondence}
+   905	
+   906	We now state the principle systematically.
+   907	
+   908	\begin{principle}[The univalent correspondence, formal version]
+   909	\label{prin:formal}
+   910	Let $\mathcal{S}$ be a notion of structure given by an essentially
+   911	algebraic theory in HoTT. Let $X, Y$ be $\mathcal{S}$-structures in a
+   912	univalent universe $\U$. Then the following are pairwise equivalent in
+   913	$\U$:
+
+exec
+/usr/local/bin/zsh -lc "sed -n '1044,1052p' latex/synthesis.tex | nl -ba -v 1044" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+  1044	inductive type $\N$ is initial; we begin with the universal property as
+  1045	a design constraint and use it to determine what the type-theoretic data
+  1046	must look like.
+  1047	\item Yoneda (IV) is the bridge that lets us speak of the universal
+  1048	property \emph{relationally}, in any background category, not just inside
+  1049	HoTT. The Yoneda embedding is what we use when working with categories
+  1050	of geometric or algebraic objects (schemes, groups, manifolds) where the
+  1051	HoTT presentation is not yet fully developed.
+  1052	\item HoTT (V) is what \emph{internalises} the equivalence: it is the
+
+exec
+/usr/local/bin/zsh -lc "sed -n '1282,1287p' latex/synthesis.tex | nl -ba -v 1282" in /Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis
+ succeeded in 0ms:
+  1282	
+  1283	The principal open problem the series acknowledges is that analytic number
+  1284	theory --- Riemann zeta zeros, the Langlands programme, automorphic
+  1285	forms~\cite{lurie} --- has not been substantially reformulated in HoTT.
+  1286	Algebraic number theory and parts of arithmetic geometry (schemes, sheaves,
+  1287	\'etale cohomology) admit $(\infty,1)$-topos and condensed mathematics
+
+codex
+Reviewed [synthesis.tex](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex). Existing `synthesis.log` is current with the `.tex` file and shows the PDF was produced. I could not run a fresh compile because the sandbox is read-only and denied writing even to `/tmp`.
+
+**No hard failures found:**
+- No LaTeX compilation errors in the existing log.
+- No missing package errors.
+- No undefined citation/reference warnings.
+- No multiply-defined label warnings.
+
+**Issues found:**
+- [latex/synthesis.tex:300](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:300) to [line 316](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:316): `tabularx` table produces multiple `Underfull \hbox` warnings at line 316.
+- [latex/synthesis.tex:726](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:726) to [line 738](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:738): `tabular{lll}` overflows by `53.19553pt`; the “Statement” column is too wide for fixed `l` columns.
+- [latex/synthesis.tex:1009](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1009) to [line 1021](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1021): one-line `tikzcd` composition diagram overflows badly by `184.96349pt`.
+- [latex/synthesis.tex:1133](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1133) to [line 1138](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1138): item text overflows slightly by `3.49767pt`.
+- [latex/synthesis.tex:1435](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1435) to [line 1438](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1438): bibliography entry has an `Underfull \hbox`.
+- [latex/synthesis.tex:1511](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1511) to [line 1514](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1514): bibliography entry has an `Underfull \hbox`.
+- [latex/synthesis.tex:745](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:745): inconsistent wording: `right-most` here, while earlier usage is `rightmost` at lines 180, 290, and 330.
+- [latex/synthesis.tex:615](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:615), [629](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:629), [751](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:751), [911](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:911), [1049](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1049), [1285](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1285): acronym sentence endings like `NNO.` and `HoTT.` should use `\@.` if preserving TeX’s intersentence spacing matters.
+2026-05-04T02:14:26.720714Z ERROR codex_core::session: failed to record rollout items: thread 019df0c1-4398-7352-a7d2-a3df8d0928cf not found
+tokens used
+79,085
+Reviewed [synthesis.tex](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex). Existing `synthesis.log` is current with the `.tex` file and shows the PDF was produced. I could not run a fresh compile because the sandbox is read-only and denied writing even to `/tmp`.
+
+**No hard failures found:**
+- No LaTeX compilation errors in the existing log.
+- No missing package errors.
+- No undefined citation/reference warnings.
+- No multiply-defined label warnings.
+
+**Issues found:**
+- [latex/synthesis.tex:300](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:300) to [line 316](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:316): `tabularx` table produces multiple `Underfull \hbox` warnings at line 316.
+- [latex/synthesis.tex:726](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:726) to [line 738](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:738): `tabular{lll}` overflows by `53.19553pt`; the “Statement” column is too wide for fixed `l` columns.
+- [latex/synthesis.tex:1009](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1009) to [line 1021](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1021): one-line `tikzcd` composition diagram overflows badly by `184.96349pt`.
+- [latex/synthesis.tex:1133](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1133) to [line 1138](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1138): item text overflows slightly by `3.49767pt`.
+- [latex/synthesis.tex:1435](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1435) to [line 1438](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1438): bibliography entry has an `Underfull \hbox`.
+- [latex/synthesis.tex:1511](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1511) to [line 1514](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1514): bibliography entry has an `Underfull \hbox`.
+- [latex/synthesis.tex:745](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:745): inconsistent wording: `right-most` here, while earlier usage is `rightmost` at lines 180, 290, and 330.
+- [latex/synthesis.tex:615](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:615), [629](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:629), [751](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:751), [911](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:911), [1049](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1049), [1285](/Users/mlong/Documents/Development/magneton_work/formalized-foundations-mathematics/papers/07-synthesis/latex/synthesis.tex:1285): acronym sentence endings like `NNO.` and `HoTT.` should use `\@.` if preserving TeX’s intersentence spacing matters.

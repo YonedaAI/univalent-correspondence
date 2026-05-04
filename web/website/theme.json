@@ -1,0 +1,32 @@
+{
+  "domain": "Mathematics / Category Theory / Type Theory",
+  "palette": {
+    "bg": "#0f0d1a",
+    "bg-deep": "#090810",
+    "surface": "#1a1628",
+    "surface-hover": "#221e35",
+    "surface-card": "#16122a",
+    "accent": "#c084fc",
+    "accent-hover": "#d8a4ff",
+    "accent-glow": "rgba(192, 132, 252, 0.12)",
+    "accent-secondary": "#e879f9",
+    "accent-gold": "#fbbf24",
+    "text": "#f0eaff",
+    "text-muted": "#b8a8d8",
+    "text-dim": "#7a6a9a",
+    "border": "rgba(192, 132, 252, 0.2)",
+    "code-bg": "#0d0b18",
+    "success": "#34d399",
+    "warning": "#fbbf24"
+  },
+  "typography": {
+    "body": "EB Garamond (serif) — classical mathematical text",
+    "mono": "IBM Plex Mono — formal specifications and code"
+  },
+  "tier-colors": {
+    "foundations": "#818cf8",
+    "structural": "#34d399",
+    "synthetic+invariant": "#f472b6",
+    "synthesis": "#fbbf24"
+  }
+}

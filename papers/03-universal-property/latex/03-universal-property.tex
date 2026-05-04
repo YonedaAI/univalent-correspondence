@@ -1,0 +1,935 @@
+\documentclass[12pt]{article}
+
+% Core math
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+
+% Diagrams
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, calc}
+
+% Bibliography-style refs (loaded before hyperref to avoid fragility)
+\usepackage[numbers,sort&compress]{natbib}
+
+% References and links
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+% Graphics
+\usepackage{graphicx}
+
+% Page layout
+\usepackage[margin=1in]{geometry}
+
+% Code listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Sidebar (legacy package; works with new LaTeX shipout hook)
+\usepackage{everypage}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Listings configuration for Haskell
+\lstdefinelanguage{Haskell}{
+  morekeywords={class,data,default,deriving,do,else,if,import,in,infix,infixl,
+    infixr,instance,let,module,newtype,of,then,type,where,case,family,forall},
+  sensitive=true,
+  morecomment=[l]{--},
+  morestring=[b]"
+}
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue!70!black}\bfseries,
+  commentstyle=\color{green!50!black}\itshape,
+  stringstyle=\color{red!60!black},
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  framesep=4pt,
+  framerule=0.4pt,
+  rulecolor=\color{gray!50},
+  language=Haskell,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=6pt,
+  xleftmargin=2em
+}
+
+% GrokRxiv sidebar
+\definecolor{grokgray}{RGB}{110,110,110}
+\AddEverypageHook{%
+  \ifnum\value{page}=1
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[
+        rotate=90,
+        anchor=south,
+        font=\Large\sffamily\bfseries\color{grokgray},
+        inner sep=0pt
+      ] at ([xshift=38pt, yshift=0.52\paperheight]current page.south west)
+      {GrokRxiv:2026.05.universal-property\quad
+       [\,math.CT\,]\quad
+       03 May 2026};
+    \end{tikzpicture}
+  \fi
+}
+
+% Convenient macros
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\op}{^{\mathrm{op}}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\Nat}{\mathrm{Nat}}
+\newcommand{\zero}{\mathsf{zero}}
+\newcommand{\suc}{\mathsf{succ}}
+\newcommand{\PtEndo}{\mathbf{PtEndo}}
+\newcommand{\iso}{\cong}
+\newcommand{\eqv}{\simeq}
+
+\title{The Universal Property Perspective:\\
+Numbers as Initial Successor Structures}
+
+\author{YonedaAI Research \\
+\textit{Univalent Correspondence Series, Paper 03 of 6+1} \\
+\textit{Magneton Institute for Foundational Mathematics} \\
+\texttt{yoneda@magneton.ai}}
+
+\date{3 May 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We develop the universal-property perspective on the natural numbers and adjacent structures, situating it as the third rung of the six-level ladder of the \emph{Univalent Correspondence}. Following Lawvere's elementary theory of the category of sets (ETCS), we present the natural numbers object (NNO) $(\N, 0, \suc)$ as the initial pointed set with endomorphism: for any pointed dynamical system $(X, x_0, f \colon X \to X)$ there exists a unique morphism $h \colon \N \to X$ with $h(0) = x_0$ and $h \circ \suc = f \circ h$. From this universal property (a unique map satisfying these two equations) we derive primitive recursion, dependent induction, Lambek's fixed-point theorem, and the rigidity of $\N$ up to unique isomorphism. We then extend the analysis: $\pi$ as one half-period of the universal cover $\R \to S^1$; $e$ as the unique solution to $f' = f$, $f(0) = 1$; $\R$ as the (essentially unique) Dedekind-complete ordered field; $\Q$ as the field of fractions of $\Z$. We dualize through coalgebraic stream types and final coalgebras, contrasting inductive presentations of irrationals (Cauchy sequences modulo equivalence) with coinductive presentations (digit streams as final coalgebras for $X \mapsto D \times X$). The recursion principle and the induction principle emerge as instances of one universal mapping property. We address the structuralist critique: universal properties determine objects only \emph{up to unique isomorphism}, which raises the question \emph{which} isomorphism. Lawvere's structuralism embraces this, while HoTT (Paper 5) makes it definitional via univalence. We close by sharpening the bridge to Yoneda (Paper 4): a universal property is exactly a representation of a functor; concretely, the NNO is the value $F(\varnothing)$ of the free functor (left adjoint to the underlying-set functor $U \colon \PtEndo \to \Set$) at the empty set, and as an initial object it represents the constant singleton functor on the category of pointed endo-systems. Throughout, we accompany the mathematics with a Haskell implementation that realizes the NNO universal property and the recursion combinator generically across endofunctor algebras.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{Position in the Six-Level Ladder}
+
+The Univalent Correspondence series organizes the question \emph{``what is a number?''} into six levels of abstraction \cite{KnowledgeBase2026}. Paper~01 examined the naive level (numerals as syntax). Paper~02 examined the set-theoretic level (von Neumann ordinals; Benacerraf's identification problem \cite{Benacerraf1965}). The present paper takes the next step. We replace ``$58$ is the set $\{0, 1, \dots, 57\}$'' with the encoding-independent assertion:
+\begin{quote}
+\itshape
+$58$ is the position obtained by iterating $\suc$ exactly $58$ times from $0$ in any initial successor structure.
+\end{quote}
+Two such initial structures are connected by a unique isomorphism, so the position labelled $58$ in one corresponds to the position labelled $58$ in the other. The number is not a set; it is a node in a universal diagram.
+
+\subsection{What Counts as a Universal Property}
+
+A \emph{universal property} of an object $U$ in a category $\mathcal{C}$ is a description of $U$ as the unique object (up to unique isomorphism) carrying a specified piece of data such that, for every other object carrying analogous data, there is a unique structure-preserving morphism out of (or into) $U$ \cite{MacLane1998,Riehl2016}. The natural numbers, the real numbers, the field of rationals, the circle, the exponential function: each admits such a presentation, and each becomes encoding-independent thereby.
+
+The strength of the universal-property perspective is threefold:
+\begin{enumerate}
+  \item \textbf{Encoding-independence.} The definition refers to morphisms, not elements; the internal constitution of $U$ is opaque.
+  \item \textbf{Compositionality.} Universal morphisms compose as morphisms; structures built by universal property compose accordingly.
+  \item \textbf{Computational content.} The unique morphism guaranteed by the universal property is the recursion (or corecursion) combinator, directly executable as a program.
+\end{enumerate}
+
+\subsection{The Critique We Will Address}
+
+A familiar objection: ``up to unique isomorphism'' still tolerates many isomorphic copies; choosing one is still a choice. The structuralist response, due to Lawvere and developed by Awodey \cite{Awodey1996,Awodey2014}, is that the choice is \emph{semantically irrelevant} because every property of mathematical interest is invariant under isomorphism (\emph{the principle of structuralism}). HoTT will later make this principle \emph{definitional} via univalence (Paper 5). The universal property is the gateway: it teaches us to live with ``up to unique iso'' as the appropriate identity criterion.
+
+\subsection{Outline}
+
+Section~\ref{sec:framework} fixes the categorical framework. Section~\ref{sec:nno} states and proves the universal property of the NNO and derives recursion and Lambek's theorem. Section~\ref{sec:peano} compares the NNO with second-order and first-order Peano arithmetic. Section~\ref{sec:transcendentals} treats $\pi$, $e$, $\R$, $\Q$ by universal property. Section~\ref{sec:coalgebra} dualizes to final coalgebras and codata. Section~\ref{sec:induction} unifies recursion and induction as instances of the universal property. Section~\ref{sec:critique} addresses the ``which iso?'' critique. Section~\ref{sec:yoneda-bridge} bridges to Yoneda. Section~\ref{sec:haskell} discusses the Haskell implementation. Section~\ref{sec:results} states our main results, Section~\ref{sec:discussion} discusses, and Section~\ref{sec:conclusion} concludes.
+
+\section{Mathematical Framework}
+\label{sec:framework}
+
+\subsection{Categories, Functors, Pointed Dynamical Systems}
+
+\begin{definition}[Category]
+A \emph{category} $\mathcal{C}$ consists of a class of objects, for every pair $A, B$ a set $\Hom_{\mathcal{C}}(A,B)$ of morphisms, an associative composition $\circ$, and identities $\id_A$.
+\end{definition}
+
+\begin{definition}[Pointed dynamical system]
+\label{def:pds}
+Let $\mathcal{C}$ be a category with a chosen terminal object $1$. A \emph{pointed dynamical system in $\mathcal{C}$} is a triple $(X, x_0, f)$ where $X \in \mathcal{C}$, $x_0 \colon 1 \to X$, and $f \colon X \to X$. A \emph{morphism} of pointed dynamical systems $(X, x_0, f) \to (Y, y_0, g)$ is a morphism $h \colon X \to Y$ in $\mathcal{C}$ such that
+\begin{equation}
+h \circ x_0 = y_0 \quad \text{and} \quad h \circ f = g \circ h.
+\label{eq:pds-morphism}
+\end{equation}
+We denote the resulting category $\PtEndo(\mathcal{C})$ (``pointed endo-systems in $\mathcal{C}$''). When $\mathcal{C} = \Set$ we drop the parameter and write $\PtEndo$. The category $\PtEndo(\mathcal{C})$ is canonically isomorphic to the category of algebras for the endofunctor $F X = 1 + X$ in $\mathcal{C}$: the basepoint $x_0 \colon 1 \to X$ and the dynamics $f \colon X \to X$ assemble (via the universal property of the coproduct) into a single algebra map $[x_0, f] \colon 1 + X \to X$, and conversely.
+\end{definition}
+
+The two equations of \eqref{eq:pds-morphism} say exactly that the diagrams
+\[
+\begin{tikzcd}
+1 \arrow[r, "x_0"] \arrow[dr, "y_0"'] & X \arrow[d, "h"] \\
+& Y
+\end{tikzcd}
+\qquad
+\begin{tikzcd}
+X \arrow[r, "f"] \arrow[d, "h"'] & X \arrow[d, "h"] \\
+Y \arrow[r, "g"'] & Y
+\end{tikzcd}
+\]
+commute. The first asserts ``$h$ preserves the basepoint''; the second asserts ``$h$ commutes with the dynamics.''
+
+\begin{definition}[Initial object]
+An object $I$ of $\mathcal{C}$ is \emph{initial} if for every $X \in \mathcal{C}$ there is a unique morphism $!_X \colon I \to X$.
+\end{definition}
+
+\begin{lemma}[Rigidity of initial objects]
+\label{lem:initial-rigid}
+If $I$ and $I'$ are initial in $\mathcal{C}$, there is a unique isomorphism $I \xrightarrow{\sim} I'$. In particular, the automorphism group of an initial object is trivial.
+\end{lemma}
+
+\begin{proof}
+By initiality of $I$ there is a unique $u \colon I \to I'$; by initiality of $I'$ there is a unique $v \colon I' \to I$. Both $v \circ u$ and $\id_I$ are morphisms $I \to I$, hence equal by uniqueness; similarly $u \circ v = \id_{I'}$.
+\end{proof}
+
+\subsection{Endofunctor Algebras and Initial Algebras}
+
+\begin{definition}[$F$-algebra]
+Let $F \colon \mathcal{C} \to \mathcal{C}$ be an endofunctor. An \emph{$F$-algebra} is a pair $(X, \alpha)$ with $\alpha \colon F X \to X$. A morphism of $F$-algebras $(X, \alpha) \to (Y, \beta)$ is $h \colon X \to Y$ with $h \circ \alpha = \beta \circ Fh$. The category of $F$-algebras is denoted $F\text{-}\mathbf{Alg}$.
+\end{definition}
+
+A pointed dynamical system $(X, x_0, f)$ is precisely an algebra for the endofunctor $F X = 1 + X$ in $\Set$ (or any category with finite coproducts and a terminal object): the algebra map $[x_0, f] \colon 1 + X \to X$ packages the basepoint and the dynamics into a single arrow. Algebras for $F X = 1 + X$ are called \emph{successor algebras} or \emph{pointed endo-systems}.
+
+\begin{lemma}[Lambek]
+\label{lem:lambek}
+Let $F \colon \mathcal{C} \to \mathcal{C}$ be an endofunctor and let $(I, \iota)$ be an initial $F$-algebra. Then $\iota \colon F I \to I$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Apply $F$ to obtain $F\iota \colon F F I \to F I$. The pair $(F I, F \iota)$ is an $F$-algebra, hence by initiality there is a unique morphism $u \colon I \to F I$ of $F$-algebras. Then $\iota \circ u \colon I \to I$ is an algebra morphism, and so is $\id_I$; by uniqueness $\iota \circ u = \id_I$. Conversely, since $u$ is by construction an algebra morphism $(I, \iota) \to (F I, F\iota)$, we have $u \circ \iota = F\iota \circ Fu = F(\iota \circ u)$. Substituting the equation $\iota \circ u = \id_I$ just established gives $u \circ \iota = F(\id_I) = \id_{F I}$. Hence $\iota$ and $u$ are mutually inverse, and $\iota$ is an isomorphism.
+\end{proof}
+
+Lambek's lemma is the categorical analogue of Peano's third axiom (``$\suc$ is injective and avoids $0$''): the algebra structure $\iota = [0, \suc] \colon 1 + \N \to \N$ is a bijection, so $0$ and $\suc(n)$ are distinct, and $\suc$ is injective.
+
+\section{The Natural Numbers Object}
+\label{sec:nno}
+
+\subsection{Definition and Universal Property}
+
+\begin{definition}[Natural numbers object]
+\label{def:nno}
+A \emph{natural numbers object} (NNO) in a category $\mathcal{C}$ with terminal object $1$ is a triple $(N, 0 \colon 1 \to N, \suc \colon N \to N)$ that is initial in $\PtEndo(\mathcal{C})$. Equivalently, $(N, [0, \suc])$ is initial among algebras for the endofunctor $F X = 1 + X$.
+\end{definition}
+
+\begin{remark}[Notation for the NNO]
+We use the symbol $N$ for a generic NNO in an arbitrary category $\mathcal{C}$, and $\N$ specifically when $\mathcal{C} = \Set$ (the standard natural numbers). The two notations refer to the same structural object up to canonical isomorphism (Lemma~\ref{lem:initial-rigid}); we use $\N$ in the abstract, in informal discussion, and from Section~\ref{sec:transcendentals} onward, where the working category is $\Set$ (or its enrichment for analysis).
+\end{remark}
+
+\begin{theorem}[Universal property of the NNO]
+\label{thm:nno-up}
+Let $(N, 0, \suc)$ be an NNO in $\mathcal{C}$. For every pointed dynamical system $(X, x_0, f)$ in $\mathcal{C}$, there exists a unique morphism $h \colon N \to X$ such that
+\begin{equation}
+h \circ 0 = x_0 \quad \text{and} \quad h \circ \suc = f \circ h.
+\label{eq:nno-up}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+This is the definition of initiality in $\PtEndo(\mathcal{C})$ rewritten via Definition~\ref{def:pds}. Existence and uniqueness of $h$ together with the two commuting diagrams are jointly the assertion that $(X, x_0, f)$ is an object of $\PtEndo(\mathcal{C})$ and $h$ is the unique morphism from $(N, 0, \suc)$.
+\end{proof}
+
+\subsection{The Recursion Combinator}
+
+The unique map $h$ guaranteed by Theorem~\ref{thm:nno-up} \emph{is} the primitive recursion combinator. Writing $\mathrm{rec}(x_0, f) := h$, equation~\eqref{eq:nno-up} unfolds as
+\begin{equation}
+\mathrm{rec}(x_0, f)(0) = x_0, \qquad \mathrm{rec}(x_0, f)(\suc n) = f\bigl(\mathrm{rec}(x_0, f)(n)\bigr).
+\label{eq:rec-eqs}
+\end{equation}
+These are the recursive equations defining iteration.
+
+\begin{example}[Addition]
+\label{ex:add}
+Define $\mathrm{add} \colon \N \to (\N \to \N)$ by $\mathrm{add} := \mathrm{rec}\bigl(\id_\N,\ \lambda g.\ \suc \circ g\bigr)$, where the codomain is the function space (assuming $\mathcal{C}$ is cartesian closed). Then $\mathrm{add}(0) = \id_\N$ and $\mathrm{add}(\suc n)(m) = \suc(\mathrm{add}(n)(m))$, recovering Peano addition.
+\end{example}
+
+\begin{example}[Multiplication]
+\label{ex:mul}
+Define $\mathrm{mul} \colon \N \to (\N \to \N)$ by
+\[
+\mathrm{mul} := \mathrm{rec}\bigl(\mathrm{const}_0,\ \lambda g.\ \lambda m.\ \mathrm{add}(m)(g(m))\bigr).
+\]
+The base case $\mathrm{mul}(0)$ is the constant zero function; the step takes a function $g$ representing ``multiplication by $n$'' and returns the function $m \mapsto m + g(m)$, representing ``multiplication by $\suc n$.'' Each arithmetic operation is a single recursion combinator instance.
+\end{example}
+
+\begin{example}[Position 58]
+\label{ex:58}
+The element $58 \in N$ is $\suc^{58}(0)$. By Theorem~\ref{thm:nno-up}, in any pointed dynamical system $(X, x_0, f)$, the corresponding ``58th iteration'' is $\mathrm{rec}(x_0, f)(58) = f^{58}(x_0)$. Two NNOs $(N, 0, \suc)$ and $(N', 0', \suc')$ admit unique mutually-inverse morphisms (Lemma~\ref{lem:initial-rigid}); these match $\suc^{58}(0)$ to $(\suc')^{58}(0')$. The number 58 is exactly this trans-NNO equivalence class.
+\end{example}
+
+\subsection{The Iteration Principle versus Primitive Recursion}
+
+Theorem~\ref{thm:nno-up} as stated gives the \emph{iteration principle}: from $(x_0, f)$ produce a function $\N \to X$. Genuine \emph{primitive recursion} allows the recursive call to depend on the index:
+\begin{equation}
+g(0) = x_0, \qquad g(\suc n) = k(n, g(n)).
+\label{eq:prim-rec}
+\end{equation}
+
+\begin{proposition}[Primitive recursion from iteration]
+\label{prop:prim-rec}
+In any cartesian category with NNO, primitive recursion as in \eqref{eq:prim-rec} is derivable from iteration as in \eqref{eq:rec-eqs}.
+\end{proposition}
+
+\begin{proof}
+Given $x_0 \in X$ and $k \colon \N \times X \to X$, set
+\[
+\widetilde{x}_0 := (0, x_0), \qquad \widetilde{f} \colon \N \times X \to \N \times X, \quad (n, x) \mapsto (\suc n, k(n, x)).
+\]
+By Theorem~\ref{thm:nno-up} there is a unique $\widetilde{g} \colon \N \to \N \times X$ with $\widetilde{g}(0) = (0, x_0)$ and $\widetilde{g} \circ \suc = \widetilde{f} \circ \widetilde{g}$. Define $g := \pi_2 \circ \widetilde{g} \colon \N \to X$. Then $g(0) = x_0$ and $g(\suc n) = k(n, g(n))$. Uniqueness of $g$ follows from uniqueness of $\widetilde{g}$ and the fact that $\pi_1 \circ \widetilde{g} = \id_\N$ by induction.
+\end{proof}
+
+\subsection{Existence of the NNO}
+
+\begin{theorem}[Lawvere; ETCS \cite{Lawvere1964}]
+\label{thm:etcs}
+The category $\Set$ admits a natural numbers object. Any topos with a natural numbers object satisfies the elementary theory of the category of sets (ETCS) provided one further adds a choice axiom and well-pointedness.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Take $\N$ to be the standard natural numbers (constructed in any background foundation, e.g., as the smallest inductive set; encoding-independent by the universal property). Verify Theorem~\ref{thm:nno-up} by induction. The choice axiom and well-pointedness are the additional ETCS axioms, see \cite{Lawvere1964,LawvereRosebrugh2003}.
+\end{proof}
+
+\section{Comparison with Peano Arithmetic}
+\label{sec:peano}
+
+\subsection{Second-Order Peano Axioms}
+
+The second-order Peano axioms are:
+\begin{enumerate}
+  \item[\textbf{P1}] $0$ is a natural number.
+  \item[\textbf{P2}] For every natural $n$, $\suc n$ is a natural number.
+  \item[\textbf{P3}] For every $n$, $\suc n \neq 0$.
+  \item[\textbf{P4}] For all $m, n$, $\suc m = \suc n \Rightarrow m = n$.
+  \item[\textbf{P5}] (Induction) For every subset $S \subseteq \N$ with $0 \in S$ and $S$ closed under $\suc$, $S = \N$.
+\end{enumerate}
+
+\begin{theorem}[Equivalence with NNO]
+\label{thm:peano-nno}
+A structure $(N, 0, \suc)$ in $\Set$ satisfies P1--P5 if and only if it is a natural numbers object.
+\end{theorem}
+
+\begin{proof}[Sketch]
+$(\Rightarrow)$ Suppose $(N, 0, \suc)$ is an NNO, i.e., initial in $\PtEndo(\Set)$. Since $(N, [0, \suc])$ is the initial algebra for $F X = 1 + X$, Lambek's lemma (Lemma~\ref{lem:lambek}) gives that $[0, \suc] \colon 1 + N \to N$ is an isomorphism. Reading off the components: $0$ and $\suc$ have disjoint images (P3, ``$0 \notin \mathrm{im}\,\suc$'') and $\suc$ is injective (P4). For P5: given a subset $S \subseteq N$ with $0 \in S$ and closed under $\suc$, the inclusion $S \hookrightarrow N$ together with the restricted basepoint and successor makes $S$ a pointed-endo-system; the universal property gives a unique $h \colon N \to S$ with $h(0) = 0$ and $h \circ \suc|_S = \suc \circ h$, and the composite $S \hookrightarrow N \xrightarrow{h} S$ together with $\id_N \colon N \to N$ both fit into the universal property at target $(N, 0, \suc)$, forcing $h = \id_N$ as a function and hence $S = N$.
+
+$(\Leftarrow)$ Given a target $(X, x_0, f)$, we construct the unique $h$ in three steps.
+
+\emph{Step 1: define a candidate at each level.} For each $n \in N$, we wish to produce a partial map $h_{\le n} \colon \{0, \dots, n\} \to X$ satisfying $h_{\le n}(0) = x_0$ and $h_{\le n}(\suc k) = f(h_{\le n}(k))$ whenever $\suc k \le n$.
+
+\emph{Step 2: induct on $n$ to show the family exists.} Let
+\[
+S := \{n \in N : h_{\le n} \text{ exists and is unique on } \{0, \dots, n\}\}.
+\]
+Then $0 \in S$ by setting $h_{\le 0}(0) := x_0$. Suppose $n \in S$. Define $h_{\le \suc n}$ on $\{0, \dots, n\}$ to agree with $h_{\le n}$, and set $h_{\le \suc n}(\suc n) := f(h_{\le n}(n))$. This extension is uniquely forced by the recursion equations, so $\suc n \in S$. By P5, $S = N$.
+
+\emph{Step 3: patch into a global map.} The family $\{h_{\le n}\}_{n \in N}$ is compatible (each extends the previous), so we may define $h \colon N \to X$ by $h(n) := h_{\le n}(n)$. This $h$ satisfies \eqref{eq:nno-up}, and uniqueness of each $h_{\le n}$ on its domain gives uniqueness of $h$.
+\end{proof}
+
+\subsection{First-Order PA and Non-Standard Models}
+
+First-order Peano arithmetic (PA) replaces the second-order P5 with a schema: induction holds for every formula $\varphi$ in the language of arithmetic. By the Lowenheim--Skolem theorem PA has non-standard models of every infinite cardinality \cite{Skolem1934}; these contain ``infinite'' elements not reachable from $0$ by finitely many applications of $\suc$.
+
+\begin{theorem}[Categorical pinning down]
+\label{thm:standard-model}
+The standard model is the unique (up to unique isomorphism) NNO in $\Set$. Non-standard models of PA are not NNOs in $\Set$ because they fail the universal property: there exist pointed dynamical systems $(X, x_0, f)$ for which the would-be morphism $h$ is non-unique on the non-standard part.
+\end{theorem}
+
+The categorical NNO thus offers what first-order axiomatization cannot: a structural criterion that rejects non-standard inhabitants.
+
+\section{Other Numbers and Spaces by Universal Property}
+\label{sec:transcendentals}
+
+We now extend the universal-property perspective beyond $\N$.
+
+\subsection{The Integers as the Free Group on One Generator}
+
+\begin{definition}[Universal property of $\Z$]
+$\Z$ is the \emph{free group on one generator}. Concretely: for any group $G$ and any element $g \in G$, there exists a unique group homomorphism $\varphi_g \colon \Z \to G$ such that $\varphi_g(1) = g$.
+\end{definition}
+
+The unique map $\varphi_g$ is $n \mapsto g^n$. The universal property says equivalently that the forgetful functor $\mathbf{Grp} \to \Set_*$ from groups to pointed sets has $\Z$ as the value of its left adjoint at the singleton-pointed set.
+
+\subsection{The Rationals as the Field of Fractions}
+
+\begin{definition}[Universal property of $\Q$]
+\label{def:Q-up}
+$\Q$ together with the canonical embedding $\iota \colon \Z \to \Q$ is the \emph{field of fractions} of $\Z$: it is initial among pairs $(K, \jmath)$ where $K$ is a field, $\jmath \colon \Z \to K$ a ring homomorphism, and every nonzero element of $\Z$ is sent to a unit. For any such $(K, \jmath)$ there is a unique field homomorphism $\bar{\jmath} \colon \Q \to K$ with $\bar{\jmath} \circ \iota = \jmath$.
+\end{definition}
+
+The unique extension is determined by $\bar{\jmath}(p/q) = \jmath(p) \jmath(q)^{-1}$. The construction (equivalence classes of pairs $(p, q)$ with $q \neq 0$) is one realization of the universal object; the universal property captures the structure encoding-independently.
+
+\subsection{The Reals as the Dedekind-Complete Ordered Field}
+
+\begin{theorem}[Universal property of $\R$]
+\label{thm:R-up}
+Up to unique order-preserving isomorphism, $\R$ is the unique Dedekind-complete totally ordered field. Equivalently, $\R$ is the terminal object in the category of Archimedean ordered fields with order-preserving embeddings (or initial in the category of ordered fields with an order-preserving Cauchy-completion comparison map).
+\end{theorem}
+
+\begin{proof}[Sketch]
+Existence: any of the standard constructions (Dedekind cuts, Cauchy sequences modulo equivalence). Uniqueness: given two Dedekind-complete ordered fields $\R_1, \R_2$, both contain canonical copies of $\Q$; the order-preserving extension $\Q \to \R_2$ defined on $\R_1$ via suprema of cuts is forced by completeness, and is bijective by Archimedeanness.
+\end{proof}
+
+\subsection{The Exponential and the Number \texorpdfstring{$e$}{e}}
+
+The exponential function admits multiple universal characterizations.
+
+\begin{theorem}[Universal property of $\exp$]
+\label{thm:exp-up}
+The exponential function $\exp \colon \R \to \R_{>0}$ is the unique smooth function $f \colon \R \to \R$ satisfying
+\begin{enumerate}
+  \item $f(0) = 1$;
+  \item $f'(x) = f(x)$ for all $x$.
+\end{enumerate}
+Equivalently, $\exp$ is the unique continuous group homomorphism $(\R, +) \to (\R_{>0}, \cdot)$ whose derivative at $0$ equals $1$.
+\end{theorem}
+
+\begin{definition}[$e$ by universal property]
+$e := \exp(1)$. Equivalently, $e$ is the unique positive real such that the smooth solution $f$ of $f' = f$, $f(0) = 1$ satisfies $f(1) = e$. By Theorem~\ref{thm:exp-up}, $e$ is well-defined independent of the construction of $\R$.
+\end{definition}
+
+\subsection{The Circle and the Number \texorpdfstring{$\pi$}{pi}}
+
+\begin{theorem}[Universal cover of $S^1$]
+\label{thm:S1-cover}
+The exponential map
+\[
+E \colon \R \to S^1, \qquad E(t) := (\cos t,\ \sin t),
+\]
+exhibits $\R$ as the universal cover of $S^1$. Equivalently, $E$ is the unique continuous group homomorphism $(\R, +) \to (S^1, \cdot)$ whose derivative at the origin is the unit-speed positively-oriented tangent vector $(0, 1) \in T_{(1,0)} S^1$ (the canonical generator of the Lie algebra $\mathrm{Lie}(S^1) \cong \R$).
+\end{theorem}
+
+\begin{definition}[$\pi$ by universal property]
+\label{def:pi}
+$\pi$ is half the period of $E$: the smallest positive $T$ with $E(2T) = E(0)$ is $T = \pi$. Equivalently, $\pi$ is the unique positive real such that $\sin(\pi) = 0$ and $\sin(x) > 0$ for $x \in (0, \pi)$.
+\end{definition}
+
+\begin{remark}
+The circle $S^1$ can itself be defined by a universal property (as the loop space classifier, or as the higher inductive type with a single point and a single loop). In HoTT (Paper~5) the universal property of $S^1$ becomes a definitional construction.
+\end{remark}
+
+\section{The Coalgebraic Dual}
+\label{sec:coalgebra}
+
+\subsection{Final Coalgebras and Codata}
+
+The dual of an initial algebra is a final coalgebra.
+
+\begin{definition}[$F$-coalgebra]
+For an endofunctor $F \colon \mathcal{C} \to \mathcal{C}$, an $F$-\emph{coalgebra} is a pair $(X, \gamma)$ with $\gamma \colon X \to F X$. A morphism of $F$-coalgebras $(X, \gamma) \to (Y, \delta)$ is $h \colon X \to Y$ with $\delta \circ h = F h \circ \gamma$.
+\end{definition}
+
+\begin{definition}[Final coalgebra]
+A \emph{final $F$-coalgebra} is a terminal object in the category of $F$-coalgebras: an object $(\nu F, \mathrm{out})$ such that for every $F$-coalgebra $(X, \gamma)$ there is a unique morphism $\mathrm{ana}(\gamma) \colon X \to \nu F$.
+\end{definition}
+
+The dual of Lambek's lemma asserts that $\mathrm{out} \colon \nu F \to F(\nu F)$ is an isomorphism. The unique morphism $\mathrm{ana}(\gamma)$ is the \emph{anamorphism}, the corecursion combinator.
+
+\subsection{Streams as Final Coalgebras}
+
+For a fixed alphabet $A$, set $F X := A \times X$.
+
+\begin{theorem}[Streams as final coalgebra]
+\label{thm:streams}
+The set $A^{\N}$ of infinite sequences (streams) in $A$ is the final coalgebra of $F X = A \times X$, with $\mathrm{out}(s) := (s_0, \mathrm{tail}(s))$.
+\end{theorem}
+
+For any $\gamma \colon X \to A \times X$, $\mathrm{ana}(\gamma)$ produces the stream of ``observations'' under repeated application of $\gamma$.
+
+\subsection{Inductive vs Coinductive Presentations of the Reals}
+
+The reals admit at least two HoTT-friendly presentations, corresponding to the two universal-property directions.
+
+\paragraph{Inductive (Cauchy completion).}
+$\R$ is constructed as the quotient of the set of Cauchy sequences $\Q^{\N}$ by the relation $(a_n) \sim (b_n) \iff |a_n - b_n| \to 0$. This is presented as an initial-algebra-flavoured construction: $\R$ is the smallest set closed under taking limits of Cauchy sequences.
+
+\paragraph{Coinductive (digit streams).}
+For a chosen base $b \ge 2$ and digit set $D$, the set of $b$-adic digit streams $D^{\N}$ admits a quotient by ``carry'' equivalence; the quotient is $[0, 1] \subset \R$. The codomain has a natural \emph{coalgebraic} description: it is the final coalgebra of $X \mapsto D \times X$ (modulo the carry relation as a bisimulation quotient).
+
+\begin{remark}[Initial vs final tensions in $\R$]
+\label{rem:R-init-vs-fin}
+The Cauchy and digit-stream constructions are biased toward initial and final structures respectively. They produce isomorphic ordered fields by Theorem~\ref{thm:R-up}, but the constructions exhibit different \emph{computational} content: Cauchy realizers carry an explicit modulus of convergence; stream realizers carry an explicit observation schedule. In Type II Turing computability, the two are interreducible but not isomorphic as effective structures \cite{Weihrauch2000}. We take this as evidence that ``$\R$'' as a structural invariant lives \emph{above} the choice of inductive vs coinductive presentation.
+\end{remark}
+
+\subsection{Bisimulation and the Coinduction Principle}
+
+For codata, equality is captured by \emph{bisimulation}.
+
+\begin{definition}[Bisimulation]
+For an $F$-coalgebra $(X, \gamma)$, a \emph{bisimulation} is a relation $R \subseteq X \times X$ such that there exists $\rho \colon R \to F R$ making both projections $\pi_1, \pi_2 \colon R \to X$ coalgebra morphisms. Two elements $x, y \in X$ are \emph{bisimilar} iff $(x, y) \in R$ for some bisimulation $R$.
+
+\textbf{Concrete case ($F X = A \times X$, streams).} A relation $R \subseteq X \times X$ is a stream-bisimulation iff for every $(x, y) \in R$ with $\gamma(x) = (a_x, x')$ and $\gamma(y) = (a_y, y')$, we have $a_x = a_y$ and $(x', y') \in R$. Two streams are bisimilar iff they are related by some such $R$, equivalently iff they have equal head and bisimilar tails.
+\end{definition}
+
+\begin{theorem}[Coinduction principle]
+\label{thm:coind}
+In the final coalgebra $\nu F$, two elements are equal if and only if they are bisimilar.
+\end{theorem}
+
+This is the coalgebraic analogue of the induction principle (Theorem~\ref{thm:induction-from-up} below): just as induction reduces equality of functions out of $\N$ to equality of their basepoint-and-step components, coinduction reduces equality of elements in $\nu F$ to the existence of a bisimulation.
+
+\section{Induction and Recursion as Universal Property Instances}
+\label{sec:induction}
+
+\subsection{The Induction Principle}
+
+\begin{theorem}[Dependent induction from the NNO universal property]
+\label{thm:induction-from-up}
+Let $(N, 0, \suc)$ be an NNO in a locally cartesian closed category $\mathcal{C}$. For every type family $P \colon N \to \mathcal{C}$, every $p_0 \in P(0)$, and every $p_s \colon \prod_{n \in N} P(n) \to P(\suc n)$, there exists a unique dependent function $\mathrm{ind}(p_0, p_s) \colon \prod_{n \in N} P(n)$ satisfying
+\begin{equation}
+\mathrm{ind}(p_0, p_s)(0) = p_0, \qquad \mathrm{ind}(p_0, p_s)(\suc n) = p_s\bigl(n, \mathrm{ind}(p_0, p_s)(n)\bigr).
+\label{eq:dep-ind}
+\end{equation}
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Form the total space $E := \Sigma_{n \in N} P(n)$ together with its first projection $\pi \colon E \to N$. The pair $(p_0, p_s)$ equips $E$ with the structure of a pointed dynamical system: the basepoint is $(0, p_0) \in E$, and the structure map is
+\[
+\widetilde{f} \colon E \to E, \qquad \widetilde{f}(n, x) := (\suc n,\ p_s(n, x)).
+\]
+The projection $\pi$ is then a morphism of pointed dynamical systems $\pi \colon E \to N$ (where $N$ has structure $(0, \suc)$). By the NNO universal property (Theorem~\ref{thm:nno-up}), there is a unique morphism $h \colon N \to E$ in $\PtEndo$ with $h(0) = (0, p_0)$ and $h \circ \suc = \widetilde{f} \circ h$. The composite $\pi \circ h \colon N \to N$ is also a morphism, and is forced by uniqueness to be $\id_N$, so $h$ is a section of $\pi$. Define $\mathrm{ind}(p_0, p_s)(n) := \mathrm{snd}(h(n)) \in P(n)$. The defining equations \eqref{eq:dep-ind} follow from the equations of $h$. Uniqueness of $\mathrm{ind}$ follows from uniqueness of $h$.
+\end{proof}
+
+\begin{remark}
+The proposition-as-types correspondence (Paper~01 of the series) interprets a propositional family $P \colon N \to \Set$ as a predicate; Theorem~\ref{thm:induction-from-up} then reads as:
+\begin{quote}
+\itshape
+If $P(0)$ holds, and for every $n$, $P(n) \Rightarrow P(\suc n)$, then $P(n)$ holds for all $n$.
+\end{quote}
+This is mathematical induction. The categorical and logical principles are the same theorem.
+\end{remark}
+
+\subsection{Iteration, Primitive Recursion, Course-of-Values Recursion}
+
+We have shown that primitive recursion (\ref{eq:prim-rec}) follows from iteration (\ref{eq:rec-eqs}) (Proposition~\ref{prop:prim-rec}). Course-of-values recursion, where $g(\suc n)$ may depend on all of $g(0), g(1), \dots, g(n)$, is similarly derivable from iteration. We sketch the construction.
+
+\begin{proposition}[Course-of-values recursion from iteration]
+\label{prop:cov}
+Let $\mathcal{C}$ be cartesian closed with NNO and finite lists. Given $x_0 \in X$ and a step function $k \colon \mathrm{List}(X) \to X$ that may consume the entire history, there is a unique $g \colon N \to X$ satisfying
+\[
+g(0) = x_0, \qquad g(\suc n) = k\bigl([g(0), g(1), \dots, g(n)]\bigr).
+\]
+\end{proposition}
+
+\begin{proof}[Sketch]
+Define an auxiliary state space $H := N \times \mathrm{List}(X)$ tracking the index and the history accumulated so far. Set
+\[
+\widetilde{x}_0 := (0, [x_0]) \in H, \qquad \widetilde{f} \colon H \to H, \quad (n, \ell) \mapsto \bigl(\suc n,\ \ell \mathbin{+\!\!+} [k(\ell)]\bigr).
+\]
+By the iteration principle (Theorem~\ref{thm:nno-up}) applied to the pointed dynamical system $(H, \widetilde{x}_0, \widetilde{f})$, there is a unique morphism $\widetilde{g} \colon N \to H$ satisfying $\widetilde{g}(0) = \widetilde{x}_0$ and $\widetilde{g} \circ \suc = \widetilde{f} \circ \widetilde{g}$. Define $g(n) := \mathrm{last}(\pi_2(\widetilde{g}(n)))$, the last element of the accumulated history. The defining equations follow by unfolding $\widetilde{f}$, and uniqueness of $g$ follows from uniqueness of $\widetilde{g}$.
+\end{proof}
+
+This pattern --- bundling history into a state, iterating, and projecting --- is the categorical reading of the standard ``strong induction reduces to ordinary induction'' move.
+
+\subsection{Higher Recursion Schemes}
+
+The pattern generalizes. For an endofunctor $F$ admitting an initial algebra $\mu F$, the unique morphism $\mathrm{cata}(\alpha) \colon \mu F \to X$ associated to an $F$-algebra $(X, \alpha)$ is the \emph{catamorphism} or \emph{fold}. Dually, $\mathrm{ana}(\gamma) \colon X \to \nu F$ is the anamorphism or unfold. Together they cover the basic recursion schemes of functional programming \cite{MeijerFokkingaPaterson1991}.
+
+\section{The Structuralist Critique: Up to Which Isomorphism?}
+\label{sec:critique}
+
+\subsection{The Concern}
+
+A familiar worry: a universal property determines its object only \emph{up to unique isomorphism}. For numbers we say ``$\N$ is unique up to unique iso,'' but in the category $\Set$ there are many concrete bijective copies of $\N$ (von Neumann ordinals, Zermelo numerals, Church numerals, binary tries). The universal property guarantees a unique iso between any two such copies, but it does not select a particular set as ``the'' $\N$.
+
+\subsection{Lawvere's Structuralist Response}
+
+Lawvere's position \cite{Lawvere1966,Lawvere2003}, sharpened by Awodey \cite{Awodey1996,Awodey2014}, is that this is a \emph{feature, not a bug}:
+\begin{enumerate}
+  \item Every property of mathematical interest is invariant under isomorphism.
+  \item The universal property captures exactly the data needed to specify those properties.
+  \item Asking ``which $\N$ is the real one?'' commits a category mistake: one is reifying a label that the structure itself does not record.
+\end{enumerate}
+
+This is the \emph{principle of structuralism}: mathematical objects are positions in structures, identified by relational role.
+
+\subsection{What HoTT Adds (Forward Reference to Paper 5)}
+
+The structuralist response is satisfying philosophically but leaves a gap: in classical mathematics, isomorphism and equality are distinct relations, and one must constantly remember to ``identify'' isomorphic objects via an explicit transport. HoTT's univalence axiom \cite{HoTTBook2013,Voevodsky2015} closes the gap: it asserts
+\begin{equation}
+(A = B) \simeq (A \simeq B),
+\label{eq:univalence}
+\end{equation}
+making isomorphism and equality definitionally interchangeable.
+
+In the universal-property perspective, this means: ``the $\N$'' is a perfectly good referent, because all candidates are not merely isomorphic but \emph{equal} in the type-theoretic universe. The unique-iso ambiguity dissolves. We will develop this in Paper~5.
+
+\subsection{The ``Which Iso?'' Question Resolved}
+
+Even before univalence, the universal property already names a \emph{specific} isomorphism between any two NNOs: the one given by the universal mapping property applied to the second NNO viewed as a pointed dynamical system. This is what is meant by ``unique up to \emph{unique} iso.'' The deeper question is not just ``which iso?''~but ``is the iso itself unique and structurally determined?''~--- and the answer is yes. The universal property itself names a single, canonical isomorphism between any two NNOs, with no further choice required: there is no wobble, no ambiguity, no Aut$(N)$ acting non-trivially on the comparison.
+
+\begin{proposition}[Canonical iso of NNOs]
+\label{prop:can-iso}
+Let $(N_1, 0_1, \suc_1)$ and $(N_2, 0_2, \suc_2)$ be NNOs in $\mathcal{C}$. The unique iso $u \colon N_1 \to N_2$ provided by Lemma~\ref{lem:initial-rigid} is given explicitly by $u = \mathrm{rec}(0_2, \suc_2)$ (the recursion combinator from $N_1$ targeting $N_2$), with inverse $\mathrm{rec}(0_1, \suc_1)$. In particular, the automorphism group $\mathrm{Aut}(N) = \{\id_N\}$ is trivial: any pointed-endo-system endomorphism of an NNO is the identity.
+\end{proposition}
+
+\begin{proof}
+Apply Theorem~\ref{thm:nno-up} with target $(N_2, 0_2, \suc_2)$ to obtain $u$, and again with target $(N_1, 0_1, \suc_1)$ to obtain a candidate inverse $v$. By Lemma~\ref{lem:initial-rigid}, $u$ and $v$ are mutually inverse. The triviality of $\mathrm{Aut}(N)$ follows by taking $N_1 = N_2 = N$: both $u$ and $\id_N$ are pointed-endo-system endomorphisms of $N$, hence equal by uniqueness in Theorem~\ref{thm:nno-up}.
+\end{proof}
+
+\section{Bridge to Yoneda}
+\label{sec:yoneda-bridge}
+
+\subsection{Universal Property as Functor Representation}
+
+A universal property always exhibits its object as the representing object of some functor. The key task is identifying \emph{which} functor on \emph{which} category, in a way that avoids the tautology of representing $\Hom(N, -)$ by $N$ itself. The correct framing for the NNO uses the fact that initial objects represent constant singleton functors.
+
+\subsection{The Free--Forgetful Adjunction}
+
+The category $\PtEndo$ admits a forgetful functor $U \colon \PtEndo \to \Set$ sending $(X, x_0, f) \mapsto X$ and remembering only the underlying set. The functor $U$ is part of an adjunction
+\[
+F \dashv U \colon \Set \rightleftarrows \PtEndo,
+\]
+where $F \colon \Set \to \PtEndo$ is the \emph{free pointed-endo-system} functor. The existence of $F$ follows from the adjoint functor theorem applied to the locally finitely presentable category $\PtEndo$, or constructively from the fact that $\PtEndo$ is the category of algebras of the finitary endofunctor $1 + (-)$ on $\Set$. The defining adjunction isomorphism is, for every set $A$ and every pointed-endo-system $(X, x_0, f)$:
+\begin{equation}
+\Hom_{\PtEndo}\bigl(F(A),\ (X, x_0, f)\bigr) \cong \Hom_{\Set}\bigl(A,\ U(X, x_0, f)\bigr) = \Hom_{\Set}(A, X).
+\label{eq:adjunction-iso}
+\end{equation}
+We use this isomorphism abstractly; the explicit formula for $F(A)$ is not required for the argument that follows.
+
+\begin{theorem}[NNO as the free pointed-endo-system on the empty set]
+\label{thm:nno-yoneda}
+The natural numbers object $(\N, 0, \suc)$ is canonically isomorphic to the value of the free functor $F$ at the empty set:
+\begin{equation}
+F(\varnothing) \cong (\N, 0, \suc).
+\label{eq:F-empty}
+\end{equation}
+Equivalently, $\N$ is the initial object of $\PtEndo$. Specializing the adjunction \eqref{eq:adjunction-iso} to $A = \varnothing$ recovers the universal property of the NNO: the right-hand side $\Hom_{\Set}(\varnothing, X)$ is the singleton $\{!\}$ (the unique empty function), hence there is a unique morphism $h \colon \N \to X$ in $\PtEndo$, which is exactly Theorem~\ref{thm:nno-up}.
+\end{theorem}
+
+\begin{proof}
+Left adjoints preserve initial objects. The initial object of $\Set$ is $\varnothing$. By the adjunction \eqref{eq:adjunction-iso} at $A = \varnothing$, the hom-set $\Hom_{\PtEndo}(F(\varnothing), (X, x_0, f))$ is in natural bijection with the singleton $\Hom_{\Set}(\varnothing, X)$, so $F(\varnothing)$ is initial in $\PtEndo$. By Theorem~\ref{thm:nno-up} the NNO is also initial in $\PtEndo$, so by Lemma~\ref{lem:initial-rigid} there is a unique iso $F(\varnothing) \xrightarrow{\sim} (\N, 0, \suc)$, which is the content of \eqref{eq:F-empty}.
+\end{proof}
+
+\subsection{Initial Objects Represent the Constant Singleton Functor}
+
+The Yoneda content of initiality is that the NNO represents the constant singleton functor.
+
+\begin{corollary}[Representability of the NNO]
+\label{cor:nno-representable}
+There is a natural isomorphism of functors $\PtEndo \to \Set$
+\begin{equation}
+\Hom_{\PtEndo}\bigl((\N, 0, \suc), -\bigr) \cong \Delta_1,
+\label{eq:nno-rep}
+\end{equation}
+where $\Delta_1 \colon \PtEndo \to \Set$ is the constant functor at the singleton $1$. By the Yoneda lemma, the universal element of this representation is the unique element of $\Delta_1(\N) = 1$, which is in bijection with $\id_\N \in \Hom_{\PtEndo}(\N, \N)$.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:nno-yoneda}, the left-hand side of \eqref{eq:nno-rep} is, for every $(X, x_0, f)$, a singleton set; this is exactly $\Delta_1(X, x_0, f) = 1$. Naturality is automatic from $\Delta_1$ being constant.
+\end{proof}
+
+\begin{remark}[The free algebra on the singleton picks out elements]
+The companion fact, used in many treatments, is that the free pointed-endo-system on the \emph{singleton}, $F(1)$, represents the underlying-set functor $U \colon \PtEndo \to \Set$:
+\[
+\Hom_{\PtEndo}\bigl(F(1), (X, x_0, f)\bigr) \cong \Hom_{\Set}(1, X) \cong X = U(X, x_0, f).
+\]
+The NNO is the special case at $A = \varnothing$. So the same adjunction \eqref{eq:adjunction-iso} explains both initiality (representability of $\Delta_1$) and freeness on a single generator (representability of $U$), simply by varying the input set $A$.
+\end{remark}
+
+\subsection{Reading the Universal Property Yonedically}
+
+The NNO universal property thus has a clean Yoneda interpretation:
+\begin{enumerate}
+  \item The free--forgetful adjunction $F \dashv U \colon \Set \rightleftarrows \PtEndo$ encodes the categorical infrastructure.
+  \item The NNO is the value $F(\varnothing)$ of the free functor at the empty set: it is the free pointed-endo-system with no extra generators.
+  \item As an initial object, the NNO represents the constant singleton functor on $\PtEndo$ (Corollary~\ref{cor:nno-representable}).
+  \item ``58'' is the position $\suc^{58}(0) \in \N$, which under the unique morphism $\N \to (X, x_0, f)$ guaranteed by initiality maps to $f^{58}(x_0) \in X$. This position is invariant under all morphisms of $\PtEndo$ in the precise sense that any morphism $(X, x_0, f) \to (Y, y_0, g)$ commutes with the unique maps from $\N$.
+\end{enumerate}
+
+This recasting illuminates what universal properties are doing in general:
+\begin{quote}
+\itshape
+A universal property of an object $U$ in a category $\mathcal{D}$ exhibits $U$ as the value of a left adjoint at a distinguished object of some other category $\mathcal{C}$, equivalently as the representing object for the functor $\Hom_{\mathcal{C}}(c_0, U(-))$ for some $c_0 \in \mathcal{C}$. The Yoneda lemma supplies the universal element, namely the unit of the adjunction at $c_0$.
+\end{quote}
+
+For initial objects, $c_0 = \varnothing$ (in $\Set$, or the initial object of $\mathcal{C}$ in general), and the represented functor is the constant singleton. For free objects on a generator, $c_0 = 1$, and the represented functor is the underlying-set functor. We will develop this perspective fully in Paper~4.
+
+\subsection{The Slogan}
+
+If Paper~02 said ``a number is a set,'' Paper~03 says ``a number is a position in a universal diagram.'' Paper~04 will say ``a number is a representable functor.'' Paper~05 will say ``a number is a term up to path equivalence.'' The Yoneda perspective is the next refinement, and it agrees with everything we have done.
+
+\section{Haskell Implementation}
+\label{sec:haskell}
+
+We accompany the mathematics with an executable Haskell library implementing the NNO universal property generically. The full code is in \texttt{src/03-universal-property/}; we summarize the design here.
+
+\subsection{The Iteration Combinator}
+
+The recursion combinator from Theorem~\ref{thm:nno-up} is the iteration combinator on Peano naturals. We define a generic Peano type, a helper to inject \texttt{Int} values into it, and the universal map:
+
+\begin{lstlisting}
+-- | The natural numbers as the initial successor algebra.
+data Nat = Z | S Nat deriving (Show, Eq)
+
+-- | Inject an Int into Peano-style Nat (used for demonstrations).
+peano :: Int -> Nat
+peano n
+  | n <= 0    = Z
+  | otherwise = S (peano (n - 1))
+
+-- | The universal property: unique map from Nat to any (X, x0, f).
+--   nnoRec x0 f n = f^n x0
+nnoRec :: x -> (x -> x) -> Nat -> x
+nnoRec x0 _ Z     = x0
+nnoRec x0 f (S n) = f (nnoRec x0 f n)
+\end{lstlisting}
+
+The two equations of \texttt{nnoRec} are exactly the two equations \eqref{eq:rec-eqs}.
+
+\subsection{Generic Initial Algebras}
+
+We then implement the fold/cata combinator for arbitrary initial algebras:
+
+\begin{lstlisting}
+newtype Mu f = Mu { unMu :: f (Mu f) }
+
+cata :: Functor f => (f a -> a) -> Mu f -> a
+cata alpha = alpha . fmap (cata alpha) . unMu
+\end{lstlisting}
+
+The Peano case is recovered by setting $F X = 1 + X$:
+
+\begin{lstlisting}
+data NatF a = ZeroF | SuccF a deriving Functor
+
+type GenNat = Mu NatF
+
+zeroG :: GenNat
+zeroG = Mu ZeroF
+
+succG :: GenNat -> GenNat
+succG n = Mu (SuccF n)
+
+-- | Generic recursion, instance of the universal property.
+genRec :: x -> (x -> x) -> GenNat -> x
+genRec x0 f = cata (\case ZeroF -> x0; SuccF y -> f y)
+\end{lstlisting}
+
+\subsection{Final Coalgebras and Streams}
+
+For codata we dualize:
+
+\begin{lstlisting}
+newtype Nu f = Nu { unNu :: f (Nu f) }
+
+ana :: Functor f => (a -> f a) -> a -> Nu f
+ana gamma = Nu . fmap (ana gamma) . gamma
+
+data StreamF a x = Cons a x deriving Functor
+
+type Stream a = Nu (StreamF a)
+
+streamHead :: Stream a -> a
+streamHead s = case unNu s of Cons x _ -> x
+
+streamTail :: Stream a -> Stream a
+streamTail s = case unNu s of Cons _ t -> t
+\end{lstlisting}
+
+\subsection{Demonstration: 58 in Multiple Successor Structures}
+
+The main demonstration verifies Example~\ref{ex:58}: ``58'' computes the same trajectory in different pointed dynamical systems, exemplifying that 58 is a structural position rather than a particular value.
+
+\begin{lstlisting}
+-- 58 in (Int, 0, +1)
+demo1 :: Int
+demo1 = nnoRec 0 (+1) (peano 58)
+
+-- 58 in (String, "", ('*' :))
+demo2 :: String
+demo2 = nnoRec "" ('*' :) (peano 58)
+
+-- 58 in ([Int], [], step) where step prepends the current list length
+demo3 :: [Int]
+demo3 = nnoRec [] (\xs -> length xs : xs) (peano 58)
+\end{lstlisting}
+
+The number 58 is the unique morphism's value at the position $\suc^{58}(0)$; that is what the function \texttt{nnoRec} computes, and it commutes with every choice of pointed dynamical system.
+
+\section{Results}
+\label{sec:results}
+
+We collect the main results of the paper.
+
+\begin{theorem}[Main result --- structural identity of $\N$]
+\label{thm:main-N}
+The natural numbers are determined up to unique isomorphism by the NNO universal property (Theorem~\ref{thm:nno-up}). The notion ``58'' admits an encoding-independent meaning as the unique image of $\suc^{58}(0)$ under the canonical map into any pointed dynamical system. Two NNOs are connected by a unique iso (Lemma~\ref{lem:initial-rigid}, Proposition~\ref{prop:can-iso}); their copies of 58 correspond.
+\end{theorem}
+
+\begin{theorem}[Main result --- universal-property catalogue]
+\label{thm:main-catalogue}
+The constants $\pi$, $e$, the structures $\Z, \Q, \R, S^1$, and the functions $\exp, \sin, \cos$ each admit a universal property in an appropriate category. These universal properties are encoding-independent and refer only to the categorical role of each object.
+\end{theorem}
+
+\begin{theorem}[Main result --- inductive/coinductive duality]
+\label{thm:main-duality}
+The recursion principle (initial algebra) and the corecursion principle (final coalgebra) are dual instances of universal properties. Inductive presentations (e.g., Cauchy reals) and coinductive presentations (e.g., digit-stream reals) of the same structural object yield isomorphic structures by the universal property; the inductive/coinductive choice is a presentational rather than ontological matter.
+\end{theorem}
+
+\begin{theorem}[Main result --- representability]
+\label{thm:main-representability}
+A universal property exhibits its object as the value of a left adjoint at a distinguished generator, equivalently as a representing object for a functor describable without reference to itself. For the NNO: $\N = F(\varnothing)$ is the value of the free functor $F \colon \Set \to \PtEndo$ (left adjoint to the forgetful $U$) at the empty set, and as an initial object it represents the constant singleton functor on $\PtEndo$ (Theorem~\ref{thm:nno-yoneda}, Corollary~\ref{cor:nno-representable}). This is the bridge from the universal-property perspective (this paper) to the Yoneda perspective (Paper~4).
+\end{theorem}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Universal Properties as a Foundational Style}
+
+The universal-property style of definition has proliferated through 20th- and 21st-century mathematics: limits and colimits, free objects, adjoint functors, quotient constructions, classifying spaces. Each universal property packages an existence-and-uniqueness statement and, in cases where the relevant category is small enough, computational content (the unique morphism is constructively producible).
+
+The universal-property perspective is more parsimonious than the set-theoretic perspective in two ways. First, it does not require choosing an encoding. Second, it scales: ``define $X$'' becomes ``state the universal property of $X$,'' which automatically transfers across categories whenever the universal property is satisfiable.
+
+\subsection{Limitations}
+
+Three limitations are worth noting:
+
+\paragraph{Existence is not free.} The universal property of the NNO does not by itself guarantee that an NNO exists; one must verify it in the working category. ETCS adds existence as an axiom; topos theory verifies existence in many natural toposes \cite{Lawvere1964,MaclaneMoerdijk1992}.
+
+\paragraph{Choice and impredicativity.} Some universal properties (e.g., the universal cover of a space) require background choice principles or impredicative quantification. The natural numbers do not, but the reals (via Dedekind completeness) implicitly assume powerset-like operations.
+
+\paragraph{The which-iso question persists in classical mathematics.} As discussed in Section~\ref{sec:critique}, classical mathematics maintains the distinction between isomorphism and equality. The universal property names a unique iso, but this remains a separate datum from equality. HoTT removes the distinction.
+
+\subsection{Connections to Computation}
+
+The recursion combinator $\mathrm{rec}$ from Theorem~\ref{thm:nno-up} is the primitive recursion combinator of G\"odel's System T. The catamorphism on $\mu F$ is the fold of functional programming. The anamorphism on $\nu F$ is the unfold. Hylomorphisms (compositions $\mathrm{cata} \circ \mathrm{ana}$) capture divide-and-conquer recursion schemes. These computational artifacts are not coincidentally analogous to the categorical concepts; they are exactly the categorical concepts viewed under the lens of the Curry--Howard--Lambek correspondence \cite{Wadler2015,Lambek1972}.
+
+\subsection{Connections to Other Levels of the Series}
+
+\paragraph{To Paper~01 (Naive level).} The universal property dissolves the naive question ``what \emph{is} the symbol 58?'' into the structural question ``what does 58 \emph{do} in any successor structure?''
+
+\paragraph{To Paper~02 (Set-theoretic level).} The universal property explains why Benacerraf's identification problem is not a problem: every encoding satisfying the universal property is canonically interconvertible with every other.
+
+\paragraph{To Paper~04 (Yoneda).} The universal property is the rough-cut form of which Yoneda is the systematic theory: every universal property is a representation, and every representation can be read as a universal property.
+
+\paragraph{To Paper~05 (HoTT).} HoTT internalizes the universal property in two ways: the inductive type \texttt{Nat} satisfies the NNO universal property by its elimination rule, and the univalence axiom upgrades ``up to unique iso'' to ``definitionally equal.''
+
+\paragraph{To Paper~06 (Categorical/structural level).} The universal property is the formal vehicle for the structuralist thesis. ``$58$ is a structural invariant'' means precisely ``the universal property of $\N$ identifies a position $\suc^{58}(0)$ that is invariant across initial successor structures.''
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have presented the universal-property perspective on numbers, with the natural numbers object as the central case and $\Z, \Q, \R, \pi, e, S^1$ as further instances. The universal property of the NNO is captured in a single equation pair (Theorem~\ref{thm:nno-up}); from it follow recursion (Proposition~\ref{prop:prim-rec}), induction (Theorem~\ref{thm:induction-from-up}), Lambek's lemma (Lemma~\ref{lem:lambek}), the rigidity of the natural numbers (Lemma~\ref{lem:initial-rigid}, Proposition~\ref{prop:can-iso}), and the structural meaning of position 58 (Example~\ref{ex:58}, Theorem~\ref{thm:main-N}).
+
+The coalgebraic dual provides codata: streams, infinite trees, and coinductive presentations of the reals. The two directions are complementary, not competing; the universal-property perspective regards them as inductive/coinductive presentations of one structural invariant.
+
+Two open questions for the remaining papers in the series:
+\begin{enumerate}
+  \item How does the adjunction $F \dashv U$ of Theorem~\ref{thm:nno-yoneda} interact with the Yoneda embedding $\PtEndo \hookrightarrow [\PtEndo\op, \Set]$, and how is the constant singleton functor $\Delta_1$ recovered from the representable presheaf $\Hom_{\PtEndo}(\N, -)$? (Paper~4.)
+  \item How do higher inductive types in HoTT subsume universal properties for spaces (e.g., $S^1$ as a HIT with one point and one loop)? (Paper~5.)
+\end{enumerate}
+
+The universal-property perspective has prepared the ground: numbers are positions in initial structures; everything else is encoding. Paper~4 will recast this in the language of representable functors, and Paper~5 will internalize it as definitional equality. The destination is univalent foundations; this paper is one rung of the ladder.
+
+\section*{Acknowledgments}
+
+We thank the YonedaAI Research collective and the Univalent Correspondence series collaboration for ongoing dialogue. The framing of the six-level ladder and the slogan ``58 as a position'' originate in the project knowledge base \cite{KnowledgeBase2026}.
+
+\begin{thebibliography}{99}
+
+\bibitem{Awodey1996}
+S.~Awodey,
+\textit{Structure in mathematics and logic: A categorical perspective},
+Philosophia Mathematica \textbf{4}(3): 209--237 (1996).
+
+\bibitem{Awodey2014}
+S.~Awodey,
+\textit{Structuralism, invariance, and univalence},
+Philosophia Mathematica \textbf{22}(1): 1--11 (2014).
+
+\bibitem{Benacerraf1965}
+P.~Benacerraf,
+\textit{What numbers could not be},
+Philosophical Review \textbf{74}(1): 47--73 (1965).
+
+\bibitem{HoTTBook2013}
+The Univalent Foundations Program,
+\textit{Homotopy Type Theory: Univalent Foundations of Mathematics},
+Institute for Advanced Study, Princeton (2013); arXiv:1308.0729.
+
+\bibitem{KnowledgeBase2026}
+YonedaAI Research,
+\textit{Knowledge base: The Univalent Correspondence},
+Magneton Internal Document (2026).
+
+\bibitem{Lambek1972}
+J.~Lambek,
+\textit{Deductive systems and categories III: Cartesian closed categories, intuitionist propositional calculus, and combinatory logic},
+in: \emph{Toposes, Algebraic Geometry and Logic}, LNM 274, Springer (1972), 57--82.
+
+\bibitem{Lawvere1964}
+F.~W.~Lawvere,
+\textit{An elementary theory of the category of sets},
+Proceedings of the National Academy of Sciences USA \textbf{52}(6): 1506--1511 (1964).
+
+\bibitem{Lawvere1966}
+F.~W.~Lawvere,
+\textit{The category of categories as a foundation for mathematics},
+in: \emph{Proceedings of the Conference on Categorical Algebra}, La Jolla, Springer (1966), 1--20.
+
+\bibitem{Lawvere2003}
+F.~W.~Lawvere,
+\textit{Foundations and applications: Axiomatization and education},
+Bulletin of Symbolic Logic \textbf{9}(2): 213--224 (2003).
+
+\bibitem{LawvereRosebrugh2003}
+F.~W.~Lawvere and R.~Rosebrugh,
+\textit{Sets for Mathematics},
+Cambridge University Press (2003).
+
+\bibitem{MacLane1998}
+S.~Mac~Lane,
+\textit{Categories for the Working Mathematician},
+Graduate Texts in Mathematics \textbf{5}, 2nd ed., Springer-Verlag (1998).
+
+\bibitem{MaclaneMoerdijk1992}
+S.~Mac~Lane and I.~Moerdijk,
+\textit{Sheaves in Geometry and Logic: A First Introduction to Topos Theory},
+Universitext, Springer-Verlag (1992).
+
+\bibitem{MeijerFokkingaPaterson1991}
+E.~Meijer, M.~Fokkinga, and R.~Paterson,
+\textit{Functional programming with bananas, lenses, envelopes, and barbed wire},
+in: FPCA '91, LNCS 523, Springer (1991), 124--144.
+
+\bibitem{Riehl2016}
+E.~Riehl,
+\textit{Category Theory in Context},
+Aurora: Dover Modern Math Originals, Dover (2016).
+
+\bibitem{Skolem1934}
+T.~Skolem,
+\textit{Uber die Nicht-charakterisierbarkeit der Zahlenreihe mittels endlich oder abz\"ahlbar unendlich vieler Aussagen mit ausschliesslich Zahlenvariablen},
+Fundamenta Mathematicae \textbf{23}: 150--161 (1934).
+
+\bibitem{Voevodsky2015}
+V.~Voevodsky,
+\textit{An experimental library of formalized mathematics based on the univalent foundations},
+Mathematical Structures in Computer Science \textbf{25}(5): 1278--1294 (2015).
+
+\bibitem{Wadler2015}
+P.~Wadler,
+\textit{Propositions as types},
+Communications of the ACM \textbf{58}(12): 75--84 (2015).
+
+\bibitem{Weihrauch2000}
+K.~Weihrauch,
+\textit{Computable Analysis},
+Springer-Verlag (2000).
+
+\end{thebibliography}
+
+\end{document}

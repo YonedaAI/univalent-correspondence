@@ -1,0 +1,824 @@
+\documentclass[12pt]{article}
+
+% Core math
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+
+% Diagrams
+\usepackage{tikz-cd}
+\usepackage{tikz}
+
+% References
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{xurl}
+
+% Graphics
+\usepackage{graphicx}
+
+% Page layout
+\usepackage[margin=1in]{geometry}
+
+% Sidebar
+\usepackage{everypage}
+\usepackage{xcolor}
+
+% Code listings (lightweight; we use verbatim for portability)
+\usepackage{verbatim}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% GrokRxiv sidebar on page 1
+\definecolor{grokgray}{RGB}{110,110,110}
+\AddEverypageHook{%
+  \ifnum\value{page}=1
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[
+        rotate=90,
+        anchor=south,
+        font=\Large\sffamily\bfseries\color{grokgray},
+        inner sep=0pt
+      ] at ([xshift=38pt, yshift=0.52\paperheight]current page.south west)
+      {GrokRxiv:2026.05.yoneda-perspective\quad
+       [\,math.CT\,]\quad
+       03 May 2026};
+    \end{tikzpicture}
+  \fi
+}
+
+\title{The Yoneda Perspective: \\
+Numbers as Representable Functors}
+
+\author{YonedaAI Research \\
+\textit{Univalent Correspondence Series, Paper IV} \\
+\textit{Formalized Foundations of Mathematics} \\
+\texttt{research@yonedaai.com} }
+
+\date{3 May 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We develop the Yoneda perspective on the question \emph{``what is a number?''} as the fourth installment of the Univalent Correspondence series. Building on the universal-property characterization of natural numbers as initial successor structures (Paper III), we promote the relational viewpoint to its categorical limit: the Yoneda embedding $y\colon \mathcal{C} \hookrightarrow [\mathcal{C}^{\mathrm{op}}, \mathbf{Set}]$, $X \mapsto \mathrm{Hom}_{\mathcal{C}}(-, X)$, which is fully faithful for any locally small category $\mathcal{C}$. The corollary $X \cong Y \iff \mathrm{Hom}(-, X) \cong \mathrm{Hom}(-, Y)$ supplies a precise sense in which an object \emph{is} its system of relationships: the natural number $58$ \emph{is} the representable functor $\mathrm{Hom}(-, 58)$ on the appropriate category. We give the full proof of the Yoneda lemma, exhibit the density theorem expressing every presheaf as a colimit of representables, and apply the framework beyond arithmetic to groups (regular representations), spaces (functor of points), and schemes (Grothendieck's program). Our analytic applications include $\pi$ as the representing object for periods of the exponential map $\mathbb{R} \to S^{1}$ and $e$ as the unique element making $\exp$ a continuous group homomorphism $(\mathbb{R}, +) \to (\mathbb{R}^{>0}, \cdot)$. We outline the enriched, $2$-categorical, and $\infty$-categorical generalizations of Yoneda, culminating in Lurie's $\infty$-Yoneda lemma. We close by linking Yoneda to univalence: under the Univalent Foundations program, the equivalence $\mathrm{Hom}(-, X) \cong \mathrm{Hom}(-, Y) \Rightarrow X = Y$ is internalized as a path in the universe, identifying the Yoneda principle with the univalence axiom and preparing Paper V (HoTT). A companion Haskell implementation in \texttt{src/04-yoneda/} computes Yoneda embeddings of finite categories and exhibits $\mathrm{Hom}(-, n)$ for finite initial segments of $\mathbb{N}$ as a poset.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{The arc so far}
+
+The series \emph{The Univalent Correspondence} examines a single question --- \emph{what is the natural number $58$?} --- through six progressively refined formalisms. Paper~I (Naive) treated $58$ as a syntactic symbol and exposed the Frege-style sense/reference confusion that results from identifying numerals with numbers. Paper~II (Set-Theoretic) gave the von~Neumann encoding $58 = \{0, 1, \ldots, 57\}$ and exhibited Benacerraf's identification problem: alternative encodings (Zermelo's, Quine's, etc.) are equally valid, so no single set-theoretic representative deserves the title \emph{the} natural numbers. Paper~III (Universal Property) responded to Benacerraf by characterizing $\mathbb{N}$ up to canonical isomorphism as the initial $(0, \mathrm{succ})$-algebra, equivalently as the natural number object (NNO) in any category with a terminal object. The number $58$ became \emph{any} canonical $58$th iterate of $\mathrm{succ}$ in any structure satisfying the universal property: well-defined up to unique isomorphism, encoding-free.
+
+The present paper takes the next step on the structuralist ladder. The universal-property viewpoint already speaks of objects through their morphisms in and out, but it does so one universal property at a time. The Yoneda perspective globalizes this principle. Rather than say ``$\mathbb{N}$ is initial among successor structures,'' it says: \emph{every} object $X$ in a locally small category $\mathcal{C}$ is fully reconstructible from its profile $\mathrm{Hom}_{\mathcal{C}}(-, X)$ as a functor $\mathcal{C}^{\mathrm{op}} \to \mathbf{Set}$. The Yoneda lemma promotes the slogan ``an object is determined by its relationships'' from heuristic to theorem.
+
+\subsection{The Yoneda principle in one sentence}
+
+\begin{quote}
+\emph{An object is its system of probes.}
+\end{quote}
+Formally, the Yoneda lemma asserts a natural bijection
+\[
+\mathrm{Nat}\big(\mathrm{Hom}_{\mathcal{C}}(-, X), F\big) \;\cong\; F(X)
+\]
+for any presheaf $F\colon \mathcal{C}^{\mathrm{op}} \to \mathbf{Set}$ and object $X \in \mathcal{C}$. Specializing $F = \mathrm{Hom}_{\mathcal{C}}(-, Y)$ recovers the embedding statement
+\[
+\mathrm{Nat}\big(\mathrm{Hom}(-, X), \mathrm{Hom}(-, Y)\big) \;\cong\; \mathrm{Hom}_{\mathcal{C}}(X, Y),
+\]
+so the assignment $y\colon X \mapsto \mathrm{Hom}(-, X)$ is fully faithful. Two objects whose profiles agree as functors are isomorphic; two morphisms that induce the same natural transformation are equal.
+
+\subsection{Why this matters for ``what is \texorpdfstring{$58$}{58}?''}
+
+In the category $\mathbf{NNO}$ of natural-number objects in $\mathbf{Set}$ (or in any topos with NNO), the Yoneda embedding identifies $58$ not with a particular set, term, or numeral, but with the functor that assigns to every successor structure $(X, x_0, f)$ the value $f^{58}(x_0)$. This is the content of Section~\ref{sec:numbers-as-functors}. The structuralist's slogan --- \emph{numbers are positions in a structure} --- becomes a theorem: $58$ is the unique-up-to-isomorphism object representing the functor that probes structures for ``$58$th iterate of the successor map starting at the basepoint.''
+
+\subsection{Bridge to univalence}
+
+The Yoneda lemma yields equivalence of objects from equivalence of their representable functors. Univalence (Paper~V) internalizes this implication: the canonical map $(A = B) \to (A \simeq B)$ is itself an equivalence in Homotopy Type Theory. Yoneda \emph{produces} an equivalence; univalence \emph{declares} it an identity. Section~\ref{sec:bridge-hott} makes this connection precise and motivates the next paper.
+
+\subsection{Outline}
+
+Section~\ref{sec:framework} fixes the categorical framework. Section~\ref{sec:yoneda-lemma} states and proves the Yoneda lemma in covariant and contravariant forms. Section~\ref{sec:numbers-as-functors} applies the lemma to natural numbers, real numbers, $\pi$, and $e$. Section~\ref{sec:density} proves the density theorem. Section~\ref{sec:beyond-numbers} surveys applications to groups, spaces, and schemes. Section~\ref{sec:enriched} sketches the enriched, $2$-categorical, and $\infty$-categorical generalizations. Section~\ref{sec:bridge-hott} connects to Homotopy Type Theory. Section~\ref{sec:haskell} describes the accompanying Haskell implementation. Section~\ref{sec:results} collects principal results, Section~\ref{sec:discussion} discusses, and Section~\ref{sec:conclusion} concludes.
+
+\section{Mathematical Framework}
+\label{sec:framework}
+
+We assume the reader is fluent with category theory at the level of Mac Lane~\cite{maclane} or Riehl~\cite{riehl}. We fix terminology and notation in this section.
+
+\subsection{Categories and functors}
+
+\begin{definition}[Locally small category]
+\label{def:locally-small}
+A category $\mathcal{C}$ is \emph{locally small} when for each pair of objects $X, Y \in \mathrm{Ob}(\mathcal{C})$ the collection $\mathrm{Hom}_{\mathcal{C}}(X, Y)$ is a set (rather than a proper class). All categories considered in this paper are locally small unless explicitly stated otherwise.
+\end{definition}
+
+\begin{definition}[Presheaf]
+\label{def:presheaf}
+Given a category $\mathcal{C}$, a \emph{presheaf} on $\mathcal{C}$ is a functor $F\colon \mathcal{C}^{\mathrm{op}} \to \mathbf{Set}$. The category of presheaves and natural transformations is denoted $\widehat{\mathcal{C}} := [\mathcal{C}^{\mathrm{op}}, \mathbf{Set}]$.
+\end{definition}
+
+\begin{definition}[Representable functor]
+\label{def:representable}
+A presheaf $F\colon \mathcal{C}^{\mathrm{op}} \to \mathbf{Set}$ is \emph{representable} if there exist an object $X \in \mathcal{C}$ and a natural isomorphism $\eta\colon \mathrm{Hom}_{\mathcal{C}}(-, X) \xrightarrow{\;\cong\;} F$. The pair $(X, \eta)$ is called a \emph{representation}; we say $X$ \emph{represents} $F$.
+\end{definition}
+
+\subsection{The Yoneda embedding}
+
+\begin{definition}[Yoneda embedding]
+\label{def:yoneda-embedding}
+The \emph{Yoneda embedding} is the functor
+\[
+y\colon \mathcal{C} \longrightarrow \widehat{\mathcal{C}},\qquad
+X \longmapsto \mathrm{Hom}_{\mathcal{C}}(-, X),
+\]
+sending a morphism $f\colon X \to Y$ to the natural transformation $y(f)$ from $\mathrm{Hom}(-, X)$ to $\mathrm{Hom}(-, Y)$ whose component at an object $Z$ is post-composition by $f$:
+\[
+y(f)_Z \;=\; f \circ -\;\colon\; \mathrm{Hom}(Z, X) \longrightarrow \mathrm{Hom}(Z, Y).
+\]
+\end{definition}
+
+We frequently write $h_X := \mathrm{Hom}_{\mathcal{C}}(-, X)$. The dual (covariant) Yoneda embedding is
+\[
+y'\colon \mathcal{C}^{\mathrm{op}} \longrightarrow [\mathcal{C}, \mathbf{Set}],\qquad X \longmapsto \mathrm{Hom}_{\mathcal{C}}(X, -) =: h^{X}.
+\]
+
+\subsection{Diagrammatic conventions}
+
+We display natural transformations as squares
+\[
+\begin{tikzcd}
+F(Z) \arrow[r, "\alpha_Z"] \arrow[d, "F(g)"'] & G(Z) \arrow[d, "G(g)"] \\
+F(W) \arrow[r, "\alpha_W"'] & G(W)
+\end{tikzcd}
+\]
+which commute for every $g\colon W \to Z$. For presheaves, $g$ goes \emph{against} the arrows of $\mathcal{C}$; we silently use $\mathcal{C}^{\mathrm{op}}$.
+
+\section{The Yoneda Lemma}
+\label{sec:yoneda-lemma}
+
+\subsection{Statement and proof}
+
+\begin{theorem}[Yoneda lemma]
+\label{thm:yoneda}
+Let $\mathcal{C}$ be a locally small category, $X \in \mathcal{C}$ an object, and $F\colon \mathcal{C}^{\mathrm{op}} \to \mathbf{Set}$ a presheaf. There is a bijection
+\[
+\Phi_{X,F}\colon \mathrm{Nat}\big(h_X, F\big) \xrightarrow{\;\cong\;} F(X),
+\qquad
+\alpha \longmapsto \alpha_X(\mathrm{id}_X),
+\]
+natural in both $X$ and $F$.
+\end{theorem}
+
+\begin{proof}
+We construct an inverse. Given $u \in F(X)$, define $\Psi(u)\colon h_X \to F$ component-wise by
+\[
+\Psi(u)_Z\colon \mathrm{Hom}_{\mathcal{C}}(Z, X) \to F(Z),\qquad f \longmapsto F(f)(u).
+\]
+This is natural: for $g\colon W \to Z$, the square
+\[
+\begin{tikzcd}
+\mathrm{Hom}(Z, X) \arrow[r, "\Psi(u)_Z"] \arrow[d, "- \circ g"'] & F(Z) \arrow[d, "F(g)"] \\
+\mathrm{Hom}(W, X) \arrow[r, "\Psi(u)_W"'] & F(W)
+\end{tikzcd}
+\]
+commutes by functoriality of $F$:
+\[
+\Psi(u)_W(f \circ g) \;=\; F(f \circ g)(u) \;=\; F(g)(F(f)(u)) \;=\; F(g)(\Psi(u)_Z(f)).
+\]
+
+We check $\Phi \circ \Psi = \mathrm{id}_{F(X)}$:
+\[
+(\Phi \circ \Psi)(u) = \Psi(u)_X(\mathrm{id}_X) = F(\mathrm{id}_X)(u) = \mathrm{id}_{F(X)}(u) = u.
+\]
+Conversely, $\Psi \circ \Phi = \mathrm{id}_{\mathrm{Nat}(h_X, F)}$: for $\alpha\colon h_X \to F$ and $f\colon Z \to X$,
+\[
+\Psi(\Phi(\alpha))_Z(f) = \Psi(\alpha_X(\mathrm{id}_X))_Z(f) = F(f)(\alpha_X(\mathrm{id}_X)) = \alpha_Z(\mathrm{id}_X \circ f) = \alpha_Z(f),
+\]
+where the third equality uses naturality of $\alpha$ applied to $f\colon Z \to X$, viewed as a morphism $Z \to X$ in $\mathcal{C}$ (equivalently $X \to Z$ in $\mathcal{C}^{\mathrm{op}}$).
+
+Naturality of $\Phi$ in $X$: for $g\colon X \to X'$ and $\alpha\colon h_{X'} \to F$, the diagram
+\[
+\begin{tikzcd}
+\mathrm{Nat}(h_{X'}, F) \arrow[r, "\Phi_{X', F}"] \arrow[d, "(- \circ y(g))"'] & F(X') \arrow[d, "F(g)"] \\
+\mathrm{Nat}(h_X, F) \arrow[r, "\Phi_{X, F}"'] & F(X)
+\end{tikzcd}
+\]
+commutes by naturality of $\alpha$ at $g\colon X \to X'$ (viewed in $\mathcal{C}$, hence backwards in $\mathcal{C}^{\mathrm{op}}$). Going right-then-down yields $F(g)(\alpha_{X'}(\mathrm{id}_{X'}))$. Going down-then-right yields $(\alpha \circ y(g))_{X}(\mathrm{id}_X) = \alpha_X(g \circ \mathrm{id}_X) = \alpha_X(g)$. These agree because the naturality square of $\alpha$ at $g$ states
+\[
+\alpha_X \circ h_{X'}(g) = F(g) \circ \alpha_{X'},
+\]
+and evaluating both sides at $\mathrm{id}_{X'} \in h_{X'}(X')$ gives $\alpha_X(g) = F(g)(\alpha_{X'}(\mathrm{id}_{X'}))$. Naturality in $F$ is similar (and immediate from the definition of $\Phi$ as evaluation at $\mathrm{id}_X$).
+\end{proof}
+
+\begin{remark}[The element $\alpha_X(\mathrm{id}_X)$]
+The proof reveals the algorithmic content of Yoneda. A natural transformation out of $h_X$ is determined by where it sends the universal element $\mathrm{id}_X \in h_X(X) = \mathrm{Hom}(X, X)$. Every other component is forced by naturality.
+\end{remark}
+
+\subsection{The embedding theorem}
+
+\begin{corollary}[Fully faithful Yoneda embedding]
+\label{cor:yoneda-fully-faithful}
+Specializing $F = h_Y$ in \cref{thm:yoneda},
+\[
+\mathrm{Nat}(h_X, h_Y) \;\cong\; h_Y(X) \;=\; \mathrm{Hom}_{\mathcal{C}}(X, Y).
+\]
+The Yoneda embedding $y\colon \mathcal{C} \to \widehat{\mathcal{C}}$ is fully faithful.
+\end{corollary}
+
+\begin{proof}
+The bijection of \cref{thm:yoneda} sends a natural transformation $\alpha\colon h_X \to h_Y$ to the element $\alpha_X(\mathrm{id}_X) \in \mathrm{Hom}(X, Y)$, and inversely sends $f\colon X \to Y$ to $y(f)$. Faithfulness is injectivity of $y$ on hom-sets; fullness is surjectivity. Both follow from this bijection.
+\end{proof}
+
+\begin{corollary}[Yoneda's identity criterion]
+\label{cor:identity-criterion}
+For $X, Y \in \mathcal{C}$,
+\[
+X \cong Y \iff h_X \cong h_Y \text{ as presheaves.}
+\]
+\end{corollary}
+
+\begin{proof}
+A fully faithful functor reflects and preserves isomorphisms.
+\end{proof}
+
+\subsection{The contravariant (dual) form}
+
+\begin{theorem}[Covariant Yoneda]
+\label{thm:co-yoneda}
+For $X \in \mathcal{C}$ and $G\colon \mathcal{C} \to \mathbf{Set}$, there is a natural bijection
+\[
+\mathrm{Nat}(h^X, G) \cong G(X), \qquad \beta \longmapsto \beta_X(\mathrm{id}_X).
+\]
+The covariant Yoneda embedding $y'\colon \mathcal{C}^{\mathrm{op}} \to [\mathcal{C}, \mathbf{Set}]$, $X \mapsto \mathrm{Hom}_{\mathcal{C}}(X, -)$, is fully faithful.
+\end{theorem}
+
+\begin{proof}
+Apply \cref{thm:yoneda} to $\mathcal{C}^{\mathrm{op}}$ and unfold definitions. Components are now precomposition rather than postcomposition.
+\end{proof}
+
+The two forms answer two questions about an object $X$:
+\begin{itemize}
+\item $h_X = \mathrm{Hom}(-, X)$: ``which objects \emph{map into} $X$, and how?'' --- the \emph{generalized elements} of $X$.
+\item $h^X = \mathrm{Hom}(X, -)$: ``which objects does $X$ \emph{map into}, and how?'' --- the \emph{co-elements} or \emph{co-probes}.
+\end{itemize}
+Both encode $X$ up to isomorphism.
+
+\subsection{The Yoneda lemma as universality}
+
+\begin{proposition}[Universal element]
+\label{prop:universal-element}
+Let $F\colon \mathcal{C}^{\mathrm{op}} \to \mathbf{Set}$ be a presheaf. A representation of $F$ by $X$ is the same data as a \emph{universal element} $u \in F(X)$: an element such that for every $Z \in \mathcal{C}$ and $v \in F(Z)$ there exists a unique $f\colon Z \to X$ with $F(f)(u) = v$.
+\end{proposition}
+
+\begin{proof}
+Given representation $\eta\colon h_X \xrightarrow{\cong} F$, set $u := \eta_X(\mathrm{id}_X)$; the inverse $\eta^{-1}\colon F(Z) \to h_X(Z) = \mathrm{Hom}(Z, X)$ sends $v$ to the unique $f$ with $F(f)(u) = v$, by the explicit form $\eta = \Psi(u)$ of \cref{thm:yoneda}. Conversely, a universal element induces $\Psi(u)$ which is invertible by uniqueness.
+\end{proof}
+
+This is the bridge to Paper~III: every universal property is the assertion that some presheaf is representable.
+
+\section{Numbers as Representable Functors}
+\label{sec:numbers-as-functors}
+
+We now apply the Yoneda machinery to the central question of the series: \emph{what is a number?}
+
+\subsection{The category of pointed endomorphism structures}
+
+\begin{definition}[Pointed endomorphism structure]
+\label{def:successor-structure}
+A \emph{pointed endomorphism structure}, or \emph{successor structure}, is a triple $(X, x_0, f)$ where $X$ is a set, $x_0 \in X$ a basepoint, and $f\colon X \to X$ an endomorphism. A morphism $(X, x_0, f) \to (Y, y_0, g)$ is a function $\varphi\colon X \to Y$ with $\varphi(x_0) = y_0$ and $\varphi \circ f = g \circ \varphi$. Let $\mathbf{Succ}$ denote the resulting category.
+\end{definition}
+
+By Lawvere's NNO theorem (Paper~III), $(\mathbb{N}, 0, \mathrm{succ})$ is initial in $\mathbf{Succ}$.
+
+\subsection{Recasting numbers as functors}
+
+\begin{definition}[The underlying-set functor on $\mathbf{Succ}$]
+\label{def:U-succ}
+Let $U\colon \mathbf{Succ} \to \mathbf{Set}$ be the forgetful functor sending $(X, x_0, f) \mapsto X$ and $\varphi \mapsto \varphi$ (the underlying set-function). Let $\mathbf{1}\colon \mathbf{Succ} \to \mathbf{Set}$ denote the constant functor at the singleton $\{*\}$. A natural transformation $\mathbf{1} \Rightarrow U$ is exactly a coherent choice of element $\eta_{O} \in U(O)$ for each $O \in \mathbf{Succ}$ such that for every morphism $\varphi\colon O \to O'$, $U(\varphi)(\eta_{O}) = \eta_{O'}$.
+\end{definition}
+
+\begin{definition}[The $n$th-iterate selector]
+\label{def:eps-n}
+For each $n \in \mathbb{N}$, define the \emph{$n$th-iterate selector} as the natural transformation
+\[
+\varepsilon_n\colon \mathbf{1} \Longrightarrow U,\qquad \varepsilon_n^{(X, x_0, f)}(*) := f^n(x_0) \in X = U(X, x_0, f).
+\]
+Naturality: for $\varphi\colon (X, x_0, f) \to (Y, y_0, g)$ in $\mathbf{Succ}$, the equations $\varphi \circ f = g \circ \varphi$ and $\varphi(x_0) = y_0$ give inductively $\varphi(f^n(x_0)) = g^n(y_0)$, i.e., $U(\varphi)(\varepsilon_n^{(X, x_0, f)}(*)) = \varepsilon_n^{(Y, y_0, g)}(*)$.
+\end{definition}
+
+The functor $U$ is the relational ``probe'': it asks of each successor structure ``what is your underlying set?'' The natural transformations $\varepsilon_n\colon \mathbf{1} \Rightarrow U$ then pick out a distinguished element of each underlying set.
+
+\subsection{The representability theorem}
+
+\begin{theorem}[Numbers as natural transformations]
+\label{thm:numbers-as-representable}
+There is a natural bijection
+\[
+\mathrm{Nat}\!\big(\mathbf{1}, U\big) \;\cong\; \mathbb{N}
+\]
+between natural transformations from the constant-singleton functor $\mathbf{1}\colon \mathbf{Succ} \to \mathbf{Set}$ to the underlying-set functor $U\colon \mathbf{Succ} \to \mathbf{Set}$, and natural numbers. The bijection sends $\varepsilon_n \mapsto n$.
+\end{theorem}
+
+\begin{proof}
+By initiality of $(\mathbb{N}, 0, \mathrm{succ})$ in $\mathbf{Succ}$, the corepresentable hom-functor
+\[
+h^{(\mathbb{N}, 0, \mathrm{succ})} := \mathrm{Hom}_{\mathbf{Succ}}\!\big((\mathbb{N}, 0, \mathrm{succ}), -\big)\colon \mathbf{Succ} \longrightarrow \mathbf{Set}
+\]
+sends every object to a singleton. Hence it is canonically naturally isomorphic to the constant-singleton functor $\mathbf{1}$. By the covariant Yoneda lemma (\cref{thm:co-yoneda}) applied to $h^{(\mathbb{N}, 0, \mathrm{succ})}$ and to $U$,
+\[
+\mathrm{Nat}\!\big(h^{(\mathbb{N}, 0, \mathrm{succ})}, U\big) \;\cong\; U(\mathbb{N}, 0, \mathrm{succ}) \;=\; \mathbb{N}.
+\]
+Composing with the canonical isomorphism $\mathbf{1} \cong h^{(\mathbb{N}, 0, \mathrm{succ})}$ gives
+\[
+\mathrm{Nat}\!\big(\mathbf{1}, U\big) \;\cong\; \mathbb{N}.
+\]
+Concretely the bijection sends $\eta\colon \mathbf{1} \Rightarrow U$ to $\eta_{(\mathbb{N}, 0, \mathrm{succ})}(*) \in \mathbb{N}$. Applied to $\eta = \varepsilon_n$, we get $\varepsilon_n^{(\mathbb{N}, 0, \mathrm{succ})}(*) = \mathrm{succ}^n(0) = n$, so $\varepsilon_n \mapsto n$. Conversely, given $n \in \mathbb{N}$, naturality forces the component at $(X, x_0, f)$ to be $U(\mathrm{rec}_{(X, x_0, f)})(n) = f^n(x_0)$, recovering $\varepsilon_n$.
+\end{proof}
+
+\begin{remark}[The role of the initial structure]
+The initial object $(\mathbb{N}, 0, \mathrm{succ})$ corepresents the constant-singleton functor $\mathbf{1}$, not $U$. Calling $\mathbb{N}$ a corepresenting object of $U$ would conflict with the standard meaning: the corepresentable
+\[
+h^{(\mathbb{N}, 0, \mathrm{succ})} = \mathrm{Hom}_{\mathbf{Succ}}\!\big((\mathbb{N}, 0, \mathrm{succ}), -\big)
+\]
+is constant on singletons, while $U$ takes generally non-singleton values.
+
+The role of initiality in \cref{thm:numbers-as-representable} is more subtle. Initiality provides the canonical identification $\mathbf{1} \cong h^{(\mathbb{N}, 0, \mathrm{succ})}$, which together with the covariant Yoneda lemma yields the bijection $\mathrm{Nat}(\mathbf{1}, U) \cong U(\mathbb{N}, 0, \mathrm{succ}) = \mathbb{N}$. The natural number $n$ then \emph{is} the natural transformation $\varepsilon_n$ that picks out $f^n(x_0)$ in every successor structure --- the Yoneda formulation of primitive recursion.
+\end{remark}
+
+\subsection{Numbers as objects of \texorpdfstring{$(\mathbb{N}, \le)$}{(N, <=)}}
+
+\Cref{thm:numbers-as-representable} encodes each $n \in \mathbb{N}$ as a natural transformation on $\mathbf{Succ}$, but it does not display $n$ as the representing \emph{object} of any single representable presheaf. To realize each individual $n$ as its own representable functor we descend to a category whose \emph{objects} are the natural numbers themselves. The order category $(\mathbb{N}, \le)$ does this:
+
+\begin{proposition}[Identity criterion in $(\mathbb{N}, \le)$]
+\label{prop:order-identity-criterion}
+View $(\mathbb{N}, \le)$ as a thin category with one morphism $m \to n$ when $m \le n$. The Yoneda embedding $y\colon (\mathbb{N}, \le) \hookrightarrow \widehat{(\mathbb{N}, \le)}$ sends $n$ to the presheaf
+\[
+h_{n}(m) = \begin{cases} \{*\} & m \le n, \\ \emptyset & m > n.\end{cases}
+\]
+Two natural numbers $n, n'$ satisfy $h_n \cong h_{n'}$ if and only if $n = n'$.
+\end{proposition}
+
+\begin{proof}
+The presheaf $h_n$ has support $\{0, 1, \ldots, n\}$. Two presheaves with non-empty support agree if and only if their supports do, i.e., $n = n'$. This is \cref{cor:identity-criterion} specialized to a thin category, where ``isomorphic'' reduces to ``equal''.
+\end{proof}
+
+\begin{remark}[Yoneda gloss in $(\mathbb{N}, \le)$]
+The slogan \emph{``$58$ is $\mathrm{Hom}(-, 58)$''} now has formal content within $(\mathbb{N}, \le)$: the object $58$ is identified with the presheaf $h_{58}$ whose support is exactly $\{0, 1, \ldots, 58\}$. By the identity criterion, $58$ is the unique object with this presheaf. The two formalizations --- $\mathbf{Succ}$ in \cref{thm:numbers-as-representable} and $(\mathbb{N}, \le)$ in \cref{prop:order-identity-criterion} --- are complementary in the following sense: the former characterizes \emph{the entire structure of natural numbers} as a single relational invariant (via natural transformations $\mathbf{1} \Rightarrow U$) across all possible successor systems, while the latter \emph{individuates each number $n$} by its unique relational ``history'' (the support presheaf $h_n$) within the ordered set of natural numbers themselves.
+\end{remark}
+
+\subsection{Beyond order: the categorical structure of \texorpdfstring{$58$}{58}}
+
+The order category $(\mathbb{N}, \le)$ is rich enough for individuation but too rigid to capture all arithmetic structure. A richer category is the \emph{Lawvere theory} $\mathcal{L}_{\mathrm{nat}}$ of natural numbers, whose objects are natural numbers $0, 1, 2, \ldots$ and whose morphisms $\mathrm{Hom}(m, n)$ are functions $\{0, \ldots, m-1\} \to \{0, \ldots, n-1\}$.
+
+\begin{proposition}[Yoneda for $\mathcal{L}_{\mathrm{nat}}$]
+\label{prop:lawvere-yoneda}
+In $\mathcal{L}_{\mathrm{nat}}$, the representable functor $h_n = \mathrm{Hom}(-, n)$ assigns to each object $m$ the hom-set $\mathrm{Hom}_{\mathcal{L}_{\mathrm{nat}}}(m, n)$ --- i.e., the set of all functions $\{0, \ldots, m-1\} \to \{0, \ldots, n-1\}$ --- of cardinality $|h_n(m)| = n^m$. Two objects $n, n'$ are isomorphic in $\mathcal{L}_{\mathrm{nat}}$ iff $n = n'$, equivalently iff $|h_n(m)| = |h_{n'}(m)|$ for all $m$.
+\end{proposition}
+
+\begin{proof}
+$|h_n(m)| = n^m$. For each fixed $m \ge 1$, the value $n^m$ determines $n$. The isomorphism criterion ($n \cong n' \iff h_n \cong h_{n'}$) is \cref{cor:identity-criterion}; the further reduction to cardinality profiles uses that two finite sets are isomorphic iff equinumerous.
+\end{proof}
+
+This recovers, via Yoneda, the cardinality interpretation of $58$: it is the size of any finite set whose set of self-functions, choice functions, etc., satisfy the right counting laws. ``$58$'' is the relational profile of size-$58$ finite sets within $\mathbf{FinSet}$.
+
+\subsection{\texorpdfstring{$\pi$ and $e$}{pi and e} as representing elements}
+\label{subsec:pi-e}
+
+The classical transcendentals admit Yoneda-flavored characterizations. We give two explicit examples.
+
+\begin{example}[The number $\pi$]
+\label{ex:pi-yoneda}
+Let $\mathbf{TopGrp}$ denote the category of topological groups and continuous homomorphisms. There is a canonical continuous group homomorphism $\gamma\colon (\mathbb{R}, +) \to S^{1}$, $\gamma(x) = e^{ix}$ (viewing $S^{1}$ as the unit circle in $\mathbb{C}^{\times}$), whose kernel is a discrete subgroup of $\mathbb{R}$. Discrete subgroups of $(\mathbb{R}, +)$ are of the form $\alpha \mathbb{Z}$ for $\alpha \ge 0$; the universal property of $\gamma$ as the universal cover of $S^{1}$ (a terminal object in the appropriately defined category of pointed connected covering homomorphisms onto $S^{1}$) determines this $\alpha$ uniquely. The number $2\pi$ is the unique positive generator of $\ker(\gamma)$:
+\[
+\ker(\gamma) = 2\pi\, \mathbb{Z}.
+\]
+Heuristically, $\pi$ is half this universal period: it labels the universal cover relation in $\mathbf{TopGrp}$. By Yoneda, $S^{1}$ is determined up to isomorphism by its representable functor
+\[
+\mathrm{Hom}_{\mathbf{TopGrp}}(-, S^{1}),
+\]
+and the number $2\pi$ appears as a structural invariant within this representable, namely the generator of the kernel of the universal-cover morphism. This recovers $\pi$ as a relational invariant rather than as a constructed real.
+\end{example}
+
+\begin{example}[The number $e$]
+\label{ex:e-yoneda}
+Consider, in the category $\mathbf{Lie}$ of Lie groups, the functor of continuous group homomorphisms $F\colon \mathbf{Lie} \to \mathbf{Set}$, $G \mapsto \mathrm{Hom}_{\mathbf{Lie}}((\mathbb{R}, +), G)$. By Yoneda this is the corepresentable $h^{(\mathbb{R}, +)}$. Specializing $G = (\mathbb{R}^{>0}, \cdot)$, the set $F(\mathbb{R}^{>0}) = \mathrm{Hom}_{\mathbf{Lie}}((\mathbb{R}, +), (\mathbb{R}^{>0}, \cdot))$ is the one-parameter family $\{\varphi_a(x) = a^x : a \in \mathbb{R}^{>0}\}$. Adding the normalization $\varphi'(0) = 1$ cuts this down to a singleton, namely $\varphi = \exp$.
+
+The number $e$ is then identified by the universal-element principle (\cref{prop:universal-element}): in the slice category of normalized continuous group homomorphisms $(\mathbb{R}, +) \to (\mathbb{R}^{>0}, \cdot)$ over $(\mathbb{R}^{>0}, \cdot)$, $\exp$ is the unique element, and $e := \exp(1) \in \mathbb{R}^{>0}$ is its value at the canonical generator $1 \in \mathbb{R}$. We acknowledge that, unlike $\pi$, the example of $e$ is more illustrative of the Yoneda \emph{spirit} (an object is the value of the unique map satisfying a normalization) than a textbook representable; the intent is to show that ``$e$ is a relational invariant'' rather than to give a fully formal Yoneda statement.
+\end{example}
+
+\begin{remark}[The structuralist payoff]
+Both $\pi$ and $e$ are characterized without ever ``constructing'' them as Cauchy sequences or Dedekind cuts. They are positions in functor categories. The Yoneda embedding makes this position canonical: the same $\pi$ appears in every model.
+\end{remark}
+
+\section{The Density Theorem}
+\label{sec:density}
+
+The Yoneda embedding is fully faithful but rarely essentially surjective: most presheaves are not representable. The density theorem shows that representables nonetheless \emph{generate} the presheaf category.
+
+\begin{theorem}[Density theorem]
+\label{thm:density}
+Let $\mathcal{C}$ be a small category. Every presheaf $F\colon \mathcal{C}^{\mathrm{op}} \to \mathbf{Set}$ is canonically a colimit of representables. Specifically, $F$ is the colimit of the diagram
+\[
+\int F \xrightarrow{\;\pi\;} \mathcal{C} \xrightarrow{\;y\;} \widehat{\mathcal{C}},
+\]
+where $\int F$ is the category of elements of $F$ and $\pi$ is the projection $(X, u) \mapsto X$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Define a cocone $\sigma\colon y \pi \Rightarrow F$ over $\int F$ component-wise: for $(X, u) \in \int F$, set $\sigma_{(X, u)} := \Psi(u)\colon h_X \to F$ from \cref{thm:yoneda}. Naturality of $\sigma$ in the morphisms of $\int F$ is exactly the Yoneda bijection. Universality: for any cocone $\tau\colon y\pi \Rightarrow G$, the unique factoring $F \to G$ assigns to $u \in F(X)$ the value $\tau_{(X, u), X}(\mathrm{id}_X) \in G(X)$.
+\end{proof}
+
+\begin{corollary}[Free cocompletion]
+\label{cor:free-cocompletion}
+The Yoneda embedding $y\colon \mathcal{C} \to \widehat{\mathcal{C}}$ exhibits $\widehat{\mathcal{C}}$ as the \emph{free cocompletion} of $\mathcal{C}$: any functor $\mathcal{C} \to \mathcal{D}$ into a cocomplete category $\mathcal{D}$ extends uniquely (up to natural isomorphism) to a colimit-preserving functor $\widehat{\mathcal{C}} \to \mathcal{D}$.
+\end{corollary}
+
+\begin{remark}[Numbers as colimits of probes]
+\label{rem:colim-of-probes}
+For the Lawvere theory $\mathcal{L}_{\mathrm{nat}}$, density says: any functor $\mathcal{L}_{\mathrm{nat}}^{\mathrm{op}} \to \mathbf{Set}$ (an \emph{algebra over the theory}) is canonically a colimit of representables $h_n$. In particular, the structure of $\mathbb{N}$ propagates into all algebras for the theory by colimit assembly.
+\end{remark}
+
+\section{Beyond Numbers: Yoneda Across Mathematics}
+\label{sec:beyond-numbers}
+
+\subsection{Groups as their representations}
+
+For a group $G$, the regular representation is the action of $G$ on itself by left translation. Yoneda's lemma in $\mathbf{Grp}$ specializes:
+\[
+\mathrm{Hom}_{\mathbf{Grp}}(\mathbb{Z}, G) \cong G,
+\]
+identifying group elements of $G$ with $\mathbb{Z}$-points. More generally, for any small group $G$ regarded as a one-object groupoid $\mathbf{B}G$, the Yoneda embedding gives
+\[
+y\colon \mathbf{B}G \hookrightarrow \widehat{\mathbf{B}G} = G\text{-}\mathbf{Set},
+\]
+sending the unique object to the regular $G$-set $G$. The Yoneda lemma then yields
+\[
+\mathrm{Nat}(G, F) \cong F(*) \quad \text{(the underlying set of $F$),}
+\]
+i.e., a $G$-equivariant map out of the regular representation is determined by where it sends the identity. This is Cayley's theorem in disguise.
+
+\begin{proposition}[Cayley via Yoneda]
+\label{prop:cayley-yoneda}
+The Yoneda embedding $y\colon \mathbf{B}G \hookrightarrow G\text{-}\mathbf{Set}$ realizes Cayley's theorem: every group is canonically a subgroup of the symmetric group on its underlying set, via the regular representation.
+\end{proposition}
+
+\begin{proof}
+Fully faithfulness of $y$ implies $\mathrm{Aut}(G \text{ as $G$-set}) = G$, embedding $G \hookrightarrow \mathrm{Sym}(G)$.
+\end{proof}
+
+\subsection{Spaces via points}
+
+For a topological space $X$, the singular complex
+\[
+S(X) := \mathrm{Hom}_{\mathbf{Top}}(\Delta^{\bullet}, X)
+\]
+is a simplicial set. This is the covariant Yoneda restricted to the cosimplicial space of standard simplices: $X \in \mathbf{Top}$ is probed by morphisms \emph{from} the $\Delta^n$. The Quillen equivalence between simplicial sets and topological spaces, restricted to weak equivalences, recovers $X$ up to homotopy from $S(X)$ --- a homotopical Yoneda.
+
+\subsection{Schemes as functors of points}
+
+Grothendieck's revolution in algebraic geometry consists of taking the Yoneda embedding seriously.
+
+\begin{definition}[Functor of points]
+\label{def:functor-of-points}
+Given a scheme $X$, its \emph{functor of points} is
+\[
+h_X\colon \mathbf{Sch}^{\mathrm{op}} \longrightarrow \mathbf{Set},\qquad T \longmapsto \mathrm{Hom}_{\mathbf{Sch}}(T, X).
+\]
+Equivalently, restricting to affine test schemes $T = \mathrm{Spec}(R)$, one obtains a functor $\mathbf{Ring} \to \mathbf{Set}$, $R \mapsto X(R)$, the set of \emph{$R$-points} of $X$.
+\end{definition}
+
+By the Yoneda lemma, $X$ is determined up to canonical isomorphism by $h_X$. This is the basis for treating schemes as functors $\mathbf{Ring} \to \mathbf{Set}$ satisfying suitable sheaf conditions: \emph{representable} functors. Moduli problems are typically posed by writing down a non-representable presheaf (the moduli functor) and asking whether a representing scheme (or stack) exists.
+
+\begin{example}[$\mathbb{A}^1_{\mathbb{Z}}$ as a representable functor]
+The affine line $\mathbb{A}^{1}_{\mathbb{Z}}$ has functor of points $R \mapsto R$, the forgetful functor $\mathbf{Ring} \to \mathbf{Set}$. By Yoneda, $\mathbb{A}^{1}$ is uniquely determined as the scheme representing this functor.
+\end{example}
+
+\section{Enriched, \texorpdfstring{$2$-Categorical, and $\infty$-Categorical}{2-Categorical, and infinity-Categorical} Yoneda}
+\label{sec:enriched}
+
+\subsection{Enriched Yoneda}
+
+\begin{definition}[$\mathcal{V}$-enriched category]
+\label{def:enriched-cat}
+Let $\mathcal{V} = (\mathcal{V}_0, \otimes, I)$ be a closed monoidal category. A \emph{$\mathcal{V}$-category} $\mathcal{C}$ has a class of objects and, for each pair $X, Y$, a hom-object $\mathcal{C}(X, Y) \in \mathcal{V}$, with composition $\mathcal{C}(Y, Z) \otimes \mathcal{C}(X, Y) \to \mathcal{C}(X, Z)$ and identities $I \to \mathcal{C}(X, X)$ satisfying associativity and unit axioms.
+\end{definition}
+
+\begin{theorem}[Enriched Yoneda lemma]
+\label{thm:enriched-yoneda}
+For a $\mathcal{V}$-category $\mathcal{C}$, $\mathcal{V}$-functor $F\colon \mathcal{C}^{\mathrm{op}} \to \mathcal{V}$, and $X \in \mathcal{C}$, there is a $\mathcal{V}$-natural isomorphism
+\[
+[\mathcal{C}^{\mathrm{op}}, \mathcal{V}](\mathcal{C}(-, X), F) \cong F(X) \quad \text{in $\mathcal{V}$.}
+\]
+The enriched Yoneda embedding $y\colon \mathcal{C} \to [\mathcal{C}^{\mathrm{op}}, \mathcal{V}]$ is fully faithful as a $\mathcal{V}$-functor.
+\end{theorem}
+
+Examples:
+\begin{itemize}
+\item $\mathcal{V} = \mathbf{Set}$: ordinary Yoneda.
+\item $\mathcal{V} = \mathbf{Cat}$: $2$-Yoneda (next subsection).
+\item $\mathcal{V} = \mathbf{Ab}$: Yoneda for additive categories; representable functors are abelian groups.
+\item $\mathcal{V} = \mathbf{Vect}_k$: Yoneda for $k$-linear categories; representables are vector spaces.
+\item $\mathcal{V} = \mathbf{sSet}$: simplicial Yoneda, the basis for $\infty$-Yoneda.
+\end{itemize}
+
+\subsection{\texorpdfstring{$2$-categorical}{2-categorical} Yoneda}
+
+In a $2$-category $\mathcal{K}$, the hom is a category $\mathcal{K}(X, Y)$ with morphisms (1-cells) and morphisms-between-morphisms (2-cells).
+
+\begin{theorem}[$2$-Yoneda]
+\label{thm:2-yoneda}
+For a $2$-category $\mathcal{K}$, the $2$-Yoneda embedding
+\[
+y\colon \mathcal{K} \to [\mathcal{K}^{\mathrm{op}}, \mathbf{Cat}]
+\]
+is fully faithful at the level of $1$-cells and $2$-cells. Concretely,
+\[
+[\mathcal{K}^{\mathrm{op}}, \mathbf{Cat}](\mathcal{K}(-, X), F) \simeq F(X)
+\]
+as categories, where $\simeq$ denotes equivalence.
+\end{theorem}
+
+\subsection{\texorpdfstring{$\infty$-categorical}{infinity-categorical} Yoneda}
+
+For an $(\infty, 1)$-category $\mathcal{C}$ presented as a quasi-category (i.e., a simplicial set satisfying the inner horn lifting condition), the Yoneda embedding lifts to
+\[
+y\colon \mathcal{C} \hookrightarrow \mathcal{P}(\mathcal{C}) := \mathrm{Fun}(\mathcal{C}^{\mathrm{op}}, \mathcal{S}),
+\]
+where $\mathcal{S}$ is the $\infty$-category of spaces (Kan complexes).
+
+\begin{theorem}[$\infty$-Yoneda lemma, Lurie]
+\label{thm:infty-yoneda}
+For a small $(\infty, 1)$-category $\mathcal{C}$, an object $X \in \mathcal{C}$, and a presheaf $F \in \mathcal{P}(\mathcal{C})$, there is an equivalence of spaces
+\[
+\mathrm{Map}_{\mathcal{P}(\mathcal{C})}(\mathcal{C}(-, X), F) \simeq F(X).
+\]
+The Yoneda embedding is fully faithful in the $\infty$-categorical sense, and exhibits $\mathcal{P}(\mathcal{C})$ as the free cocompletion of $\mathcal{C}$ under small homotopy colimits.
+\end{theorem}
+
+The reference is Lurie's \emph{Higher Topos Theory}~\cite{lurie}, Lemma 5.1.5.2 and Theorem 5.1.5.6.
+
+\subsection{Ramifications}
+
+The progression Set-Yoneda $\to$ enriched-Yoneda $\to$ $\infty$-Yoneda parallels the progression of structuralist principles:
+\begin{itemize}
+\item Set-Yoneda: an object is its hom-set profile.
+\item Enriched-Yoneda: an object is its hom-object profile in $\mathcal{V}$.
+\item $\infty$-Yoneda: an object is its mapping-space profile, with all higher coherences.
+\end{itemize}
+Each generalization preserves the slogan ``an object is its system of relationships,'' but enlarges the meaning of ``relationship.''
+
+\section{Bridge to Homotopy Type Theory}
+\label{sec:bridge-hott}
+
+\subsection{Yoneda yields equivalences; univalence yields equalities}
+
+\cref{cor:identity-criterion} states $X \cong Y \iff h_X \cong h_Y$. The right-hand isomorphism is a piece of data: a natural transformation in each direction whose composites are identities. In ordinary category theory, this is as far as we can push: $X \cong Y$ is not the same as $X = Y$; the latter requires a notion of identity stronger than isomorphism.
+
+\begin{definition}[Univalence axiom, informal]
+\label{def:univalence}
+In Homotopy Type Theory, for any types $A, B$ in a universe $\mathcal{U}$, the canonical map
+\[
+\mathrm{idtoeqv}\colon (A = B) \longrightarrow (A \simeq B)
+\]
+is itself an equivalence.
+\end{definition}
+
+The univalence axiom internalizes Yoneda's identity criterion. Where the Yoneda lemma states $h_X \cong h_Y \Rightarrow X \cong Y$, univalence states $h_X \simeq h_Y \Rightarrow h_X = h_Y$ as inhabitants of the universe of presheaves. The equivalence becomes a path.
+
+\subsection{The Yoneda embedding as the canonical model}
+
+In $1$-category theory, the Yoneda embedding $y\colon \mathcal{C} \to \widehat{\mathcal{C}}$ is the prototype of a ``canonical model'' of $\mathcal{C}$: it represents $\mathcal{C}$ inside a category-with-better-properties. In HoTT, an analogous role is played by the universe-of-fibrations / the simplicial-set model: the model in which univalence is provable. The mapping is
+
+\begin{center}
+\begin{tabular}{l|l}
+\textbf{$1$-category theory} & \textbf{HoTT} \\
+\hline
+$\mathcal{C}$ & A type $A$ \\
+$y\colon \mathcal{C} \to \widehat{\mathcal{C}}$ & $A \hookrightarrow \mathcal{U}$ \\
+$h_X = \mathrm{Hom}(-, X)$ & $\mathrm{Id}_A(-, x)$ (the identity type) \\
+$X \cong Y$ in $\mathcal{C}$ & $A \simeq B$ in $\mathcal{U}$ \\
+$h_X \cong h_Y$ as presheaves & $\mathrm{Id}_A(-, x) \simeq \mathrm{Id}_A(-, y)$ \\
+Yoneda lemma & Path induction \\
+\textbf{(structuralist analogue)} & \textbf{(univalence axiom)} \\
+``$X \cong Y \Rightarrow$ formally identical'' & ``$A \simeq B \Rightarrow A = B$''
+\end{tabular}
+\end{center}
+
+The final row is the conceptual leap of HoTT. In $1$-category theory we identify isomorphic objects \emph{by convention}, treating them as ``the same up to isomorphism.'' The Yoneda lemma justifies this convention: the relational profile is identical. Univalence axiomatizes the convention, making it a deduction within the system.
+
+\subsection{The directed analogue}
+
+The Yoneda embedding has a directed (non-symmetric) analogue in directed type theory and simplicial type theory~\cite{riehl-shulman}. There, the role of mapping spaces is played by directed hom-types $\hom_A(x, y)$, and the Yoneda lemma takes the form
+\[
+\mathrm{Map}(\hom_A(-, x), F) \simeq F(x),
+\]
+where ``Map'' itself is a directed function space. This is the entry point for an internal language of $(\infty, 1)$-categories. We mention it for context; its development belongs to a sequel.
+
+\section{Haskell Implementation}
+\label{sec:haskell}
+
+The companion code in \texttt{src/04-yoneda/} implements the Yoneda embedding for finite categories.
+
+\subsection{Architecture}
+
+The code consists of three modules:
+\begin{itemize}
+\item \texttt{FiniteCat.hs} --- a representation of finite categories as a list of objects together with a hom-function returning lists of morphisms, plus composition.
+\item \texttt{Yoneda.hs} --- the Yoneda embedding $y(X) = h_X$ as a function from objects to presheaves, with naturality checks.
+\item \texttt{Main.hs} --- demonstrations: (1) the order category $(\mathbb{N}_{\le N}, \le)$ for small $N$, exhibiting $h_n$ for each $n$; (2) a small group as $\mathbf{B}G$, recovering Cayley.
+\end{itemize}
+
+\subsection{Sketch of the embedding code}
+
+Pseudocode for the central operation. The presheaf $h_X = \mathrm{Hom}(-, X)$ is contravariant in its argument: for a morphism $g\colon W \to Z$ in $\mathcal{C}$, $h_X(g)\colon \mathrm{Hom}(Z, X) \to \mathrm{Hom}(W, X)$ is \emph{precomposition} by $g$, sending $m\colon Z \to X$ to $m \circ g\colon W \to X$. Thus:
+\begin{verbatim}
+yonedaAt :: Category c => c -> Obj c -> (Obj c -> [Mor c])
+yonedaAt cat x = \z -> hom cat z x
+
+-- representable presheaf h_x = Hom(-, x).
+-- onMor takes a morphism g : w -> z in the base category C
+-- and an element m : z -> x of h_x(z), and returns m . g : w -> x
+-- (precomposition by g, since presheaves are contravariant).
+representable :: Category c => c -> Obj c -> Presheaf c
+representable cat x =
+  Presheaf
+    { onObj = \z -> hom cat z x
+    , onMor = \(g :: Mor c) m -> compose cat m g  -- m : z -> x, g : w -> z
+    }
+\end{verbatim}
+The \texttt{onMor} component of a presheaf must produce a function $F(Z) \to F(W)$ from a morphism $g\colon W \to Z$. For the representable presheaf $h_X = \mathrm{Hom}(-, X)$, this map is precomposition with $g$: it sends a morphism $m\colon Z \to X$ to the composite $m \circ g\colon W \to X$.
+The full code includes the natural-transformation type, a Yoneda-lemma-witness function constructing the bijection $\Phi$ explicitly, and an \texttt{eq} function that checks equality of two finite presheaves up to isomorphism.
+
+\subsection{Demonstration runs}
+
+The \texttt{main} function executes:
+\begin{enumerate}
+\item Builds the order category $(\{0, 1, \ldots, 5\}, \le)$.
+\item Prints $h_n(m)$ for $0 \le n, m \le 5$, displaying the singleton-or-empty pattern of \cref{thm:numbers-as-representable}.
+\item Verifies $h_3 \cong h_3'$ where $h_3'$ is computed by an alternative route (via the Yoneda lemma evaluated at the universal element).
+\item Builds $\mathbf{B}\mathbb{Z}/3\mathbb{Z}$ and prints its regular representation as a $\mathbb{Z}/3\mathbb{Z}$-set.
+\end{enumerate}
+
+\section{Results}
+\label{sec:results}
+
+We collect the principal results of the paper.
+
+\begin{theorem}[Restatement of \cref{thm:yoneda}]
+For any locally small $\mathcal{C}$, $X \in \mathcal{C}$, and presheaf $F$, there is a natural bijection $\mathrm{Nat}(h_X, F) \cong F(X)$.
+\end{theorem}
+
+\begin{theorem}[Restatement of \cref{cor:yoneda-fully-faithful} + \cref{cor:identity-criterion}]
+The Yoneda embedding $y\colon \mathcal{C} \hookrightarrow \widehat{\mathcal{C}}$ is fully faithful, and reflects/preserves isomorphisms: $X \cong Y \iff h_X \cong h_Y$.
+\end{theorem}
+
+\begin{theorem}[Restatement of \cref{thm:numbers-as-representable} and \cref{prop:order-identity-criterion}]
+There is a natural bijection $\mathrm{Nat}(\mathbf{1}, U) \cong \mathbb{N}$ between natural transformations from the constant-singleton functor to the underlying-set functor on $\mathbf{Succ}$, and natural numbers; under it, $n$ corresponds to the natural transformation $\varepsilon_n$ selecting $f^n(x_0)$ in every successor structure. Within the order category $(\mathbb{N}, \le)$, each individual $n \in \mathbb{N}$ is the unique-up-to-isomorphism object whose representable presheaf $h_n$ has support $\{0, \ldots, n\}$. Numbers are thus representable in two complementary senses: globally (each $n$ as a natural transformation $\mathbf{1} \Rightarrow U$ on $\mathbf{Succ}$) and pointwise (each $n$ as the representing object of $h_n$ on $(\mathbb{N}, \le)$).
+\end{theorem}
+
+\begin{theorem}[Restatement of \cref{thm:density}]
+Every presheaf is canonically a colimit of representables; $\widehat{\mathcal{C}}$ is the free cocompletion of $\mathcal{C}$.
+\end{theorem}
+
+\begin{theorem}[Restatement of \cref{thm:infty-yoneda}]
+The Yoneda lemma generalizes to enriched, $2$-categorical, and $\infty$-categorical contexts, preserving the principle ``an object is its system of relationships.''
+\end{theorem}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Comparison with Paper~III}
+
+Paper~III (Universal Property) characterizes individual objects (the natural number object, the real numbers, $\pi$, $e$) by their respective universal properties. Each such characterization, viewed through Yoneda, is the assertion that some presheaf is representable. Paper~III's content is recovered by listing one universal element per topic; Paper~IV recovers it as a single principle (\cref{prop:universal-element}).
+
+\subsection{Limitations}
+
+The Yoneda lemma assumes \emph{locally small}: for not-locally-small categories (e.g., $\mathbf{Cat}$ enlarged), the embedding lands in a category of \emph{large} presheaves and care is needed with size hierarchies. The $\infty$-Yoneda lemma further requires an explicit model (quasi-categories, complete Segal spaces) and the Lurie--Joyal machinery.
+
+The interpretation \emph{``$58$ is $h_{58}$''} is sensitive to the ambient category. Within $(\mathbb{N}, \le)$, this gives the singleton-pattern presheaf; within $\mathcal{L}_{\mathrm{nat}}$, it gives the cardinality presheaf $m \mapsto 58^{m}$; within the topos of $\mathbf{Set}$ with $\mathbb{N}$ as NNO, it gives the universal-recursion morphism. Each is correct \emph{within its category}; together they exhibit $58$ as a system of related representables.
+
+\subsection{The structuralist achievement}
+
+Mathematical structuralism, as articulated by Benacerraf, Resnik, and Shapiro, holds that mathematical objects are positions in structures rather than entities with intrinsic identity. The Yoneda lemma is, arguably, the strongest form of this thesis: an object literally \emph{is} its relational profile, recoverable up to isomorphism from $h_X$. \cref{cor:identity-criterion} renders structuralism a theorem rather than a philosophical stance.
+
+\subsection{Forward to univalence}
+
+The remaining gap --- between ``isomorphic'' and ``identical'' --- is what HoTT closes. \cref{sec:bridge-hott} sketched the bridge; Paper~V develops it. The combined picture: Yoneda recovers $X$ from $h_X$ \emph{up to isomorphism}; univalence promotes the isomorphism to a path; together, they constitute the Univalent Correspondence's fourth column (Yoneda) merging into the fifth (HoTT).
+
+\subsection{Connections to representation theory and physics}
+
+The Yoneda perspective unifies several apparent dualities in mathematics. In representation theory, an abstract group $G$ is determined by its category of representations (Tannakian duality). In algebraic geometry, a scheme $X$ is determined by its functor of points $h_X$ (Grothendieck). In algebraic topology, a space $X$ up to homotopy is determined by its mapping spaces $\mathrm{Map}(K, X)$ as $K$ ranges over CW complexes (Brown representability).
+
+Each of these is, at root, an instance of the Yoneda principle: the object \emph{is} the functor it represents, and structural inquiries reduce to functorial ones. The same pattern recurs in physics: a quantum field theory is, in the Atiyah--Segal axiomatization, a functor $\mathrm{Bord}_n \to \mathbf{Vect}$, and physical observables are exactly the Yoneda data of this functor. The hypothesis that ``mathematics is the science of structure'' is, post-Yoneda, the hypothesis that mathematics is the science of representable functors.
+
+\subsection{Pedagogical remarks}
+
+For a student first encountering the Yoneda lemma, the following pedagogical sequence has proved effective. (i) Begin with the order category $(\mathbb{N}, \le)$ to see $h_n$ as a profile of singletons and zeros. (ii) Move to Cayley's theorem in $\mathbf{B}G$ to feel the regular representation. (iii) Reach Lawvere's theory $\mathcal{L}_{\mathrm{nat}}$ to see how counting laws emerge from $|h_n(m)| = n^m$. (iv) Generalize to functors of points for schemes, where $X(R) = h_X(\mathrm{Spec}(R))$ becomes a familiar construction. (v) Only then state the lemma in full generality. The Haskell implementation accompanying this paper supports each of (i)--(iii) directly.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+The Yoneda embedding $y\colon \mathcal{C} \hookrightarrow [\mathcal{C}^{\mathrm{op}}, \mathbf{Set}]$ is the structuralist's theorem made formal. The natural number $58$ \emph{is} the representable functor $\mathrm{Hom}(-, 58)$; what remains, under change of category, are particular presentations of the same relational profile. Beyond arithmetic, the same principle structures groups (Cayley), spaces (singular complex), and schemes (functor of points). Enriched, $2$-categorical, and $\infty$-categorical generalizations show the principle survives every increase in mathematical sophistication.
+
+The Yoneda lemma alone does not collapse the distinction between isomorphism and identity; it produces the former from the latter. Univalence (Paper~V) closes the gap by axiomatizing the Yoneda corollary as a path in the universe. Together, these two principles --- one categorical, one type-theoretical --- form the technical core of the Univalent Correspondence.
+
+\section*{Acknowledgments}
+
+This paper is part of the YonedaAI Research series \emph{Formalized Foundations of Mathematics}. Thanks to the contributors of Paper~III for the universal-property scaffolding on which Section~\ref{sec:numbers-as-functors} rests. The Haskell code benefits from the conceptual clarity of the Hask-as-CCC tradition.
+
+\begin{thebibliography}{99}
+
+\bibitem{maclane}
+Mac Lane, S.
+\emph{Categories for the Working Mathematician}, 2nd ed.
+Graduate Texts in Mathematics, vol.~5. Springer, 1998.
+
+\bibitem{riehl}
+Riehl, E.
+\emph{Category Theory in Context}.
+Aurora: Dover Modern Math Originals, 2016.
+
+\bibitem{lurie}
+Lurie, J.
+\emph{Higher Topos Theory}.
+Annals of Mathematics Studies, vol.~170. Princeton University Press, 2009.
+arXiv:math/0608040.
+
+\bibitem{hottbook}
+The Univalent Foundations Program.
+\emph{Homotopy Type Theory: Univalent Foundations of Mathematics}.
+Institute for Advanced Study, 2013. arXiv:1308.0729.
+
+\bibitem{awodey-warren}
+Awodey, S.\ and Warren, M.
+Homotopy theoretic models of identity types.
+\emph{Mathematical Proceedings of the Cambridge Philosophical Society}, 146(1):45--55, 2009.
+
+\bibitem{lawvere}
+Lawvere, F.~W.
+Functorial semantics of algebraic theories.
+\emph{Proceedings of the National Academy of Sciences}, 50(5):869--872, 1963.
+
+\bibitem{benacerraf-1965}
+Benacerraf, P.
+What numbers could not be.
+\emph{Philosophical Review}, 74(1):47--73, 1965.
+
+\bibitem{kelly}
+Kelly, G.~M.
+\emph{Basic Concepts of Enriched Category Theory}.
+London Mathematical Society Lecture Note Series, vol.~64. Cambridge University Press, 1982.
+
+\bibitem{riehl-shulman}
+Riehl, E.\ and Shulman, M.
+A type theory for synthetic $\infty$-categories.
+\emph{Higher Structures}, 1(1):147--224, 2017. arXiv:1705.07442.
+
+\bibitem{wadler-pat}
+Wadler, P.
+Propositions as types.
+\emph{Communications of the ACM}, 58(12):75--84, 2015.
+
+\bibitem{grothendieck-fga}
+Grothendieck, A.
+\emph{Fondements de la g\'eom\'etrie alg\'ebrique}.
+S\'eminaire Bourbaki, 1957--1962.
+
+\bibitem{leinster}
+Leinster, T.
+\emph{Basic Category Theory}.
+Cambridge Studies in Advanced Mathematics, vol.~143. Cambridge University Press, 2014.
+
+\bibitem{maclane-moerdijk}
+Mac Lane, S.\ and Moerdijk, I.
+\emph{Sheaves in Geometry and Logic: A First Introduction to Topos Theory}.
+Springer, 1992.
+
+\bibitem{voevodsky}
+Voevodsky, V.
+A very short note on homotopy $\lambda$-calculus.
+Unpublished note, 2006. \url{https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/Hlambda_short_current.pdf}
+
+\bibitem{paper-iii}
+YonedaAI Research.
+The Universal Property: Numbers as Initial Algebras.
+\emph{Univalent Correspondence Series}, Paper~III, 2026 (in preparation).
+
+\bibitem{paper-v}
+YonedaAI Research.
+The HoTT Perspective: Numbers as Inductive Types.
+\emph{Univalent Correspondence Series}, Paper~V, 2026 (in preparation).
+
+\end{thebibliography}
+
+\end{document}
