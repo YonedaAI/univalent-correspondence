@@ -138,8 +138,26 @@ export default function PaperPage({ params }: { params: { slug: string } }) {
             >
               Download PDF
             </a>
+            {paper.hasCode && (
+              <a
+                href={`https://github.com/YonedaAI/univalent-correspondence/tree/main/src/${paper.slug === 'synthesis' ? '07-synthesis' : paper.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost"
+              >
+                Haskell Code
+              </a>
+            )}
+            <a
+              href="https://github.com/YonedaAI/univalent-correspondence"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost"
+            >
+              GitHub
+            </a>
             <Link href="/" className="btn btn-ghost">
-              View All Papers
+              All Papers
             </Link>
           </div>
         </div>

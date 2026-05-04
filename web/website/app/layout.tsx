@@ -54,6 +54,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav className="site-nav">
               <Link href="/">Papers</Link>
               <Link href="/papers/synthesis/">Synthesis</Link>
+              <a
+                href="https://github.com/YonedaAI/univalent-correspondence"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub repository"
+              >
+                GitHub
+              </a>
             </nav>
           </div>
         </header>
@@ -71,6 +79,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="footer-links">
               <Link href="/">All Papers</Link>
               <Link href="/papers/synthesis/">Synthesis</Link>
+              <a
+                href="https://github.com/YonedaAI/univalent-correspondence"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
             </div>
           </div>
         </footer>

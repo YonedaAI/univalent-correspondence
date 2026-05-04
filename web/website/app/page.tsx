@@ -103,6 +103,17 @@ function PaperCard({ paper }: { paper: Paper }) {
           >
             PDF
           </a>
+          {paper.hasCode && (
+            <a
+              href={`https://github.com/YonedaAI/univalent-correspondence/tree/main/src/${paper.slug === 'synthesis' ? '07-synthesis' : paper.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost"
+              title="Haskell source on GitHub"
+            >
+              Code
+            </a>
+          )}
         </div>
       </div>
     </article>
