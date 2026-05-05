@@ -1004,23 +1004,27 @@ the data of the previous one. We make the dependencies explicit.
 
 \begin{figure}[ht]
 \centering
-\begin{tikzcd}[
-  column sep={2.0em,between origins},
-  row sep=2.4em,
-  every label/.append style={font=\scriptsize}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  node distance=2.2cm,
+  every node/.style={font=\small},
+  every edge/.append style={->, thick},
+  label/.style={font=\scriptsize, midway, above},
 ]
-\text{(I) Naive}
-  \arrow[r, "{\text{T1}}"]
-& \text{(II) Set-th.}
-  \arrow[r, "{\text{T2}}"]
-& \text{(III) U.P.}
-  \arrow[r, "{\text{T3}}"]
-& \text{(IV) Yoneda}
-  \arrow[r, "{\text{T4}}"]
-& \text{(V) HoTT}
-  \arrow[r, "{\text{T5}}"]
-& \text{(VI) Struct.}
-\end{tikzcd}
+\node (n1) {(I) Naive};
+\node (n2) [right=of n1] {(II) Set-th.};
+\node (n3) [right=of n2] {(III) U.P.};
+\node (n4) [right=of n3] {(IV) Yoneda};
+\node (n5) [right=of n4] {(V) HoTT};
+\node (n6) [right=of n5] {(VI) Struct.};
+\draw[->] (n1) -- node[label] {T1} (n2);
+\draw[->] (n2) -- node[label] {T2} (n3);
+\draw[->] (n3) -- node[label] {T3} (n4);
+\draw[->] (n4) -- node[label] {T4} (n5);
+\draw[->] (n5) -- node[label] {T5} (n6);
+\end{tikzpicture}%
+}
 \caption{Hierarchical composition: each transit theorem T$k$ of
 \cref{sec:transit} carries level $k$ to level $k+1$ by resolving the
 residual question of the previous level. T1 supplies a definite encoding
